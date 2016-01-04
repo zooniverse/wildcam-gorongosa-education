@@ -1,11 +1,10 @@
 {
-  "name": "react-starterify",
-  "version": "2.0.0",
-  "description": "React JS application skeleton using Wepback and other awesome tools",
+  "name": "wildcam-gorongosa-education",
+  "version": "0.0.1",
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zooniverse/zoo-react-starterify"
+    "url": "https://github.com/zooniverse/wildcam-gorongosa-education"
   },
   "keywords": [
     "wepback",
@@ -28,9 +27,9 @@
   "author": "Zooniverse",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/zooniverse/zoo-react-starterify"
+    "url": "https://github.com/zooniverse/wildcam-gorongosa-education/issues"
   },
-  "homepage": "https://github.com/zooniverse/zoo-react-starterify",
+  "homepage": "https://github.com/zooniverse/wildcam-gorongosa-education",
   "dependencies": {
     "history": "^1.13.1",
     "react": "^0.14.0",
