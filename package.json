@@ -1,11 +1,10 @@
 {
-  "name": "react-starterify",
-  "version": "2.0.0",
-  "description": "React JS application skeleton using Browserify and other awesome tools",
+  "name": "wildcam-gorongosa-education",
+  "version": "0.0.1",
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Granze/react-starterify"
+    "url": "https://github.com/zooniverse/wildcam-gorongosa-education"
   },
   "keywords": [
     "gulp",
@@ -25,12 +24,11 @@
     "build": "gulp build",
     "test": "mocha --reporter nyan --compilers js:babel/register --recursive"
   },
-  "author": "Maurizio Mangione",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/Granze/react-starterify/issues"
+    "url": "https://github.com/zooniverse/wildcam-gorongosa-education/issues"
   },
-  "homepage": "https://github.com/Granze/react-starterify",
+  "homepage": "https://github.com/zooniverse/wildcam-gorongosa-education",
   "dependencies": {
     "react": "^0.14.0",
     "react-dom": "^0.14.0",

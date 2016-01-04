@@ -1,26 +1,30 @@
-[![bitHound Score](https://www.bithound.io/github/Granze/react-starterify/badges/score.svg)](https://www.bithound.io/github/zooniverse/zoo-react-starterify/master)
-
-# Zooniverse React Starterify
-
-A minimal React JS application starter kit, based on [React Starterify](https://github.com/Granze/react-starterify).
+# Wildcam Gorongosa Education
 
 ## Usage
 
 __Install the dependencies:__
 
-`npm install`
+```
+npm install
+```
 
 __Test:__
 
-```npm run test```
+```
+npm run test
+```
 
 __Development mode with livereload:__
 
-```npm run start```
+```
+npm run start
+```
 
 __When you are done, create a production-ready version of the JS bundle:__
 
-```npm run build```
+```
+npm run build
+```
 
 ## Credits
 
