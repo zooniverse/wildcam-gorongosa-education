@@ -19,7 +19,7 @@ import nib from 'nib';
 
 const paths = {
   bundle: 'app.js',
-  srcJsx: 'src/Index.js',
+  srcJsx: 'src/Index.jsx',
   srcCss: 'src/**/*.styl',
   srcImg: 'src/images/**',
   dist: 'dist',
