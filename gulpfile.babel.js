@@ -16,6 +16,7 @@ import htmlReplace from 'gulp-html-replace';
 import imagemin from 'gulp-imagemin';
 import runSequence from 'run-sequence';
 import nib from 'nib';
+import bootstrap from 'bootstrap-styl';
 
 const paths = {
   bundle: 'app.js',
@@ -48,30 +49,32 @@ gulp.task('watchify', () => {
       .on('error', notify.onError())
       .pipe(source(paths.bundle))
       .pipe(gulp.dest(paths.distJs))
-      .pipe(reload({stream: true}));
+      .pipe(reload({
+        stream: true
+      }));
   }
 
   bundler.transform(babelify)
-  .on('update', rebundle);
+    .on('update', rebundle);
   return rebundle();
 });
 
 gulp.task('browserify', () => {
   browserify(paths.srcJsx)
-  .transform(babelify)
-  .bundle()
-  .pipe(source(paths.bundle))
-  .pipe(buffer())
-  .pipe(sourcemaps.init())
-  .pipe(uglify())
-  .pipe(sourcemaps.write('.'))
-  .pipe(gulp.dest(paths.distJs));
+    .transform(babelify)
+    .bundle()
+    .pipe(source(paths.bundle))
+    .pipe(buffer())
+    .pipe(sourcemaps.init())
+    .pipe(uglify())
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(paths.distJs));
 });
 
 gulp.task('styles', () => {
   gulp.src(paths.srcCss)
     .pipe(stylus({
-      use: nib(),
+      use: [nib(), bootstrap()],
       import: ['nib']
     }))
     .pipe(gulp.dest(paths.dist));
@@ -79,20 +82,23 @@ gulp.task('styles', () => {
 
 gulp.task('htmlReplace', () => {
   gulp.src('index.html')
-  .pipe(htmlReplace({css: 'styles/main.css', js: 'js/app.js'}))
-  .pipe(gulp.dest(paths.dist));
+    .pipe(htmlReplace({
+      css: 'styles/main.css',
+      js: 'js/app.js'
+    }))
+    .pipe(gulp.dest(paths.dist));
 });
 
 gulp.task('images', () => {
   gulp.src(paths.srcImg)
-  .pipe(imagemin())
-  .pipe(gulp.dest(paths.distImg));
+    .pipe(imagemin())
+    .pipe(gulp.dest(paths.distImg));
 });
 
 gulp.task('lint', () => {
   gulp.src(paths.srcJsx)
-  .pipe(eslint())
-  .pipe(eslint.format());
+    .pipe(eslint())
+    .pipe(eslint.format());
 });
 
 gulp.task('watchTask', () => {
