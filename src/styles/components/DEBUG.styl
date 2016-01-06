@@ -2,21 +2,23 @@
   border 1em solid #f3f
 
 .site-header
+  flex 0 0 auto
   border 1em solid #f33
 
 .content-section
   border 1em solid #39c
   
 .site-footer
+  flex 0 0 auto
   background #333
   color #fff
   padding .5em
   text-align center
   border 1em solid #3c6
 
-html
-body
+  
+html, body
+  background #ffc
+
 #app-container
-#app-container > div
-  height 100%  //Enables display: flex child items to grow properly in IE11.
-  min-height 100%  //Prevents the above fix from limiting the height of said elements in other browsers.
+  background #fff
