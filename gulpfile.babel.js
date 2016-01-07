@@ -23,7 +23,7 @@ const paths = {
   bundle: 'app.js',
   srcJsx: 'src/Index.jsx',
   srcCss: 'src/**/*.styl',
-  srcFonts: 'src/fonts/*',
+  srcFonts: 'src/fonts/**',
   srcImg: 'src/images/**',
   dist: 'dist',
   distJs: 'dist/js',
