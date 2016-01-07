@@ -17,14 +17,17 @@ import imagemin from 'gulp-imagemin';
 import runSequence from 'run-sequence';
 import nib from 'nib';
 import bootstrap from 'bootstrap-styl';
+import changed from 'gulp-changed';
 
 const paths = {
   bundle: 'app.js',
   srcJsx: 'src/Index.jsx',
   srcCss: 'src/**/*.styl',
+  srcFonts: 'src/fonts/*',
   srcImg: 'src/images/**',
   dist: 'dist',
   distJs: 'dist/js',
+  distFonts: 'dist/fonts',
   distImg: 'dist/images'
 };
 
@@ -40,24 +43,6 @@ gulp.task('browserSync', () => {
   });
 });
 
-gulp.task('watchify', () => {
-  let bundler = watchify(browserify(paths.srcJsx, watchify.args));
-
-  function rebundle() {
-    return bundler
-      .bundle()
-      .on('error', notify.onError())
-      .pipe(source(paths.bundle))
-      .pipe(gulp.dest(paths.distJs))
-      .pipe(reload({
-        stream: true
-      }));
-  }
-
-  bundler.transform(babelify)
-    .on('update', rebundle);
-  return rebundle();
-});
 
 gulp.task('browserify', () => {
   browserify(paths.srcJsx)
@@ -70,6 +55,13 @@ gulp.task('browserify', () => {
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(paths.distJs));
 });
+
+gulp.task('fonts', () => {
+  gulp.src(paths.srcFonts)
+    .pipe(changed(paths.srcFonts))
+    .pipe(gulp.dest(paths.distFonts));
+});
+
 
 gulp.task('styles', () => {
   gulp.src(paths.srcCss)
@@ -101,16 +93,36 @@ gulp.task('lint', () => {
     .pipe(eslint.format());
 });
 
+
+gulp.task('watchify', () => {
+  let bundler = watchify(browserify(paths.srcJsx, watchify.args));
+
+  function rebundle() {
+    return bundler
+      .bundle()
+      .on('error', notify.onError())
+      .pipe(source(paths.bundle))
+      .pipe(gulp.dest(paths.distJs))
+      .pipe(reload({
+        stream: true
+      }));
+  }
+
+  bundler.transform(babelify)
+    .on('update', rebundle);
+  return rebundle();
+});
+
 gulp.task('watchTask', () => {
   gulp.watch(paths.srcCss, ['styles']);
   gulp.watch(paths.srcJsx, ['lint']);
 });
 
 gulp.task('watch', cb => {
-  runSequence('clean', ['browserSync', 'watchTask', 'watchify', 'styles', 'lint', 'images'], cb);
+  runSequence('clean', ['browserSync', 'watchTask', 'watchify', 'styles', 'lint', 'images', 'fonts'], cb);
 });
 
 gulp.task('build', cb => {
   process.env.NODE_ENV = 'production';
-  runSequence('clean', ['browserify', 'styles', 'htmlReplace', 'images'], cb);
+  runSequence('clean', ['browserify', 'styles', 'htmlReplace', 'images', 'fonts'], cb);
 });
