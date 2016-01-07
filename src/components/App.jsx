@@ -22,7 +22,7 @@ export default React.createClass({
           {this.props.children || 'Welcome to React Starterify'}
         </section>
         <footer className="site-footer">
-          Placeholder footer, to be replaced by Simone.
+          Placeholder footer, to be replaced. Note the &quot;flex: 0 0 auto&quot;, though.
         </footer>
       </div>
     )
