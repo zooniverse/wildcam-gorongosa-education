@@ -7,21 +7,17 @@ export default React.createClass({
   //The Google API key ending with dld08s ("dildos") is tied to the
   //shaun.a.noordin@zooniverse.org account and is only used for development.
   GOOGLE_MAPS_API_KEY: "AIzaSyAzMva99KALzUQfe_BCkCovZyGK-dld08s",
+
   googleMap: undefined,
   
   getInitialState: function() {
+    this.googleMap = undefined;    
     return {
-      map: undefined
     };
   },
   
   render() {
     window.initMapExplorer = this.initMapExplorer;
-    
-    console.log(this);
-    
-    //console.log(Cameras);
-    //var cameras = new Cameras().listCameras();
     
     return (
       <div className="map-explorer">
@@ -48,9 +44,10 @@ export default React.createClass({
   
   //Cleanup!
   componentWillUnmount() {
-    this.setState({
-      map: undefined
-    });
+    //this.setState({
+    //  map: undefined
+    //});
+    this.googleMap = undefined; 
   },
   
   //Initialises the Map Explorer.
@@ -63,20 +60,12 @@ export default React.createClass({
   //   called during componentDidMount(), after the necessary HTML elements have
   //   been rendered.
   initMapExplorer() {
-    console.log("initMapExplorer() started");
+    console.log("MapExplorer.initMapExplorer()");
     
-    var newMap = new google.maps.Map(this.refs.mapVisuals, {
+    this.googleMap = new google.maps.Map(this.refs.mapVisuals, {
       center: { lat: Cameras.median.lat, lng: Cameras.median.lng },
       zoom: 11
     });
-    
-    console.log(newMap);
-    
-    this.setState({
-      map: newMap
-    });
-    
-    console.log(this.state);
     
     this.paintAllCameras();
   },
@@ -84,19 +73,13 @@ export default React.createClass({
   //TEST - shaun.a.noordin@zooniverse.org to do something about this. Like, make
   //it a proper function with user-selected filters.
   paintAllCameras() {
+    console.log("MapExplorer.paintAllCameras()");
     
-    //Sanity check
-    console.log("SANITY CHECK STARTS");
-    console.log(window.google);
-    console.log(window.google.maps);
-    console.log(this.state.map);
-    
-    if (!(window.google && window.google.maps && this.state.map)) {
+    //Sanity Check
+    if (!(window.google && window.google.maps && this.googleMap)) {
       console.log("ERROR: MapExplorer.paintAllCameras() doesn't have a map to paint on!");
       return;  
     }
-    
-    console.log("SANITY CHECK ENDS");
     
     var inputColour = "#f39";
     var inputOpacity = 0.5;
@@ -113,15 +96,15 @@ export default React.createClass({
         fillOpacity: inputOpacity,
         strokeColor: '#fff',
         strokeWeight: 0,
-        map: this.state.map
+        map: this.googleMap
       });
       
       marker.camera = camera;
       
       marker.addListener('click', function() {
         alert(this.camera.ID);
-        this.state.map.setCenter(this.getPosition());
-        this.state.map.setZoom(12);
+        this.googleMap.setCenter(this.getPosition());
+        this.googleMap.setZoom(12);
       }.bind(marker));
     }
     
