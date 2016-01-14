@@ -44,10 +44,10 @@ export default React.createClass({
   
   //Cleanup!
   componentWillUnmount() {
-    //this.setState({
-    //  map: undefined
-    //});
-    this.googleMap = undefined; 
+    //Note that the Map Explorer (and hence, the Google Map) is recreated every
+    //time the Map page is opened/navigated to. As such, we want to make sure we
+    //wipe all references/handles to prevent a memory leak.
+    this.googleMap = undefined;
   },
   
   //Initialises the Map Explorer.
@@ -70,8 +70,8 @@ export default React.createClass({
     this.paintAllCameras();
   },
   
-  //TEST - shaun.a.noordin@zooniverse.org to do something about this. Like, make
-  //it a proper function with user-selected filters.
+  //PLACEHOLDER - shaun.a.noordin@zooniverse.org to do something about this.
+  //Like, make it a proper function with user-selected filters.
   paintAllCameras() {
     console.log("MapExplorer.paintAllCameras()");
     
@@ -111,5 +111,3 @@ export default React.createClass({
   }
   
 });
-
-//<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzMva99KALzUQfe_BCkCovZyGK-dld08s&callback=initMapExplorer"></script>
