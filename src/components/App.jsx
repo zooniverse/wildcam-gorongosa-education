@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link }  from 'react-router';
 import packageJSON from '../../package.json';
+import Sidebar from '../components/Sidebar.jsx';
 
 export default React.createClass({
   returnSomething(something) {
@@ -9,15 +10,16 @@ export default React.createClass({
   },
   render() {
     const version = packageJSON.version;
-
     return (
       <div>
         <header className="site-header">
-          <h1 className="title">React Starterify {version}</h1>
+          <h1 className="title">Wildcam Gorongosa Education {version}</h1>
+          <Link to="/students" className="link">Admin</Link>
+          <Link to="/map" className="link">Data</Link>
           <Link to="/about" className="link">About</Link>
           <Link to="/poweredby" className="link">Powered by</Link>
-          <Link to="/map" className="link">Map</Link>
         </header>
+        <Sidebar/>
         <section className="content-section">
           {this.props.children || 'Welcome to React Starterify'}
         </section>
@@ -28,3 +30,5 @@ export default React.createClass({
     )
   }
 });
+
+//className={this.state.selectedComponentSet === 'modal' ? 'active' : null} onClick={this.handleLinkClick.bind(this, 'modal')}

@@ -6,6 +6,7 @@ import App from './components/App.jsx';
 import MapExplorer from './components/MapExplorer.jsx';
 import PoweredBy from './components/Powered-by.jsx';
 import About from './components/About.jsx';
+import StudentTable from './components/StudentTable.jsx';
 
 window.React = React;
 
@@ -15,6 +16,7 @@ ReactDOM.render(
       <Route path="/about" component={About}/>
       <Route path="/map" component={MapExplorer}/>
       <Route path="/poweredby" component={PoweredBy}/>
+      <Route path="/students" component={StudentTable}/>
     </Route>
   </Router>
   , document.getElementById('app-container')
