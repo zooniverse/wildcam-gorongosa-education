@@ -1,5 +1,4 @@
 import React from 'react';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 
 export default React.createClass({
   render() {
@@ -31,9 +30,6 @@ export default React.createClass({
     return(
       <div className="sidebar">
         <h2>Classrooms</h2>
-          <BootstrapTable data={classrooms} hover={true} deleteRow={true} selectRow={selectRowProp}>
-            <TableHeaderColumn dataField="name">Name</TableHeaderColumn>
-          </BootstrapTable>
       </div>
 
     );
