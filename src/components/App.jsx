@@ -30,5 +30,3 @@ export default React.createClass({
     )
   }
 });
-
-//className={this.state.selectedComponentSet === 'modal' ? 'active' : null} onClick={this.handleLinkClick.bind(this, 'modal')}

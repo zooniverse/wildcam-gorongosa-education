@@ -1,7 +1,7 @@
 import React from 'react';
 import {Table, Column, Cell} from 'fixed-data-table';
 
-export default class StudentTable extends React.Component({
+export default class StudentTable extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -44,8 +44,9 @@ export default class StudentTable extends React.Component({
         }
       ]
     };
-  },
-  render: function(){
+  }
+  render() {
+
     return(
         <Table
         rowsCount={this.state.students.length}
@@ -65,4 +66,4 @@ export default class StudentTable extends React.Component({
       </Table>
     );
   }
-});
+};
