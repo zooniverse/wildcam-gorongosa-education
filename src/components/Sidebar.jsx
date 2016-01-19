@@ -14,23 +14,18 @@ export default React.createClass({
     },
     {
       name: "Classroom4"
-    },
-    {
-      name: "Classroom5"
-    },
-    {
-      name: "Classroom6"
     }
   ];
-    var selectRowProp = {
-      mode: "checkbox",
-      clickToSelect: true,
-      bgColor: "rgb(238, 193, 213)"
-  };
     return(
-      <div className="sidebar">
+      <nav className="sidebar">
         <h2>Classrooms</h2>
-      </div>
+        <ul>
+          <li><a href="#">Classroom1</a></li>
+          <li><a href="#">Classroom2</a></li>
+          <li><a href="#">Classroom3</a></li>
+          <li><a href="#">Classroom4</a></li>
+        </ul>
+      </nav>
 
     );
 
