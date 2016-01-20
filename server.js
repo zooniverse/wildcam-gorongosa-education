@@ -9,7 +9,7 @@ import config from './webpack.config.js';
 var isProduction = process.env.NODE_ENV === 'production';
 var port = isProduction ? process.env.PORT : 3000;
 var app = express();
-var indexHtml = path.join(__dirname, 'dist/index.html');
+var indexHtml = path.join(__dirname, 'build/index.html');
 
 if (!isProduction) {
   var compiler = webpack(config);
@@ -33,7 +33,7 @@ if (!isProduction) {
     res.end();
   });
 } else {
-  app.use(express.static(__dirname + '/dist'));
+  app.use(express.static(__dirname + '/build'));
   app.get('*', function response(req, res) {
     res.sendFile(indexHtml);
   });
