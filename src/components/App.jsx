@@ -19,10 +19,14 @@ export default React.createClass({
           <Link to="/about" className="link">About</Link>
           <Link to="/poweredby" className="link">Powered by</Link>
         </header>
-        <Sidebar/>
-        <section className="content-section">
-          {this.props.children || 'Welcome to React Starterify'}
-        </section>
+        <div className="container-fluid">
+          <div className="row">
+            <Sidebar/>
+            <div className="content-section">
+              {this.props.children || 'Welcome to React Starterify'}
+            </div>
+          </div>
+        </div>
         <footer className="site-footer">
           Placeholder footer, to be replaced. Note the &quot;flex: 0 0 auto&quot;, though.
         </footer>

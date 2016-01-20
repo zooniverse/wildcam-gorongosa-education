@@ -17,7 +17,7 @@ export default React.createClass({
     }
   ];
     return(
-      <nav className="sidebar">
+      <div className="sidebar">
         <h2>Classrooms</h2>
         <ul>
           <li><a href="#">Classroom1</a></li>
@@ -25,7 +25,7 @@ export default React.createClass({
           <li><a href="#">Classroom3</a></li>
           <li><a href="#">Classroom4</a></li>
         </ul>
-      </nav>
+      </div>
 
     );
 
