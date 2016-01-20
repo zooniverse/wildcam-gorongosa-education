@@ -3,26 +3,26 @@ import {Script} from 'react-loadscript';
 var Cameras = require('../data/Cameras.jsx');
 
 export default React.createClass({
-  
-  //The Google API key ending with dld08s ("dildos") is tied to the
+
+  //The Google API key ending with dld08s ('dildos') is tied to the
   //shaun.a.noordin@zooniverse.org account and is only used for development.
-  GOOGLE_MAPS_API_KEY: "AIzaSyAzMva99KALzUQfe_BCkCovZyGK-dld08s",
+  GOOGLE_MAPS_API_KEY: 'AIzaSyAzMva99KALzUQfe_BCkCovZyGK-dld08s',
 
   googleMap: undefined,
-  
+
   getInitialState: function() {
-    this.googleMap = undefined;    
+    this.googleMap = undefined;
     return {
     };
   },
-  
+
   render() {
     window.initMapExplorer = this.initMapExplorer;
-    
+
     return (
-      <div className="map-explorer">
-        <div ref="mapVisuals" className="map-visuals"></div>
-        <div className="map-controls">
+      <div className='map-explorer'>
+        <div ref='mapVisuals' className='map-visuals'></div>
+        <div className='map-controls'>
           <Script src={'https://maps.googleapis.com/maps/api/js?key='+this.GOOGLE_MAPS_API_KEY+'&callback=initMapExplorer'}>{
             ({done}) => !done ? <div>Google Maps API is loading</div> : <div>Google Maps is ready</div>
           }</Script>
@@ -35,13 +35,13 @@ export default React.createClass({
   //See notes on initMapExlorer().
   componentDidMount() {
     if (window.google && window.google.maps) {
-      console.log("componentDidMount: window.google found.");
+      console.log('componentDidMount: window.google found.');
       this.initMapExplorer();
     } else {
-      console.log("componentDidMount: window.google not found.");
+      console.log('componentDidMount: window.google not found.');
     }
   },
-  
+
   //Cleanup!
   componentWillUnmount() {
     //Note that the Map Explorer (and hence, the Google Map) is recreated every
@@ -49,7 +49,7 @@ export default React.createClass({
     //wipe all references/handles to prevent a memory leak.
     this.googleMap = undefined;
   },
-  
+
   //Initialises the Map Explorer.
   //NOTE: initMapExlorer() can be called in two ways:
   //1. When the map is loaded for the first time, the <Script> for the Google
@@ -60,31 +60,31 @@ export default React.createClass({
   //   called during componentDidMount(), after the necessary HTML elements have
   //   been rendered.
   initMapExplorer() {
-    console.log("MapExplorer.initMapExplorer()");
-    
+    console.log('MapExplorer.initMapExplorer()');
+
     this.googleMap = new google.maps.Map(this.refs.mapVisuals, {
       center: { lat: Cameras.median.lat, lng: Cameras.median.lng },
       zoom: 11
     });
-    
+
     this.paintAllCameras();
   },
-  
+
   //PLACEHOLDER - shaun.a.noordin@zooniverse.org to do something about this.
   //Like, make it a proper function with user-selected filters.
   paintAllCameras() {
-    console.log("MapExplorer.paintAllCameras()");
-    
+    console.log('MapExplorer.paintAllCameras()');
+
     //Sanity Check
     if (!(window.google && window.google.maps && this.googleMap)) {
-      console.log("ERROR: MapExplorer.paintAllCameras() doesn't have a map to paint on!");
-      return;  
+      console.log('ERROR: MapExplorer.paintAllCameras() doesn\'t have a map to paint on!');
+      return;
     }
-    
-    var inputColour = "#f39";
+
+    var inputColour = '#f39';
     var inputOpacity = 0.5;
     var inputSize = 500;
-    
+
     for (var i = 0, camera; camera = Cameras.all[i]; i++) {
       var marker = new google.maps.Circle({
         center: {
@@ -98,16 +98,16 @@ export default React.createClass({
         strokeWeight: 0,
         map: this.googleMap
       });
-      
+
       marker.camera = camera;
-      
+
       marker.addListener('click', function() {
         alert(this.camera.ID);
         this.googleMap.setCenter(this.getPosition());
         this.googleMap.setZoom(12);
       }.bind(marker));
     }
-    
+
   }
-  
+
 });
