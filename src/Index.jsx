@@ -7,6 +7,8 @@ import MapExplorer from './components/MapExplorer.jsx';
 import PoweredBy from './components/Powered-by.jsx';
 import About from './components/About.jsx';
 
+import Styles from './styles/main.styl'
+
 window.React = React;
 
 ReactDOM.render(
