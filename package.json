@@ -17,12 +17,12 @@
     "babel",
     "mocha",
     "chai"
-
   ],
   "scripts": {
     "start": "babel-node server.js",
     "build": "webpack --config webpack.production.config.js -p",
-    "test": "mocha --reporter nyan --compilers js:babel/register --recursive"
+    "test": "mocha --reporter nyan --compilers js:babel/register --recursive",
+    "deploy-preview": "npm run build && publisssh dist zooniverse-static/preview.zooniverse.org/wge"
   },
   "license": "Apache-2.0",
   "bugs": {
@@ -58,6 +58,7 @@
     "json-loader": "^0.5.4",
     "mocha": "^2.3.0",
     "nib": "^1.1.0",
+    "publisssh": "^1.0.1",
     "react-addons-test-utils": "^0.14.3",
     "rimraf": "^2.4.3",
     "stats-webpack-plugin": "^0.2.2",
