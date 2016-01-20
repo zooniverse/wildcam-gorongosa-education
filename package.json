@@ -33,6 +33,7 @@
     "history": "^1.17.0",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
+    "react-loadscript": "^1.0.2",
     "react-router": "^1.0.0-rc3"
   },
   "devDependencies": {
