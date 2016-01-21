@@ -14,17 +14,21 @@ __Test:__
 npm run test
 ```
 
-__Development mode with livereload:__
+__Development mode with hot reloading:__
 
 ```
 npm run start
 ```
+
+Builds to the `build` folder.
 
 __When you are done, create a production-ready version of the JS bundle:__
 
 ```
 npm run build
 ```
+
+Builds to the `dist` folder.
 
 ## Credits
 

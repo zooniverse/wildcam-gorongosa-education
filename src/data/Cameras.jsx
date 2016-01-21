@@ -1,134 +1,28 @@
-var Cameras = {
-  "all" : [
-    {"ID":"C01","latitude":"-18.9325","longitude":"34.3621","veg_type":"Mixed Savanna and Woodland","dist_water_m":195,"dist_humans_m":1195},
-    {"ID":"D04","latitude":"-18.9488","longitude":"34.3693","veg_type":"Mixed Savanna and Woodland","dist_water_m":2169,"dist_humans_m":1},
-    {"ID":"C06","latitude":"-18.9804","longitude":"34.3435","veg_type":"Mixed Savanna and Woodland","dist_water_m":1777,"dist_humans_m":2},
-    {"ID":"C08","latitude":"-18.9691","longitude":"34.3234","veg_type":"Mixed Savanna and Woodland","dist_water_m":3677,"dist_humans_m":3},
-    {"ID":"D09","latitude":"-18.9754","longitude":"34.3174","veg_type":"Mixed Savanna and Woodland","dist_water_m":3078,"dist_humans_m":0},
-    {"ID":"D10","latitude":"-18.9817","longitude":"34.3102","veg_type":"Mixed Savanna and Woodland","dist_water_m":2399,"dist_humans_m":1},
-    {"ID":"D14","latitude":"-18.9571","longitude":"34.5445","veg_type":"Floodplain Grassland","dist_water_m":222,"dist_humans_m":4},
-    {"ID":"C15","latitude":"-18.9541","longitude":"34.5425","veg_type":"Floodplain Grassland","dist_water_m":222,"dist_humans_m":4},
-    {"ID":"C17","latitude":"-19.0362","longitude":"34.6779","veg_type":"Limestone Gorge","dist_water_m":118,"dist_humans_m":6321},
-    {"ID":"C18","latitude":"-19.0356","longitude":"34.6777","veg_type":"Limestone Gorge","dist_water_m":114,"dist_humans_m":6334},
-    {"ID":"C19","latitude":"-19.0354","longitude":"34.6776","veg_type":"Limestone Gorge","dist_water_m":112,"dist_humans_m":6355},
-    {"ID":"C20","latitude":"-19.0348","longitude":"34.6777","veg_type":"Limestone Gorge","dist_water_m":65,"dist_humans_m":6380},
-    {"ID":"C21","latitude":"-19.0338","longitude":"34.6779","veg_type":"Limestone Gorge","dist_water_m":16,"dist_humans_m":6466},
-    {"ID":"D22","latitude":"-18.9604","longitude":"34.6209","veg_type":"Limestone Gorge","dist_water_m":68,"dist_humans_m":5530},
-    {"ID":"D23","latitude":"-18.9610","longitude":"34.6191","veg_type":"Limestone Gorge","dist_water_m":81,"dist_humans_m":5385},
-    {"ID":"C24","latitude":"-18.9568","longitude":"34.6146","veg_type":"Limestone Gorge","dist_water_m":89,"dist_humans_m":5343},
-    {"ID":"D25","latitude":"-18.9608","longitude":"34.6186","veg_type":"Limestone Gorge","dist_water_m":89,"dist_humans_m":5343},
-    {"ID":"C26","latitude":"-18.9628","longitude":"34.6206","veg_type":"Limestone Gorge","dist_water_m":89,"dist_humans_m":5343},
-    {"ID":"D32","latitude":"-18.9607","longitude":"34.4723","veg_type":"Mixed Savanna and Woodland","dist_water_m":1929,"dist_humans_m":5},
-    {"ID":"D34","latitude":"-18.9459","longitude":"34.4948","veg_type":"Mixed Savanna and Woodland","dist_water_m":3324,"dist_humans_m":1},
-    {"ID":"D35","latitude":"-18.9281","longitude":"34.5020","veg_type":"Floodplain Grassland","dist_water_m":2300,"dist_humans_m":17},
-    {"ID":"D36","latitude":"-18.9282","longitude":"34.5022","veg_type":"Floodplain Grassland","dist_water_m":2310,"dist_humans_m":0},
-    {"ID":"D45","latitude":"-18.9577","longitude":"34.6198","veg_type":"Limestone Gorge","dist_water_m":250,"dist_humans_m":5349},
-    {"ID":"D46","latitude":"-18.9570","longitude":"34.6124","veg_type":"Limestone Gorge","dist_water_m":26,"dist_humans_m":4561},
-    {"ID":"D52","latitude":"-18.9787","longitude":"34.5549","veg_type":"Mixed Savanna and Woodland","dist_water_m":673,"dist_humans_m":14},
-    {"ID":"D53","latitude":"-19.0153","longitude":"34.4939","veg_type":"Mixed Savanna and Woodland","dist_water_m":1029,"dist_humans_m":8},
-    {"ID":"D56","latitude":"-18.7385","longitude":"34.7152","veg_type":"Limestone Gorge","dist_water_m":93,"dist_humans_m":5102},
-    {"ID":"D57","latitude":"-18.7349","longitude":"34.7124","veg_type":"Limestone Gorge","dist_water_m":157,"dist_humans_m":5213},
-    {"ID":"D60","latitude":"-18.9696","longitude":"34.4376","veg_type":"Mixed Savanna and Woodland","dist_water_m":1804,"dist_humans_m":33},
-    {"ID":"D61","latitude":"-18.9200","longitude":"34.5189","veg_type":"Floodplain Grassland","dist_water_m":367,"dist_humans_m":21},
-    {"ID":"D62","latitude":"-18.9489","longitude":"34.4729","veg_type":"Mixed Savanna and Woodland","dist_water_m":3221,"dist_humans_m":16},
-    {"ID":"D63","latitude":"-18.9754","longitude":"34.5158","veg_type":"Mixed Savanna and Woodland","dist_water_m":67,"dist_humans_m":3086},
-    {"ID":"D64","latitude":"-18.9671","longitude":"34.5430","veg_type":"Mixed Savanna and Woodland","dist_water_m":180,"dist_humans_m":620},
-    {"ID":"D73","latitude":"-18.9441","longitude":"34.4851","veg_type":"Floodplain Grassland","dist_water_m":3786,"dist_humans_m":534},
-    {"ID":"S01","latitude":"-18.9883","longitude":"34.2625","veg_type":"Mixed Savanna and Woodland","dist_water_m":232,"dist_humans_m":1},
-    {"ID":"S02","latitude":"-19.0012","longitude":"34.2434","veg_type":"Miombo Woodland","dist_water_m":110,"dist_humans_m":28},
-    {"ID":"S03","latitude":"-19.0023","longitude":"34.2422","veg_type":"Miombo Woodland","dist_water_m":65,"dist_humans_m":2},
-    {"ID":"S04","latitude":"-19.0037","longitude":"34.2923","veg_type":"Mixed Savanna and Woodland","dist_water_m":17,"dist_humans_m":4},
-    {"ID":"S05","latitude":"-18.9609","longitude":"34.2867","veg_type":"Mixed Savanna and Woodland","dist_water_m":1415,"dist_humans_m":12},
-    {"ID":"S06","latitude":"-18.9510","longitude":"34.2689","veg_type":"Floodplain Grassland","dist_water_m":1666,"dist_humans_m":8},
-    {"ID":"S07","latitude":"-18.9787","longitude":"34.2896","veg_type":"Mixed Savanna and Woodland","dist_water_m":391,"dist_humans_m":5},
-    {"ID":"S09","latitude":"-18.9778","longitude":"34.2549","veg_type":"Mixed Savanna and Woodland","dist_water_m":1462,"dist_humans_m":3},
-    {"ID":"S10","latitude":"-18.9623","longitude":"34.2888","veg_type":"Floodplain Grassland","dist_water_m":1255,"dist_humans_m":2},
-    {"ID":"E74","latitude":"-18.7344","longitude":"34.7108","veg_type":"Limestone Gorge","dist_water_m":132,"dist_humans_m":5157},
-    {"ID":"E75","latitude":"-18.9283","longitude":"34.5270","veg_type":"Floodplain Grassland","dist_water_m":967,"dist_humans_m":135},
-    {"ID":"E76","latitude":"-18.9629","longitude":"34.5442","veg_type":"Floodplain Grassland","dist_water_m":47,"dist_humans_m":363},
-    {"ID":"E77","latitude":"-18.9596","longitude":"34.6189","veg_type":"Miombo Woodland","dist_water_m":29,"dist_humans_m":5307},
-    {"ID":"E78","latitude":"-18.8369","longitude":"34.3248","veg_type":"Mixed Savanna and Woodland","dist_water_m":1817,"dist_humans_m":8949},
-    {"ID":"E79","latitude":"-18.9297","longitude":"34.5291","veg_type":"Floodplain Grassland","dist_water_m":854,"dist_humans_m":25},
-    {"ID":"E80","latitude":"-18.9491","longitude":"34.3222","veg_type":"Mixed Savanna and Woodland","dist_water_m":2699,"dist_humans_m":1289},
-    {"ID":"E81","latitude":"-18.9992","longitude":"34.5492","veg_type":"Floodplain Grassland","dist_water_m":1438,"dist_humans_m":1158},
-    {"ID":"E82","latitude":"-19.0112","longitude":"34.5586","veg_type":"Floodplain Grassland","dist_water_m":44,"dist_humans_m":2643},
-    {"ID":"E84","latitude":"-18.8293","longitude":"34.4440","veg_type":"Floodplain Grassland","dist_water_m":3057,"dist_humans_m":6044},
-    {"ID":"E85","latitude":"-18.8384","longitude":"34.4491","veg_type":"Floodplain Grassland","dist_water_m":2888,"dist_humans_m":5620},
-    {"ID":"E86","latitude":"-18.8392","longitude":"34.4573","veg_type":"Floodplain Grassland","dist_water_m":2178,"dist_humans_m":6319},
-    {"ID":"E87","latitude":"-18.8822","longitude":"34.3365","veg_type":"Floodplain Grassland","dist_water_m":356,"dist_humans_m":5063},
-    {"ID":"E88","latitude":"-18.8820","longitude":"34.3322","veg_type":"Floodplain Grassland","dist_water_m":459,"dist_humans_m":5182},
-    {"ID":"E89","latitude":"-18.9978","longitude":"34.5091","veg_type":"Mixed Savanna and Woodland","dist_water_m":2528,"dist_humans_m":1755},
-    {"ID":"E90","latitude":"-19.0097","longitude":"34.5234","veg_type":"Mixed Savanna and Woodland","dist_water_m":3322,"dist_humans_m":182},
-    {"ID":"E91","latitude":"-19.0102","longitude":"34.5236","veg_type":"Mixed Savanna and Woodland","dist_water_m":3293,"dist_humans_m":124},
-    {"ID":"E92","latitude":"-19.0106","longitude":"34.5262","veg_type":"Mixed Savanna and Woodland","dist_water_m":3001,"dist_humans_m":159},
-    {"ID":"E93","latitude":"-18.9944","longitude":"34.5393","veg_type":"Mixed Savanna and Woodland","dist_water_m":2142,"dist_humans_m":14},
-    {"ID":"E94","latitude":"-18.8896","longitude":"34.4109","veg_type":"Mixed Savanna and Woodland","dist_water_m":1638,"dist_humans_m":21},
-    {"ID":"KG01","latitude":"-18.9327","longitude":"34.5681","veg_type":"Mixed Savanna and Woodland","dist_water_m":1412,"dist_humans_m":1108},
-    {"ID":"KG02","latitude":"-18.9236","longitude":"34.5676","veg_type":"Mixed Savanna and Woodland","dist_water_m":1344,"dist_humans_m":494},
-    {"ID":"KG03","latitude":"-18.9148","longitude":"34.5679","veg_type":"Mixed Savanna and Woodland","dist_water_m":1605,"dist_humans_m":907},
-    {"ID":"KG04","latitude":"-18.9057","longitude":"34.5682","veg_type":"Mixed Savanna and Woodland","dist_water_m":2113,"dist_humans_m":1866},
-    {"ID":"KG05","latitude":"-18.8969","longitude":"34.5681","veg_type":"Mixed Savanna and Woodland","dist_water_m":2701,"dist_humans_m":2811},
-    {"ID":"KG06","latitude":"-18.9237","longitude":"34.5773","veg_type":"Mixed Savanna and Woodland","dist_water_m":2329,"dist_humans_m":584},
-    {"ID":"KG07","latitude":"-18.9128","longitude":"34.5773","veg_type":"Mixed Savanna and Woodland","dist_water_m":2583,"dist_humans_m":977},
-    {"ID":"KG08","latitude":"-18.9060","longitude":"34.5777","veg_type":"Mixed Savanna and Woodland","dist_water_m":2924,"dist_humans_m":1879},
-    {"ID":"KG09","latitude":"-18.8967","longitude":"34.5772","veg_type":"Mixed Savanna and Woodland","dist_water_m":3045,"dist_humans_m":2848},
-    {"ID":"KG10","latitude":"-18.9524","longitude":"34.5680","veg_type":"Mixed Savanna and Woodland","dist_water_m":655,"dist_humans_m":1227},
-    {"ID":"KG11","latitude":"-18.9567","longitude":"34.5679","veg_type":"Mixed Savanna and Woodland","dist_water_m":1109,"dist_humans_m":1685},
-    {"ID":"KG12","latitude":"-18.9593","longitude":"34.5679","veg_type":"Mixed Savanna and Woodland","dist_water_m":1539,"dist_humans_m":1852},
-    {"ID":"KG13","latitude":"-18.9661","longitude":"34.5677","veg_type":"Mixed Savanna and Woodland","dist_water_m":1190,"dist_humans_m":1598},
-    {"ID":"KG14","latitude":"-18.9525","longitude":"34.5771","veg_type":"Mixed Savanna and Woodland","dist_water_m":400,"dist_humans_m":1300},
-    {"ID":"KG15","latitude":"-18.9565","longitude":"34.5773","veg_type":"Mixed Savanna and Woodland","dist_water_m":822,"dist_humans_m":1700},
-    {"ID":"KG16","latitude":"-18.9617","longitude":"34.5773","veg_type":"Mixed Savanna and Woodland","dist_water_m":1394,"dist_humans_m":2250},
-    {"ID":"KG17","latitude":"-18.9663","longitude":"34.5773","veg_type":"Mixed Savanna and Woodland","dist_water_m":1824,"dist_humans_m":2445},
-    {"ID":"KG18","latitude":"-18.9708","longitude":"34.5771","veg_type":"Mixed Savanna and Woodland","dist_water_m":1424,"dist_humans_m":2080},
-    {"ID":"KG19","latitude":"-18.8084","longitude":"34.6078","veg_type":"Mixed Savanna and Woodland","dist_water_m":906,"dist_humans_m":1639},
-    {"ID":"KG20","latitude":"-18.8041","longitude":"34.6080","veg_type":"Mixed Savanna and Woodland","dist_water_m":1317,"dist_humans_m":1937},
-    {"ID":"KG21","latitude":"-18.7993","longitude":"34.6080","veg_type":"Mixed Savanna and Woodland","dist_water_m":1800,"dist_humans_m":2064},
-    {"ID":"KG22","latitude":"-18.7946","longitude":"34.6078","veg_type":"Mixed Savanna and Woodland","dist_water_m":2282,"dist_humans_m":1958},
-    {"ID":"KG23","latitude":"-18.8126","longitude":"34.6183","veg_type":"Mixed Savanna and Woodland","dist_water_m":679,"dist_humans_m":2520},
-    {"ID":"KG24","latitude":"-18.8084","longitude":"34.6179","veg_type":"Mixed Savanna and Woodland","dist_water_m":1143,"dist_humans_m":2600},
-    {"ID":"KG25","latitude":"-18.8036","longitude":"34.6176","veg_type":"Mixed Savanna and Woodland","dist_water_m":1681,"dist_humans_m":2801},
-    {"ID":"KG26","latitude":"-18.7994","longitude":"34.6178","veg_type":"Mixed Savanna and Woodland","dist_water_m":2138,"dist_humans_m":3070},
-    {"ID":"KG27","latitude":"-18.7954","longitude":"34.6185","veg_type":"Mixed Savanna and Woodland","dist_water_m":2547,"dist_humans_m":3083},
-    {"ID":"KG28","latitude":"-18.8297","longitude":"34.5989","veg_type":"Mixed Savanna and Woodland","dist_water_m":1654,"dist_humans_m":1578},
-    {"ID":"KG29","latitude":"-18.8334","longitude":"34.5990","veg_type":"Mixed Savanna and Woodland","dist_water_m":2004,"dist_humans_m":1966},
-    {"ID":"KG30","latitude":"-18.8380","longitude":"34.5990","veg_type":"Mixed Savanna and Woodland","dist_water_m":1991,"dist_humans_m":2422},
-    {"ID":"KG31","latitude":"-18.8428","longitude":"34.5982","veg_type":"Mixed Savanna and Woodland","dist_water_m":1376,"dist_humans_m":3012},
-    {"ID":"KG32","latitude":"-18.8466","longitude":"34.5990","veg_type":"Mixed Savanna and Woodland","dist_water_m":1141,"dist_humans_m":3391},
-    {"ID":"KG33","latitude":"-18.8292","longitude":"34.6078","veg_type":"Mixed Savanna and Woodland","dist_water_m":1101,"dist_humans_m":1970},
-    {"ID":"KG34","latitude":"-18.8340","longitude":"34.6082","veg_type":"Mixed Savanna and Woodland","dist_water_m":1587,"dist_humans_m":2423},
-    {"ID":"KG35","latitude":"-18.8374","longitude":"34.6082","veg_type":"Mixed Savanna and Woodland","dist_water_m":1971,"dist_humans_m":2747},
-    {"ID":"KG36","latitude":"-18.8423","longitude":"34.6078","veg_type":"Mixed Savanna and Woodland","dist_water_m":2020,"dist_humans_m":3192},
-    {"ID":"JG01","latitude":"-18.8857","longitude":"34.4161","veg_type":"Floodplain Grassland","dist_water_m":2114,"dist_humans_m":58},
-    {"ID":"JG02","latitude":"-18.8829","longitude":"34.4198","veg_type":"Floodplain Grassland","dist_water_m":2473,"dist_humans_m":476},
-    {"ID":"JG03","latitude":"-18.8811","longitude":"34.4235","veg_type":"Floodplain Grassland","dist_water_m":1725,"dist_humans_m":903},
-    {"ID":"JG04","latitude":"-18.8781","longitude":"34.4277","veg_type":"Floodplain Grassland","dist_water_m":1298,"dist_humans_m":1376},
-    {"ID":"JG05","latitude":"-18.8744","longitude":"34.4313","veg_type":"Floodplain Grassland","dist_water_m":905,"dist_humans_m":1926},
-    {"ID":"JG06","latitude":"-18.8723","longitude":"34.4361","veg_type":"Floodplain Grassland","dist_water_m":705,"dist_humans_m":2485},
-    {"ID":"JG07","latitude":"-18.8915","longitude":"34.4309","veg_type":"Floodplain Grassland","dist_water_m":2487,"dist_humans_m":360},
-    {"ID":"JG08","latitude":"-18.8899","longitude":"34.4354","veg_type":"Floodplain Grassland","dist_water_m":1981,"dist_humans_m":808},
-    {"ID":"JG09","latitude":"-18.8838","longitude":"34.4387","veg_type":"Floodplain Grassland","dist_water_m":1563,"dist_humans_m":1370},
-    {"ID":"JG10","latitude":"-18.8843","longitude":"34.4435","veg_type":"Floodplain Grassland","dist_water_m":1048,"dist_humans_m":1833},
-    {"ID":"JG11","latitude":"-18.8799","longitude":"34.4462","veg_type":"Floodplain Grassland","dist_water_m":898,"dist_humans_m":2395},
-    {"ID":"JG12","latitude":"-18.8780","longitude":"34.4513","veg_type":"Floodplain Grassland","dist_water_m":506,"dist_humans_m":2890},
-    {"ID":"JG13","latitude":"-18.9032","longitude":"34.4397","veg_type":"Floodplain Grassland","dist_water_m":2580,"dist_humans_m":329},
-    {"ID":"JG14","latitude":"-18.9012","longitude":"34.4431","veg_type":"Floodplain Grassland","dist_water_m":1974,"dist_humans_m":828},
-    {"ID":"JG15","latitude":"-18.8974","longitude":"34.4479","veg_type":"Floodplain Grassland","dist_water_m":1499,"dist_humans_m":1331},
-    {"ID":"JG16","latitude":"-18.8958","longitude":"34.4526","veg_type":"Floodplain Grassland","dist_water_m":1000,"dist_humans_m":1688},
-    {"ID":"JG17","latitude":"-18.8919","longitude":"34.4551","veg_type":"Floodplain Grassland","dist_water_m":586,"dist_humans_m":2148},
-    {"ID":"JG18","latitude":"-18.8890","longitude":"34.4589","veg_type":"Floodplain Grassland","dist_water_m":295,"dist_humans_m":2581}
-  ],
-  "min": { "lat": Number.POSITIVE_INFINITY, "lng": Number.POSITIVE_INFINITY },
-  "max": { "lat": Number.NEGATIVE_INFINITY, "lng": Number.NEGATIVE_INFINITY },
-  "median" : { "lat": 0, "lng": 0 },
-  "getCameraById": function(id) {
+import cameraData from 'cameraData.json';
+
+let Cameras = {
+  'all' : cameraData,
+  'min': {
+    'lat': Number.POSITIVE_INFINITY,
+    'lng': Number.POSITIVE_INFINITY
+  },
+  'max': {
+    'lat': Number.NEGATIVE_INFINITY,
+    'lng': Number.NEGATIVE_INFINITY
+  },
+  'median' : {
+    'lat': 0,
+    'lng': 0
+  },
+  'getCameraById': function(id) {
     return 100;
   }
 }
 
-var allLongs = [];
-var allLats = [];
-for (var i = 0, camera; camera = Cameras.all[i]; i++) {
+let allLongs = [];
+let allLats = [];
+
+for (let i = 0, camera; camera = Cameras.all[i]; i++) {
   Cameras.min.lat = Math.min(Cameras.min.lat, parseFloat(camera.latitude));
   Cameras.max.lat = Math.max(Cameras.max.lat, parseFloat(camera.latitude));
   Cameras.min.lng = Math.min(Cameras.min.lng, parseFloat(camera.longitude));
@@ -136,8 +30,10 @@ for (var i = 0, camera; camera = Cameras.all[i]; i++) {
   allLongs.push(parseFloat(camera.longitude));
   allLats.push(parseFloat(camera.latitude));
 }
+
 allLats.sort();
 allLongs.sort();
+
 Cameras.median.lat = allLats[Math.floor(allLats.length/2)];
 Cameras.median.lng = allLongs[Math.floor(allLongs.length/2)];
 
