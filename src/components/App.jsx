@@ -14,7 +14,7 @@ export default React.createClass({
       <div>
         <header className="site-header">
           <h1 className="title">Wildcam Gorongosa Education {version}</h1>
-          <Link to="/students" className="link">Admin</Link>
+          <Link to="/admin" className="link">Admin</Link>
           <Link to="/map" className="link">Data</Link>
           <Link to="/about" className="link">About</Link>
           <Link to="/poweredby" className="link">Powered by</Link>
