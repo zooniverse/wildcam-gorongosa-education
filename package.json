@@ -54,7 +54,6 @@
     "express": "^4.13.3",
     "extract-text-webpack-plugin": "^0.9.1",
     "file-loader": "^0.8.5",
-    "griddle-react": "^0.3.1",
     "html-webpack-plugin": "^1.7.0",
     "json-loader": "^0.5.4",
     "mocha": "^2.3.0",
@@ -65,7 +64,6 @@
     "stats-webpack-plugin": "^0.2.2",
     "style-loader": "^0.13.0",
     "stylus-loader": "^1.4.2",
-    "underscore": "^1.8.3",
     "webpack": "^1.12.9",
     "webpack-dev-middleware": "^1.4.0",
     "webpack-hot-middleware": "^2.6.0"

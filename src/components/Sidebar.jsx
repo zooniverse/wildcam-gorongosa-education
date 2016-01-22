@@ -1,36 +1,42 @@
 import React from 'react';
 
 export default React.createClass({
+  getInitialState() {
+    return {};
+  },
+  componentWillMount() {
+    this.setState({
+      classrooms: [
+      {
+        name: 'Classroom1'
+      },
+      {
+        name: 'Classroom2'
+      },
+      {
+        name: 'Classroom3'
+      },
+      {
+        name: 'Classroom4'
+      }
+    ]
+    });
+  },
   render() {
-    var classrooms = [
-    {
-      name: "Classroom1"
-    },
-    {
-      name: "Classroom2"
-    },
-    {
-      name: "Classroom3"
-    },
-    {
-      name: "Classroom4"
-    }
-  ];
+    let listItems = this.state.classrooms.map(function(classroom, i){
+      return (
+        <li key={i}>{classroom.name}</li>
+      )
+
+    });
     return(
-      <div className="sidebar">
+     <div className="sidebar">
         <h2>Classrooms</h2>
         <ul>
-          <li><a href="#">Classroom1</a></li>
-          <li><a href="#">Classroom2</a></li>
-          <li><a href="#">Classroom3</a></li>
-          <li><a href="#">Classroom4</a></li>
+          { listItems }
         </ul>
-      </div>
-
+    </div>
     );
 
   }
-
-
-
 });

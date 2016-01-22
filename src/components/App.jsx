@@ -19,7 +19,7 @@ export default React.createClass({
           <Link to="/about" className="link">About</Link>
           <Link to="/poweredby" className="link">Powered by</Link>
         </header>
-        <div className="container-fluid">
+        <div className="container">
           <div className="row">
             <Sidebar/>
             <div className="content-section">
