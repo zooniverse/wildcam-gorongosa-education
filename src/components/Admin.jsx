@@ -3,10 +3,10 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import StudentTable from 'StudentTable.jsx';
 
 export default class Admin extends React.Component{
-
+  // Component doens't have a state, so we don't need to set it in the constructor
+  // like we normally would do while following ES6 classes syntax
   render(){
     return(
-
        <Tabs>
           <TabList>
             <Tab>Overview</Tab>
@@ -17,20 +17,17 @@ export default class Admin extends React.Component{
 
           <TabPanel>
             Overview
-            </TabPanel>
-        <TabPanel>
+          </TabPanel>
+          <TabPanel>
             <StudentTable/>
-            </TabPanel>
-        <TabPanel>
+          </TabPanel>
+          <TabPanel>
             Groups
-            </TabPanel>
-        <TabPanel>
+          </TabPanel>
+          <TabPanel>
             Assignments
-            </TabPanel>
+          </TabPanel>
         </Tabs>
     );
-
   }
-
-
 }

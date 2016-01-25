@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default React.createClass({
-  getInitialState() {
-    return {};
-  },
+export default class Sidebar extends React.Component{
+  constructor(){
+    super();
+  }
   componentWillMount() {
     this.setState({
       classrooms: [
@@ -21,7 +21,7 @@ export default React.createClass({
       }
     ]
     });
-  },
+  }
   render() {
     let listItems = this.state.classrooms.map(function(classroom, i){
       return (
@@ -38,4 +38,4 @@ export default React.createClass({
     </div>
     );
   }
-});
+};
