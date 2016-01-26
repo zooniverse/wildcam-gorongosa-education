@@ -4,27 +4,24 @@ var Cameras = require('../data/Cameras.jsx');
 
 export default React.createClass({
 
-  //The Google API key ending with dld08s ('dildos') is tied to the
-  //shaun.a.noordin@zooniverse.org account and is only used for development.
-  GOOGLE_MAPS_API_KEY: 'AIzaSyAzMva99KALzUQfe_BCkCovZyGK-dld08s',
-
-  googleMap: undefined,
+  cartodbMap: undefined,
 
   getInitialState: function() {
-    this.googleMap = undefined;
+    this.cartodbMap = undefined;
     return {
     };
   },
 
   render() {
-    window.initMapExplorer = this.initMapExplorer;
+    //window.initMapExplorer = this.initMapExplorer;
 
     return (
       <div className='map-explorer'>
-        <div ref='mapVisuals' className='map-visuals'></div>
-        <div className='map-controls'>
-          <Script src={'https://maps.googleapis.com/maps/api/js?key='+this.GOOGLE_MAPS_API_KEY+'&callback=initMapExplorer'}>{
-            ({done}) => !done ? <div>Google Maps API is loading</div> : <div>Google Maps is ready</div>
+        <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+        <div ref="mapVisuals" id="mapVisuals" className="map-visuals"></div>
+        <div ref="mapControls" className="map-controls">
+          <Script src={'http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js'}>{
+            ({done}) => !done ? <div>Google Maps API is loading</div> : this.initMapExplorer()
           }</Script>
         </div>
       </div>
@@ -34,26 +31,23 @@ export default React.createClass({
   //Once React component has rendered, process the map.
   //See notes on initMapExlorer().
   componentDidMount() {
-    if (window.google && window.google.maps) {
-      console.log('componentDidMount: window.google found.');
+    if (window.cartodb) {
+      console.log('componentDidMount: window.cartodb found.');
       this.initMapExplorer();
     } else {
-      console.log('componentDidMount: window.google not found.');
+      console.log('componentDidMount: window.cartodb not found.');
     }
   },
 
   //Cleanup!
   componentWillUnmount() {
-    //Note that the Map Explorer (and hence, the Google Map) is recreated every
-    //time the Map page is opened/navigated to. As such, we want to make sure we
-    //wipe all references/handles to prevent a memory leak.
-    this.googleMap = undefined;
+    this.cartodbMap = undefined;
   },
 
   //Initialises the Map Explorer.
   //NOTE: initMapExlorer() can be called in two ways:
-  //1. When the map is loaded for the first time, the <Script> for the Google
-  //   Maps API needs to be loaded dynamically. When it's successfully loaded,
+  //1. When the map is loaded for the first time, the <Script> for the  API
+  //   needs to be loaded dynamically. When it's successfully loaded,
   //   initMapExplorer is called back.
   //2. If the <Script> has been loaded previously - e.g. the user navigated
   //   away from the page and has now returned - then initMapExplorer() will be
@@ -61,13 +55,25 @@ export default React.createClass({
   //   been rendered.
   initMapExplorer() {
     console.log('MapExplorer.initMapExplorer()');
+    
+    console.log(this.refs.mapVisuals);
+    console.log(document.getElementById('mapVisuals'));
+    
+    this.refs.mapVisuals.style.height = '1000px';
+    cartodb.createVis('mapVisuals', 'https://shaunanoordin-zooniverse.cartodb.com/api/v2/viz/e04c2e20-a8a9-11e5-8d6b-0e674067d321/viz.json');
+    
+    this.resizeMapExplorer();
+    return <div>READY</div>;
 
-    this.googleMap = new google.maps.Map(this.refs.mapVisuals, {
-      center: { lat: Cameras.median.lat, lng: Cameras.median.lng },
-      zoom: 11
-    });
-
-    this.paintAllCameras();
+    //this.paintAllCameras();
+  },
+  
+  resizeMapExplorer() {
+    let windowHeight = window.innerHeight;
+    let headerHeight = document.getElementsByClassName('site-header')[0].offsetHeight;
+    let footerHeight = document.getElementsByClassName('site-footer')[0].offsetHeight;
+    let availableHeight = windowHeight - headerHeight - footerHeight;
+    this.refs.mapVisuals.style.height = availableHeight+'px';
   },
 
   //PLACEHOLDER - shaun.a.noordin@zooniverse.org to do something about this.
@@ -76,7 +82,7 @@ export default React.createClass({
     console.log('MapExplorer.paintAllCameras()');
 
     //Sanity Check
-    if (!(window.google && window.google.maps && this.googleMap)) {
+    if (!(window.google && window.google.maps && this.cartodbMap)) {
       console.log('ERROR: MapExplorer.paintAllCameras() doesn\'t have a map to paint on!');
       return;
     }
@@ -96,15 +102,15 @@ export default React.createClass({
         fillOpacity: inputOpacity,
         strokeColor: '#fff',
         strokeWeight: 0,
-        map: this.googleMap
+        map: this.cartodbMap
       });
 
       marker.camera = camera;
 
       marker.addListener('click', function() {
         alert(this.camera.ID);
-        this.googleMap.setCenter(this.getPosition());
-        this.googleMap.setZoom(12);
+        this.cartodbMap.setCenter(this.getPosition());
+        this.cartodbMap.setZoom(12);
       }.bind(marker));
     }
 
