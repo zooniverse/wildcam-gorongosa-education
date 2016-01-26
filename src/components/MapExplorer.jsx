@@ -133,6 +133,22 @@ export default React.createClass({
     });
   },
   
+  updateMapExplorer(e) {
+    
+    //Delete everything.
+    //TODO: This is a temporary measure to get a clean start! It's not really
+    //necessary to delete and rebuild layers - we can modify existing ones,
+    //assuming we can figure out which existing ones we want to twiddle with.
+    for (let i = this.cartodbDataLayer.getSubLayerCount() - 1; i >= 0; i--) {
+      this.cartodbDataLayer.getSubLayer(i).remove();
+    }
+    
+    this.cartodbDataLayer.createSubLayer({
+      sql: this.refs.mapSql.value,
+      cartocss: this.refs.mapCss.value
+    });
+  },
+  
   resizeMapExplorer() {
     let windowHeight = window.innerHeight;
     let headerHeight = document.getElementsByClassName('site-header')[0].offsetHeight;
