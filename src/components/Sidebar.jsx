@@ -23,19 +23,15 @@ export default class Sidebar extends React.Component{
     });
   }
   render() {
-    let listItems = this.state.classrooms.map(function(classroom, i){
-      return (
-        <li key={i}>{classroom.name}</li>
-      )
-
-    });
+    let listItems = this.state.classrooms.map((classroom, i) =>
+      <li key={i}>{classroom.name}</li>);
     return(
-     <div className="sidebar">
+      <div className="col-md-2">
         <h2>Classrooms</h2>
         <ul>
-          { listItems }
+          {listItems}
         </ul>
-    </div>
+      </div>
     );
   }
 };

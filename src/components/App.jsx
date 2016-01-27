@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link }  from 'react-router';
 import packageJSON from '../../package.json';
-import Sidebar from '../components/Sidebar.jsx';
+
 
 export default React.createClass({
   returnSomething(something) {
@@ -19,13 +19,8 @@ export default React.createClass({
           <Link to="/about" className="link">About</Link>
           <Link to="/poweredby" className="link">Powered by</Link>
         </header>
-        <div className="container">
-          <div className="row">
-            <Sidebar/>
-            <div className="content-section">
-              {this.props.children || 'Welcome to React Starterify'}
-            </div>
-          </div>
+        <div className="content-section">
+          {this.props.children || 'Welcome to React Starterify'}
         </div>
         <footer className="site-footer">
           Placeholder footer, to be replaced. Note the &quot;flex: 0 0 auto&quot;, though.
