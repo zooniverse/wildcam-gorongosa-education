@@ -1,12 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link }  from 'react-router';
 import packageJSON from '../../package.json';
 
-export default React.createClass({
-  returnSomething(something) {
-    //this is only for testing purposes. Check /test/components/App-test.js
-    return something;
-  },
+class App extends React.Component{
+//  returnSomething(something) {
+//    //this is only for testing purposes. Check /test/components/App-test.js
+//    return something;
+//  }
   render() {
     const version = packageJSON.version;
 
@@ -27,4 +28,5 @@ export default React.createClass({
       </div>
     )
   }
-});
+}
+export default connect()(App)
