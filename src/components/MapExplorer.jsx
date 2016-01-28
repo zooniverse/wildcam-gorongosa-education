@@ -9,6 +9,7 @@ export default React.createClass({
   //The Google API key ending with dld08s ('dildos') is tied to the
   //shaun.a.noordin@zooniverse.org account and is only used for development.
   GOOGLE_MAPS_API_KEY: 'AIzaSyAzMva99KALzUQfe_BCkCovZyGK-dld08s',
+  GOOGLE_MAPS_API_VERSION: '3',
 
   googleMap: undefined,
 
@@ -20,7 +21,10 @@ export default React.createClass({
   render() {
     window.initMapExplorer = this.initMapExplorer;
 
-    let googleMapScriptUrl = `https://maps.googleapis.com/maps/api/js?key=${this.GOOGLE_MAPS_API_KEY}&callback=initMapExplorer`;
+    let googleMapScriptUrl = 'https://maps.googleapis.com/maps/api/js' +
+      `?key=${this.GOOGLE_MAPS_API_KEY}` +
+      `&v=${this.GOOGLE_MAPS_API_VERSION}` +
+      `&callback=initMapExplorer`;
 
     return (
       <div className='map-explorer'>
