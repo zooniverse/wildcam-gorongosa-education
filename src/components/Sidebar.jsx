@@ -26,7 +26,7 @@ export default class Sidebar extends React.Component{
     let listItems = this.state.classrooms.map((classroom, i) =>
       <li key={i}>{classroom.name}</li>);
     return(
-      <div className="col-md-2">
+      <div className="admin-sidebar">
         <h2>Classrooms</h2>
         <ul>
           {listItems}
