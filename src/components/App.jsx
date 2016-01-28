@@ -1,13 +1,10 @@
 import React from 'react';
+
 import { connect } from 'react-redux';
 import { Link }  from 'react-router';
 import packageJSON from '../../package.json';
 
-
-
-
-
-class App extends React.Component{
+class App extends React.Component {
   returnSomething(something) {
     //this is only for testing purposes. Check /test/components/App-test.js
     return something;
@@ -20,8 +17,6 @@ class App extends React.Component{
           <h1 className="title">{ this.props.project.title } {version}</h1>
           <Link to="/admin" className="link">Admin</Link>
           <Link to="/map" className="link">Data</Link>
-          <Link to="/about" className="link">About</Link>
-          <Link to="/poweredby" className="link">Powered by</Link>
         </header>
         <div className="content-section">
           {this.props.children || 'Welcome to React Starterify'}
@@ -33,6 +28,7 @@ class App extends React.Component{
     )
   }
 }
+
 function mapStateToProps(state) {
   return { project: state.project }
 }
