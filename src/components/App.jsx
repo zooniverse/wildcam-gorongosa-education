@@ -17,7 +17,7 @@ class App extends React.Component{
     return (
       <div>
         <header className="site-header">
-          <h1 className="title">Wildcam Gorongosa Education {version}</h1>
+          <h1 className="title">{ this.props.project.title } {version}</h1>
           <Link to="/admin" className="link">Admin</Link>
           <Link to="/map" className="link">Data</Link>
           <Link to="/about" className="link">About</Link>
