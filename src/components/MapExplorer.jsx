@@ -1,29 +1,36 @@
 import React from 'react';
-import {Script} from 'react-loadscript';
-var Cameras = require('../data/Cameras.jsx');
+import { Script } from 'react-loadscript';
+
+import Cameras from '../data/Cameras.jsx';
+
 
 export default React.createClass({
 
   //The Google API key ending with dld08s ('dildos') is tied to the
   //shaun.a.noordin@zooniverse.org account and is only used for development.
   GOOGLE_MAPS_API_KEY: 'AIzaSyAzMva99KALzUQfe_BCkCovZyGK-dld08s',
+  GOOGLE_MAPS_API_VERSION: '3',
 
   googleMap: undefined,
 
   getInitialState: function() {
     this.googleMap = undefined;
-    return {
-    };
+    return {};
   },
 
   render() {
     window.initMapExplorer = this.initMapExplorer;
 
+    let googleMapScriptUrl = 'https://maps.googleapis.com/maps/api/js' +
+      `?key=${this.GOOGLE_MAPS_API_KEY}` +
+      `&v=${this.GOOGLE_MAPS_API_VERSION}` +
+      `&callback=initMapExplorer`;
+
     return (
       <div className='map-explorer'>
         <div ref='mapVisuals' className='map-visuals'></div>
         <div className='map-controls'>
-          <Script src={'https://maps.googleapis.com/maps/api/js?key='+this.GOOGLE_MAPS_API_KEY+'&callback=initMapExplorer'}>{
+          <Script src={googleMapScriptUrl}>{
             ({done}) => !done ? <div>Google Maps API is loading</div> : <div>Google Maps is ready</div>
           }</Script>
         </div>
@@ -63,7 +70,10 @@ export default React.createClass({
     console.log('MapExplorer.initMapExplorer()');
 
     this.googleMap = new google.maps.Map(this.refs.mapVisuals, {
-      center: { lat: Cameras.median.lat, lng: Cameras.median.lng },
+      center: {
+        lat: Cameras.median.lat,
+        lng: Cameras.median.lng
+      },
       zoom: 11
     });
 
@@ -81,12 +91,12 @@ export default React.createClass({
       return;
     }
 
-    var inputColour = '#f39';
-    var inputOpacity = 0.5;
-    var inputSize = 500;
+    let inputColour = '#f39';
+    let inputOpacity = 0.5;
+    let inputSize = 500;
 
-    for (var i = 0, camera; camera = Cameras.all[i]; i++) {
-      var marker = new google.maps.Circle({
+    Cameras.all.forEach(function(camera) {
+      let marker = new google.maps.Circle({
         center: {
           lat: parseFloat(camera.latitude),
           lng: parseFloat(camera.longitude)
@@ -96,18 +106,18 @@ export default React.createClass({
         fillOpacity: inputOpacity,
         strokeColor: '#fff',
         strokeWeight: 0,
-        map: this.googleMap
+        map: this.googleMap,
+        camera: camera
       });
 
-      marker.camera = camera;
 
       marker.addListener('click', function() {
         alert(this.camera.ID);
-        this.googleMap.setCenter(this.getPosition());
-        this.googleMap.setZoom(12);
+        this.map.setCenter(this.getCenter());
+        this.map.setZoom(12);
       }.bind(marker));
-    }
 
+    }.bind(this));
   }
 
 });
