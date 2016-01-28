@@ -3,6 +3,10 @@ import { connect } from 'react-redux';
 import { Link }  from 'react-router';
 import packageJSON from '../../package.json';
 
+
+
+
+
 class App extends React.Component{
   returnSomething(something) {
     //this is only for testing purposes. Check /test/components/App-test.js
@@ -29,4 +33,7 @@ class App extends React.Component{
     )
   }
 }
-export default connect()(App)
+function mapStateToProps(state) {
+  return { project: state.project }
+}
+export default connect(mapStateToProps)(App);
