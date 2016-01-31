@@ -1,22 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router';
 
+import { connect } from 'react-redux';
+import { Link }  from 'react-router';
 import packageJSON from '../../package.json';
 
-
-export default class App extends React.Component {
-
+class App extends React.Component {
   returnSomething(something) {
     //this is only for testing purposes. Check /test/components/App-test.js
     return something;
   }
-
   render() {
     const version = packageJSON.version;
     return (
       <div>
         <header className="site-header">
-          <h1 className="title">Wildcam Gorongosa Education {version}</h1>
+          <h1 className="title">{ this.props.project.title } {version}</h1>
           <Link to="/admin" className="link">Admin</Link>
           <Link to="/map" className="link">Data</Link>
         </header>
@@ -29,5 +27,9 @@ export default class App extends React.Component {
       </div>
     )
   }
-
 }
+
+function mapStateToProps(state) {
+  return { project: state.project }
+}
+export default connect(mapStateToProps)(App);
