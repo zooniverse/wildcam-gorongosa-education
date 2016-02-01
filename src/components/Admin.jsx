@@ -3,7 +3,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import Overview from 'Overview.jsx';
 import Sidebar from 'Sidebar.jsx';
-import StudentTable from 'StudentTable.jsx';
+import StudentsContainer from '../containers/StudentsContainer';
 
 
 export default class Admin extends React.Component {
@@ -27,7 +27,7 @@ export default class Admin extends React.Component {
               <Overview/>
             </TabPanel>
             <TabPanel>
-              <StudentTable/>
+              <StudentsContainer/>
             </TabPanel>
             <TabPanel>
               Groups
