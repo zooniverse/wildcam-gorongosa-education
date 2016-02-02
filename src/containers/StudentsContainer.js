@@ -3,13 +3,23 @@ import { connect } from 'react-redux'
 import Panoptes from 'panoptes-client';
 import StudentsTable from '../components/StudentsTable.jsx'
 
-//import { addStudent } from '../actions'
-//import { getTotal, getCartProducts } from '../reducers'
+
+//curl 'http://localhost:3000/teachers/classrooms.json' -X 'GET' -H "Authorization: Bearer bcfb1211852702e3cfd745c6b557351e60f406d472bffe2803c93d79e6a05124" -H "Content-Type: application/json"
+
 
 class StudentsContainer extends React.Component{
 
+  createClassroom(name) {
+    $.ajax.post({
+      url: 'http://localhost:3000/teachers/classrooms',
+      body: JSON.stringify({data: {attributes: {name: name}}}),
+      headers: {'Authorization': 'Bearer ' + 'bcfb1211852702e3cfd745c6b557351e60f406d472bffe2803c93d79e6a05124'}
+    })
+  }
+
   render(){
-    console.log('----376: ', Panoptes.apiClient.type('projects').get('376'))
+    console.log('CLassrooms: ', this.createClassroom('foo'))
+    console.log('Wildcam-Staging: ', Panoptes.apiClient.type('projects').get('937'))
     return(
       <StudentsTable/>
     )

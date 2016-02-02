@@ -6,11 +6,13 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import nib from 'nib';
 import bootstrap from 'bootstrap-styl';
 
+
 module.exports = {
 
   devtool: 'eval-source-map',
 
   entry: [
+    'babel-polyfill',
     'webpack-hot-middleware/client?reload=true',
     path.join(__dirname, 'src/Index.jsx'),
   ],
