@@ -3,12 +3,7 @@ import {Script} from 'react-loadscript';
 var Cameras = require('../data/Cameras.jsx');
 
 export default React.createClass({
-  cartodbVis: undefined,
-  cartodbMap: undefined,
-  cartodbLayers: undefined,  //Array of map layers. layer[0] is the base (cartographic map).
-  cartodbDataLayer: undefined,
-  
-  //All cartodbConfig
+  //All CartoDB configuration data
   cartodbConfig: {
     mapVisualisationUrl: 'https://shaunanoordin-zooniverse.cartodb.com/api/v2/viz/e04c2e20-a8a9-11e5-8d6b-0e674067d321/viz.json',
     dataTable: 'wildcam_gorongosa_cameras_201601',
@@ -19,13 +14,6 @@ export default React.createClass({
   cartodbMap: undefined,
   cartodbLayers: undefined,  //Array of map layers. layer[0] is the base (cartographic map).
   cartodbDataLayer: undefined,
-  
-  //All cartodbConfig
-  cartodbConfig: {
-    mapVisualisationUrl: 'https://shaunanoordin-zooniverse.cartodb.com/api/v2/viz/e04c2e20-a8a9-11e5-8d6b-0e674067d321/viz.json',
-    dataTable: 'wildcam_gorongosa_cameras_201512',
-    dataLayerIndex: 1
-  },
 
   getInitialState() {
     this.cartodbVis = undefined;
