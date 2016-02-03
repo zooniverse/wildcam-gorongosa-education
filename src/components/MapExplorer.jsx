@@ -1,6 +1,5 @@
 import React from 'react';
 import {Script} from 'react-loadscript';
-var Cameras = require('../data/Cameras.jsx');
 
 export default React.createClass({
   //All CartoDB configuration data
@@ -19,6 +18,7 @@ export default React.createClass({
     this.cartodbVis = undefined;
     this.cartodbMap = undefined;
     this.cartodbLayers = undefined;
+    this.cartodbDataLayer = undefined;
     return {};
   },
 
@@ -63,6 +63,7 @@ export default React.createClass({
     this.cartodbVis = undefined;
     this.cartodbMap = undefined;
     this.cartodbLayers = undefined;
+    this.cartodbDataLayer = undefined;
   },
 
   //Initialises the Map Explorer.
@@ -119,7 +120,6 @@ export default React.createClass({
   },
   
   updateMapExplorer(e) {
-    
     //Delete everything.
     //TODO: This is a temporary measure to get a clean start! It's not really
     //necessary to delete and rebuild layers - we can modify existing ones,
@@ -140,10 +140,5 @@ export default React.createClass({
     let footerHeight = document.getElementsByClassName('site-footer')[0].offsetHeight;
     let availableHeight = windowHeight - headerHeight - footerHeight;
     this.refs.mapVisuals.style.height = availableHeight+'px';
-  },
-
-  //PLACEHOLDER - shaun.a.noordin@zooniverse.org to do something about this.
-  //Like, make it a proper function with user-selected filters.
-  paintAllCameras() {
   }
 });
