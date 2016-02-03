@@ -15,6 +15,18 @@ export default React.createClass({
     dataLayerIndex: 1
   },
 
+  cartodbVis: undefined,
+  cartodbMap: undefined,
+  cartodbLayers: undefined,  //Array of map layers. layer[0] is the base (cartographic map).
+  cartodbDataLayer: undefined,
+  
+  //All cartodbConfig
+  cartodbConfig: {
+    mapVisualisationUrl: 'https://shaunanoordin-zooniverse.cartodb.com/api/v2/viz/e04c2e20-a8a9-11e5-8d6b-0e674067d321/viz.json',
+    dataTable: 'wildcam_gorongosa_cameras_201512',
+    dataLayerIndex: 1
+  },
+
   getInitialState() {
     this.cartodbVis = undefined;
     this.cartodbMap = undefined;
@@ -116,21 +128,6 @@ export default React.createClass({
     ].join('\n');
     
     return <div className="message">CartoDB API READY</div>;
-  },
-  
-  updateMapExplorer(e) {
-    //Delete everything.
-    //TODO: This is a temporary measure to get a clean start! It's not really
-    //necessary to delete and rebuild layers - we can modify existing ones,
-    //assuming we can figure out which existing ones we want to twiddle with.
-    for (let i = this.cartodbDataLayer.getSubLayerCount() - 1; i >= 0; i--) {
-      this.cartodbDataLayer.getSubLayer(i).remove();
-    }
-    
-    this.cartodbDataLayer.createSubLayer({
-      sql: this.refs.mapSql.value,
-      cartocss: this.refs.mapCss.value
-    });
   },
   
   updateMapExplorer(e) {
