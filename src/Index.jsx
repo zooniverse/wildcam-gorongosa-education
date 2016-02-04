@@ -6,12 +6,12 @@ import { Provider } from 'react-redux';
 
 import Admin from './components/Admin.jsx';
 import App from './components/App.jsx';
-import wgeApp from './reducers/wgeApp.js'
+import reducers from './reducers/reducers.js'
 import MapExplorer from './components/MapExplorer.jsx';
 import Styles from './styles/main.styl';
 
 window.React = React;
-let store = createStore(wgeApp)
+let store = createStore(reducers)
 ReactDOM.render(
   <Provider store={store}>
     <Router>

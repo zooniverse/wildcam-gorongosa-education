@@ -12,7 +12,7 @@ module.exports = {
   devtool: 'eval-source-map',
 
   entry: [
-    'babel-polyfill',
+    'babel-polyfill',// adds support for ES6 APIs, e.g. Object.assign, and Promises
     'webpack-hot-middleware/client?reload=true',
     path.join(__dirname, 'src/Index.jsx'),
   ],

@@ -14,7 +14,7 @@ class App extends React.Component {
     return (
       <div>
         <header className="site-header">
-          <h1 className="title">{ this.props.project.title } {version}</h1>
+          <h1 className="title"> Wildcam {version}</h1>
           <Link to="/admin" className="link">Admin</Link>
           <Link to="/map" className="link">Data</Link>
         </header>
@@ -33,3 +33,4 @@ function mapStateToProps(state) {
   return { project: state.project }
 }
 export default connect(mapStateToProps)(App);
+// title { this.props.project.title }
