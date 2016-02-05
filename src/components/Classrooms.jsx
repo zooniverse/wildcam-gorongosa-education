@@ -3,8 +3,20 @@ import fetch from 'isomorphic-fetch';
 
 export default class Classrooms extends React.Component {
 
+  constructor() {
+    super();
+    this.state = {
+      data: [{
+        attributes: { },
+        id: '',
+        relationship: { },
+        type: ''
+      }]
+    };
+  }
+  // Fetch classrooms from education-api and update state
   componentDidMount() {
-    fetch(this.props.source, {
+    this.fetchClassrooms = fetch(this.props.source, {
       method: 'GET',
       mode: 'cors',
       headers: new Headers({
@@ -15,21 +27,28 @@ export default class Classrooms extends React.Component {
     .then(function(res) {
       return res.json()
         .then(function(json) {
-          console.log('DATA: ', json.data)
-        });
+          console.log('componentDidMountSTATE: ', this.state)
+          //setState triggers render()
+          this.setState({data: json.data})
+          console.log('componentDidMountSTATE: ', this.state)
+        }.bind(this));
     }.bind(this));
-    console.log('STATE: ', this.state)
+
+  }
+
+  // Cancel any outstanding requests before the component is unmounted.
+  componentWillUnmount() {
+    this.fetchClassrooms.abort();
   }
 
   render() {
-    //    let listItems = this.state.classrooms.map((classroom, i) =>
-    //    <li key={i}>{classroom.attributes.name}</li>);
-    //     {listItems}
+    let listItems = this.state.data.map((classroom, i) =>
+    <li key={i}>{classroom.attributes.name}</li>);
     return (
       <div>
         <h2>Classrooms</h2>
         <ul>
-
+          {listItems}
         </ul>
 
       </div>
