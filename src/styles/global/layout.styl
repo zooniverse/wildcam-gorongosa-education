@@ -31,3 +31,8 @@ body
   background-color: light-grey
   display flex   //Layout: Allow content to stretch to fit .content-section.
   flex 1 0 auto  //Layout: Grow container if window is larger than content, but never shrink if vice versa.
+
+// Appears to be a weird thing with Bootstrap that means that fluid containers
+// aren't full width. This rectifies that.
+.container-fluid
+  width 100%
