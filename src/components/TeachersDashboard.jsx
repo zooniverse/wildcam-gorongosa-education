@@ -6,7 +6,7 @@ import Sidebar from 'Sidebar.jsx';
 import StudentTable from 'StudentTable.jsx';
 
 
-export default class Admin extends React.Component {
+export default class TeachersDashboard extends React.Component {
 
   // Component doesn't have a state, so we don't need to set it in the constructor
   // like we normally would do while following ES6 classes syntax

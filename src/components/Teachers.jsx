@@ -1,0 +1,30 @@
+import React from 'react';
+
+import Layout from './Layout.jsx'
+
+
+export default class Teachers extends React.Component {
+
+  render() {
+    return (
+      <Layout {...this.props} navItems={this.props.navItems}>
+        {this.props.children}
+      </Layout>
+    );
+  }
+
+}
+
+Teachers.defaultProps = {
+  navItems: [
+    {
+      label: 'Dashboard',
+      to: '/teachers',
+
+    },
+    {
+      label: 'Data',
+      to: '/teachers/data'
+    }
+  ]
+}

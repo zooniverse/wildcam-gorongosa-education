@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route } from 'react-router';
+import { Router, Route, IndexRoute } from 'react-router';
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 
-import Admin from './components/Admin.jsx';
 import App from './components/App.jsx';
 import wgeApp from './reducers/wgeApp.js'
+import Home from './components/Home.jsx';
+import Teachers from './components/Teachers.jsx';
+import TeachersDashboard from './components/TeachersDashboard.jsx'
 import MapExplorer from './components/MapExplorer.jsx';
+
 import Styles from './styles/main.styl';
 
 window.React = React;
@@ -16,8 +19,11 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <Route path="/" component={App}>
-        <Route path="/admin" component={Admin}/>
-        <Route path="/map" component={MapExplorer}/>
+        <IndexRoute component={Home}/>
+        <Route path="teachers" component={Teachers}>
+          <IndexRoute component={TeachersDashboard}/>
+          <Route path="data" component={MapExplorer}/>
+        </Route>
       </Route>
     </Router>
   </Provider>,
