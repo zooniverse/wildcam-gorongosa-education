@@ -21,7 +21,7 @@ export default class Classrooms extends React.Component {
       method: 'GET',
       mode: 'cors',
       headers: new Headers({
-          'Authorization': 'Bearer ' + eduApi.authToken,
+          'Authorization': `Bearer ${eduApi.authToken}`,
           'Content-Type': 'application/json'
       })
     })
