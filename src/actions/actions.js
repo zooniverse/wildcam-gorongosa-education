@@ -1,3 +1,4 @@
+import { eduApi } from '../constants/app.config.js';
 import fetch from 'isomorphic-fetch';
 import * as types from '../constants/ActionTypes';
 
@@ -36,14 +37,10 @@ function receiveClassrooms(user, json) {
   }
 }
 
-// Meet our first thunk action creator!
-// Though its insides are different, you would use it just like any other action creator:
-// store.dispatch(fetchPosts('reactjs'))
 
 export function fetchPosts(user) {
 
-  // Thunk middleware knows how to handle functions.
-  // It passes the dispatch method as an argument to the function,
+  // Thunk middleware passes the dispatch method as an argument to the function,
   // thus making it able to dispatch actions itself.
 
   return function (dispatch) {
@@ -57,19 +54,15 @@ export function fetchPosts(user) {
     // that is passed on as the return value of the dispatch method.
 
     // In this case, we return a promise to wait for.
-    // This is not required by thunk middleware, but it is convenient for us.
+    // This is not required, just convenient for us.
 
-    return fetch('http://localhost:3000/teachers/classrooms')
+    return fetch(eduApi.root + eduApi.classrooms)
       .then(response => response.json())
       .then(json =>
-
-        // We can dispatch many times!
         // Here, we update the app state with the results of the API call.
-
         dispatch(RECEIVE_CLASSROOMS(user, json))
       )
 
-      // In a real world app, you also want to
       // catch any error in the network call.
   }
 }

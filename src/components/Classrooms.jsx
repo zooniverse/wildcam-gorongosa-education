@@ -1,5 +1,6 @@
 import React from 'react';
 import fetch from 'isomorphic-fetch';
+import { eduApi } from '../constants/app.config.js';
 
 export default class Classrooms extends React.Component {
 
@@ -20,25 +21,19 @@ export default class Classrooms extends React.Component {
       method: 'GET',
       mode: 'cors',
       headers: new Headers({
-          'Authorization': 'Bearer ' + '64aa60e488a555e2ef8b7f9d1621ec7e430dcb8b8baa0d00b8460eca5660d188',
+          'Authorization': eduApi.authHeader,
           'Content-Type': 'application/json'
       })
     })
-    .then(function(res) {
-      return res.json()
-        .then(function(json) {
-          console.log('componentDidMountSTATE: ', this.state)
-          //setState triggers render()
-          this.setState({data: json.data})
-          console.log('componentDidMountSTATE: ', this.state)
-        }.bind(this));
-    }.bind(this));
-
+    .then(response => response.json())
+    .then(json => this.setState({data: json.data}))
   }
 
   // Cancel any outstanding requests before the component is unmounted.
   componentWillUnmount() {
-    this.fetchClassrooms.abort();
+    // fetch API doesn't currently support a way of cancelling requests
+    // https://github.com/whatwg/fetch/issues/27
+    // so we can't do as in AJAX this.fetchClassrooms.abort();
   }
 
   render() {
@@ -50,7 +45,6 @@ export default class Classrooms extends React.Component {
         <ul>
           {listItems}
         </ul>
-
       </div>
     );
   }

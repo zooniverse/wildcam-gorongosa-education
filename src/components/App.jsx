@@ -12,4 +12,3 @@ function mapStateToProps(state) {
   return { project: state.project }
 }
 export default connect(mapStateToProps)(App);
-// title { this.props.project.title }
