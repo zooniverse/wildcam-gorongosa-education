@@ -1,21 +1,22 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import { Router, Route, IndexRoute } from 'react-router';
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 
 import App from './components/App.jsx';
-import wgeApp from './reducers/wgeApp.js'
+
+import reducers from './reducers/reducers.js';
 import Home from './components/Home.jsx';
 import Teachers from './components/Teachers.jsx';
 import TeachersDashboard from './components/TeachersDashboard.jsx'
 import MapExplorer from './components/MapExplorer.jsx';
-
 import Styles from './styles/main.styl';
 
 window.React = React;
-let store = createStore(wgeApp)
+let store = createStore(reducers)
 ReactDOM.render(
   <Provider store={store}>
     <Router>
