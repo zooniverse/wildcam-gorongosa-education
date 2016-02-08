@@ -1,5 +1,7 @@
 import React from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
+
+import HeaderAuth from './HeaderAuth.jsx';
 
 
 export default class Layout extends React.Component {
@@ -39,6 +41,7 @@ export default class Layout extends React.Component {
           <div className='container-fluid'>
             <Link className='navbar-brand' to='/'>Wildcam Gorongosa Education</Link>
             {this.renderNav()}
+            <HeaderAuth />
           </div>
         </header>
 
