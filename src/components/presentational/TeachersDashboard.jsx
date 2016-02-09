@@ -1,15 +1,12 @@
 import React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import Overview from 'Overview.jsx';
-import Sidebar from 'Sidebar.jsx';
-import StudentTable from 'StudentTable.jsx';
+import Overview from './Overview.jsx';
+import Sidebar from './Sidebar.jsx';
+import StudentsContainer from '../container/StudentsContainer.jsx';
 
 
-export default class Admin extends React.Component {
-
-  // Component doesn't have a state, so we don't need to set it in the constructor
-  // like we normally would do while following ES6 classes syntax
+export default class TeachersDashboard extends React.Component {
 
   render() {
     return (
@@ -27,7 +24,7 @@ export default class Admin extends React.Component {
               <Overview/>
             </TabPanel>
             <TabPanel>
-              <StudentTable/>
+              <StudentsContainer/>
             </TabPanel>
             <TabPanel>
               Groups

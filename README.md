@@ -1,5 +1,7 @@
 # Wildcam Gorongosa Education
 
+Relies on the [education-api](https://github.com/zooniverse/education-api) repo for classroom management.
+
 ## Usage
 
 __Install the dependencies:__

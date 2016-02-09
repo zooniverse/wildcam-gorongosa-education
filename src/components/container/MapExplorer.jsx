@@ -1,6 +1,6 @@
 import React from 'react';
 import {Script} from 'react-loadscript';
-var config = require('../config.json');
+var config = require('../../config.json');
 
 export default React.createClass({
   getInitialState() {
