@@ -3,18 +3,13 @@ import {Script} from 'react-loadscript';
 var config = require('../config.json');
 
 export default React.createClass({
-  cartodbVis: undefined,
-  cartodbMap: undefined,
-  cartodbLayers: undefined,  //Array of map layers. layer[0] is the base (cartographic map).
-  cartodbDataLayer: undefined,
-
   getInitialState() {
-    console.log('getInitialState()');
-    this.cartodbVis = undefined;
-    this.cartodbMap = undefined;
-    this.cartodbLayers = undefined;
-    this.cartodbDataLayer = undefined;
-    return {};
+    return {
+      cartodbVis: undefined,
+      cartodbMap: undefined,
+      cartodbLayers: undefined,  //Array of map layers. layer[0] is the base (cartographic map).
+      cartodbDataLayer: undefined
+    };
   },
 
   render() {
@@ -58,10 +53,6 @@ export default React.createClass({
   //Cleanup!
   componentWillUnmount() {
     console.log('componentWillUnmount()');
-    this.cartodbVis = undefined;
-    this.cartodbMap = undefined;
-    this.cartodbLayers = undefined;
-    this.cartodbDataLayer = undefined;
   },
 
   //Initialises the Map Explorer.
@@ -75,14 +66,18 @@ export default React.createClass({
   //   been rendered.
   initMapExplorer() {
     console.log('MapExplorer.initMapExplorer()');
-    this.refs.mapVisuals.style.height = '1000px';
+    if (this.state.cartodbVis) {
+      //This prevents CartoDB from creating a map one when navigating from the
+      //Map Explorer page to the (same) Map Explorer page.
+      return <div className="message">Map Explorer ALREADY LOADED</div>;;
+    }
     cartodb.createVis('mapVisuals', config.cartoDB.mapVisualisationUrl)
       .done(function (vis, layers) {
-        this.cartodbVis = vis;
-        this.cartodbMap = vis.getNativeMap();
-        this.cartodbLayers = layers;
+        this.state.cartodbVis = vis;
+        this.state.cartodbMap = vis.getNativeMap();
+        this.state.cartodbLayers = layers;
         if (layers.length >= (config.cartoDB.dataLayerIndex+1)) {
-          this.cartodbDataLayer = layers[config.cartoDB.dataLayerIndex];
+          this.state.cartodbDataLayer = layers[config.cartoDB.dataLayerIndex];
         }
       }.bind(this));
     this.resizeMapExplorer();
@@ -118,19 +113,22 @@ export default React.createClass({
     //Note: use `return null` if we don't want a message to pop up.
   },
   
-  updateMapExplorer(e) {
-    //Delete everything.
-    //TODO: This is a temporary measure to get a clean start! It's not really
-    //necessary to delete and rebuild layers - we can modify existing ones,
-    //assuming we can figure out which existing ones we want to twiddle with.
-    for (let i = this.cartodbDataLayer.getSubLayerCount() - 1; i >= 0; i--) {
-      this.cartodbDataLayer.getSubLayer(i).remove();
+  updateMapExplorer() {
+    console.log('updateMapExplorer()');
+    if (this.state.cartodbVis) {
+      //Delete everything.
+      //TODO: This is a temporary measure to get a clean start! It's not really
+      //necessary to delete and rebuild layers - we can modify existing ones,
+      //assuming we can figure out which existing ones we want to twiddle with.
+      for (let i = this.state.cartodbDataLayer.getSubLayerCount() - 1; i >= 0; i--) {
+        this.state.cartodbDataLayer.getSubLayer(i).remove();
+      }
+
+      this.state.cartodbDataLayer.createSubLayer({
+        sql: this.refs.mapSql.value,
+        cartocss: this.refs.mapCss.value
+      });
     }
-    
-    this.cartodbDataLayer.createSubLayer({
-      sql: this.refs.mapSql.value,
-      cartocss: this.refs.mapCss.value
-    });
   },
   
   resizeMapExplorer() {
