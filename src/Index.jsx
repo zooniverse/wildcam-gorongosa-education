@@ -3,24 +3,13 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute } from 'react-router';
-<<<<<<< HEAD
+
 import { Provider } from 'react-redux';
-
-import App from './components/App.jsx';
-
-import Home from './components/Home.jsx';
-import Teachers from './components/Teachers.jsx';
-import TeachersDashboard from './components/TeachersDashboard.jsx';
-=======
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-
-import reducers from './reducers/reducers.js';
 
 import App from './components/App.jsx';
 import Home from './components/Home.jsx';
 import LoginHandler from './components/LoginHandler.jsx';
->>>>>>> master
+
 import MapExplorer from './components/MapExplorer.jsx';
 import Teachers from './components/Teachers.jsx';
 import TeachersDashboard from './components/TeachersDashboard.jsx';
@@ -32,10 +21,7 @@ import configureStore from './store/configureStore';
 const store = configureStore();
 
 window.React = React;
-<<<<<<< HEAD
-=======
-let store = createStore(reducers);
->>>>>>> master
+
 
 ReactDOM.render(
   <Provider store={store}>
