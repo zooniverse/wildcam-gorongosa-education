@@ -7,10 +7,9 @@ import { Provider } from 'react-redux';
 
 import App from './components/App.jsx';
 
-//import reducers from './reducers/reducers.js';
 import Home from './components/Home.jsx';
 import Teachers from './components/Teachers.jsx';
-import TeachersDashboard from './components/TeachersDashboard.jsx'
+import TeachersDashboard from './components/TeachersDashboard.jsx';
 import MapExplorer from './components/MapExplorer.jsx';
 import Styles from './styles/main.styl';
 
