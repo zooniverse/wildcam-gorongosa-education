@@ -3,21 +3,19 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute } from 'react-router';
-
 import { Provider } from 'react-redux';
 
 import App from './components/App.jsx';
-import Home from './components/Home.jsx';
-import LoginHandler from './components/LoginHandler.jsx';
+import LoginHandler from './components/container/LoginHandler.jsx';
+import MapExplorer from './components/container/MapExplorer.jsx';
+import Teachers from './components/container/Teachers.jsx';
 
-import MapExplorer from './components/MapExplorer.jsx';
-import Teachers from './components/Teachers.jsx';
-import TeachersDashboard from './components/TeachersDashboard.jsx';
+import Home from './components/presentational/Home.jsx';
+import TeachersDashboard from './components/presentational/TeachersDashboard.jsx';
 
 import Styles from './styles/main.styl';
 
 import configureStore from './store/configureStore';
-
 const store = configureStore();
 
 window.React = React;
