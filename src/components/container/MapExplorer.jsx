@@ -1,7 +1,7 @@
 import React from 'react';
 import { Script } from 'react-loadscript';
 
-import Cameras from '../data/Cameras.jsx';
+import Cameras from '../../data/Cameras.jsx';
 
 
 export default React.createClass({

@@ -1,6 +1,6 @@
 import React from 'react';
 import fetch from 'isomorphic-fetch';
-import { eduApi } from '../constants/app.config.js';
+import { eduApi } from '../../constants/app.config.js';
 
 export default class Classrooms extends React.Component {
 
@@ -38,7 +38,8 @@ export default class Classrooms extends React.Component {
 
   render() {
     let listItems = this.state.data.map((classroom, i) =>
-    <li key={i}>{classroom.attributes.name}</li>);
+      <li key={i}>{classroom.attributes.name}</li>);
+
     return (
       <div>
         <h2>Classrooms</h2>
