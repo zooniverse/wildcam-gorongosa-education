@@ -38,19 +38,10 @@ export default React.createClass({
     );
   },
 
-  //Once React component has rendered, process the map.
-  //See notes on initMapExlorer().
   componentDidMount() {
     console.log('componentDidMount()');
-    if (window.cartodb) {
-      console.log('componentDidMount: window.cartodb found.');
-      //this.initMapExplorer();
-    } else {
-      console.log('componentDidMount: window.cartodb not found.');
-    }
   },
 
-  //Cleanup!
   componentWillUnmount() {
     console.log('componentWillUnmount()');
   },
