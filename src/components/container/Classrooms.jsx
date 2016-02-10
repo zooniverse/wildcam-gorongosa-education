@@ -1,10 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import fetch from 'isomorphic-fetch';
 import { eduApi } from '../../constants/app.config.js';
-import { fetchClassroomsIfNeeded } from '../actions/actions';
+import { fetchClassrooms } from '../../actions/actions';
 
 
-export default class Classrooms extends React.Component {
+
+class Classrooms extends React.Component {
 
   constructor() {
     super();
@@ -17,20 +19,14 @@ export default class Classrooms extends React.Component {
       }]
     };
   }
+
   // Fetch classrooms from education-api and update state
   componentDidMount() {
     console.log('componentDidMount');
     const { dispatch } = this.props;
     console.log('THIS PROPS', this.props)
-    dispatch(fetchClassroomsIfNeeded());
+    dispatch(fetchClassrooms());
 
-  }
-
-  // Cancel any outstanding requests before the component is unmounted.
-  componentWillUnmount() {
-    // fetch API doesn't currently support a way of cancelling requests
-    // https://github.com/whatwg/fetch/issues/27
-    // so we can't do as in AJAX this.fetchClassroomsIfNeeded.abort();
   }
 
   render() {
@@ -48,13 +44,4 @@ export default class Classrooms extends React.Component {
   }
 
 }
-//    this.fetchClassrooms = fetch(this.props.source, {
-//      method: 'GET',
-//      mode: 'cors',
-//      headers: new Headers({
-//          'Authorization': `Bearer ${eduApi.authToken}`,
-//          'Content-Type': 'application/json'
-//      })
-//    })
-//    .then(response => response.json())
-//    .then(json => this.setState({data: json.data}))
+export default connect()(Classrooms);

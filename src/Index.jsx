@@ -20,7 +20,6 @@ const store = configureStore();
 
 window.React = React;
 
-
 ReactDOM.render(
   <Provider store={store}>
     <Router>
@@ -36,3 +35,4 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('app-container')
 );
+

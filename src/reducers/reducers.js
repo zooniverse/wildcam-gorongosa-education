@@ -38,8 +38,7 @@ function allClassrooms(state = {
 
 const rootReducer = combineReducers({
   appHeader,
-  allClassrooms,
-  selectedClassroom
+  allClassrooms
 })
 
 export default rootReducer
