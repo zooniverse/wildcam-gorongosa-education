@@ -1,11 +1,8 @@
 import React from 'react';
 import fetch from 'isomorphic-fetch';
-<<<<<<< HEAD:src/components/Classrooms.jsx
-import { eduApi } from '../constants/app.config.js';
-import { fetchClassroomsIfNeeded } from '../actions/actions';
-=======
 import { eduApi } from '../../constants/app.config.js';
->>>>>>> master:src/components/container/Classrooms.jsx
+import { fetchClassroomsIfNeeded } from '../actions/actions';
+
 
 export default class Classrooms extends React.Component {
 
