@@ -19,51 +19,50 @@ export function setVisibilityFilter(filter) {
   return { type: types.SET_VISIBILITY_FILTER, filter }
 }
 
-export const REQUEST_CLASSROOMS = 'REQUEST_CLASSROOMS'
-function requestClassrooms(user) {
+
+
+function requestClassrooms() {
   return {
-    type: REQUEST_CLASSROOMS,
-    user
+    type: types.REQUEST_CLASSROOMS
   }
 }
 
-export const RECEIVE_CLASSROOMS = 'RECEIVE_CLASSROOMS'
-function receiveClassrooms(user, json) {
+
+function receiveClassrooms(json) {
   return {
-    type: RECEIVE_CLASSROOMS,
-    user,
-    posts: json.data.children.map(child => child.data),
+    type: types.RECEIVE_CLASSROOMS,
+    classrooms: json.data.children.map(child => child.data),
     receivedAt: Date.now()
   }
 }
 
 
-export function fetchPosts(user) {
-
+function fetchClassrooms() {
   // Thunk middleware passes the dispatch method as an argument to the function,
   // thus making it able to dispatch actions itself.
-
-  return function (dispatch) {
-
+  console.log('--------fetchClassrooms');
+  return dispatch => {
     // First dispatch: the app state is updated to inform
     // that the API call is starting.
-
-    dispatch(requestClassrooms(user))
+    dispatch(requestClassrooms())
 
     // The function called by the thunk middleware can return a value,
     // that is passed on as the return value of the dispatch method.
-
     // In this case, we return a promise to wait for.
     // This is not required, just convenient for us.
-
     return fetch(eduApi.root + eduApi.classrooms)
       .then(response => response.json())
       .then(json =>
         // Here, we update the app state with the results of the API call.
-        dispatch(RECEIVE_CLASSROOMS(user, json))
+        dispatch(receiveClassrooms(json))
       )
-
       // catch any error in the network call.
+  }
+}
+
+export function fetchClassroomsIfNeeded(){
+  return  (dispatch, getState) => {
+    return dispatch(fetchClassrooms())
   }
 }
 

@@ -8,7 +8,7 @@ export default class Sidebar extends React.Component {
 
     return (
       <div className="admin-sidebar">
-        <Classrooms source={eduApi.root + eduApi.classrooms}  />
+        <Classrooms source={eduApi.root + eduApi.classrooms} />
       </div>
     );
   }

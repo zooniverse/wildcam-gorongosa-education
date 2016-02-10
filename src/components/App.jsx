@@ -1,6 +1,6 @@
-import React from 'react';
-
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+
 
 class App extends React.Component {
   render() {
@@ -8,7 +8,26 @@ class App extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { project: state.project }
+App.propTypes = {
+  classrooms: PropTypes.array.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired
 }
+
+
+function mapStateToProps(state) {
+  const { allClassrooms } = state;
+  const {
+    isFetching,
+    items: classrooms
+  } = allClassrooms || {
+    isFetching: true,
+    items: []
+  }
+  return {
+    classrooms,
+    isFetching
+  }
+}
+
 export default connect(mapStateToProps)(App);
