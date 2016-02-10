@@ -5,8 +5,8 @@
 import React from 'react';
 import Panoptes from 'panoptes-client';
 
-import LoginButton from './LoginButton.jsx';
-import LoggedInUser from './LoggedInUser.jsx';
+import LoginButton from '../presentational/LoginButton.jsx';
+import LoggedInUser from '../presentational/LoggedInUser.jsx';
 
 
 export default class HeaderAuth extends React.Component {
