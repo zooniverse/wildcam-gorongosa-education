@@ -30,7 +30,7 @@ function requestClassrooms() {
 
 
 function receiveClassrooms(json) {
-  console.log('--------receiveClassrooms(json)', json.data.map(classroom => classroom.));
+  console.log('--------receiveClassrooms(json)', json.data.map(classroom => classroom.attributes.name));
   return {
     type: types.RECEIVE_CLASSROOMS,
     classrooms: json.data.map(classroom => classroom.attributes.name)
