@@ -1,8 +1,8 @@
 import fetch from 'isomorphic-fetch';
 import Panoptes from 'panoptes-client';
 
-import { eduAPI } from '../../config.json';
-import * as types from '../actionTypes';
+import { eduAPI } from '../constants/config.json';
+import * as types from '../constants/actionTypes';
 
 
 // Constants

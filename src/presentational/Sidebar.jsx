@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Classrooms from '../container/Classrooms.jsx';
+import Classrooms from '../containers/Classrooms.jsx';
 
 
 export default class Sidebar extends React.Component {

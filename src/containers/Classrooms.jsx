@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { eduAPI } from '../../config.json';
-import { fetchClassrooms } from '../../store/actions/classrooms';
+import { eduAPI } from '../constants/config.json';
+import { fetchClassrooms } from '../actions/classrooms';
 
 class Classrooms extends React.Component {
 
