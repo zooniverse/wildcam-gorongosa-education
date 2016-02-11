@@ -1,6 +1,7 @@
 import React from 'react';
+
 import Classrooms from '../container/Classrooms.jsx';
-import { eduApi } from '../../constants/app.config.js';
+
 
 export default class Sidebar extends React.Component {
 

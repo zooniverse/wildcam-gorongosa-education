@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import fetch from 'isomorphic-fetch';
-import { eduApi } from '../../constants/app.config.js';
-import { fetchClassrooms } from '../../actions/actions';
 
+import { eduAPI } from '../../config.json';
+import { fetchClassrooms } from '../../store/actions';
 
 
 class Classrooms extends React.Component {
@@ -22,11 +22,7 @@ class Classrooms extends React.Component {
 
   // Fetch classrooms from education-api and update state
   componentDidMount() {
-    console.log('componentDidMount');
-    const { dispatch } = this.props;
-    console.log('THIS PROPS', this.props)
-    dispatch(fetchClassrooms());
-
+    this.props.dispatch(fetchClassrooms());
   }
 
   render() {
@@ -44,4 +40,5 @@ class Classrooms extends React.Component {
   }
 
 }
+
 export default connect()(Classrooms);
