@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import fetch from 'isomorphic-fetch';
 
 import { eduAPI } from '../../config.json';
-import { fetchClassrooms } from '../../store/actions';
-
+import { fetchClassrooms } from '../../store/actions/classrooms';
 
 class Classrooms extends React.Component {
 
