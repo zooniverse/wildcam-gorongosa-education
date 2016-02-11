@@ -27,7 +27,7 @@ export default class HeaderAuth extends React.Component {
     console.log('Logging in');
     // From the Rog Testing app on staging
     const appId = '24ad5676d5d25c6aa850dc5d5f63ec8c03dbc7ae113b6442b8571fce6c5b974c';
-    const redirectUri = 'http://localhost:3000';
+    const redirectUri = 'http://localhost:3000/?env=staging#/';
     const url = [
       Panoptes._config.host,
       '/oauth/authorize',

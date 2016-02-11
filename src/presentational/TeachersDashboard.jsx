@@ -3,7 +3,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import Overview from './Overview.jsx';
 import Sidebar from './Sidebar.jsx';
-import StudentsContainer from '../container/StudentsContainer.jsx';
+import StudentsContainer from '../containers/StudentsContainer.jsx';
 
 
 export default class TeachersDashboard extends React.Component {

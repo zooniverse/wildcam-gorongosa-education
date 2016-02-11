@@ -1,6 +1,7 @@
 import React from 'react';
-import Classrooms from '../container/Classrooms.jsx';
-import { eduApi } from '../../constants/app.config.js';
+
+import Classrooms from '../containers/Classrooms.jsx';
+
 
 export default class Sidebar extends React.Component {
 
@@ -8,7 +9,7 @@ export default class Sidebar extends React.Component {
 
     return (
       <div className="admin-sidebar">
-        <Classrooms source={eduApi.root + eduApi.classrooms}  />
+        <Classrooms />
       </div>
     );
   }
