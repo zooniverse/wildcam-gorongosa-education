@@ -1,6 +1,7 @@
 import React from 'react';
 import {Script} from 'react-loadscript';
-var config = require('../../config.json');
+
+const config = require('../constants/config.json');
 
 export default React.createClass({
   getInitialState() {
@@ -72,7 +73,7 @@ export default React.createClass({
         }
       }.bind(this));
     this.resizeMapExplorer();
-    
+
     this.refs.mapSql.value = 'SELECT * FROM "' + config.cartoDB.dataTable + '" WHERE "veg_type" LIKE \'Mixed Savanna and Woodland\' OR "veg_type" LIKE \'Floodplain Grassland\'';
     this.refs.mapCss.value = [
       '#'+config.cartoDB.dataTable+' {',
@@ -99,11 +100,11 @@ export default React.createClass({
       '  marker-fill: #3ff;',
       '}'
     ].join('\n');
-    
+
     return <div className="message">Map Explorer is READY</div>;
     //Note: use `return null` if we don't want a message to pop up.
   },
-  
+
   updateMapExplorer() {
     console.log('updateMapExplorer()');
     if (this.state.cartodbVis) {
@@ -121,7 +122,7 @@ export default React.createClass({
       });
     }
   },
-  
+
   resizeMapExplorer() {
     let windowHeight = window.innerHeight;
     let headerHeight = document.getElementsByClassName('site-header')[0].offsetHeight;

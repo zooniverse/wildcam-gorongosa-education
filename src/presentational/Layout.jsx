@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import HeaderAuth from '../container/HeaderAuth.jsx';
+import HeaderAuth from '../containers/HeaderAuth.jsx';
 
 
 export default class Layout extends React.Component {

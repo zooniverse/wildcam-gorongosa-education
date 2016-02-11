@@ -5,17 +5,17 @@ import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute } from 'react-router';
 import { Provider } from 'react-redux';
 
-import App from './components/App.jsx';
-import LoginHandler from './components/container/LoginHandler.jsx';
-import MapExplorer from './components/container/MapExplorer.jsx';
-import Teachers from './components/container/Teachers.jsx';
+import App from './containers/App.jsx';
+import LoginHandler from './containers/LoginHandler.jsx';
+import MapExplorer from './containers/MapExplorer.jsx';
+import Teachers from './containers/Teachers.jsx';
 
-import Home from './components/presentational/Home.jsx';
-import TeachersDashboard from './components/presentational/TeachersDashboard.jsx';
+import Home from './presentational/Home.jsx';
+import TeachersDashboard from './presentational/TeachersDashboard.jsx';
 
 import Styles from './styles/main.styl';
 
-import configureStore from './store/configureStore';
+import configureStore from './store';
 const store = configureStore();
 
 window.React = React;
