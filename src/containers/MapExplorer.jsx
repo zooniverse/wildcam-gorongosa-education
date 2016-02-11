@@ -63,16 +63,6 @@ export default React.createClass({
       //Map Explorer page to the (same) Map Explorer page.
       return <div className="message">Map Explorer ALREADY LOADED</div>;;
     }
-    cartodb.createVis('mapVisuals', config.cartoDB.mapVisualisationUrl)
-      .done(function (vis, layers) {
-        this.state.cartodbVis = vis;
-        this.state.cartodbMap = vis.getNativeMap();
-        this.state.cartodbLayers = layers;
-        if (layers.length >= (config.cartoDB.dataLayerIndex+1)) {
-          this.state.cartodbDataLayer = layers[config.cartoDB.dataLayerIndex];
-        }
-      }.bind(this));
-    this.resizeMapExplorer();
     this.refs.mapSql.value = [
       'SELECT ',
       '  cameras.*, ',
@@ -83,7 +73,6 @@ export default React.createClass({
       '  (SELECT ',
       '    goSub.camera, ',
       '    goSub.location, ',
-      '    goSub.month, ',
       '    goSub.month, ',
       '    goSub.year, ',
       '    goSub.season, ',
@@ -100,13 +89,13 @@ export default React.createClass({
       '    ON ',
       '    goSub.subject_id = goCla.subject_zooniverse_id ',
       '  WHERE ',
-      '    goCla.species LIKE \'%Lion%\' ',
+      '    goCla.species LIKE \'%Buffalo%\' ',
       '  ) AS items ',
       '  ON ',
       '  cameras.id = items.camera ',
       'GROUP BY cameras.cartodb_id '].join('\n');
     this.refs.mapCss.value = [
-      '#wildcam_gorongosa_cameras_201601 { ',
+      '#items { ',  //Any label ID works, actually
       '  marker-fill: #fff; ',
       '  marker-fill-opacity: 0.9; ',
       '  marker-line-color: #FFF; ',
@@ -116,57 +105,50 @@ export default React.createClass({
       '  marker-type: ellipse; ',
       '  marker-width: 5; ',
       '  marker-allow-overlap: true; ',
-      '} ',
-      '#wildcam_gorongosa_cameras_201601[veg_type="Mixed Savanna and Woodland"] { ',
-      '  marker-fill: #6c6; ',
-      '} ',
-      '#wildcam_gorongosa_cameras_201601[veg_type="Floodplain Grassland"] { ',
-      '  marker-fill: #9c3; ',
-      '} ',
-      '#wildcam_gorongosa_cameras_201601[veg_type="Limestone Gorge"] { ',
-      '  marker-fill: #9c9; ',
-      '} ',
-      '#wildcam_gorongosa_cameras_201601[veg_type="Miombo Woodland"] { ',
-      '  marker-fill: #3c9; ',
-      '} ',
-      '#wildcam_gorongosa_cameras_201601[count >= 100] { ',
-      '  marker-width: 150; ',
-      '} ',
-      '#wildcam_gorongosa_cameras_201601[count < 100] { ',
-      '  marker-width: 100; ',
-      '} ',
-      '#wildcam_gorongosa_cameras_201601[count < 90] { ',
-      '  marker-width: 90; ',
-      '} ',
-      '#wildcam_gorongosa_cameras_201601[count < 80] { ',
-      '  marker-width: 80; ',
-      '} ',
-      '#wildcam_gorongosa_cameras_201601[count < 70] { ',
-      '  marker-width: 70; ',
-      '} ',
-      '#wildcam_gorongosa_cameras_201601[count < 60] { ',
-      '  marker-width: 60; ',
-      '} ',
-      '#wildcam_gorongosa_cameras_201601[count < 50] { ',
-      '  marker-width: 50; ',
-      '} ',
-      '#wildcam_gorongosa_cameras_201601[count < 40] { ',
-      '  marker-width: 40; ',
-      '} ',
-      '#wildcam_gorongosa_cameras_201601[count < 30] { ',
-      '  marker-width: 30; ',
-      '} ',
-      '#wildcam_gorongosa_cameras_201601[count < 20] { ',
-      '  marker-width: 20; ',
-      '} ',
-      '#wildcam_gorongosa_cameras_201601[count < 10] { ',
-      '  marker-width: 10; ',
-      '} ',
-      '#wildcam_gorongosa_cameras_201601[count = null], ',
-      '#wildcam_gorongosa_cameras_201601[count = 0] { ',
-      '  marker-fill: #c33; ',
-      '  marker-width: 5; ',
+      '  ',
+      '  [veg_type="Mixed Savanna and Woodland"] { ',
+      '    marker-fill: #cc3; ',
+      '  } ',
+      '  [veg_type="Floodplain Grassland"] { ',
+      '    marker-fill: #33c; ',
+      '  } ',
+      '  [veg_type="Limestone Gorge"] { ',
+      '    marker-fill: #3cc; ',
+      '  } ',
+      '  [veg_type="Miombo Woodland"] { ',
+      '    marker-fill: #3c3; ',
+      '  } ',
+      '  [count >= 1000] { ',
+      '    marker-width: 50; ',
+      '  } ',
+      '  [count < 1000] { ',
+      '    marker-width: 40; ',
+      '  } ',
+      '  [count < 100] { ',
+      '    marker-width: 30; ',
+      '  } ',
+      '  [count < 10] { ',
+      '    marker-width: 20; ',
+      '  } ',
+      '  [count = null], ',
+      '  [count = 0] { ',
+      '    marker-fill: #c33; ',
+      '    marker-width: 5; ',
+      '  } ',
       '}'].join('\n');
+    
+    cartodb.createVis('mapVisuals', config.cartoDB.mapVisualisationUrl)
+      .done(function (vis, layers) {
+        this.state.cartodbVis = vis;
+        this.state.cartodbMap = vis.getNativeMap();
+        this.state.cartodbLayers = layers;
+        if (layers.length >= (config.cartoDB.dataLayerIndex+1)) {
+          this.state.cartodbDataLayer = layers[config.cartoDB.dataLayerIndex];
+        }      
+        this.updateMapExplorer();
+      }.bind(this));
+    this.resizeMapExplorer();
+    
     return <div className="message">Map Explorer is READY</div>;
     //Note: use `return null` if we don't want a message to pop up.
   },
