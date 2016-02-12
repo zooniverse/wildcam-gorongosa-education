@@ -5,24 +5,28 @@ import { eduAPI } from '../constants/config.json';
 import * as types from '../constants/actionTypes';
 
 
-// Constants
-export const visibilityFilters = {
-  SHOW_ALL: 'SHOW_ALL',
-  SHOW_ACTIVE: 'SHOW_ACTIVE'
-}
-
 // Action creators
-export function addClassroom(name) {
-  return {
-    type: types.CREATE_CLASSROOM,
-    name: name,
-  };
-}
-
-export function setVisibilityFilter(filter) {
-  return {
-    type: types.SET_VISIBILITY_FILTER,
-    filter: filter,
+export function createClassroom(name) {
+  return dispatch => {
+    dispatch({
+      type: types.CREATE_CLASSROOM,
+      name,
+    });
+    return fetch(eduAPI.root + eduAPI.classrooms, {
+      method: 'POST',
+      mode: 'cors',
+      headers: new Headers({
+          'Authorization': Panoptes.apiClient.headers.Authorization,
+          'Content-Type': 'application/json'
+      }),
+      body: JSON.stringify({'data': {'attributes': {'name': name}}})
+    })
+    .then(response => response.json())
+    .then(json => dispatch({
+        type: types.CREATE_CLASSROOM_SUCCESS,
+        data: json.data
+      }))
+    .catch(response => console.log('RESPONSE-error: ', response))
   };
 }
 
@@ -34,27 +38,26 @@ export function fetchClassrooms() {
     dispatch({
       type: types.REQUEST_CLASSROOMS,
     });
-
     // We return a promise to wait for.
-    // This is not required by the middleware,
-    // just convenient for us.
+    // This is not required by the middleware.
     return fetch(eduAPI.root + eduAPI.classrooms, {
       method: 'GET',
       mode: 'cors',
       headers: new Headers({
-          'Authorization': 'Bearer ' + Panoptes.auth._bearerToken,
+          'Authorization': Panoptes.apiClient.headers.Authorization,
           'Content-Type': 'application/json'
         })
       })
       .then(response => response.json())
       .then(json => dispatch({
         type: types.RECEIVE_CLASSROOMS,
-        classrooms: json.data.map(classroom => classroom.attributes.name)
+        data: json.data.map(classroom => classroom.attributes.name)
       }))
       .catch(response => dispatch({
         type: types.RECEIVE_CLASSROOMS,
-        classrooms: [],
+        data: [],
         error: true,
       }));
+
   }
 }

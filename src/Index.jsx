@@ -1,5 +1,3 @@
-import 'babel-polyfill';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute } from 'react-router';
@@ -18,21 +16,26 @@ import Styles from './styles/main.styl';
 import configureStore from './store';
 const store = configureStore();
 
+import { oauth } from 'panoptes-client';
+import { panoptesAppId } from './constants/config.json';
+
 window.React = React;
 
-ReactDOM.render(
-  <Provider store={store}>
-    <Router>
-      <Route path="/" component={App}>
-        <IndexRoute component={Home} />
-        <Route path="access_token*" component={LoginHandler} />
-        <Route path="teachers" component={Teachers}>
-          <IndexRoute component={TeachersDashboard} />
-          <Route path="data" component={MapExplorer} />
-        </Route>
-      </Route>
-    </Router>
-  </Provider>,
-  document.getElementById('app-container')
-);
-
+oauth.init(panoptesAppId)
+  .then(function () {
+    ReactDOM.render(
+      <Provider store={store}>
+        <Router>
+          <Route path="/" component={App}>
+            <IndexRoute component={Home} />
+            <Route path="access_token*" component={LoginHandler} />
+            <Route path="teachers" component={Teachers}>
+              <IndexRoute component={TeachersDashboard} />
+              <Route path="data" component={MapExplorer} />
+            </Route>
+          </Route>
+        </Router>
+      </Provider>,
+      document.getElementById('app-container')
+    );
+  });

@@ -43,7 +43,7 @@ export default class LoginHandler extends Component {
   }
 
   componentDidMount() {
-    this.completeLogin();
+    // this.completeLogin();
   }
 
   render() {

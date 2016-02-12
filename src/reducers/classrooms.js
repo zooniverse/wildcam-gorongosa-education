@@ -1,25 +1,34 @@
 import * as types from '../constants/actionTypes';
 
+const intialState = { loading: false, data: [], error: false };
 
-export function selectedClassroom(state = {}, action) {
-  switch (types) {
-    case types.SELECT_CLASSROOM:
-      return Object.assign({}, state);
-    default:
-      return state;
-  }
-}
-
-export function allClassrooms(state = { isFetching: false, classrooms: [], error: false }, action) {
+export function classrooms(state = intialState, action) {
   switch (action.type) {
     case types.REQUEST_CLASSROOMS:
       return Object.assign({}, state, {
-        isFetching: true,
+        loading: true,
       });
     case types.RECEIVE_CLASSROOMS:
       return Object.assign({}, state, {
-        isFetching: false,
-        classrooms: action.classrooms,
+        loading: false,
+        data: action.data,
+        error: action.error,
+      });
+      case types.CREATE_CLASSROOM:
+      return Object.assign({}, state, {
+        loading: true
+      });
+    case types.CREATE_CLASSROOM_SUCCESS:
+      const newlist = state.data.concat([action.data.attributes.name])
+      return Object.assign({}, state, {
+        loading: false,
+        data: newlist,
+        error: action.error,
+      });
+    case types.CREATE_CLASSROOM_ERROR:
+      return Object.assign({}, state, {
+        loading: false,
+        data: action.data,
         error: action.error,
       });
     default:

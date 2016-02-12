@@ -1,36 +1,57 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchClassrooms } from '../actions/classrooms';
+import { createClassroom, fetchClassrooms } from '../actions/classrooms';
 import ClassroomList from '../presentational/ClassroomList.jsx';
 import ClassroomListMessage from '../presentational/ClassroomListMessage.jsx';
 
+
 class Classrooms extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: this.props.name || ''
+    }
     this.renderClassroomList = this.renderClassroomList.bind(this);
     this.renderStatusMessage = this.renderStatusMessage.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchClassrooms());
+    if (!this.props.data.length && !this.props.loading) {
+      this.props.dispatch(fetchClassrooms());
+    }
   }
 
-  renderClassroomList(classrooms) {
-    return (classrooms.length > 0)
-      ? (<ClassroomList classrooms={classrooms} />)
+  handleChange(e) {
+    this.setState({ name: e.target.value })
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    let name = e.target[0].value.trim();
+    if (name.length > 0) {
+      this.props.dispatch(createClassroom(name));
+    }
+    this.setState({ name: '' })
+  }
+
+  renderClassroomList(data) {
+    return (data.length > 0)
+      ? (<ClassroomList data={data} />)
       : null;
   }
 
   renderStatusMessage(props) {
     let message = null;
 
-    if (props.isFetching) {
+    if (props.loading) {
       message = 'Loading classrooms...';
     } else if (props.error) {
       message = 'There was an error loading the classrooms :(';
-    } else if (props.classrooms.length === 0) {
+    } else if (props.data.length === 0) {
       message = 'No classrooms have been created yet.';
     }
     return (message)
@@ -40,14 +61,24 @@ class Classrooms extends Component {
 
   render() {
     const message = this.renderStatusMessage(this.props);
-    const classrooms = this.renderClassroomList(this.props.classrooms);
+    const classrooms = this.renderClassroomList(this.props.data);
+    const classNames = 'btn btn-primary';
     return (
-      <div className="panel panel-default">
-        <div className="panel-heading">
-          <h3 className="panel-title">Classrooms</h3>
-        </div>
-        {message}
-        {classrooms}
+      <div>
+        <h4>Classrooms</h4>
+          <form className="input-group" onSubmit={this.handleSubmit}>
+            <input className="form-control"
+              type="text"
+              placeholder="Insert name"
+              autofocus="true"
+              value={this.state.name}
+              onChange={this.handleChange}/>
+            <span className="input-group-btn">
+              <button type="submit" className={classNames}>Add</button>
+            </span>
+          </form>
+          {message}
+          {classrooms}
       </div>
     );
   }
@@ -55,26 +86,24 @@ class Classrooms extends Component {
 }
 
 Classrooms.propTypes = {
-  selectedClassroom: PropTypes.object.isRequired,
-  classrooms: PropTypes.array.isRequired,
-  isFetching: PropTypes.bool.isRequired,
+  data: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
   error: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired
 };
 
 Classrooms.defaultProps = {
-  selectedClassroom: {},
-  allClassrooms: {
-    classrooms: [],
-    isFetching: false,
+    data: [],
+    loading: false,
     error: false,
-  }
 };
 
 function mapStateToProps(state) {
-  return Object.assign({}, state.allClassrooms, {
-    selectedClassroom: state.selectedClassroom
-  });
+  return {
+    data: state.classrooms.data,
+    loading: state.classrooms.loading,
+    error: state.classrooms.error,
+  };
 }
 
 export default connect(mapStateToProps)(Classrooms);

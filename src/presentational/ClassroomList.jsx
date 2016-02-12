@@ -6,7 +6,7 @@ export default class ClassroomList extends Component {
   render() {
     return (
       <div className="list-group">
-        { this.props.classrooms.map((name, i) =>
+        { this.props.data.map((name, i) =>
           <a href="#" key={i} className="list-group-item">{name}</a>) }
       </div>
     );
@@ -15,5 +15,5 @@ export default class ClassroomList extends Component {
 }
 
 ClassroomList.propTypes = {
-  classrooms: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired
 };
