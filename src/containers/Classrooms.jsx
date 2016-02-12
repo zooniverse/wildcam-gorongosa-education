@@ -8,13 +8,7 @@ class Classrooms extends React.Component {
 
   constructor() {
     super();
-    this.state = {
-      selectedClassroom: {},
-      allClassrooms: {
-        classrooms: [],
-        isFetching: false
-      }
-    };
+
   }
 
   // Fetch classrooms from education-api and update state
