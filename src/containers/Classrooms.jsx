@@ -6,11 +6,6 @@ import { fetchClassrooms } from '../actions/classrooms';
 
 class Classrooms extends React.Component {
 
-  constructor() {
-    super();
-
-  }
-
   // Fetch classrooms from education-api and update state
   componentDidMount() {
     this.props.dispatch(fetchClassrooms());
