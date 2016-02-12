@@ -9,12 +9,11 @@ class Classrooms extends React.Component {
   constructor() {
     super();
     this.state = {
-      data: [{
-        attributes: { },
-        id: '',
-        relationship: { },
-        type: ''
-      }]
+      selectedClassroom: {},
+      allClassrooms: {
+        classrooms: [],
+        isFetching: false
+      }
     };
   }
 
@@ -24,8 +23,8 @@ class Classrooms extends React.Component {
   }
 
   render() {
-    let listItems = this.state.data.map((classroom, i) =>
-      <li key={i}>{classroom.attributes.name}</li>);
+    let listItems = this.props.classrooms.map((name, i) =>
+      <li key={i}>{name}</li>);
 
     return (
       <div>
@@ -39,4 +38,19 @@ class Classrooms extends React.Component {
 
 }
 
-export default connect()(Classrooms);
+function mapStateToProps(state) {
+  const { selectedClassroom, allClassrooms } = state
+  const {
+    isFetching,
+    classrooms: classrooms
+  } = allClassrooms || {
+    isFetching: true,
+    classrooms: []
+  }
+  return {
+    classrooms,
+    isFetching
+  }
+}
+
+export default connect(mapStateToProps)(Classrooms);

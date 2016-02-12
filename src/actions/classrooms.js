@@ -27,7 +27,6 @@ export function setVisibilityFilter(filter) {
 }
 
 function receiveClassrooms(json) {
-  console.log('--------receiveClassrooms(json)', json.data.map(classroom => classroom.attributes.name));
   return {
     type: types.RECEIVE_CLASSROOMS,
     classrooms: json.data.map(classroom => classroom.attributes.name)
@@ -37,7 +36,6 @@ function receiveClassrooms(json) {
 export function fetchClassrooms() {
   // Thunk middleware passes the dispatch method as an argument to the function,
   // thus making it able to dispatch actions itself.
-  console.log('--------fetchClassrooms');
   console.log('TOKEN: ', Panoptes.auth._bearerToken);
 
   return dispatch => {
