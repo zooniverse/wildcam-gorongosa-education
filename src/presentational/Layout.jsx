@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import HeaderAuth from '../containers/HeaderAuth.jsx';
 
 
-export default class Layout extends React.Component {
+export default class Layout extends Component {
 
   constructor() {
     super();
@@ -60,5 +60,5 @@ export default class Layout extends React.Component {
 }
 
 Layout.propTypes = {
-  navItems: React.PropTypes.array
+  navItems: PropTypes.array
 }

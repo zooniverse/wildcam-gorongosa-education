@@ -1,9 +1,9 @@
 // A dumb component that provides a user area in the header. Requires a user
 // object and a logout function to be passed as props.
 
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 
-export default class LoggedInUser extends React.Component {
+export default class LoggedInUser extends Component {
 
   render() {
     const classNames = 'btn btn-default navbar-btn navbar-right';
@@ -16,7 +16,7 @@ export default class LoggedInUser extends React.Component {
 }
 
 LoggedInUser.propTypes = {
-  logout: React.PropTypes.func.isRequired,
-  user: React.PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
 }
 
