@@ -9,7 +9,6 @@ export default class LoginHandler extends Component {
     super(props);
     this._parseAuthString = this._parseAuthString.bind(this);
     this.completeLogin = this.completeLogin.bind(this);
-    this.completeLogin();
   }
 
   // Deserializes the OAuth string returned by Panoptes
@@ -43,6 +42,10 @@ export default class LoginHandler extends Component {
     }
     Panoptes.auth._handleNewBearerToken(fakeResponse);
     this.props.history.pushState(null, '/');
+  }
+
+  componentDidMount() {
+    this.completeLogin();
   }
 
   render() {
