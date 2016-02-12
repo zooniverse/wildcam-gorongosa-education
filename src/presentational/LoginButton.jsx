@@ -1,9 +1,9 @@
 // A dumb component that provides a login button. Requires a login function to
 // be passed as a prop.
 
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 
-export default class LoginButton extends React.Component {
+export default class LoginButton extends Component {
 
   render() {
     const classNames = 'btn btn-default navbar-btn navbar-right';
@@ -16,5 +16,5 @@ export default class LoginButton extends React.Component {
 }
 
 LoginButton.propTypes = {
-  login: React.PropTypes.func.isRequired
+  login: PropTypes.func.isRequired
 };

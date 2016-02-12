@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { eduAPI } from '../constants/config.json';
 import { fetchClassrooms } from '../actions/classrooms';
 
-class Classrooms extends React.Component {
+class Classrooms extends Component {
 
-  // Fetch classrooms from education-api and update state
   componentDidMount() {
     this.props.dispatch(fetchClassrooms());
   }
@@ -27,6 +26,21 @@ class Classrooms extends React.Component {
 
 }
 
+Classrooms.propTypes = {
+  selectedClassroom: PropTypes.object.isRequired,
+  classrooms: PropTypes.array.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired
+};
+
+Classrooms.defaultProps = {
+  selectedClassroom: {},
+  allClassrooms: {
+    classrooms: [],
+    isFetching: false
+  }
+};
+
 function mapStateToProps(state) {
   const { selectedClassroom, allClassrooms } = state
   const {
@@ -41,5 +55,6 @@ function mapStateToProps(state) {
     isFetching
   }
 }
+
 
 export default connect(mapStateToProps)(Classrooms);

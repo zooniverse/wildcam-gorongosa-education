@@ -1,10 +1,10 @@
 // A smart component that completes the OAuth signin process.
 
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import Panoptes from 'panoptes-client';
 
 
-export default class LoginHandler extends React.Component {
+export default class LoginHandler extends Component {
   constructor(props) {
     super(props);
     this._parseAuthString = this._parseAuthString.bind(this);
@@ -51,6 +51,6 @@ export default class LoginHandler extends React.Component {
 }
 
 LoginHandler.propTypes = {
-  location: React.PropTypes.object.isRequired,
-  history: React.PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
