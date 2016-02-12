@@ -51,7 +51,6 @@ export function fetchClassrooms() {
         type: types.RECEIVE_CLASSROOMS,
         classrooms: json.data.map(classroom => classroom.attributes.name)
       }))
-
       .catch(response => dispatch({
         type: types.RECEIVE_CLASSROOMS,
         classrooms: [],
