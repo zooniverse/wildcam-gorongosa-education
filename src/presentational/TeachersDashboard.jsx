@@ -1,4 +1,4 @@
-import React from 'react';
+import { Component } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import Overview from './Overview.jsx';
@@ -6,13 +6,13 @@ import Sidebar from './Sidebar.jsx';
 import StudentsContainer from '../containers/StudentsContainer.jsx';
 
 
-export default class TeachersDashboard extends React.Component {
+export default class TeachersDashboard extends Component {
 
   render() {
     return (
       <div className="admin-component">
         <div className="row">
-          <Sidebar/>
+          <Sidebar />
           <Tabs className="admin-tabs">
             <TabList>
               <Tab>Overview</Tab>
@@ -24,7 +24,7 @@ export default class TeachersDashboard extends React.Component {
               <Overview/>
             </TabPanel>
             <TabPanel>
-              <StudentsContainer/>
+              <StudentsContainer />
             </TabPanel>
             <TabPanel>
               Groups

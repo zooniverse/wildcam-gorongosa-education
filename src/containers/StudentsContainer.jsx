@@ -1,13 +1,12 @@
-import React from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 
 import StudentsTable from '../presentational/StudentsTable.jsx';
 
 
-class StudentsContainer extends React.Component{
+class StudentsContainer extends Component{
 
   render() {
-
     return (<StudentsTable />);
   }
 }

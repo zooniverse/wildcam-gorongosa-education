@@ -1,6 +1,4 @@
-// A smart component that completes the OAuth signin process.
-
-import React, { Component, PropTypes } from 'react';
+import { Component, PropTypes } from 'react';
 import Panoptes from 'panoptes-client';
 
 

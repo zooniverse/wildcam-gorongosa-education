@@ -1,7 +1,5 @@
-// A dumb component that provides a login button. Requires a login function to
-// be passed as a prop.
+import { Component, PropTypes } from 'react';
 
-import React, { Component, PropTypes } from 'react';
 
 export default class LoginButton extends Component {
 

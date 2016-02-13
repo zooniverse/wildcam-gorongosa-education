@@ -2,14 +2,14 @@
 // components. Currently stores state on the components, but can be modified
 // to store it in Redux.
 
-import React from 'react';
+import { Component } from 'react';
 import Panoptes from 'panoptes-client';
 
 import LoginButton from '../presentational/LoginButton.jsx';
 import LoggedInUser from '../presentational/LoggedInUser.jsx';
 
 
-export default class HeaderAuth extends React.Component {
+export default class HeaderAuth extends Component {
 
   constructor() {
     super();

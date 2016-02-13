@@ -1,6 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import { Component, PropTypes } from 'react';
+
 
 export default class ClassroomListMessage extends Component {
+
   render() {
     return (
       <div className="panel-body">
@@ -8,6 +10,7 @@ export default class ClassroomListMessage extends Component {
       </div>
     )
   }
+
 }
 
 ClassroomListMessage.propTypes = {
