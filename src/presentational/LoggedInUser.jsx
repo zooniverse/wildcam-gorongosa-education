@@ -1,7 +1,5 @@
-// A dumb component that provides a user area in the header. Requires a user
-// object and a logout function to be passed as props.
+import { Component, PropTypes } from 'react';
 
-import React, { Component, PropTypes } from 'react';
 
 export default class LoggedInUser extends Component {
 

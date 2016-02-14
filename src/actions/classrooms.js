@@ -26,13 +26,6 @@ export function setVisibilityFilter(filter) {
   };
 }
 
-function receiveClassrooms(json) {
-  return {
-    type: types.RECEIVE_CLASSROOMS,
-    classrooms: json.data.map(classroom => classroom.attributes.name)
-  }
-}
-
 export function fetchClassrooms() {
 
   // Thunk middleware passes the dispatch method as an argument to the function,
@@ -55,15 +48,16 @@ export function fetchClassrooms() {
       })
       .then(response => response.json())
 
-      // We update the app state with the results of the API call.
-      .then(json =>
-        dispatch(receiveClassrooms(json))
-      )
-      // We catch any error in the network call.
-      .catch(response => {
-        console.error('Something went wrong while requesting the classrooms',
-          response);
-      });
+      .then(json => dispatch({
+        type: types.RECEIVE_CLASSROOMS,
+        classrooms: json.data.map(classroom => classroom.attributes.name)
+      }))
+
+      .catch(response => dispatch({
+        type: types.RECEIVE_CLASSROOMS,
+        classrooms: [],
+        error: true,
+      }));
 
   }
 }
