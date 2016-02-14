@@ -33,7 +33,6 @@ class Classrooms extends Component {
     } else if (props.classrooms.length === 0) {
       message = 'No classrooms have been created yet.';
     }
-
     return (message)
       ? (<ClassroomListMessage message={message} />)
       : null;
