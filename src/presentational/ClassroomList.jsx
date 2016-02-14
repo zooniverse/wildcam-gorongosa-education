@@ -5,10 +5,10 @@ export default class ClassroomList extends Component {
 
   render() {
     return (
-      <ul className="list-group">
+      <div className="list-group">
         { this.props.classrooms.map((name, i) =>
-          <li key={i} className="list-group-item">{name}</li>) }
-      </ul>
+          <a href="#" key={i} className="list-group-item">{name}</a>) }
+      </div>
     );
   }
 
