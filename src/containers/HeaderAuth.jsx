@@ -28,6 +28,10 @@ export default class HeaderAuth extends Component {
     // From the Rog Testing app on staging
     const appId = '24ad5676d5d25c6aa850dc5d5f63ec8c03dbc7ae113b6442b8571fce6c5b974c';
     const redirectUri = 'http://localhost:3000/?env=staging#/';
+    // From Wildcam on staging.
+    // For deploy-preview, comment the previous two line and use the following two
+    // const appId = '17bdbeb57f54a3bf6344cf7150047879cfa1c8d5f9fd77d64923e6c81fe6e949';
+    // const redirectUri = 'https://preview.zooniverse.org/wge/';
     const url = [
       Panoptes._config.host,
       '/oauth/authorize',
