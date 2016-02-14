@@ -1,9 +1,9 @@
-import React from 'react';
+import { Component } from 'react';
 
 import Layout from '../presentational/Layout.jsx'
 
 
-export default class Teachers extends React.Component {
+export default class Teachers extends Component {
 
   render() {
     return (
