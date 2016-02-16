@@ -11,7 +11,7 @@ export default React.createClass({
       map: undefined,
       cartodbVis: undefined,
       //cartodbMap: undefined,
-      cartodbLayers: undefined,  //Array of map layers. layer[0] is the base (cartographic map).
+      cartodbLayer: undefined,  //Array of map layers. layer[0] is the base (cartographic map).
       cartodbDataLayer: undefined
     };
   },
@@ -52,14 +52,6 @@ export default React.createClass({
   },
 
   //Initialises the Map Explorer.
-  //NOTE: initMapExlorer() can be called in two ways:
-  //1. When the map is loaded for the first time, the <Script> for the  API
-  //   needs to be loaded dynamically. When it's successfully loaded,
-  //   initMapExplorer is called.
-  //2. If the <Script> has been loaded previously - e.g. the user navigated
-  //   away from the page and has now returned - then initMapExplorer() will be
-  //   called during componentDidMount(), after the necessary HTML elements have
-  //   been rendered.
   initMapExplorer() {
     console.log('MapExplorer.initMapExplorer()');
     if (this.state.map) {
@@ -117,7 +109,7 @@ export default React.createClass({
       '  marker-line-opacity: 1; ',
       '  marker-placement: point; ',
       '  marker-type: ellipse; ',
-      '  marker-width: 5; ',
+      '  marker-width: 10; ',
       '  marker-allow-overlap: true; ',
       '  ',
       '  [veg_type="Mixed Savanna and Woodland"] { ',
@@ -140,21 +132,12 @@ export default React.createClass({
       '}'].join('\n');
     //----------------------------------------------------------------
     
-    //Create the map (Leaflet + CartpDB ver)
+    //Create the map (Leaflet + CartoDB ver)
     //----------------------------------------------------------------
-    this.state.map;
-    
-    var map = new L.Map('mapVisuals', {  //Leaflet 0.7.7 comes with cartodb.js 3.15
-      center: [config.cartoDB.mapCentre.latitude, config.cartoDB.mapCentre.longitude],
-      zoom: config.cartoDB.mapCentre.zoom
+    this.state.map = new L.Map('mapVisuals', {  //Leaflet 0.7.7 comes with cartodb.js 3.15
+      center: [config.mapExplorer.mapCentre.latitude, config.mapExplorer.mapCentre.longitude],
+      zoom: config.mapExplorer.mapCentre.zoom
     });
-    
-    this.state.map = map;
-    
-    //L.tileLayer('https://{s}.maps.nlp.nokia.com/maptile/2.1/maptile/newest/hybrid.day/{z}/{x}/{y}/256/png8?lg=eng&token=A7tBPacePg9Mj_zghvKt9Q&app_id=KuYppsdXZznpffJsKT24', {
-    //  //'https://dnv9my2eseobd.cloudfront.net/v3/cartodb.map-4xtxp73f/{z}/{x}/{y}.png'
-    //  attribution: '&copy;2016 HERE <a href="http://here.net/services/terms" target="_blank">Terms of use</a>'
-    //}).addTo(this.state.map);
     
     //Choose a base layer
     if (false) {
@@ -167,33 +150,22 @@ export default React.createClass({
       }).addTo(this.state.map);
     }
     
-    cartodb.createLayer(map, 'https://shaunanoordin-zooniverse.cartodb.com/api/v2/viz/e04c2e20-a8a9-11e5-8d6b-0e674067d321/viz.json')
-      .addTo(map)
-      .on('done', function(layer) {
-        layer.setInteraction(true);
-        //layer.on('featureOver', function(e, latlng, pos, data) {
-        //  cartodb.log.log(e, latlng, pos, data);
-        //});
-        layer.on('featureClick', function(e, latlng, pos, data) {
-          console.log('--------', e, latlng, pos, data, '========');
-        });
-        layer.on('error', function(err) {
-          cartodb.log.log('error: ' + err);
-        });
-      }).on('error', function() {
-        cartodb.log.log('some error occurred');
-      });
-    
-    
-    //Add an extra layer on top
-    /*cartodb.createLayer(this.state.map, 'http://documentation.cartodb.com/api/v2/viz/2b13c956-e7c1-11e2-806b-5404a6a683d5/viz.json')
+    //Create the CartoDB layer
+    console.log('-'.repeat(40), this);
+    cartodb.createLayer(this.state.map, config.mapExplorer.cartodbVizUrl)
       .addTo(this.state.map)
-      .on('done', function(layer) {
-        console.log('DONE');
-        layer.setInteraction(true);
-      }).on('error', function() {
-        cartodb.log.log('some error occurred');
-      });*/
+      .on('done', function(layer) {   
+        this.state.cartodbLayer = layer;
+        this.state.cartodbLayer.setInteraction(true);
+        this.state.cartodbLayer.on('featureClick', this.onMapClick);  //Other events: featureOver
+        layer.on('error', function(err) {
+          console.error('ERROR (initMapExplorer(), cartodb.createLayer().on(\'done\')): ' + err);
+        });
+        this.updateMapExplorer();
+      }.bind(this))
+      .on('error', function(err) {
+        console.error('ERROR (initMapExplorer(), cartodb.createLayer()):' + err);
+      });
     //----------------------------------------------------------------
     
     //Create the map (old CartoDB ver)
@@ -213,7 +185,7 @@ export default React.createClass({
     
     //Cleanup then go
     //----------------------------------------------------------------
-    //this.resizeMapExplorer();
+    this.resizeMapExplorer();
     return <div className="message">Map Explorer is READY</div>;
     //Note: use `return null` if we don't want a message to pop up.
     //----------------------------------------------------------------
@@ -221,36 +193,35 @@ export default React.createClass({
 
   updateMapExplorer() {
     console.log('updateMapExplorer()');
-    if (this.state.cartodbVis) {
-      //Delete everything.
-      //TODO: This is a temporary measure to get a clean start! It's not really
-      //necessary to delete and rebuild layers - we can modify existing ones,
-      //assuming we can figure out which existing ones we want to twiddle with.
-      for (let i = this.state.cartodbDataLayer.getSubLayerCount() - 1; i >= 0; i--) {
-        this.state.cartodbDataLayer.getSubLayer(i).remove();
+    if (this.state.map && this.state.cartodbLayer) {
+
+      //Remove all sublayers
+      for (let i = this.state.cartodbLayer.getSubLayerCount() - 1; i >= 0; i--) {
+        this.state.cartodbLayer.getSubLayer(i).remove();
       }
-
-      let newSubLayer = this.state.cartodbDataLayer.createSubLayer({
-        sql: this.refs.mapSql.value,
-        cartocss: this.refs.mapCss.value
-      });
       
-      //TODO: TEST why are there no interactions?
-      //----------------
-      newSubLayer.setInteractivity({'interactivity': 'cartodb_id, camera, latitude, longitude' });
-      newSubLayer.setInteraction(true);
-      newSubLayer.on('featureClick', function(e, latlng, pos, data, subLayerIndex) {
-        console.log('click over polygon with data: ' + data);
+      //Add a new sublayer
+      let newSubLayer = this.state.cartodbLayer.createSubLayer({
+        sql: this.refs.mapSql.value,
+        cartocss: this.refs.mapCss.value,
+        interactivity: 'id'  //Specify which data fields we want when we handle input events. Camera ID is enough, thanks.
       });
-      newSubLayer.on('click', function(e) {
-        console.log('CLICK ' + e);
-      });
-      console.log(this.state);
-      console.log(newSubLayer);
-      console.log('-'.repeat(40));
-      //----------------
-
+      newSubLayer.setInteraction(true);  //We must set both setIneraction(true) and specify the data fields we want in {interactivity}.
+    
+      //Alternative: update a sublayer instead of replacing it.
+      //if (this.state.cartodbLayer.getSubLayerCount() > 0) {
+      //  this.state.cartodbLayer.getSubLayer(0).set({
+      //    sql: this.refs.mapSql.value,
+      //    cartocss: this.refs.mapCss.value
+      //  });
+      //}
+      
     }
+  },
+  
+  onMapClick(e, latlng, pos, data) {
+    console.log('--------', e, latlng, pos, data, '========');
+    //console.log(this.refs.mapSql.value);
   },
 
   resizeMapExplorer() {
