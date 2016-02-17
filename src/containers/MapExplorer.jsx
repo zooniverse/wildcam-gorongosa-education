@@ -184,22 +184,28 @@ export default React.createClass({
     //--------------------------------
     
     //Create the map (Leaflet + CartoDB ver)
+    //1. Prepare the base layers
+    //2. Create the Leaflet Map
+    //3. Create the CartoDB data layer, and at that same step, add the controls
+    //   for controlling the base layers AND the data layer.
     //--------------------------------
+    //Prepare the base layers.
+    let baseLayers = [];
+    let baseLayersForControls = {};
+    config.mapExplorer.baseLayers.map(function(layer) {
+      let newLayer = L.tileLayer(layer.url, {
+        attribution: layer.attribution
+      });
+      baseLayers.push(newLayer);
+      baseLayersForControls[layer.name] = newLayer;
+    });
+          
+    //Go go gadget Leaflet Map!
     this.state.map = new L.Map('mapVisuals', {  //Leaflet 0.7.7 comes with cartodb.js 3.15
       center: [config.mapExplorer.mapCentre.latitude, config.mapExplorer.mapCentre.longitude],
-      zoom: config.mapExplorer.mapCentre.zoom
+      zoom: config.mapExplorer.mapCentre.zoom,
+      layers: baseLayers[0]  //Set the default base layer
     });
-    
-    //Choose a base layer
-    if (false) {
-      L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-      }).addTo(this.state.map);
-    } else if (true) {
-      L.tileLayer('http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      }).addTo(this.state.map);
-    }
     
     //Create the CartoDB layer
     cartodb.createLayer(this.state.map, config.mapExplorer.cartodb.vizUrl)
@@ -211,26 +217,16 @@ export default React.createClass({
         layer.on('error', function(err) {
           console.error('ERROR (initMapExplorer(), cartodb.createLayer().on(\'done\')): ' + err);
         });
+      
+        //Add the controls for the layers
+        L.control.layers(baseLayersForControls, { 'Data': layer }).addTo(this.state.map);                                                 
+        
+        //updateMapExplorer performs some cleanup
         this.updateMapExplorer();
       }.bind(this))
       .on('error', function(err) {
         console.error('ERROR (initMapExplorer(), cartodb.createLayer()):' + err);
       });
-    //--------------------------------
-    
-    //Create the map (old CartoDB ver)
-    //--------------------------------
-    /*cartodb.createVis('mapVisuals', config.cartoDB.mapVisualisationUrl)
-      .done(function (vis, layers) {
-        this.state.cartodbVis = vis;
-        //this.state.cartodbMap = vis.getNativeMap();
-        this.state.cartodbLayers = layers;
-        if (layers.length >= (config.cartoDB.dataLayerIndex+1)) {
-          this.state.cartodbDataLayer = layers[config.cartoDB.dataLayerIndex];
-        }      
-        this.updateMapExplorer();
-      }.bind(this));
-    */
     //--------------------------------
     
     //Cleanup then go
@@ -264,12 +260,14 @@ export default React.createClass({
     newSubLayer.setInteraction(true);  //We must set both setIneraction(true) and specify the data fields we want in {interactivity}.
 
     //Alternative: update a sublayer instead of replacing it.
+    //----
     //if (this.state.cartodbLayer.getSubLayerCount() > 0) {
     //  this.state.cartodbLayer.getSubLayer(0).set({
     //    sql: this.refs.mapSql.value,
     //    cartocss: this.refs.mapCss.value
     //  });
     //}
+    //----
   },
 
   resizeMapExplorer() {
