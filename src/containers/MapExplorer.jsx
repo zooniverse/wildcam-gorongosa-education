@@ -1,5 +1,27 @@
+/*
+Map Explorer
+============
+
+Project
+-------
+https://github.com/zooniverse/wildcam-gorongosa-education/
+
+Info
+----
+The Map Explorer will be used by teachers and students to explore Wildcam
+Gorongosa's collected data & information about wildlife, etc on a visual map.
+
+The ME is a component of the Wildcam Gorongosa Education project. It exists on a
+standalone 'Map' page on the website, and consists of an interactive map and
+controls to filter the data shown on the visuals.
+
+(- shaun.a.noordin, 20160216)
+********************************************************************************
+ */
+
 import React from 'react';
 import {Script} from 'react-loadscript';
+import {SelectorPanel, SelectorData} from './MapExplorer-Selector.jsx';
 const config = require('../constants/config.json');
 
 //WARNING: DON'T import Leaflet. Leaflet 0.7.7 is packaged with cartodb.js 3.15.
@@ -12,14 +34,17 @@ export default React.createClass({
       cartodbVis: undefined,
       //cartodbMap: undefined,
       cartodbLayer: undefined,  //Array of map layers. layer[0] is the base (cartographic map).
-      cartodbDataLayer: undefined
+      cartodbDataLayer: undefined,
+      selectors: [
+        new SelectorData()
+      ]
     };
   },
 
   render() {
     console.log('render()');
     return (
-      <div className='map-explorer'>
+      <div ref="mapExplorer" className="map-explorer">
         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
         <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
         <div ref="mapVisuals" id="mapVisuals" className="map-visuals"></div>
@@ -38,6 +63,23 @@ export default React.createClass({
           <div className="inputRow">
             <button onClick={this.updateMapExplorer}>Update</button>
           </div>
+          
+          <hr/>
+          
+          <div>
+            {this.state.selectors.map(function(selector) {
+              return (
+                <SelectorPanel key={selector.id} selectorData={selector} updateMeHandler={this.updateSelector} deleteMeHandler={this.deleteSelector} />
+              );
+            }.bind(this))}
+          </div>
+          
+          <hr/>
+          
+          <div>
+            <button onClick={this.addSelector}>Add Selector</button>
+          </div>
+            
         </div>
       </div>
     );
@@ -50,10 +92,19 @@ export default React.createClass({
   componentWillUnmount() {
     console.log('componentWillUnmount()');
   },
+  
+  //----------------------------------------------------------------
 
   //Initialises the Map Explorer.
   initMapExplorer() {
-    console.log('MapExplorer.initMapExplorer()');
+    //Req check
+    if (!(window.L && window.cartodb)) {
+      console.log('initMapExplorer(): failed');
+      return;
+    } else {
+      console.log('initMapExplorer()');
+    }
+    
     if (this.state.map) {
       //This prevents CartoDB from re-creating a map one when navigating from
       //the Map Explorer page to the (same) Map Explorer page.
@@ -61,7 +112,7 @@ export default React.createClass({
     }
     
     //Prepare the CartoDB Query and Styles
-    //----------------------------------------------------------------
+    //--------------------------------
     this.refs.mapSql.value = [
       'SELECT ',
       '  cameras.*, ',
@@ -113,16 +164,16 @@ export default React.createClass({
       '  marker-allow-overlap: true; ',
       '  ',
       '  [veg_type="Mixed Savanna and Woodland"] { ',
-      '    marker-fill: #cc3; ',
+      '    marker-fill: #39b; ',
       '  } ',
       '  [veg_type="Floodplain Grassland"] { ',
-      '    marker-fill: #33c; ',
+      '    marker-fill: #4ac; ',
       '  } ',
       '  [veg_type="Limestone Gorge"] { ',
-      '    marker-fill: #3cc; ',
+      '    marker-fill: #5bd; ',
       '  } ',
       '  [veg_type="Miombo Woodland"] { ',
-      '    marker-fill: #3c3; ',
+      '    marker-fill: #6ce; ',
       '  } ',
       '  [count = null], ',
       '  [count = 0] { ',
@@ -130,10 +181,10 @@ export default React.createClass({
       '  } ',
       cssScaling,
       '}'].join('\n');
-    //----------------------------------------------------------------
+    //--------------------------------
     
     //Create the map (Leaflet + CartoDB ver)
-    //----------------------------------------------------------------
+    //--------------------------------
     this.state.map = new L.Map('mapVisuals', {  //Leaflet 0.7.7 comes with cartodb.js 3.15
       center: [config.mapExplorer.mapCentre.latitude, config.mapExplorer.mapCentre.longitude],
       zoom: config.mapExplorer.mapCentre.zoom
@@ -151,8 +202,7 @@ export default React.createClass({
     }
     
     //Create the CartoDB layer
-    console.log('-'.repeat(40), this);
-    cartodb.createLayer(this.state.map, config.mapExplorer.cartodbVizUrl)
+    cartodb.createLayer(this.state.map, config.mapExplorer.cartodb.vizUrl)
       .addTo(this.state.map)
       .on('done', function(layer) {   
         this.state.cartodbLayer = layer;
@@ -166,10 +216,10 @@ export default React.createClass({
       .on('error', function(err) {
         console.error('ERROR (initMapExplorer(), cartodb.createLayer()):' + err);
       });
-    //----------------------------------------------------------------
+    //--------------------------------
     
     //Create the map (old CartoDB ver)
-    //----------------------------------------------------------------
+    //--------------------------------
     /*cartodb.createVis('mapVisuals', config.cartoDB.mapVisualisationUrl)
       .done(function (vis, layers) {
         this.state.cartodbVis = vis;
@@ -181,47 +231,45 @@ export default React.createClass({
         this.updateMapExplorer();
       }.bind(this));
     */
-    //----------------------------------------------------------------
+    //--------------------------------
     
     //Cleanup then go
-    //----------------------------------------------------------------
+    //--------------------------------
     this.resizeMapExplorer();
     return <div className="message">Map Explorer is READY</div>;
     //Note: use `return null` if we don't want a message to pop up.
-    //----------------------------------------------------------------
-  },
-
-  updateMapExplorer() {
-    console.log('updateMapExplorer()');
-    if (this.state.map && this.state.cartodbLayer) {
-
-      //Remove all sublayers
-      for (let i = this.state.cartodbLayer.getSubLayerCount() - 1; i >= 0; i--) {
-        this.state.cartodbLayer.getSubLayer(i).remove();
-      }
-      
-      //Add a new sublayer
-      let newSubLayer = this.state.cartodbLayer.createSubLayer({
-        sql: this.refs.mapSql.value,
-        cartocss: this.refs.mapCss.value,
-        interactivity: 'id'  //Specify which data fields we want when we handle input events. Camera ID is enough, thanks.
-      });
-      newSubLayer.setInteraction(true);  //We must set both setIneraction(true) and specify the data fields we want in {interactivity}.
-    
-      //Alternative: update a sublayer instead of replacing it.
-      //if (this.state.cartodbLayer.getSubLayerCount() > 0) {
-      //  this.state.cartodbLayer.getSubLayer(0).set({
-      //    sql: this.refs.mapSql.value,
-      //    cartocss: this.refs.mapCss.value
-      //  });
-      //}
-      
-    }
+    //--------------------------------
   },
   
-  onMapClick(e, latlng, pos, data) {
-    console.log('--------', e, latlng, pos, data, '========');
-    //console.log(this.refs.mapSql.value);
+  updateMapExplorer() {
+    //Req check
+    if (!(this.state.map && this.state.cartodbLayer)) {
+      console.log('updateMapExplorer(): failed');
+      return;
+    } else {
+      console.log('updateMapExplorer()');
+    }
+
+    //Remove all sublayers
+    for (let i = this.state.cartodbLayer.getSubLayerCount() - 1; i >= 0; i--) {
+      this.state.cartodbLayer.getSubLayer(i).remove();
+    }
+
+    //Add a new sublayer
+    let newSubLayer = this.state.cartodbLayer.createSubLayer({
+      sql: this.refs.mapSql.value,
+      cartocss: this.refs.mapCss.value,
+      interactivity: 'id'  //Specify which data fields we want when we handle input events. Camera ID is enough, thanks.
+    });
+    newSubLayer.setInteraction(true);  //We must set both setIneraction(true) and specify the data fields we want in {interactivity}.
+
+    //Alternative: update a sublayer instead of replacing it.
+    //if (this.state.cartodbLayer.getSubLayerCount() > 0) {
+    //  this.state.cartodbLayer.getSubLayer(0).set({
+    //    sql: this.refs.mapSql.value,
+    //    cartocss: this.refs.mapCss.value
+    //  });
+    //}
   },
 
   resizeMapExplorer() {
@@ -230,5 +278,53 @@ export default React.createClass({
     let footerHeight = document.getElementsByClassName('site-footer')[0].offsetHeight;
     let availableHeight = windowHeight - headerHeight - footerHeight;
     this.refs.mapVisuals.style.height = availableHeight+'px';
+    this.refs.mapControls.style.height = availableHeight+'px';
+  },
+  
+  //----------------------------------------------------------------
+  
+  onMapClick(e, latlng, pos, data) {
+    console.log('--------', e, latlng, pos, data, '========');
+    //console.log(this.refs.mapSql.value);
+  },
+  
+  //----------------------------------------------------------------
+  
+  updateSelector(data) {
+    console.log('MapExplorer.updateSelector('+data.id+')');
+    
+    //Find the Selector and then copy the values from the new input.
+    for (var selector of this.state.selectors) {  //for...of, not for...in.
+      if (selector.id === data.id) {
+        for (var prop in selector)  {  //for...in
+          selector[prop] = data[prop];
+        }
+      }
+    }
+    this.setState({
+      selectors: this.state.selectors
+    });
+  },
+  
+  deleteSelector(id) {
+    console.log('MapExplorer.deleteSelector('+id+')');
+    this.state.selectors = this.state.selectors.filter(function (selector) {
+      return selector.id !== id;
+    });    
+    this.setState({
+      selectors: this.state.selectors
+    });
+  },
+
+  addSelector() {
+    console.log('MapExplorer.addSelector()');
+    var newSelector = new SelectorData();
+    
+    this.state.selectors.push(newSelector);
+    
+    this.setState({
+      selectors: this.state.selectors
+    });
   }
+  
 });
