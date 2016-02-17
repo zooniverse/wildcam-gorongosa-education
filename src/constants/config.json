@@ -11,7 +11,19 @@
       "latitude": -18.9178413223141,
       "longitude": 34.5057041322314,
       "zoom": 12
-    }
+    },
+    "baseLayers": [
+      {
+        "name": "Terrain",
+        "url": "http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png",
+        "attribution": "&copy; <a href=\"http://www.opencyclemap.org\">OpenCycleMap</a>, &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>"
+      },
+      {
+        "name": "Satellite",
+        "url": "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "attribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
+      }
+    ]
   },
   "eduAPI": {
     "authToken": "64aa60e488a555e2ef8b7f9d1621ec7e430dcb8b8baa0d00b8460eca5660d188",
