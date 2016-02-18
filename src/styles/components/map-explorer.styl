@@ -32,3 +32,26 @@
     border-radius: 0.5em
     color: #333
     background: #ed6
+
+  .selector-panel
+    border: 1px solid #eee
+    border-radius: 1em
+    padding: 0.5em
+    
+    .input-row
+      padding: 0.5em 0
+      border-bottom: 1px solid #eee
+      
+      &:last-child
+        border-bottom: none
+    
+      label
+        display: block
+        
+      input[type=text], textarea
+        display: block
+        width: 100%
+        border: 1px solid #ccc
+      
+      textarea
+        height: 3em

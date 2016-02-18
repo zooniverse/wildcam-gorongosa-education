@@ -5,7 +5,8 @@
       "sqlTableCameras": "wildcam_gorongosa_cameras_201601",
       "sqlTableSubjects": "wildcam_gorongosa_subjects_201601",
       "sqlTableClassifications": "wildcam_gorongosa_classifications_201601",
-      "sqlQueryCountCameras": "SELECT cameras.*, COUNT(items.*) as count FROM ${CAMERAS} AS cameras LEFT JOIN (SELECT goSub.camera, goSub.location, goSub.month, goSub.year, goSub.season, goSub.time_period, goCla.species, goCla.species_count, goCla.user_hash, goSub.subject_id, goCla.classification_id FROM ${SUBJECTS} AS goSub INNER JOIN ${CLASSIFICATIONS} AS goCla ON goSub.subject_id = goCla.subject_zooniverse_id ${WHERE} ) AS items ON cameras.id = items.camera GROUP BY cameras.cartodb_id"      
+      "sqlQueryCountCameras": "SELECT cameras.*, COUNT(items.*) as count FROM {CAMERAS} AS cameras LEFT JOIN (SELECT {SUBJECTS}.camera, {SUBJECTS}.location, {SUBJECTS}.month, {SUBJECTS}.year, {SUBJECTS}.season, {SUBJECTS}.time_period, {CLASSIFICATIONS}.species, {CLASSIFICATIONS}.species_count, {CLASSIFICATIONS}.user_hash, {SUBJECTS}.subject_id, {CLASSIFICATIONS}.classification_id FROM {SUBJECTS} INNER JOIN {CLASSIFICATIONS} ON {SUBJECTS}.subject_id = {CLASSIFICATIONS}.subject_zooniverse_id {WHERE} ) AS items ON cameras.id = items.camera GROUP BY cameras.cartodb_id",
+      "cssStandard": "#{LAYER} { marker-fill: {MARKER-COLOR}; marker-fill-opacity: {MARKER-OPACITY}; marker-width: {MARKER-SIZE}; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; }"
     },
     "mapCentre": {
       "latitude": -18.9178413223141,
