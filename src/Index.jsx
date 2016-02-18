@@ -18,6 +18,9 @@ import Styles from './styles/main.styl';
 import configureStore from './store';
 const store = configureStore();
 
+import { oauth } from 'panoptes-client';
+oauth.init();
+
 window.React = React;
 
 ReactDOM.render(
