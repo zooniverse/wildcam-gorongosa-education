@@ -29,15 +29,24 @@ const config = require('../constants/config.json');
 
 export default React.createClass({
   getInitialState() {
+    let defaultSelector = new SelectorData();
+    defaultSelector.sql =
+      config.mapExplorer.cartodb.sqlQueryCountCameras
+      .replace(/{CAMERAS}/ig, config.mapExplorer.cartodb.sqlTableCameras)
+      .replace(/{SUBJECTS}/ig, config.mapExplorer.cartodb.sqlTableSubjects)
+      .replace(/{CLASSIFICATIONS}/ig, config.mapExplorer.cartodb.sqlTableClassifications)
+      .replace(/{WHERE}/ig, '');
+    defaultSelector.css =
+      config.mapExplorer.cartodb.cssStandard
+      .replace(/{LAYER}/ig, config.mapExplorer.cartodb.sqlTableCameras)  //Actually, any ID will do
+      .replace(/{MARKER-COLOR}/ig, defaultSelector.markerColor)
+      .replace(/{MARKER-OPACITY}/ig, defaultSelector.markerOpacity)
+      .replace(/{MARKER-SIZE}/ig, defaultSelector.markerSize);
+    
     return {
       map: undefined,
-      cartodbVis: undefined,
-      //cartodbMap: undefined,
       cartodbLayer: undefined,  //Array of map layers. layer[0] is the base (cartographic map).
-      cartodbDataLayer: undefined,
-      selectors: [
-        new SelectorData()
-      ]
+      selectors: [defaultSelector]
     };
   },
 
@@ -64,17 +73,11 @@ export default React.createClass({
             <button onClick={this.updateMapExplorer}>Update</button>
           </div>
           
-          <hr/>
-          
-          <div>
-            {this.state.selectors.map(function(selector) {
-              return (
-                <SelectorPanel key={selector.id} selectorData={selector} updateMeHandler={this.updateSelector} deleteMeHandler={this.deleteSelector} />
-              );
-            }.bind(this))}
-          </div>
-          
-          <hr/>
+          {this.state.selectors.map((selector) => {
+            return (
+              <SelectorPanel key={selector.id} selectorData={selector} updateMeHandler={this.updateSelector} deleteMeHandler={this.deleteSelector} />
+            );
+          })}
           
           <div>
             <button onClick={this.addSelector}>Add Selector</button>
@@ -192,7 +195,7 @@ export default React.createClass({
     //Prepare the base layers.
     let baseLayers = [];
     let baseLayersForControls = {};
-    config.mapExplorer.baseLayers.map(function(layer) {
+    config.mapExplorer.baseLayers.map((layer) => {
       let newLayer = L.tileLayer(layer.url, {
         attribution: layer.attribution
       });
@@ -210,11 +213,11 @@ export default React.createClass({
     //Create the CartoDB layer
     cartodb.createLayer(this.state.map, config.mapExplorer.cartodb.vizUrl)
       .addTo(this.state.map)
-      .on('done', function(layer) {   
+      .on('done', (layer) => {   
         this.state.cartodbLayer = layer;
         this.state.cartodbLayer.setInteraction(true);
         this.state.cartodbLayer.on('featureClick', this.onMapClick);  //Other events: featureOver
-        layer.on('error', function(err) {
+        layer.on('error', (err) => {
           console.error('ERROR (initMapExplorer(), cartodb.createLayer().on(\'done\')): ' + err);
         });
       
@@ -223,8 +226,8 @@ export default React.createClass({
         
         //updateMapExplorer performs some cleanup
         this.updateMapExplorer();
-      }.bind(this))
-      .on('error', function(err) {
+      })
+      .on('error', (err) => {
         console.error('ERROR (initMapExplorer(), cartodb.createLayer()):' + err);
       });
     //--------------------------------
@@ -250,14 +253,41 @@ export default React.createClass({
     for (let i = this.state.cartodbLayer.getSubLayerCount() - 1; i >= 0; i--) {
       this.state.cartodbLayer.getSubLayer(i).remove();
     }
+    
+    //Add a new sublayer for each selector
+    this.state.selectors.map((selector) => {
+      console.log('>>>' + selector.id,
+                  '  >' + selector.sql,
+                  '  >' + selector.css);
+      
+      //let where = '';
+      //let sql = config.mapExplorer.cartodb.sqlQueryCountCameras
+      //  .replace(/{CAMERAS}/ig, config.mapExplorer.cartodb.sqlTableCameras)
+      //  .replace(/{SUBJECTS}/ig, config.mapExplorer.cartodb.sqlTableSubjects)
+      //  .replace(/{CLASSIFICATIONS}/ig, config.mapExplorer.cartodb.sqlTableClassifications)
+      //  .replace(/{WHERE}/ig, where);
+      //let css = this.refs.mapCss.value;
+      
+      let sql = selector.sql.trim();
+      let css = selector.css.trim();
+      
+      if (sql !== '' && css !== '') {
+        let newSubLayer = this.state.cartodbLayer.createSubLayer({
+          sql: sql,
+          cartocss: css,
+          interactivity: 'id'  //Specify which data fields we want when we handle input events. Camera ID is enough, thanks.
+        });
+        newSubLayer.setInteraction(true);
+      }
+    });
 
     //Add a new sublayer
-    let newSubLayer = this.state.cartodbLayer.createSubLayer({
-      sql: this.refs.mapSql.value,
-      cartocss: this.refs.mapCss.value,
-      interactivity: 'id'  //Specify which data fields we want when we handle input events. Camera ID is enough, thanks.
-    });
-    newSubLayer.setInteraction(true);  //We must set both setIneraction(true) and specify the data fields we want in {interactivity}.
+    //let newSubLayer = this.state.cartodbLayer.createSubLayer({
+    //  sql: this.refs.mapSql.value,
+    //  cartocss: this.refs.mapCss.value,
+    //  interactivity: 'id'  //Specify which data fields we want when we handle input events. Camera ID is enough, thanks.
+    //});
+    //newSubLayer.setInteraction(true);  //We must set both setIneraction(true) and specify the data fields we want in {interactivity}.
 
     //Alternative: update a sublayer instead of replacing it.
     //----
@@ -301,28 +331,29 @@ export default React.createClass({
     }
     this.setState({
       selectors: this.state.selectors
-    });
+    });    
+    this.updateMapExplorer();
   },
   
   deleteSelector(id) {
     console.log('MapExplorer.deleteSelector('+id+')');
-    this.state.selectors = this.state.selectors.filter(function (selector) {
+    this.state.selectors = this.state.selectors.filter((selector) => {
       return selector.id !== id;
     });    
     this.setState({
       selectors: this.state.selectors
     });
+    this.updateMapExplorer();
   },
 
   addSelector() {
     console.log('MapExplorer.addSelector()');
-    var newSelector = new SelectorData();
-    
+    var newSelector = new SelectorData();    
     this.state.selectors.push(newSelector);
-    
     this.setState({
       selectors: this.state.selectors
     });
+    this.updateMapExplorer();
   }
   
 });
