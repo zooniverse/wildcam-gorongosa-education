@@ -19,22 +19,17 @@ export default class HeaderAuth extends Component {
   }
 
   componentDidMount() {
-
+    return Panoptes.oauth.checkCurrent()
+      .then(user => this.setState({ user }));
   }
 
   login() {
-    console.log('Logging in');
-    Panoptes.oauth.signIn({
-      appId: panoptesAppId,
-      redirectUri: 'http://localhost:3000/?env=staging#/',
-    });
-    // Panoptes.oauth.signOut();
-
+    return Panoptes.oauth.signIn('http://localhost:3000/?env=staging#/');
   }
 
   logout() {
-    console.log('Logging out');
-
+    Panoptes.oauth.signOut()
+      .then(user => this.setState({ user }));
   }
 
   render() {

@@ -19,7 +19,8 @@ import configureStore from './store';
 const store = configureStore();
 
 import { oauth } from 'panoptes-client';
-oauth.init();
+import { panoptesAppId } from './constants/config.json';
+oauth.init(panoptesAppId);
 
 window.React = React;
 

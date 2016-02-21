@@ -42,7 +42,7 @@ export function fetchClassrooms() {
       method: 'GET',
       mode: 'cors',
       headers: new Headers({
-          'Authorization': 'Bearer ' + Panoptes.auth._bearerToken,
+          'Authorization': Panoptes.apiClient.headers.Authorization,
           'Content-Type': 'application/json'
         })
       })
