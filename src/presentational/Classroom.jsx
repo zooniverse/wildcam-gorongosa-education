@@ -2,13 +2,13 @@ import React, { Component, PropTypes } from 'react';
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-
 export default class Classroom extends Component {
 
   render() {
+    const {attributes} = this.props.data;
     return (
       <section>
-        <h1>classroom {this.props.params.classroomId}</h1>
+        <h1>Classroom {attributes.name} </h1>
         <Tabs className="admin-tabs">
           <TabList>
             <Tab>Overview</Tab>
@@ -30,3 +30,11 @@ export default class Classroom extends Component {
   }
 
 }
+
+Classroom.defaultProps = {
+  data: {
+    attributes: {
+      name: ''
+    }
+  }
+};

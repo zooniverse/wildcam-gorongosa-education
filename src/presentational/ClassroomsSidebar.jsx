@@ -28,21 +28,24 @@ export default class ClassroomSidebar extends Component {
   }
 
   renderClassroomList(classrooms) {
-    return (classrooms.length > 0)
-      ? (
-          <div className="list-group">
-            { classrooms.map((classroom, i) =>
-              <Link
-                key={i}
-                className="list-group-item"
-                to={`/teachers/classrooms/${classroom.id}`}
-                >
-                  {classroom.attributes.name}
-              </Link>
-            )}
-          </div>
-        )
-      : null;
+    const list = (classrooms.length > 0) ? classrooms : [];
+
+    return (
+      <div className="list-group">
+        <Link className="list-group-item" to="/teachers/classrooms">
+          Overview
+        </Link>
+        { list.map((classroom, i) =>
+          <Link
+            key={i}
+            className="list-group-item"
+            to={`/teachers/classrooms/${classroom.id}`}
+            >
+              {classroom.attributes.name}
+          </Link>
+        )}
+      </div>
+    );
   }
 
 

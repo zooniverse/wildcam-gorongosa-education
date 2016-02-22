@@ -1,19 +1,16 @@
-import 'babel-polyfill';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, IndexRoute } from 'react-router';
+import { Router, Route, IndexRoute, IndexRedirect } from 'react-router';
 import { Provider } from 'react-redux';
 
 import App from './containers/App.jsx';
-import LoginHandler from './containers/LoginHandler.jsx';
 import MapExplorer from './containers/MapExplorer.jsx';
 import Teachers from './containers/Teachers.jsx';
 import Classrooms from './containers/Classrooms.jsx';
+import Classroom from './containers/Classroom.jsx';
 
 import Home from './presentational/Home.jsx';
 import TeachersDashboard from './presentational/TeachersDashboard.jsx';
-import Classroom from './presentational/Classroom.jsx';
 import ClassroomsOverview from './presentational/ClassroomsOverview.jsx';
 
 import Styles from './styles/main.styl';
@@ -33,9 +30,8 @@ oauth.init(panoptesAppId)
         <Router>
           <Route path="/" component={App}>
             <IndexRoute component={Home} />
-            <Route path="access_token*" component={LoginHandler} />
             <Route path="teachers" component={Teachers}>
-              <IndexRoute component={TeachersDashboard} />
+              <IndexRedirect to="classrooms" />
               <Route path="classrooms" component={Classrooms}>
                 <IndexRoute component={ClassroomsOverview} />
                 <Route path=":classroomId" component={Classroom} />

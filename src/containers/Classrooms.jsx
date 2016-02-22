@@ -8,6 +8,7 @@ class Classrooms extends Component {
 
 
   componentDidMount() {
+    console.log(this.props)
     if (!this.props.classrooms.length && !this.props.isFetching) {
       this.props.dispatch(fetchClassrooms());
     }
@@ -27,24 +28,13 @@ class Classrooms extends Component {
 }
 
 Classrooms.propTypes = {
-  classrooms: PropTypes.array.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  error: PropTypes.bool.isRequired,
+  classrooms: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
-};
-
-
-Classrooms.defaultProps = {
-  classrooms: [],
-  isFetching: false,
-  error: false,
 };
 
 function mapStateToProps(state) {
   return {
-    classrooms: state.classrooms.classrooms,
-    isFetching: state.classrooms.isFetching,
-    error: state.classrooms.error,
+    classrooms: state.classrooms,
   };
 }
 

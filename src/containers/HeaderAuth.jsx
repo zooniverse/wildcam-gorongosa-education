@@ -19,8 +19,8 @@ export default class HeaderAuth extends Component {
   }
 
   componentDidMount() {
-    return Panoptes.oauth.checkCurrent()
-      .then(user => this.setState({ user }));
+    Panoptes.auth.checkCurrent()
+      .then(user => this.setState({user}));
   }
 
   login() {
