@@ -13,7 +13,7 @@ export function classrooms(state = intialState, action) {
       return Object.assign({}, state, {
         isFetching: false,
         classrooms: action.classrooms,
-        error: action.error,
+        error: action.error || false,
       });
     default:
       return state;
