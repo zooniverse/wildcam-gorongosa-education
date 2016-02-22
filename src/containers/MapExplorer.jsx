@@ -52,38 +52,24 @@ export default React.createClass({
 
   render() {
     console.log('render()');
-    return (
+    return (  //Reminder: the parent .content-section is a <main>, so don't set .map-explorer as <main> as well.
       <div ref="mapExplorer" className="map-explorer">
         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
         <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
-        <div ref="mapVisuals" id="mapVisuals" className="map-visuals"></div>
-        <div ref="mapControls" className="map-controls">
+        <section ref="mapVisuals" id="mapVisuals" className="map-visuals"></section>
+        <section ref="mapControls" className="map-controls">
           <Script src={'http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js'}>{
             ({done}) => !done ? <div className="message">Map Explorer is loading...</div> : this.initMapExplorer()
           }</Script>
-          <div className="inputRow">
-            <label>Map SQL</label>
-            <textarea ref="mapSql"></textarea>
-          </div>
-          <div className="inputRow">
-            <label>Map CSS</label>
-            <textarea ref="mapCss"></textarea>
-          </div>
-          <div className="inputRow">
-            <button onClick={this.updateMapExplorer}>Update</button>
-          </div>
-          
           {this.state.selectors.map((selector) => {
             return (
               <SelectorPanel key={selector.id} selectorData={selector} updateMeHandler={this.updateSelector} deleteMeHandler={this.deleteSelector} />
             );
           })}
-          
-          <div>
+          <div className="controlPanel">
             <button onClick={this.addSelector}>Add Selector</button>
           </div>
-            
-        </div>
+        </section>
       </div>
     );
   },
@@ -111,80 +97,8 @@ export default React.createClass({
     if (this.state.map) {
       //This prevents CartoDB from re-creating a map one when navigating from
       //the Map Explorer page to the (same) Map Explorer page.
-      return <div className="message">Map Explorer ALREADY LOADED</div>;;
+      return <div className="message">Welcome to the Map Explorer</div>;;
     }
-    
-    //Prepare the CartoDB Query and Styles
-    //--------------------------------
-    this.refs.mapSql.value = [
-      'SELECT ',
-      '  cameras.*, ',
-      '  COUNT(items.*) as count ',
-      'FROM ',
-      '  wildcam_gorongosa_cameras_201601 AS cameras ',
-      '  LEFT JOIN ',
-      '  (SELECT ',
-      '    goSub.camera, ',
-      '    goSub.location, ',
-      '    goSub.month, ',
-      '    goSub.year, ',
-      '    goSub.season, ',
-      '    goSub.time_period, ',
-      '    goCla.species, ',
-      '    goCla.species_count, ',
-      '    goCla.user_hash, ',
-      '    goSub.subject_id, ',
-      '    goCla.classification_id ',
-      '  FROM ',
-      '    wildcam_gorongosa_subjects_201601 AS goSub ',
-      '    INNER JOIN ',
-      '    wildcam_gorongosa_classifications_201601 AS goCla ',
-      '    ON ',
-      '    goSub.subject_id = goCla.subject_zooniverse_id ',
-      '  WHERE ',
-      '    1 = 1 ',  //Replace with goCla.species LIKE \'%Buffalo%\' or something.
-      '  ) AS items ',
-      '  ON ',
-      '  cameras.id = items.camera ',
-      'GROUP BY cameras.cartodb_id '].join('\n');
-    let cssScaling = '';
-    for (let i = 0; i < 50; i++) {
-      cssScaling +=
-        '  [count > '+(200 * i)+'] { \n' +
-        '    marker-width: '+(i * 3 + 12)+'; \n' +
-        '  } \n';
-    }
-    this.refs.mapCss.value = [
-      '#items { ',  //Any label ID works, actually
-      '  marker-fill: #fff; ',
-      '  marker-fill-opacity: 0.6; ',
-      '  marker-line-color: #FFF; ',
-      '  marker-line-width: 1; ',
-      '  marker-line-opacity: 1; ',
-      '  marker-placement: point; ',
-      '  marker-type: ellipse; ',
-      '  marker-width: 10; ',
-      '  marker-allow-overlap: true; ',
-      '  ',
-      '  [veg_type="Mixed Savanna and Woodland"] { ',
-      '    marker-fill: #39b; ',
-      '  } ',
-      '  [veg_type="Floodplain Grassland"] { ',
-      '    marker-fill: #4ac; ',
-      '  } ',
-      '  [veg_type="Limestone Gorge"] { ',
-      '    marker-fill: #5bd; ',
-      '  } ',
-      '  [veg_type="Miombo Woodland"] { ',
-      '    marker-fill: #6ce; ',
-      '  } ',
-      '  [count = null], ',
-      '  [count = 0] { ',
-      '    marker-fill: #c33; ',
-      '  } ',
-      cssScaling,
-      '}'].join('\n');
-    //--------------------------------
     
     //Create the map (Leaflet + CartoDB ver)
     //1. Prepare the base layers
@@ -235,7 +149,7 @@ export default React.createClass({
     //Cleanup then go
     //--------------------------------
     this.resizeMapExplorer();
-    return <div className="message">Map Explorer is READY</div>;
+    return <div className="message">Welcome to the Map Explorer!</div>;
     //Note: use `return null` if we don't want a message to pop up.
     //--------------------------------
   },
@@ -256,21 +170,8 @@ export default React.createClass({
     
     //Add a new sublayer for each selector
     this.state.selectors.map((selector) => {
-      console.log('>>>' + selector.id,
-                  '  >' + selector.sql,
-                  '  >' + selector.css);
-      
-      //let where = '';
-      //let sql = config.mapExplorer.cartodb.sqlQueryCountCameras
-      //  .replace(/{CAMERAS}/ig, config.mapExplorer.cartodb.sqlTableCameras)
-      //  .replace(/{SUBJECTS}/ig, config.mapExplorer.cartodb.sqlTableSubjects)
-      //  .replace(/{CLASSIFICATIONS}/ig, config.mapExplorer.cartodb.sqlTableClassifications)
-      //  .replace(/{WHERE}/ig, where);
-      //let css = this.refs.mapCss.value;
-      
       let sql = selector.sql.trim();
-      let css = selector.css.trim();
-      
+      let css = selector.css.trim();      
       if (sql !== '' && css !== '') {
         let newSubLayer = this.state.cartodbLayer.createSubLayer({
           sql: sql,
@@ -280,14 +181,6 @@ export default React.createClass({
         newSubLayer.setInteraction(true);
       }
     });
-
-    //Add a new sublayer
-    //let newSubLayer = this.state.cartodbLayer.createSubLayer({
-    //  sql: this.refs.mapSql.value,
-    //  cartocss: this.refs.mapCss.value,
-    //  interactivity: 'id'  //Specify which data fields we want when we handle input events. Camera ID is enough, thanks.
-    //});
-    //newSubLayer.setInteraction(true);  //We must set both setIneraction(true) and specify the data fields we want in {interactivity}.
 
     //Alternative: update a sublayer instead of replacing it.
     //----
@@ -313,7 +206,7 @@ export default React.createClass({
   
   onMapClick(e, latlng, pos, data) {
     console.log('--------', e, latlng, pos, data, '========');
-    //console.log(this.refs.mapSql.value);
+    alert('This is camera ' + data.id + ' at ' + latlng[0] + ', ' + latlng[1]);
   },
   
   //----------------------------------------------------------------
