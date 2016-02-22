@@ -11,6 +11,7 @@ var bootstrap = require('bootstrap-styl');
 module.exports = {
 
   entry: [
+    'babel-polyfill',
     path.join(__dirname, 'src/Index.jsx'),
   ],
 
