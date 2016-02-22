@@ -24,6 +24,38 @@
         "url": "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         "attribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
       }
+    ],
+    "species": [
+      {
+        "id": "baboon",
+        "singular": "Baboon",
+        "plural": "Baboons",
+        "sqlWherePart": " species LIKE '%baboon%' "
+      },
+      {
+        "id": "elephant",
+        "singular": "Elephant",
+        "plural": "Elephants",
+        "sqlWherePart": " species LIKE '%elephant%' "
+      },
+      {
+        "id": "human",
+        "singular": "Human",
+        "plural": "Humans",
+        "sqlWherePart": " species LIKE '%human%' "
+      },
+      {
+        "id": "lion",
+        "singular": "Lion",
+        "plural": "Lions",
+        "sqlWherePart": " species LIKE '%lion%' "
+      },
+      {
+        "id": "warthog",
+        "singular": "Warthog",
+        "plural": "Warthogs",
+        "sqlWherePart": " species LIKE '%warthog%' "
+      }
     ]
   },
   "eduAPI": {
