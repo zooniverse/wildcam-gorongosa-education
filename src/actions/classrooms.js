@@ -5,24 +5,11 @@ import { eduAPI } from '../constants/config.json';
 import * as types from '../constants/actionTypes';
 
 
-// Constants
-export const visibilityFilters = {
-  SHOW_ALL: 'SHOW_ALL',
-  SHOW_ACTIVE: 'SHOW_ACTIVE'
-}
-
 // Action creators
 export function addClassroom(name) {
   return {
     type: types.CREATE_CLASSROOM,
     name: name,
-  };
-}
-
-export function setVisibilityFilter(filter) {
-  return {
-    type: types.SET_VISIBILITY_FILTER,
-    filter: filter,
   };
 }
 
