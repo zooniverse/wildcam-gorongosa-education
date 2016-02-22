@@ -5,24 +5,11 @@ import { eduAPI } from '../constants/config.json';
 import * as types from '../constants/actionTypes';
 
 
-// Constants
-export const visibilityFilters = {
-  SHOW_ALL: 'SHOW_ALL',
-  SHOW_ACTIVE: 'SHOW_ACTIVE'
-}
-
 // Action creators
 export function addClassroom(name) {
   return {
     type: types.CREATE_CLASSROOM,
     name: name,
-  };
-}
-
-export function setVisibilityFilter(filter) {
-  return {
-    type: types.SET_VISIBILITY_FILTER,
-    filter: filter,
   };
 }
 
@@ -42,7 +29,7 @@ export function fetchClassrooms() {
       method: 'GET',
       mode: 'cors',
       headers: new Headers({
-          'Authorization': 'Bearer ' + Panoptes.auth._bearerToken,
+          'Authorization': Panoptes.apiClient.headers.Authorization,
           'Content-Type': 'application/json'
         })
       })

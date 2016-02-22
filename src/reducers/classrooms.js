@@ -1,16 +1,9 @@
 import * as types from '../constants/actionTypes';
 
 
-export function selectedClassroom(state = {}, action) {
-  switch (types) {
-    case types.SELECT_CLASSROOM:
-      return Object.assign({}, state);
-    default:
-      return state;
-  }
-}
+const intialState = { isFetching: false, classrooms: [], error: false };
 
-export function allClassrooms(state = { isFetching: false, classrooms: [], error: false }, action) {
+export function classrooms(state = intialState, action) {
   switch (action.type) {
     case types.REQUEST_CLASSROOMS:
       return Object.assign({}, state, {

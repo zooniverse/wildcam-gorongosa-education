@@ -7,7 +7,7 @@ import Panoptes from 'panoptes-client';
 
 import LoginButton from '../presentational/LoginButton.jsx';
 import LoggedInUser from '../presentational/LoggedInUser.jsx';
-
+import { panoptesAppId } from '../constants/config.json';
 
 export default class HeaderAuth extends Component {
 
@@ -19,35 +19,17 @@ export default class HeaderAuth extends Component {
   }
 
   componentDidMount() {
-    Panoptes.auth.checkCurrent()
-      .then(user => this.setState({user: user}));
+    return Panoptes.oauth.checkCurrent()
+      .then(user => this.setState({ user }));
   }
 
   login() {
-    console.log('Logging in');
-    // From the Rog Testing app on staging
-    const appId = '24ad5676d5d25c6aa850dc5d5f63ec8c03dbc7ae113b6442b8571fce6c5b974c';
-    const redirectUri = 'http://localhost:3000/?env=staging#/';
-    // From Wildcam on staging.
-    // For deploy-preview, comment the previous two line and use the following two
-    // const appId = '17bdbeb57f54a3bf6344cf7150047879cfa1c8d5f9fd77d64923e6c81fe6e949';
-    // const redirectUri = 'https://preview.zooniverse.org/wge/';
-    const url = [
-      Panoptes._config.host,
-      '/oauth/authorize',
-      '?response_type=token',
-      '&client_id=',
-      appId,
-      '&redirect_uri=',
-      redirectUri
-    ].join('');
-    location.assign(url);
+    return Panoptes.oauth.signIn('http://localhost:3000/?env=staging#/');
   }
 
   logout() {
-    console.log('Logging out');
-    Panoptes.auth.signOut()
-      .then(user => this.setState({user: user}));
+    Panoptes.oauth.signOut()
+      .then(user => this.setState({ user }));
   }
 
   render() {
