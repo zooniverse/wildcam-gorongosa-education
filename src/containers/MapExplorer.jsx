@@ -21,34 +21,39 @@ controls to filter the data shown on the visuals.
 
 import React from 'react';
 import {Script} from 'react-loadscript';
-import {SelectorPanel, SelectorData} from './MapExplorer-Selector.jsx';
-const config = require('../constants/config.json');
+import SelectorData from './MapExplorer-SelectorData.jsx';
+import SelectorPanel from './MapExplorer-SelectorPanel.jsx';
+const config = require('../constants/mapExplorer.config.json');
 
 //WARNING: DON'T import Leaflet. Leaflet 0.7.7 is packaged with cartodb.js 3.15.
 //import L from 'leaflet';
 
-export default React.createClass({
-  getInitialState() {
+export default class MapExplorer extends React.Component {
+  constructor(props) {
+    super(props);
+   
     let defaultSelector = new SelectorData();
+    
     defaultSelector.sql =
-      config.mapExplorer.cartodb.sqlQueryCountCameras
-      .replace(/{CAMERAS}/ig, config.mapExplorer.cartodb.sqlTableCameras)
-      .replace(/{SUBJECTS}/ig, config.mapExplorer.cartodb.sqlTableSubjects)
-      .replace(/{CLASSIFICATIONS}/ig, config.mapExplorer.cartodb.sqlTableClassifications)
+      config.cartodb.sqlQueryCountCameras
+      .replace(/{CAMERAS}/ig, config.cartodb.sqlTableCameras)
+      .replace(/{SUBJECTS}/ig, config.cartodb.sqlTableSubjects)
+      .replace(/{CLASSIFICATIONS}/ig, config.cartodb.sqlTableClassifications)
       .replace(/{WHERE}/ig, '');
+    
     defaultSelector.css =
-      config.mapExplorer.cartodb.cssStandard
-      .replace(/{LAYER}/ig, config.mapExplorer.cartodb.sqlTableCameras)  //Actually, any ID will do
+      config.cartodb.cssStandard
+      .replace(/{LAYER}/ig, config.cartodb.sqlTableCameras)  //Actually, any ID will do
       .replace(/{MARKER-COLOR}/ig, defaultSelector.markerColor)
       .replace(/{MARKER-OPACITY}/ig, defaultSelector.markerOpacity)
       .replace(/{MARKER-SIZE}/ig, defaultSelector.markerSize);
     
-    return {
+    this.state = {
       map: undefined,
       cartodbLayer: undefined,  //Array of map layers. layer[0] is the base (cartographic map).
       selectors: [defaultSelector]
     };
-  },
+  }
 
   render() {
     console.log('render()');
@@ -63,24 +68,24 @@ export default React.createClass({
           }</Script>
           {this.state.selectors.map((selector) => {
             return (
-              <SelectorPanel key={selector.id} selectorData={selector} updateMeHandler={this.updateSelector} deleteMeHandler={this.deleteSelector} />
+              <SelectorPanel key={selector.id} selectorData={selector} updateMeHandler={this.updateSelector.bind(this)} deleteMeHandler={this.deleteSelector.bind(this)} />
             );
           })}
           <div className="controlPanel">
-            <button onClick={this.addSelector}>Add Selector</button>
+            <button onClick={this.addSelector.bind(this)}>Add Selector</button>
           </div>
         </section>
       </div>
     );
-  },
+  }
 
   componentDidMount() {
     console.log('componentDidMount()');
-  },
+  }
 
   componentWillUnmount() {
     console.log('componentWillUnmount()');
-  },
+  }
   
   //----------------------------------------------------------------
 
@@ -109,7 +114,7 @@ export default React.createClass({
     //Prepare the base layers.
     let baseLayers = [];
     let baseLayersForControls = {};
-    config.mapExplorer.baseLayers.map((layer) => {
+    config.baseLayers.map((layer) => {
       let newLayer = L.tileLayer(layer.url, {
         attribution: layer.attribution
       });
@@ -119,13 +124,13 @@ export default React.createClass({
           
     //Go go gadget Leaflet Map!
     this.state.map = new L.Map('mapVisuals', {  //Leaflet 0.7.7 comes with cartodb.js 3.15
-      center: [config.mapExplorer.mapCentre.latitude, config.mapExplorer.mapCentre.longitude],
-      zoom: config.mapExplorer.mapCentre.zoom,
+      center: [config.mapCentre.latitude, config.mapCentre.longitude],
+      zoom: config.mapCentre.zoom,
       layers: baseLayers[0]  //Set the default base layer
     });
     
     //Create the CartoDB layer
-    cartodb.createLayer(this.state.map, config.mapExplorer.cartodb.vizUrl)
+    cartodb.createLayer(this.state.map, config.cartodb.vizUrl)
       .addTo(this.state.map)
       .on('done', (layer) => {   
         this.state.cartodbLayer = layer;
@@ -152,9 +157,10 @@ export default React.createClass({
     return <div className="message">Welcome to the Map Explorer!</div>;
     //Note: use `return null` if we don't want a message to pop up.
     //--------------------------------
-  },
+  }
   
   updateMapExplorer() {
+    
     //Req check
     if (!(this.state.map && this.state.cartodbLayer)) {
       console.log('updateMapExplorer(): failed');
@@ -191,7 +197,7 @@ export default React.createClass({
     //  });
     //}
     //----
-  },
+  }
 
   resizeMapExplorer() {
     let windowHeight = window.innerHeight;
@@ -200,14 +206,14 @@ export default React.createClass({
     let availableHeight = windowHeight - headerHeight - footerHeight;
     this.refs.mapVisuals.style.height = availableHeight+'px';
     this.refs.mapControls.style.height = availableHeight+'px';
-  },
+  }
   
   //----------------------------------------------------------------
   
   onMapClick(e, latlng, pos, data) {
     console.log('--------', e, latlng, pos, data, '========');
     alert('This is camera ' + data.id + ' at ' + latlng[0] + ', ' + latlng[1]);
-  },
+  }
   
   //----------------------------------------------------------------
   
@@ -226,7 +232,7 @@ export default React.createClass({
       selectors: this.state.selectors
     });    
     this.updateMapExplorer();
-  },
+  }
   
   deleteSelector(id) {
     console.log('MapExplorer.deleteSelector('+id+')');
@@ -237,7 +243,7 @@ export default React.createClass({
       selectors: this.state.selectors
     });
     this.updateMapExplorer();
-  },
+  }
 
   addSelector() {
     console.log('MapExplorer.addSelector()');
@@ -249,4 +255,4 @@ export default React.createClass({
     this.updateMapExplorer();
   }
   
-});
+}

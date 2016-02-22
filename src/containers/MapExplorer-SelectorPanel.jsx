@@ -1,15 +1,18 @@
 import React from 'react';
-const config = require('../constants/config.json');
+const config = require('../constants/mapExplorer.config.json');
+import SelectorData from './MapExplorer-SelectorData.jsx';
 
-export var SelectorPanel = React.createClass({
-  
+export default class SelectorPanel extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
-    
     //Input Choice: Species
     let species = [];
-    config.mapExplorer.species.map((s) => {
+    config.species.map((s) => {
       species.push(
-        <li key={'species_'+s.id}><input type="checkbox" ref={'inputRow_species_item_' + s.id} value={s.sqlWherePart} onchange={this.refreshUI} /><label>{s.plural}</label></li>
+        <li key={'species_'+s.id}><input type="checkbox" ref={'inputRow_species_item_' + s.id} value={s.sqlWherePart} onchange={this.refreshUI.bind(this)} /><label>{s.plural}</label></li>
       );
     });
     
@@ -26,11 +29,11 @@ export var SelectorPanel = React.createClass({
           </div>
           <div className="input-row">
             <label>Marker Colo(u)r:</label>
-            <input type="text" ref="markerColor" onChange={this.refreshUI} />
+            <input type="text" ref="markerColor" onChange={this.refreshUI.bind(this)} />
             <label>Marker Size:</label>
-            <input type="text" ref="markerSize" onChange={this.refreshUI} />
+            <input type="text" ref="markerSize" onChange={this.refreshUI.bind(this)} />
             <label>Marker Opacity:</label>
-            <input type="text" ref="markerOpacity" onChange={this.refreshUI} />
+            <input type="text" ref="markerOpacity" onChange={this.refreshUI.bind(this)} />
           </div>
         </section>
         <section className={(this.props.selectorData.mode !== SelectorData.ADVANCED_MODE) ? 'input-subpanel not-selected' : 'input-subpanel' } ref="subPanel_advanced" >
@@ -45,19 +48,17 @@ export var SelectorPanel = React.createClass({
           </div>
         </section>
         <section className="action-subpanel">
-          <button onClick={this.updateMe}>(Update)</button>
-          <button onClick={this.deleteMe}>(Delete)</button>
+          <button onClick={this.updateMe.bind(this)}>(Update)</button>
+          <button onClick={this.deleteMe.bind(this)}>(Delete)</button>
         </section>
       </article>
     );
-  },
+  }
   
   componentDidMount() {
     //Set <input> values based on the selector data.
     //WARNING: Do not set values DURING render(), because these will cause the
     //<input> elements to become strictly 'controlled' React elements.
-    
-    console.log(this.refs.subpanelChoice);
     
     this.refs.markerColor.value = this.props.selectorData.markerColor;
     this.refs.markerOpacity.value = this.props.selectorData.markerOpacity;
@@ -70,7 +71,7 @@ export var SelectorPanel = React.createClass({
     
     //Once mounted, be sure to inform the parent.
     this.updateMe(null);
-  },
+  }
   
   //Tells the parent that this Selector has updated its values.
   updateMe(e) {
@@ -83,42 +84,17 @@ export var SelectorPanel = React.createClass({
     
     //Commit the changes.
     this.props.updateMeHandler(data);
-  },
+  }
   
   //Tells the parent that this Selector wants to be deleted.
   deleteMe(e) {
     this.props.deleteMeHandler(this.props.selectorData.id);
-  },
+  }
   
   //Update the UI based on user actions.
   refreshUI(e) {
-    console.log('refreshUI', '-'.repeat(40));
-    console.log(this.refs.inputRow_species_list.children);
     for (let li of this.refs.inputRow_species_list.children) {  //Children don't have .map() for some reason!
-      console.log(li.getElementsByTagName('input')[0]);  //TODO
+      //console.log(li.getElementsByTagName('input')[0]);  //TODO
     }
   }
-});
-
-export class SelectorData {
-  constructor() {
-    this.id = //Random ID.
-      '0123456789abcdef'[Math.floor(Math.random() * 16)] +
-      '0123456789abcdef'[Math.floor(Math.random() * 16)] +
-      '0123456789abcdef'[Math.floor(Math.random() * 16)] +
-      '0123456789abcdef'[Math.floor(Math.random() * 16)] +
-      '0123456789abcdef'[Math.floor(Math.random() * 16)] +
-      '0123456789abcdef'[Math.floor(Math.random() * 16)] +
-      '0123456789abcdef'[Math.floor(Math.random() * 16)] +
-      '0123456789abcdef'[Math.floor(Math.random() * 16)];
-    this.mode = SelectorData.ADVANCED_MODE;
-    this.colour = '#000000';
-    this.markerColor = '#000000';  //For... consistency, this is coLOR instead of coLOUR.
-    this.markerSize = '10';
-    this.markerOpacity = '0.6';
-    this.sql = '';
-    this.css = '';
-  }
 }
-SelectorData.GUIDED_MODE = 1;
-SelectorData.ADVANCED_MODE = 2;
