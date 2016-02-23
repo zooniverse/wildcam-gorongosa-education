@@ -2,6 +2,7 @@ import * as types from '../constants/actionTypes';
 
 const intialState = { loading: false, data: [], error: false };
 
+
 export function classrooms(state = intialState, action) {
   switch (action.type) {
     case types.REQUEST_CLASSROOMS:
