@@ -1,16 +1,20 @@
 /*
 Map Explorer
 ============
+
 Project
 -------
 https://github.com/zooniverse/wildcam-gorongosa-education/
+
 Info
 ----
 The Map Explorer will be used by teachers and students to explore Wildcam
 Gorongosa's collected data & information about wildlife, etc on a visual map.
+
 The ME is a component of the Wildcam Gorongosa Education project. It exists on a
 standalone 'Map' page on the website, and consists of an interactive map and
 controls to filter the data shown on the visuals.
+
 (- shaun.a.noordin, 20160216)
 ********************************************************************************
  */
@@ -255,5 +259,4 @@ export default class MapExplorer extends React.Component {
     });
     this.updateMapExplorer();
   }
-  
 }
