@@ -33,11 +33,12 @@ export function fetchClassrooms() {
           'Content-Type': 'application/json'
         })
       })
+
       .then(response => response.json())
 
       .then(json => dispatch({
         type: types.RECEIVE_CLASSROOMS,
-        classrooms: json.data.map(classroom => classroom.attributes.name)
+        classrooms: json.data
       }))
 
       .catch(response => dispatch({

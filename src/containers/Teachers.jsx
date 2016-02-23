@@ -18,8 +18,8 @@ export default class Teachers extends Component {
 Teachers.defaultProps = {
   navItems: [
     {
-      label: 'Dashboard',
-      to: '/teachers',
+      label: 'Classrooms',
+      to: '/teachers/classrooms',
     },
     {
       label: 'Data',
