@@ -5,6 +5,11 @@ import SelectorData from './MapExplorer-SelectorData.jsx';
 export default class SelectorPanel extends React.Component {
   constructor(props) {
     super(props);
+    
+    //Event binding
+    this.refreshUI = this.refreshUI.bind(this);
+    this.updateMe = this.updateMe.bind(this);
+    this.deleteMe = this.deleteMe.bind(this);
   }
 
   render() {
@@ -12,7 +17,7 @@ export default class SelectorPanel extends React.Component {
     let species = [];
     config.species.map((s) => {
       species.push(
-        <li key={'species_'+s.id}><input type="checkbox" ref={'inputRow_species_item_' + s.id} value={s.sqlWherePart} onchange={this.refreshUI.bind(this)} /><label>{s.plural}</label></li>
+        <li key={'species_'+s.id}><input type="checkbox" ref={'inputRow_species_item_' + s.id} value={s.sqlWherePart} onchange={this.refreshUI} /><label>{s.plural}</label></li>
       );
     });
     
@@ -29,11 +34,11 @@ export default class SelectorPanel extends React.Component {
           </div>
           <div className="input-row">
             <label>Marker Colo(u)r:</label>
-            <input type="text" ref="markerColor" onChange={this.refreshUI.bind(this)} />
+            <input type="text" ref="markerColor" onChange={this.refreshUI} />
             <label>Marker Size:</label>
-            <input type="text" ref="markerSize" onChange={this.refreshUI.bind(this)} />
+            <input type="text" ref="markerSize" onChange={this.refreshUI} />
             <label>Marker Opacity:</label>
-            <input type="text" ref="markerOpacity" onChange={this.refreshUI.bind(this)} />
+            <input type="text" ref="markerOpacity" onChange={this.refreshUI} />
           </div>
         </section>
         <section className={(this.props.selectorData.mode !== SelectorData.ADVANCED_MODE) ? 'input-subpanel not-selected' : 'input-subpanel' } ref="subPanel_advanced" >
@@ -48,8 +53,8 @@ export default class SelectorPanel extends React.Component {
           </div>
         </section>
         <section className="action-subpanel">
-          <button onClick={this.updateMe.bind(this)}>(Update)</button>
-          <button onClick={this.deleteMe.bind(this)}>(Delete)</button>
+          <button onClick={this.updateMe}>(Update)</button>
+          <button onClick={this.deleteMe}>(Delete)</button>
         </section>
       </article>
     );
