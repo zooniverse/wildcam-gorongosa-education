@@ -2,8 +2,6 @@ import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { createClassroom, fetchClassrooms } from '../actions/classrooms';
-//import ClassroomList from '../presentational/ClassroomList.jsx';
-//import ClassroomListMessage from '../presentational/ClassroomListMessage.jsx';
 import ClassroomsSidebar from '../presentational/ClassroomsSidebar.jsx';
 
 
@@ -13,8 +11,6 @@ class Classrooms extends Component {
     this.state = {
       name: this.props.name || ''
     }
-//    this.renderClassroomList = this.renderClassroomList.bind(this);
-//    this.renderStatusMessage = this.renderStatusMessage.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -37,29 +33,6 @@ class Classrooms extends Component {
     }
     this.setState({ name: '' })
   }
-
-
-//  renderClassroomList(data) {
-//    return (data.length > 0)
-//      ? (<ClassroomList data={data} />)
-//      : null;
-//  }
-//
-//  renderStatusMessage(props) {
-//    let message = null;
-//
-//    if (props.loading) {
-//      message = 'Loading classrooms...';
-//    } else if (props.error) {
-//      message = 'There was an error loading the classrooms :(';
-//    } else if (props.data.length === 0) {
-//      message = 'No classrooms have been created yet.';
-//    }
-//    return (message)
-//      ? (<ClassroomListMessage message={message} />)
-//      : null;
-//  }
-
 
   render() {
     return (
