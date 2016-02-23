@@ -50,20 +50,20 @@ export default class MapExplorer extends React.Component {
     console.log('MapExplorer.render()');
     return (  //Reminder: the parent .content-section is a <main>, so don't set .map-explorer as <main> as well.
       <div ref="mapExplorer" className="map-explorer">
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-        <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
+        <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css" />
         <section ref="mapVisuals" id="mapVisuals" className="map-visuals"></section>
         <section ref="mapControls" className="map-controls">
-          <Script src={'http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js'}>{
+          <Script src={'https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js'}>{
             ({done}) => !done ? <div className="message">Map Explorer is loading...</div> : this.initMapExplorer()
           }</Script>
           {this.state.selectors.map((selector) => {
             return (
-              <SelectorPanel key={selector.id} selectorData={selector} updateMeHandler={this.updateSelector.bind(this)} deleteMeHandler={this.deleteSelector.bind(this)} />
+              <SelectorPanel key={selector.id} selectorData={selector} updateMeHandler={this.updateSelector} deleteMeHandler={this.deleteSelector} />
             );
           })}
           <div className="controlPanel">
-            <button onClick={this.addSelector.bind(this)}>Add Selector</button>
+            <button onClick={this.addSelector}>Add Selector</button>
           </div>
         </section>
       </div>
@@ -245,5 +245,4 @@ export default class MapExplorer extends React.Component {
     });
     this.updateMapExplorer();
   }
-  
 }

@@ -19,11 +19,15 @@ export default class HeaderAuth extends Component {
   }
 
   componentDidMount() {
-    return Panoptes.oauth.checkCurrent()
-      .then(user => this.setState({ user }));
+    Panoptes.auth.checkCurrent()
+      .then(user => this.setState({user}));
   }
 
   login() {
+    console.log('Logging in');
+    // For deploy-preview, use the following Wildcam on staging details in config.json
+    // const appId = '17bdbeb57f54a3bf6344cf7150047879cfa1c8d5f9fd77d64923e6c81fe6e949';
+    // const redirectUri = 'https://preview.zooniverse.org/wge/';
     return Panoptes.oauth.signIn('http://localhost:3000/?env=staging#/');
   }
 

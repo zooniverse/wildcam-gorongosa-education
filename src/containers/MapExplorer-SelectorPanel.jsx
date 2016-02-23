@@ -5,9 +5,7 @@ import SelectorData from './MapExplorer-SelectorData.jsx';
 export default class SelectorPanel extends React.Component {
   constructor(props) {
     super(props);
-  }
 
-  render() {
     //Event binding
     this.refreshUI = this.refreshUI.bind(this);
     this.updateMe = this.updateMe.bind(this);
@@ -15,11 +13,14 @@ export default class SelectorPanel extends React.Component {
     this.changeToGuided = this.changeToGuided.bind(this);
     this.changeToAdvanced = this.changeToAdvanced.bind(this);
     
+  }
+
+  render() {
     //Input Choice: Species
     let species = [];
     config.species.map((s) => {
       species.push(
-        <li key={'species_'+s.id}><input type="checkbox" ref={'inputRow_species_item_' + s.id} value={s.sqlWherePart} onChange={this.refreshUI} /><label>{s.plural}</label></li>
+        <li key={'species_'+s.id}><input type="checkbox" ref={'inputRow_species_item_' + s.id} value={s.sqlWherePart} onchange={this.refreshUI} /><label>{s.plural}</label></li>
       );
     });
     
@@ -137,23 +138,5 @@ export default class SelectorPanel extends React.Component {
   //Update the UI based on user actions.
   refreshUI(e) {
     console.log('Selectors.refreshUI()');
-    //for (let li of this.refs.inputRow_species_list.children) {  //Children don't have .map() for some reason!
-    //  if (li.getElementsByTagName('input')[0].checked) {
-    //    console.log(li.getElementsByTagName('input')[0].value);
-    //  }
-    //}
-    
-    //let sqlWhere_species = [];
-    //config.species.map((s) => {
-    //  let ele = this.refs['inputRow_species_item_' + s.id];
-    //  if (ele && ele.checked && ele.value) {
-    //    sqlWhere_species.push(ele.value);
-    //  }
-    //});    
-    //sqlWhere_species = (sqlWhere_species.length === 0)
-    //  ? ''
-    //  : '(' + sqlWhere_species.join(' OR ') + ')';
-    
-    //console.log(sqlWhere_species);
   }
 }
