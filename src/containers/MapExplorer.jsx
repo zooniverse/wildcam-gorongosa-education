@@ -31,6 +31,11 @@ const config = require('../constants/mapExplorer.config.json');
 export default class MapExplorer extends React.Component {
   constructor(props) {
     super(props);
+    
+    //Event binding
+    this.addSelector = this.addSelector.bind(this);
+    this.deleteSelector = this.deleteSelector.bind(this);
+    this.updateSelector = this.updateSelector.bind(this);
    
     let defaultSelector = new SelectorData();
     
@@ -68,11 +73,11 @@ export default class MapExplorer extends React.Component {
           }</Script>
           {this.state.selectors.map((selector) => {
             return (
-              <SelectorPanel key={selector.id} selectorData={selector} updateMeHandler={this.updateSelector.bind(this)} deleteMeHandler={this.deleteSelector.bind(this)} />
+              <SelectorPanel key={selector.id} selectorData={selector} updateMeHandler={this.updateSelector} deleteMeHandler={this.deleteSelector} />
             );
           })}
           <div className="controlPanel">
-            <button onClick={this.addSelector.bind(this)}>Add Selector</button>
+            <button onClick={this.addSelector}>Add Selector</button>
           </div>
         </section>
       </div>
