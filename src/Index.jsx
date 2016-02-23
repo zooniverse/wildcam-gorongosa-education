@@ -11,6 +11,7 @@ import Classroom from './containers/Classroom.jsx';
 
 import Home from './presentational/Home.jsx';
 import ClassroomsOverview from './presentational/ClassroomsOverview.jsx';
+import NewClassroomForm from './presentational/NewClassroomForm.jsx';
 
 import Styles from './styles/main.styl';
 
@@ -34,7 +35,9 @@ oauth.init(panoptesAppId)
               <Route path="classrooms" component={Classrooms}>
                 <IndexRoute component={ClassroomsOverview} />
                 <Route path=":classroomId" component={Classroom} />
+
               </Route>
+              <Route path="newclassroom" component={NewClassroomForm} />
               <Route path="data" component={MapExplorer} />
             </Route>
           </Route>
