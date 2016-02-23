@@ -38,18 +38,6 @@ export default class MapExplorer extends React.Component {
     this.updateSelector = this.updateSelector.bind(this);
    
     let defaultSelector = new SelectorData();
-    defaultSelector.sql =
-      config.cartodb.sqlQueryCountCameras
-      .replace(/{CAMERAS}/ig, config.cartodb.sqlTableCameras)
-      .replace(/{SUBJECTS}/ig, config.cartodb.sqlTableSubjects)
-      .replace(/{CLASSIFICATIONS}/ig, config.cartodb.sqlTableClassifications)
-      .replace(/{WHERE}/ig, '');
-    defaultSelector.css =
-      config.cartodb.cssStandard
-      .replace(/{LAYER}/ig, config.cartodb.sqlTableCameras)  //Actually, any ID will do
-      .replace(/{MARKER-COLOR}/ig, defaultSelector.markerColor)
-      .replace(/{MARKER-OPACITY}/ig, defaultSelector.markerOpacity)
-      .replace(/{MARKER-SIZE}/ig, defaultSelector.markerSize);
     
     this.state = {
       map: undefined,

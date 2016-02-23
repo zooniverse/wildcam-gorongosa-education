@@ -19,7 +19,7 @@ export default class SelectorPanel extends React.Component {
     let species = [];
     config.species.map((s) => {
       species.push(
-        <li key={'species_'+s.id}><input type="checkbox" ref={'inputRow_species_item_' + s.id} value={s.sqlWherePart} onchange={this.refreshUI} /><label>{s.plural}</label></li>
+        <li key={'species_'+s.id}><input type="checkbox" ref={'inputRow_species_item_' + s.id} value={s.sqlWherePart} onChange={this.refreshUI} /><label>{s.plural}</label></li>
       );
     });
     
@@ -29,13 +29,13 @@ export default class SelectorPanel extends React.Component {
         <section className={(this.props.selectorData.mode !== SelectorData.GUIDED_MODE) ? 'input-subpanel not-selected' : 'input-subpanel' } ref="subPanel_guided">
           <h1 onClick={this.changeToGuided}>Guided Mode</h1>
           <div className="input-row" ref="inputRow_species">
-            <label ref="inputRow_species_label">...all species of animals</label>
+            <label ref="inputRow_species_label">Species</label>
             <ul ref="inputRow_species_list">
               {species}
             </ul>
           </div>
           <div className="input-row">
-            <label>Marker Colo(u)r:</label>
+            <label>Marker Color:</label>
             <input type="text" ref="markerColor" onChange={this.refreshUI} />
             <label>Marker Size:</label>
             <input type="text" ref="markerSize" onChange={this.refreshUI} />
@@ -66,6 +66,10 @@ export default class SelectorPanel extends React.Component {
     //Set <input> values based on the selector data.
     //WARNING: Do not set values DURING render(), because these will cause the
     //<input> elements to become strictly 'controlled' React elements.
+    
+    config.species.map((s) => {
+      this.refs['inputRow_species_item_' + s.id].checked = (this.props.selectorData.species.indexOf(s.id) >= 0);
+    });
     
     this.refs.markerColor.value = this.props.selectorData.markerColor;
     this.refs.markerOpacity.value = this.props.selectorData.markerOpacity;
@@ -101,6 +105,23 @@ export default class SelectorPanel extends React.Component {
     //Create a copy of the current Selector Data, which we will then modify and
     //pass to the parent.
     let data = this.props.selectorData.copy();
+
+    data.species = [];
+    config.species.map((s) => {
+      let ele = this.refs['inputRow_species_item_' + s.id];
+      if (ele && ele.checked && ele.value) {
+        data.species.push(s.id);
+      }
+    });
+    
+    data.markerColor = this.refs.markerColor.value;
+    data.markerOpacity = this.refs.markerOpacity.value;
+    data.markerSize = this.refs.markerSize.value;
+
+    if (data.mode === SelectorData.GUIDED_MODE) {
+      this.refs.sql.value = data.calculateSql();
+      this.refs.css.value = data.calculateCss();
+    }
     data.sql = this.refs.sql.value;
     data.css = this.refs.css.value;
     
@@ -115,8 +136,24 @@ export default class SelectorPanel extends React.Component {
   
   //Update the UI based on user actions.
   refreshUI(e) {
-    for (let li of this.refs.inputRow_species_list.children) {  //Children don't have .map() for some reason!
-      //console.log(li.getElementsByTagName('input')[0]);  //TODO
-    }
+    console.log('Selectors.refreshUI()');
+    //for (let li of this.refs.inputRow_species_list.children) {  //Children don't have .map() for some reason!
+    //  if (li.getElementsByTagName('input')[0].checked) {
+    //    console.log(li.getElementsByTagName('input')[0].value);
+    //  }
+    //}
+    
+    //let sqlWhere_species = [];
+    //config.species.map((s) => {
+    //  let ele = this.refs['inputRow_species_item_' + s.id];
+    //  if (ele && ele.checked && ele.value) {
+    //    sqlWhere_species.push(ele.value);
+    //  }
+    //});    
+    //sqlWhere_species = (sqlWhere_species.length === 0)
+    //  ? ''
+    //  : '(' + sqlWhere_species.join(' OR ') + ')';
+    
+    //console.log(sqlWhere_species);
   }
 }
