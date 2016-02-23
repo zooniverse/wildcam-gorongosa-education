@@ -69,5 +69,5 @@ export default class ClassroomSidebar extends Component {
 }
 
 ClassroomSidebar.propTypes = {
-  classrooms: PropTypes.array
+  classrooms: PropTypes.array.isRequired,
 };

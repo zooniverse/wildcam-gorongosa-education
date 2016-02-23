@@ -10,7 +10,6 @@ import Classrooms from './containers/Classrooms.jsx';
 import Classroom from './containers/Classroom.jsx';
 
 import Home from './presentational/Home.jsx';
-import TeachersDashboard from './presentational/TeachersDashboard.jsx';
 import ClassroomsOverview from './presentational/ClassroomsOverview.jsx';
 
 import Styles from './styles/main.styl';
