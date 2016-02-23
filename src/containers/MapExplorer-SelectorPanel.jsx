@@ -18,9 +18,17 @@ export default class SelectorPanel extends React.Component {
   render() {
     //Input Choice: Species
     let species = [];
-    config.species.map((s) => {
+    config.species.map((item) => {
       species.push(
-        <li key={'species_'+s.id}><input type="checkbox" ref={'inputRow_species_item_' + s.id} value={s.sqlWherePart} onchange={this.refreshUI} /><label>{s.plural}</label></li>
+        <li key={'species_'+item.id}><input type="checkbox" ref={'inputRow_species_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label>{item.plural}</label></li>
+      );
+    });
+    
+    //Input Choice: Habitats
+    let habitats = [];
+    config.habitats.map((item) => {
+      habitats.push(
+        <li key={'habitat_'+item.id}><input type="checkbox" ref={'inputRow_habitats_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label>{item.name}</label></li>
       );
     });
     
@@ -33,6 +41,12 @@ export default class SelectorPanel extends React.Component {
             <label ref="inputRow_species_label">Species</label>
             <ul ref="inputRow_species_list">
               {species}
+            </ul>
+          </div>
+          <div className="input-row" ref="inputRow_species">
+            <label ref="inputRow_species_label">Habitats</label>
+            <ul ref="inputRow_species_list">
+              {habitats}
             </ul>
           </div>
           <div className="input-row">
@@ -68,14 +82,20 @@ export default class SelectorPanel extends React.Component {
     //WARNING: Do not set values DURING render(), because these will cause the
     //<input> elements to become strictly 'controlled' React elements.
     
-    config.species.map((s) => {
-      this.refs['inputRow_species_item_' + s.id].checked = (this.props.selectorData.species.indexOf(s.id) >= 0);
+    //Update the UI to reflect the current selector values
+    config.species.map((item) => {
+      this.refs['inputRow_species_item_' + item.id].checked = (this.props.selectorData.species.indexOf(item.id) >= 0);
+    });
+    config.habitats.map((item) => {
+      this.refs['inputRow_habitats_item_' + item.id].checked = (this.props.selectorData.habitats.indexOf(item.id) >= 0);
     });
     
+    //Same for the styling
     this.refs.markerColor.value = this.props.selectorData.markerColor;
     this.refs.markerOpacity.value = this.props.selectorData.markerOpacity;
     this.refs.markerSize.value = this.props.selectorData.markerSize;
     
+    //Same for the Advanced panel.
     this.refs.sql.value = this.props.selectorData.sql;
     this.refs.css.value = this.props.selectorData.css;
     
@@ -107,11 +127,21 @@ export default class SelectorPanel extends React.Component {
     //pass to the parent.
     let data = this.props.selectorData.copy();
 
+    //Filter control: species
     data.species = [];
-    config.species.map((s) => {
-      let ele = this.refs['inputRow_species_item_' + s.id];
+    config.species.map((item) => {
+      let ele = this.refs['inputRow_species_item_' + item.id];
       if (ele && ele.checked && ele.value) {
-        data.species.push(s.id);
+        data.species.push(item.id);
+      }
+    });
+    
+    //Filter control: habitats
+    data.habitats = [];
+    config.habitats.map((item) => {
+      let ele = this.refs['inputRow_habitats_item_' + item.id];
+      if (ele && ele.checked && ele.value) {
+        data.habitats.push(item.id);
       }
     });
     

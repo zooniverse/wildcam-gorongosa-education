@@ -14,8 +14,9 @@ export default class SelectorData {
     this.mode = SelectorData.GUIDED_MODE;
     //this.colour = '#000000';
     
-    //Default species selectors
-    this.species = ['baboon', 'lion'];
+    //Default filter selectors
+    this.species = [];  //For a pre-set selection, use ['baboon', 'lion'] or etc.
+    this.habitats = [];  //For a pre-set selection, use ['limestone', 'miombo'] or etc.
     
     //Default marker styles.
     this.markerColor = '#ff9900';  //For... consistency, this is coLOR instead of coLOUR.
@@ -29,15 +30,40 @@ export default class SelectorData {
   }
   
   calculateSql() {
+    //The biggest variable in the SQL query is the 'WHERE' clause.
+    
+    //Where constructor: species
     let sqlWhere_species = [];
-    this.species.map((s) => {
-      sqlWhere_species.push('species ILIKE \'%' + s + '%\'');
+    this.species.map((item) => {
+      sqlWhere_species.push('species ILIKE \'%' + item + '%\'');
     });    
     sqlWhere_species = (sqlWhere_species.length === 0)
       ? ''
       : '(' + sqlWhere_species.join(' OR ') + ')';
     
-    let sqlWhere = sqlWhere_species;
+    //Where constructor: habitats
+    let sqlWhere_habitats = [];
+    config.habitats.map((item) => {
+      console.log('DEBUG: ' + item.name);
+      if (this.habitats.indexOf(item.id) >= 0) {
+        sqlWhere_habitats.push('veg_type ILIKE \'%' + item.name.replace(/'/, '\'\'') + '%\'');
+      }
+    });
+    console.log('!!![', sqlWhere_habitats.length, ']!!!');
+    sqlWhere_habitats = (sqlWhere_habitats.length === 0)
+      ? ''
+      : '(' + sqlWhere_habitats.join(' OR ') + ')';
+    
+    console.log('!!![', sqlWhere_habitats, ']!!!');
+    
+    //Join the Where constructor
+    let sqlWhere = '';
+    [sqlWhere_species, sqlWhere_habitats].map((wherePart) => {
+      if (wherePart !== '') {
+        sqlWhere += (sqlWhere !== '') ? ' AND' : '';
+        sqlWhere += wherePart;
+      }
+    });
     if (sqlWhere !== '') {
       sqlWhere = ' WHERE ' + sqlWhere;
     }
@@ -50,12 +76,21 @@ export default class SelectorData {
   }
   
   calculateCss() {
+    let children = '[count=0],[count=null] {marker-fill:#000;} ';
+    
+    //For presentation, TODO: give options to change styles
+    //----------------
+    for (let i = 0; i < 10; i++) {
+      children += '[count>'+(i*50)+'] {marker-width:'+(parseFloat(this.markerSize)+2*i)+';} ';
+    }
+    //----------------
+    
     return config.cartodb.cssStandard
       .replace(/{LAYER}/ig, config.cartodb.sqlTableCameras)  //Actually, any ID will do
       .replace(/{MARKER-COLOR}/ig, this.markerColor)
       .replace(/{MARKER-OPACITY}/ig, this.markerOpacity)
       .replace(/{MARKER-SIZE}/ig, this.markerSize)
-      .replace(/{CHILDREN}/ig, '');
+      .replace(/{CHILDREN}/ig, children);
   }
   
   copy() {

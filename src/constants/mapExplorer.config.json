@@ -50,5 +50,23 @@
       "singular": "Warthog",
       "plural": "Warthogs"
     }
+  ],
+  "habitats": [
+    {
+      "id": "limestone",
+      "name": "Limestone Gorge"
+    },
+    {
+      "id": "floodplain",
+      "name": "Floodplain Grassland"
+    },
+    {
+      "id": "miombo",
+      "name": "Miombo Woodland"
+    },
+    {
+      "id": "savanna",
+      "name": "Mixed Savanna and Woodland"
+    }
   ]
 }
