@@ -9,13 +9,13 @@ export default class ClassroomSidebar extends Component {
     this.renderClassroomList = this.renderClassroomList.bind(this);
   }
 
-  renderStatusMessage(data) {
+  renderStatusMessage(props) {
     let message = null;
-    if (data.isFetching) {
+    if (props.loading) {
       message = 'Loading classrooms...';
-    } else if (data.error) {
+    } else if (props.error) {
       message = 'There was an error loading the classrooms :(';
-    } else if (data.classrooms && data.classrooms.length === 0) {
+    } else if (props.data && props.data.length === 0) {
       message = 'No classrooms have been created yet.';
     }
     return (message)
@@ -27,9 +27,8 @@ export default class ClassroomSidebar extends Component {
       : null;
   }
 
-  renderClassroomList(classrooms) {
-    const list = (classrooms.length > 0) ? classrooms : [];
-
+  renderClassroomList(data) {
+    const list = (data.length > 0) ? data : [];
     return (
       <div className="list-group">
         <Link className="list-group-item" to="/teachers/classrooms">
@@ -50,8 +49,8 @@ export default class ClassroomSidebar extends Component {
 
 
   render() {
-    const { data } = this.props;
-    const { classrooms } = data;
+    const data = this.props.classroomsData;
+    const list = data.data; // RENAME!!
 
     return (
       <div className="admin-sidebar">
@@ -60,7 +59,7 @@ export default class ClassroomSidebar extends Component {
             <h3 className="panel-title">Classrooms</h3>
           </div>
           { this.renderStatusMessage(data) }
-          { this.renderClassroomList(classrooms) }
+          { this.renderClassroomList(list) }
         </div>
       </div>
     );
@@ -69,5 +68,5 @@ export default class ClassroomSidebar extends Component {
 }
 
 ClassroomSidebar.propTypes = {
-  classrooms: PropTypes.array.isRequired,
+  classroomsData: PropTypes.object.isRequired,
 };
