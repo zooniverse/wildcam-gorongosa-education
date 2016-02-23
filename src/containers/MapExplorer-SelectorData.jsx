@@ -17,6 +17,16 @@ export default class SelectorData {
     this.sql = '';
     this.css = '';
   }
+  
+  copy() {
+    var newCopy = new SelectorData();
+    for (var i in this) {
+      if (this.hasOwnProperty(i) & i !== 'copy') {
+        newCopy[i] = this[i];
+      }
+    }
+    return newCopy;
+  }
 }
 SelectorData.GUIDED_MODE = 1;
 SelectorData.ADVANCED_MODE = 2;
