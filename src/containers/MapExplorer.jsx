@@ -17,10 +17,10 @@ export default React.createClass({
     console.log('render()');
     return (
       <div className='map-explorer'>
-        <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+        <link rel="stylesheet" href="//libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
         <div ref="mapVisuals" id="mapVisuals" className="map-visuals"></div>
         <div ref="mapControls" className="map-controls">
-          <Script src={'http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js'}>{
+          <Script src={'//libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js'}>{
             ({done}) => !done ? <div className="message">Map Explorer is loading...</div> : this.initMapExplorer()
           }</Script>
           <div className="inputRow">
