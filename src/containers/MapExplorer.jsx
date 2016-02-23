@@ -1,127 +1,203 @@
+/*
+Map Explorer
+============
+
+Project
+-------
+https://github.com/zooniverse/wildcam-gorongosa-education/
+
+Info
+----
+The Map Explorer will be used by teachers and students to explore Wildcam
+Gorongosa's collected data & information about wildlife, etc on a visual map.
+
+The ME is a component of the Wildcam Gorongosa Education project. It exists on a
+standalone 'Map' page on the website, and consists of an interactive map and
+controls to filter the data shown on the visuals.
+
+(- shaun.a.noordin, 20160216)
+********************************************************************************
+ */
+
 import React from 'react';
 import {Script} from 'react-loadscript';
+import SelectorData from './MapExplorer-SelectorData.jsx';
+import SelectorPanel from './MapExplorer-SelectorPanel.jsx';
+const config = require('../constants/mapExplorer.config.json');
 
-const config = require('../constants/config.json');
+//WARNING: DON'T import Leaflet. Leaflet 0.7.7 is packaged with cartodb.js 3.15.
+//import L from 'leaflet';
 
-export default React.createClass({
-  getInitialState() {
-    return {
-      cartodbVis: undefined,
-      cartodbMap: undefined,
-      cartodbLayers: undefined,  //Array of map layers. layer[0] is the base (cartographic map).
-      cartodbDataLayer: undefined
+export default class MapExplorer extends React.Component {
+  constructor(props) {
+    super(props);
+   
+    let defaultSelector = new SelectorData();
+    
+    defaultSelector.sql =
+      config.cartodb.sqlQueryCountCameras
+      .replace(/{CAMERAS}/ig, config.cartodb.sqlTableCameras)
+      .replace(/{SUBJECTS}/ig, config.cartodb.sqlTableSubjects)
+      .replace(/{CLASSIFICATIONS}/ig, config.cartodb.sqlTableClassifications)
+      .replace(/{WHERE}/ig, '');
+    
+    defaultSelector.css =
+      config.cartodb.cssStandard
+      .replace(/{LAYER}/ig, config.cartodb.sqlTableCameras)  //Actually, any ID will do
+      .replace(/{MARKER-COLOR}/ig, defaultSelector.markerColor)
+      .replace(/{MARKER-OPACITY}/ig, defaultSelector.markerOpacity)
+      .replace(/{MARKER-SIZE}/ig, defaultSelector.markerSize);
+    
+    this.state = {
+      map: undefined,
+      cartodbLayer: undefined,  //Array of map layers. layer[0] is the base (cartographic map).
+      selectors: [defaultSelector]
     };
-  },
+  }
 
   render() {
     console.log('render()');
-    return (
-      <div className='map-explorer'>
+    return (  //Reminder: the parent .content-section is a <main>, so don't set .map-explorer as <main> as well.
+      <div ref="mapExplorer" className="map-explorer">
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
         <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
-        <div ref="mapVisuals" id="mapVisuals" className="map-visuals"></div>
-        <div ref="mapControls" className="map-controls">
+        <section ref="mapVisuals" id="mapVisuals" className="map-visuals"></section>
+        <section ref="mapControls" className="map-controls">
           <Script src={'http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js'}>{
             ({done}) => !done ? <div className="message">Map Explorer is loading...</div> : this.initMapExplorer()
           }</Script>
-          <div className="inputRow">
-            <label>Map SQL</label>
-            <textarea ref="mapSql"></textarea>
+          {this.state.selectors.map((selector) => {
+            return (
+              <SelectorPanel key={selector.id} selectorData={selector} updateMeHandler={this.updateSelector.bind(this)} deleteMeHandler={this.deleteSelector.bind(this)} />
+            );
+          })}
+          <div className="controlPanel">
+            <button onClick={this.addSelector.bind(this)}>Add Selector</button>
           </div>
-          <div className="inputRow">
-            <label>Map CSS</label>
-            <textarea ref="mapCss"></textarea>
-          </div>
-          <div className="inputRow">
-            <button onClick={this.updateMapExplorer}>Update</button>
-          </div>
-        </div>
+        </section>
       </div>
     );
-  },
+  }
 
   componentDidMount() {
     console.log('componentDidMount()');
-  },
+  }
 
   componentWillUnmount() {
     console.log('componentWillUnmount()');
-  },
+  }
+  
+  //----------------------------------------------------------------
 
   //Initialises the Map Explorer.
-  //NOTE: initMapExlorer() can be called in two ways:
-  //1. When the map is loaded for the first time, the <Script> for the  API
-  //   needs to be loaded dynamically. When it's successfully loaded,
-  //   initMapExplorer is called.
-  //2. If the <Script> has been loaded previously - e.g. the user navigated
-  //   away from the page and has now returned - then initMapExplorer() will be
-  //   called during componentDidMount(), after the necessary HTML elements have
-  //   been rendered.
   initMapExplorer() {
-    console.log('MapExplorer.initMapExplorer()');
-    if (this.state.cartodbVis) {
-      //This prevents CartoDB from creating a map one when navigating from the
-      //Map Explorer page to the (same) Map Explorer page.
-      return <div className="message">Map Explorer ALREADY LOADED</div>;;
+    //Req check
+    if (!(window.L && window.cartodb)) {
+      console.log('initMapExplorer(): failed');
+      return;
+    } else {
+      console.log('initMapExplorer()');
     }
-    cartodb.createVis('mapVisuals', config.cartoDB.mapVisualisationUrl)
-      .done(function (vis, layers) {
-        this.state.cartodbVis = vis;
-        this.state.cartodbMap = vis.getNativeMap();
-        this.state.cartodbLayers = layers;
-        if (layers.length >= (config.cartoDB.dataLayerIndex+1)) {
-          this.state.cartodbDataLayer = layers[config.cartoDB.dataLayerIndex];
-        }
-      }.bind(this));
-    this.resizeMapExplorer();
-
-    this.refs.mapSql.value = 'SELECT * FROM "' + config.cartoDB.dataTable + '" WHERE "veg_type" LIKE \'Mixed Savanna and Woodland\' OR "veg_type" LIKE \'Floodplain Grassland\'';
-    this.refs.mapCss.value = [
-      '#'+config.cartoDB.dataTable+' {',
-      '  marker-fill: #fc3;',
-      '  marker-fill-opacity: 0.9;',
-      '  marker-line-color: #FFF;',
-      '  marker-line-width: 2;',
-      '  marker-line-opacity: 1;',
-      '  marker-placement: point;',
-      '  marker-type: ellipse;',
-      '  marker-width: 20;',
-      '  marker-allow-overlap: true;',
-      '}',
-      '#'+config.cartoDB.dataTable+'[dist_water_m < 300] {',
-      '  marker-width: 30;',
-      '}',
-      '#'+config.cartoDB.dataTable+'[dist_water_m < 200] {',
-      '  marker-width: 40;',
-      '}',
-      '#'+config.cartoDB.dataTable+'[dist_water_m < 100] {',
-      '  marker-width: 50;',
-      '}',
-      '#'+config.cartoDB.dataTable+'[veg_type="Floodplain Grassland"] {',
-      '  marker-fill: #3ff;',
-      '}'
-    ].join('\n');
-
-    return <div className="message">Map Explorer is READY</div>;
-    //Note: use `return null` if we don't want a message to pop up.
-  },
-
-  updateMapExplorer() {
-    console.log('updateMapExplorer()');
-    if (this.state.cartodbVis) {
-      //Delete everything.
-      //TODO: This is a temporary measure to get a clean start! It's not really
-      //necessary to delete and rebuild layers - we can modify existing ones,
-      //assuming we can figure out which existing ones we want to twiddle with.
-      for (let i = this.state.cartodbDataLayer.getSubLayerCount() - 1; i >= 0; i--) {
-        this.state.cartodbDataLayer.getSubLayer(i).remove();
-      }
-
-      this.state.cartodbDataLayer.createSubLayer({
-        sql: this.refs.mapSql.value,
-        cartocss: this.refs.mapCss.value
+    
+    if (this.state.map) {
+      //This prevents CartoDB from re-creating a map one when navigating from
+      //the Map Explorer page to the (same) Map Explorer page.
+      return <div className="message">Welcome to the Map Explorer</div>;;
+    }
+    
+    //Create the map (Leaflet + CartoDB ver)
+    //1. Prepare the base layers
+    //2. Create the Leaflet Map
+    //3. Create the CartoDB data layer, and at that same step, add the controls
+    //   for controlling the base layers AND the data layer.
+    //--------------------------------
+    //Prepare the base layers.
+    let baseLayers = [];
+    let baseLayersForControls = {};
+    config.baseLayers.map((layer) => {
+      let newLayer = L.tileLayer(layer.url, {
+        attribution: layer.attribution
       });
+      baseLayers.push(newLayer);
+      baseLayersForControls[layer.name] = newLayer;
+    });
+          
+    //Go go gadget Leaflet Map!
+    this.state.map = new L.Map('mapVisuals', {  //Leaflet 0.7.7 comes with cartodb.js 3.15
+      center: [config.mapCentre.latitude, config.mapCentre.longitude],
+      zoom: config.mapCentre.zoom,
+      layers: baseLayers[0]  //Set the default base layer
+    });
+    
+    //Create the CartoDB layer
+    cartodb.createLayer(this.state.map, config.cartodb.vizUrl)
+      .addTo(this.state.map)
+      .on('done', (layer) => {   
+        this.state.cartodbLayer = layer;
+        this.state.cartodbLayer.setInteraction(true);
+        this.state.cartodbLayer.on('featureClick', this.onMapClick);  //Other events: featureOver
+        layer.on('error', (err) => {
+          console.error('ERROR (initMapExplorer(), cartodb.createLayer().on(\'done\')): ' + err);
+        });
+      
+        //Add the controls for the layers
+        L.control.layers(baseLayersForControls, { 'Data': layer }).addTo(this.state.map);                                                 
+        
+        //updateMapExplorer performs some cleanup
+        this.updateMapExplorer();
+      })
+      .on('error', (err) => {
+        console.error('ERROR (initMapExplorer(), cartodb.createLayer()):' + err);
+      });
+    //--------------------------------
+    
+    //Cleanup then go
+    //--------------------------------
+    this.resizeMapExplorer();
+    return <div className="message">Welcome to the Map Explorer!</div>;
+    //Note: use `return null` if we don't want a message to pop up.
+    //--------------------------------
+  }
+  
+  updateMapExplorer() {
+    
+    //Req check
+    if (!(this.state.map && this.state.cartodbLayer)) {
+      console.log('updateMapExplorer(): failed');
+      return;
+    } else {
+      console.log('updateMapExplorer()');
     }
-  },
+
+    //Remove all sublayers
+    for (let i = this.state.cartodbLayer.getSubLayerCount() - 1; i >= 0; i--) {
+      this.state.cartodbLayer.getSubLayer(i).remove();
+    }
+    
+    //Add a new sublayer for each selector
+    this.state.selectors.map((selector) => {
+      let sql = selector.sql.trim();
+      let css = selector.css.trim();      
+      if (sql !== '' && css !== '') {
+        let newSubLayer = this.state.cartodbLayer.createSubLayer({
+          sql: sql,
+          cartocss: css,
+          interactivity: 'id'  //Specify which data fields we want when we handle input events. Camera ID is enough, thanks.
+        });
+        newSubLayer.setInteraction(true);
+      }
+    });
+
+    //Alternative: update a sublayer instead of replacing it.
+    //----
+    //if (this.state.cartodbLayer.getSubLayerCount() > 0) {
+    //  this.state.cartodbLayer.getSubLayer(0).set({
+    //    sql: this.refs.mapSql.value,
+    //    cartocss: this.refs.mapCss.value
+    //  });
+    //}
+    //----
+  }
 
   resizeMapExplorer() {
     let windowHeight = window.innerHeight;
@@ -129,5 +205,54 @@ export default React.createClass({
     let footerHeight = document.getElementsByClassName('site-footer')[0].offsetHeight;
     let availableHeight = windowHeight - headerHeight - footerHeight;
     this.refs.mapVisuals.style.height = availableHeight+'px';
+    this.refs.mapControls.style.height = availableHeight+'px';
   }
-});
+  
+  //----------------------------------------------------------------
+  
+  onMapClick(e, latlng, pos, data) {
+    console.log('--------', e, latlng, pos, data, '========');
+    alert('This is camera ' + data.id + ' at ' + latlng[0] + ', ' + latlng[1]);
+  }
+  
+  //----------------------------------------------------------------
+  
+  updateSelector(data) {
+    console.log('MapExplorer.updateSelector('+data.id+')');
+    
+    //Find the Selector and then copy the values from the new input.
+    for (var selector of this.state.selectors) {  //for...of, not for...in.
+      if (selector.id === data.id) {
+        for (var prop in selector)  {  //for...in
+          selector[prop] = data[prop];
+        }
+      }
+    }
+    this.setState({
+      selectors: this.state.selectors
+    });    
+    this.updateMapExplorer();
+  }
+  
+  deleteSelector(id) {
+    console.log('MapExplorer.deleteSelector('+id+')');
+    this.state.selectors = this.state.selectors.filter((selector) => {
+      return selector.id !== id;
+    });    
+    this.setState({
+      selectors: this.state.selectors
+    });
+    this.updateMapExplorer();
+  }
+
+  addSelector() {
+    console.log('MapExplorer.addSelector()');
+    var newSelector = new SelectorData();    
+    this.state.selectors.push(newSelector);
+    this.setState({
+      selectors: this.state.selectors
+    });
+    this.updateMapExplorer();
+  }
+  
+}
