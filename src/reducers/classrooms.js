@@ -20,17 +20,19 @@ export function classrooms(state = intialState, action) {
         loading: true
       });
     case types.CREATE_CLASSROOM_SUCCESS:
-      const newlist = state.data.concat([action.data.attributes.name])
+      console.log('State: ', state.data)
+      const newlist = state.data.concat(action.data)
+      console.log('NewLIST: ', newlist)
       return Object.assign({}, state, {
         loading: false,
         data: newlist,
-        error: action.error,
+        error: false,
       });
     case types.CREATE_CLASSROOM_ERROR:
       return Object.assign({}, state, {
         loading: false,
         data: action.data,
-        error: action.error,
+        error: action.error || false,
       });
     default:
       return state;

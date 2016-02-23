@@ -2,25 +2,25 @@ import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { createClassroom, fetchClassrooms } from '../actions/classrooms';
-import ClassroomList from '../presentational/ClassroomList.jsx';
-import ClassroomListMessage from '../presentational/ClassroomListMessage.jsx';
+//import ClassroomList from '../presentational/ClassroomList.jsx';
+//import ClassroomListMessage from '../presentational/ClassroomListMessage.jsx';
+import ClassroomsSidebar from '../presentational/ClassroomsSidebar.jsx';
 
 
 class Classrooms extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       name: this.props.name || ''
     }
-    this.renderClassroomList = this.renderClassroomList.bind(this);
-    this.renderStatusMessage = this.renderStatusMessage.bind(this);
+//    this.renderClassroomList = this.renderClassroomList.bind(this);
+//    this.renderStatusMessage = this.renderStatusMessage.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    if (!this.props.data.length && !this.props.loading) {
+    if (!this.props.classrooms.data.length && !this.props.classrooms.loading) {
       this.props.dispatch(fetchClassrooms());
     }
   }
@@ -38,34 +38,33 @@ class Classrooms extends Component {
     this.setState({ name: '' })
   }
 
-  renderClassroomList(data) {
-    return (data.length > 0)
-      ? (<ClassroomList data={data} />)
-      : null;
-  }
 
-  renderStatusMessage(props) {
-    let message = null;
+//  renderClassroomList(data) {
+//    return (data.length > 0)
+//      ? (<ClassroomList data={data} />)
+//      : null;
+//  }
+//
+//  renderStatusMessage(props) {
+//    let message = null;
+//
+//    if (props.loading) {
+//      message = 'Loading classrooms...';
+//    } else if (props.error) {
+//      message = 'There was an error loading the classrooms :(';
+//    } else if (props.data.length === 0) {
+//      message = 'No classrooms have been created yet.';
+//    }
+//    return (message)
+//      ? (<ClassroomListMessage message={message} />)
+//      : null;
+//  }
 
-    if (props.loading) {
-      message = 'Loading classrooms...';
-    } else if (props.error) {
-      message = 'There was an error loading the classrooms :(';
-    } else if (props.data.length === 0) {
-      message = 'No classrooms have been created yet.';
-    }
-    return (message)
-      ? (<ClassroomListMessage message={message} />)
-      : null;
-  }
 
   render() {
-    const message = this.renderStatusMessage(this.props);
-    const classrooms = this.renderClassroomList(this.props.data);
-    const classNames = 'btn btn-primary';
     return (
-      <div>
-        <h4>Classrooms</h4>
+      <div className="admin-component">
+        <div className="row">
           <form className="input-group" onSubmit={this.handleSubmit}>
             <input className="form-control"
               type="text"
@@ -74,11 +73,12 @@ class Classrooms extends Component {
               value={this.state.name}
               onChange={this.handleChange}/>
             <span className="input-group-btn">
-              <button type="submit" className={classNames}>Add</button>
+              <button type="submit" className="btn btn-primary">Add</button>
             </span>
           </form>
-          {message}
-          {classrooms}
+          <ClassroomsSidebar classroomsData={this.props.classrooms} />
+          {this.props.children}
+        </div>
       </div>
     );
   }
@@ -86,24 +86,21 @@ class Classrooms extends Component {
 }
 
 Classrooms.propTypes = {
-  data: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.bool.isRequired,
+  classrooms: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 };
 
 Classrooms.defaultProps = {
+  classrooms: {
     data: [],
     loading: false,
     error: false,
+  }
 };
 
 function mapStateToProps(state) {
   return {
-    data: state.classrooms.data,
-    loading: state.classrooms.loading,
-    error: state.classrooms.error,
+    classrooms: state.classrooms,
   };
 }
-
 export default connect(mapStateToProps)(Classrooms);

@@ -49,10 +49,11 @@ export function fetchClassrooms() {
           'Content-Type': 'application/json'
         })
       })
+
       .then(response => response.json())
       .then(json => dispatch({
         type: types.RECEIVE_CLASSROOMS,
-        data: json.data.map(classroom => classroom.attributes.name)
+        data: json.data
       }))
       .catch(response => dispatch({
         type: types.RECEIVE_CLASSROOMS,
