@@ -39,20 +39,6 @@ export default class MapExplorer extends React.Component {
    
     let defaultSelector = new SelectorData();
     
-    defaultSelector.sql =
-      config.cartodb.sqlQueryCountCameras
-      .replace(/{CAMERAS}/ig, config.cartodb.sqlTableCameras)
-      .replace(/{SUBJECTS}/ig, config.cartodb.sqlTableSubjects)
-      .replace(/{CLASSIFICATIONS}/ig, config.cartodb.sqlTableClassifications)
-      .replace(/{WHERE}/ig, '');
-    
-    defaultSelector.css =
-      config.cartodb.cssStandard
-      .replace(/{LAYER}/ig, config.cartodb.sqlTableCameras)  //Actually, any ID will do
-      .replace(/{MARKER-COLOR}/ig, defaultSelector.markerColor)
-      .replace(/{MARKER-OPACITY}/ig, defaultSelector.markerOpacity)
-      .replace(/{MARKER-SIZE}/ig, defaultSelector.markerSize);
-    
     this.state = {
       map: undefined,
       cartodbLayer: undefined,  //Array of map layers. layer[0] is the base (cartographic map).
@@ -61,7 +47,7 @@ export default class MapExplorer extends React.Component {
   }
 
   render() {
-    console.log('render()');
+    console.log('MapExplorer.render()');
     return (  //Reminder: the parent .content-section is a <main>, so don't set .map-explorer as <main> as well.
       <div ref="mapExplorer" className="map-explorer">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
@@ -85,11 +71,11 @@ export default class MapExplorer extends React.Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount()');
+    console.log('MapExplorer.componentDidMount()');
   }
 
   componentWillUnmount() {
-    console.log('componentWillUnmount()');
+    console.log('MapExplorer.componentWillUnmount()');
   }
   
   //----------------------------------------------------------------
@@ -98,10 +84,10 @@ export default class MapExplorer extends React.Component {
   initMapExplorer() {
     //Req check
     if (!(window.L && window.cartodb)) {
-      console.log('initMapExplorer(): failed');
+      console.log('MapExplorer.initMapExplorer(): failed');
       return;
     } else {
-      console.log('initMapExplorer()');
+      console.log('MapExplorer.initMapExplorer()');
     }
     
     if (this.state.map) {
@@ -168,10 +154,10 @@ export default class MapExplorer extends React.Component {
     
     //Req check
     if (!(this.state.map && this.state.cartodbLayer)) {
-      console.log('updateMapExplorer(): failed');
+      console.log('MapExplorer.updateMapExplorer(): failed');
       return;
     } else {
-      console.log('updateMapExplorer()');
+      console.log('MapExplorer.updateMapExplorer()');
     }
 
     //Remove all sublayers

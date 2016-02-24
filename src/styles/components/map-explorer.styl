@@ -3,6 +3,7 @@
   flex: 1 0 auto
   flex-direction: row-reverse
   background: #9ab
+  width: 100%
   
   .map-visuals
     flex: 1 1 auto
@@ -40,10 +41,15 @@
           display: none
 
       h1
+        cursor: pointer
         margin: 0
         padding: 0.5em 0
         font-size: 1.2em
         font-weight: bold
+        text-align: center
+        
+        &:hover
+          background: #69b
 
       .input-row
         padding: 0.5em 0
@@ -62,16 +68,44 @@
           border: 1px solid #ccc
 
         textarea
-          height: 5em
+          height: 20em
 
         ul
           list-style: none
           margin: 0
           padding: 0
+          position: relative
+          overflow: hidden
 
           li
             margin: 0
-            padding: 0
+            padding: 0.1em 1em
+            float: left
+            width: 50%
+            display: flex
+            flex-direction: row
+            
+            input
+              flex: 0 0 auto
+              margin-right: 0.5em
+              
+            label
+              flex: 1 1 auto
+              cursor: pointer
+          
+              &:hover
+                background: #69b
+        
+        .range-input
+          display: flex
+          
+          input 
+            flex: 1 1 30%
+            margin: 0 0.5em
+            text-align: center
+            
+          span
+            flex: 0 0 auto
 
     .action-subpanel
       text-align: center
