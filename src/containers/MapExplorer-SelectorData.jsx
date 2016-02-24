@@ -18,6 +18,9 @@ export default class SelectorData {
     this.species = [];  //For a pre-set selection, use ['baboon', 'lion'] or etc.
     this.habitats = [];  //For a pre-set selection, use ['limestone', 'miombo'] or etc.
     this.seasons = [];  //For a pre-set selection, use ['janmar', 'aprjun'] or etc.
+    this.dateStart = '';
+    this.dateEnd = '';
+    this.user = '';
     
     //Default marker styles.
     this.markerColor = '#ff9900';  //For... consistency, this is coLOR instead of coLOUR.
@@ -63,9 +66,25 @@ export default class SelectorData {
     sqlWhere_seasons = (sqlWhere_seasons.length === 0)
       ? '' : '(' + sqlWhere_seasons.join(' OR ') + ')';
     
+    //Where constructor: date range
+    let sqlWhere_dates = '';
+    let validDate = /^\s*\d\d\d\d[\-\/\.]?\d?\d[\-\/\.]?\d?\d\s*$/g;
+    if (this.dateStart.match(validDate) && this.dateEnd.match(validDate)) {
+      sqlWhere_dates = '(to_timestamp(dateutc, \'MM/DD/YYYY\') BETWEEN \''+this.dateStart.trim()+'\' AND \''+this.dateEnd.trim()+'\')';
+    } else if (this.dateStart.match(validDate)) {
+      sqlWhere_dates = '(to_timestamp(dateutc, \'MM/DD/YYYY\') >= \''+this.dateStart.trim()+'\')';
+    } else if (this.dateEnd.match(validDate)) {
+      sqlWhere_dates = '(to_timestamp(dateutc, \'MM/DD/YYYY\') <= \''+this.dateEnd.trim()+'\')';
+    }
+    
+    //Where constructor: user/groups/etc
+    let sqlWhere_user = (this.user.trim() === '')
+      ? '': '(user_hash ILIKE \''+this.user.replace(/'/, '\'\'').trim()+'\')';
+      //WARNING: Either use =, LIKE or ILIKE (case-insensitive Like) depending on what the Panoptes API demands.
+    
     //Join the Where constructor
     let sqlWhere = '';
-    [sqlWhere_species, sqlWhere_habitats, sqlWhere_seasons].map((wherePart) => {
+    [sqlWhere_species, sqlWhere_habitats, sqlWhere_seasons, sqlWhere_dates, sqlWhere_user].map((wherePart) => {
       if (wherePart !== '') {
         sqlWhere += (sqlWhere !== '') ? ' AND' : '';
         sqlWhere += wherePart;
@@ -78,13 +97,6 @@ export default class SelectorData {
     //TODO: 2016.02.24
     //Here are some table columns to use:
     //user_hash: msyfoopoo99
-    //year: number
-    //month: Jan|Feb|Mar|Apr|etc
-    //season: Dry Jul-Sep
-    //        DryWet Oct-Dec
-    //        WetDry Apr-Jun
-    //        Wet Jan-Mar
-    //        null
     //location: http://zooniverse-export.s3-website-us-east-1.amazonaws.com/21484_1000_C08_Season%201_Set%201_EK005157.JPG
     
     return config.cartodb.sqlQueryCountCameras

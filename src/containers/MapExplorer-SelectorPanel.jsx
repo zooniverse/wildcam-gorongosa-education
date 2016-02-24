@@ -62,6 +62,18 @@ export default class SelectorPanel extends React.Component {
               {seasons}
             </ul>
           </div>
+          <div className="input-row" ref="inputRow_dates">
+            <label ref="inputRow_dates_label">Date</label>
+            <div ref="inputRow_dates_list" className="range-input">
+              <input ref="inputRow_dates_item_start" placeholder="2000-12-31" />
+              <span>to</span>
+              <input ref="inputRow_dates_item_end" placeholder="2020-12-31" />
+            </div>
+          </div>
+          <div className="input-row">
+            <label>Username:</label>
+            <input type="text" ref="username" onChange={this.refreshUI} />
+          </div>
           <div className="input-row">
             <label>Marker Color:</label>
             <input type="text" ref="markerColor" onChange={this.refreshUI} />
@@ -105,6 +117,11 @@ export default class SelectorPanel extends React.Component {
     config.seasons.map((item) => {
       this.refs['inputRow_seasons_item_' + item.id].checked = (this.props.selectorData.seasons.indexOf(item.id) >= 0);
     });
+    this.refs['inputRow_dates_item_start'].value = this.props.selectorData.dateStart;
+    this.refs['inputRow_dates_item_end'].value = this.props.selectorData.dateEnd;
+    
+    //Some extra options
+    this.refs.username.value = this.props.selectorData.user;
     
     //Same for the styling
     this.refs.markerColor.value = this.props.selectorData.markerColor;
@@ -170,10 +187,19 @@ export default class SelectorPanel extends React.Component {
       }
     });
     
+    //Filter control: dates
+    data.dateStart = this.refs['inputRow_dates_item_start'].value.trim();
+    data.dateEnd = this.refs['inputRow_dates_item_end'].value.trim();
+    
+    //Filter control: users & grouping
+    data.user = this.refs.username.value.trim();
+
+    //Filter control: styles
     data.markerColor = this.refs.markerColor.value;
     data.markerOpacity = this.refs.markerOpacity.value;
     data.markerSize = this.refs.markerSize.value;
 
+    //Filter control: mode
     if (data.mode === SelectorData.GUIDED_MODE) {
       this.refs.sql.value = data.calculateSql();
       this.refs.css.value = data.calculateCss();
