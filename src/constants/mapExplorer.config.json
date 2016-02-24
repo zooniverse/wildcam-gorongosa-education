@@ -26,47 +26,303 @@
   ],
   "species": [
     {
+      "id": "aardvark",
+      "dbName": "Aardvark",
+      "displayName": "Aardvarks"
+    },
+    {
       "id": "baboon",
-      "singular": "Baboon",
-      "plural": "Baboons"
+      "dbName": "Baboon",
+      "displayName": "Baboons"
+    },
+    {
+      "id": "bird",
+      "dbName": "Bird (other)",
+      "displayName": "Birds (other)"
+    },
+    {
+      "id": "bushbuck",
+      "dbName": "Bushbuck",
+      "displayName": "Bushbucks"
+    },
+    {
+      "id": "bushpig",
+      "dbName": "Bushpig",
+      "displayName": "Bushpigs"
+    },
+    {
+      "id": "caracal",
+      "dbName": "Caracal",
+      "displayName": "Caracals"
+    },
+    {
+      "id": "civet",
+      "dbName": "Civet",
+      "displayName": "Civets"
+    },
+    {
+      "id": "crane",
+      "dbName": "Crane",
+      "displayName": "Cranes"
+    },
+    {
+      "id": "duiker",
+      "dbName": "Duiker",
+      "displayName": "Duikers"
+    },
+    {
+      "id": "eland",
+      "dbName": "Eland",
+      "displayName": "Elands"
     },
     {
       "id": "elephant",
-      "singular": "Elephant",
-      "plural": "Elephants"
+      "dbName": "Elephant",
+      "displayName": "Elephants"
+    },
+    {
+      "id": "fire",
+      "dbName": "Fire",
+      "displayName": "Fire!"
+    },
+    {
+      "id": "genet",
+      "dbName": "Genet",
+      "displayName": "Genets"
+    },
+    {
+      "id": "ghornbill",
+      "dbName": "Ground Hornbill",
+      "displayName": "Ground Hornbills"
+    },
+    {
+      "id": "hare",
+      "dbName": "Hare",
+      "displayName": "Hares"
+    },
+    {
+      "id": "hartebeest",
+      "dbName": "Hartebeest",
+      "displayName": "Hartebeests"
+    },
+    {
+      "id": "hippo",
+      "dbName": "Hippopotamus",
+      "displayName": "Hippopotami"
+    },
+    {
+      "id": "hbadger",
+      "dbName": "Honey Badger",
+      "displayName": "Honey Badgers"
     },
     {
       "id": "human",
-      "singular": "Human",
-      "plural": "Humans"
+      "dbName": "Human",
+      "displayName": "Humans"
     },
     {
-      "id": "lion",
-      "singular": "Lion",
-      "plural": "Lions"
+      "id": "hyena",
+      "dbName": "Hyena",
+      "displayName": "Hyenas"
+    },
+    {
+      "id": "impala",
+      "dbName": "Impala",
+      "displayName": "Impalas"
+    },
+    {
+      "id": "jackal",
+      "dbName": "Jackal",
+      "displayName": "Jackals"
+    },
+    {
+      "id": "kudu",
+      "dbName": "Kudu",
+      "displayName": "Kudus"
+    },
+    {
+      "id": "leopard",
+      "dbName": "Leopard",
+      "displayName": "Leopards"
+    },
+    {
+      "id": "lioncub",
+      "dbName": "Lion (cub)",
+      "displayName": "Lion Cubs"
+    },
+    {
+      "id": "lionfemale",
+      "dbName": "Lion (female)",
+      "displayName": "Lions (Females)"
+    },
+    {
+      "id": "lionmale",
+      "dbName": "Lion (male)",
+      "displayName": "Lions (Males)"
+    },
+    {
+      "id": "mongoose",
+      "dbName": "Mongoose",
+      "displayName": "Mongoose"
+    },
+    {
+      "id": "nothing",
+      "dbName": "Nothing here",
+      "displayName": "(Nothing)"
+    },
+    {
+      "id": "nyala",
+      "dbName": "Nyala",
+      "displayName": "Nyalas"
+    },
+    {
+      "id": "oribi",
+      "dbName": "Oribi",
+      "displayName": "Oribis"
+    },
+    {
+      "id": "otter",
+      "dbName": "Otter",
+      "displayName": "Otters"
+    },
+    {
+      "id": "pangolin",
+      "dbName": "Pangolin",
+      "displayName": "Pangolins"
+    },
+    {
+      "id": "porcupine",
+      "dbName": "Porcupine",
+      "displayName": "Porcupines"
+    },
+    {
+      "id": "raptor",
+      "dbName": "Raptor (other)",
+      "displayName": "Raptors (other)"
+    },
+    {
+      "id": "reedbuck",
+      "dbName": "Reedbuck",
+      "displayName": "Reedbucks"
+    },
+    {
+      "id": "reptile",
+      "dbName": "Reptile",
+      "displayName": "Reptiles"
+    },
+    {
+      "id": "rodent",
+      "dbName": "Rodent",
+      "displayName": "Rodents"
+    },
+    {
+      "id": "sable",
+      "dbName": "Sable Antelope",
+      "displayName": "Sable Atelopes"
+    },
+    {
+      "id": "samango",
+      "dbName": "Samango Monkey",
+      "displayName": "Samango Monkeys"
+    },
+    {
+      "id": "secbird",
+      "dbName": "Secretary bird",
+      "displayName": "Secretary Bird"
+    },
+    {
+      "id": "serval",
+      "dbName": "Serval",
+      "displayName": "Servals"
+    },
+    {
+      "id": "vervet",
+      "dbName": "Vervet Monkey",
+      "displayName": "Vervet Monkeys"
+    },
+    {
+      "id": "vulture",
+      "dbName": "Vulture",
+      "displayName": "Vultures"
     },
     {
       "id": "warthog",
-      "singular": "Warthog",
-      "plural": "Warthogs"
+      "dbName": "Warthog",
+      "displayName": "Warthogs"
+    },
+    {
+      "id": "waterbuck",
+      "dbName": "Waterbuck",
+      "displayName": "Waterbucks"
+    },
+    {
+      "id": "weasel",
+      "dbName": "Weasel",
+      "displayName": "Weasels"
+    },
+    {
+      "id": "wildcat",
+      "dbName": "Wildcat",
+      "displayName": "Wildcats"
+    },
+    {
+      "id": "wilddog",
+      "dbName": "Wild Dog",
+      "displayName": "Wild Dogs"
+    },
+    {
+      "id": "wildebeest",
+      "dbName": "Wildebeest",
+      "displayName": "Wildebeest"
+    },
+    {
+      "id": "zebra",
+      "dbName": "Zebra",
+      "displayName": "Zebras"
     }
   ],
   "habitats": [
     {
       "id": "limestone",
-      "name": "Limestone Gorge"
+      "dbName": "Limestone Gorge",
+      "displayName": "Limestone Gorge"
     },
     {
       "id": "floodplain",
-      "name": "Floodplain Grassland"
+      "dbName": "Floodplain Grassland",
+      "displayName": "Floodplain Grassland"
     },
     {
       "id": "miombo",
-      "name": "Miombo Woodland"
+      "dbName": "Miombo Woodland",
+      "displayName": "Miombo Woodland"
     },
     {
       "id": "savanna",
-      "name": "Mixed Savanna and Woodland"
+      "dbName": "Mixed Savanna and Woodland",
+      "displayName": "Mixed Savanna and Woodland"
+    }
+  ],
+  "seasons": [
+    {
+      "id": "janmar",
+      "dbName": "Wet Jan-Mar",
+      "displayName": "Wet (Jan-Mar)"
+    },
+    {
+      "id": "aprjun",
+      "dbName": "WetDry Apr-Jun",
+      "displayName": "Wet-Dry (Apr-Jun)"
+    },
+    {
+      "id": "julsep",
+      "dbName": "Dry Jul-Sep",
+      "displayName": "Dry Season (Jul-Sep)"
+    },
+    {
+      "id": "octdec",
+      "dbName": "DryWet Oct-Dec",
+      "displayName": "Dry-Wet (Oct-Dec)"
     }
   ]
 }

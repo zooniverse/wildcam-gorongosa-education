@@ -11,8 +11,7 @@ export default class SelectorPanel extends React.Component {
     this.updateMe = this.updateMe.bind(this);
     this.deleteMe = this.deleteMe.bind(this);
     this.changeToGuided = this.changeToGuided.bind(this);
-    this.changeToAdvanced = this.changeToAdvanced.bind(this);
-    
+    this.changeToAdvanced = this.changeToAdvanced.bind(this); 
   }
 
   render() {
@@ -20,7 +19,7 @@ export default class SelectorPanel extends React.Component {
     let species = [];
     config.species.map((item) => {
       species.push(
-        <li key={'species_'+item.id}><input type="checkbox" ref={'inputRow_species_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label>{item.plural}</label></li>
+        <li key={'species_'+item.id}><input type="checkbox" id={'inputRow_species_item_' + item.id} ref={'inputRow_species_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label htmlFor={'inputRow_species_item_' + item.id}>{item.displayName}</label></li>
       );
     });
     
@@ -28,7 +27,15 @@ export default class SelectorPanel extends React.Component {
     let habitats = [];
     config.habitats.map((item) => {
       habitats.push(
-        <li key={'habitat_'+item.id}><input type="checkbox" ref={'inputRow_habitats_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label>{item.name}</label></li>
+        <li key={'habitat_'+item.id}><input type="checkbox" id={'inputRow_habitats_item_' + item.id} ref={'inputRow_habitats_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label htmlFor={'inputRow_habitats_item_' + item.id}>{item.displayName}</label></li>
+      );
+    });
+    
+    //Input Choice: Seasons
+    let seasons = [];
+    config.seasons.map((item) => {
+      seasons.push(
+        <li key={'seasons_'+item.id}><input type="checkbox" id={'inputRow_seasons_item_' + item.id} ref={'inputRow_seasons_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label htmlFor={'inputRow_seasons_item_' + item.id}>{item.displayName}</label></li>
       );
     });
     
@@ -36,17 +43,23 @@ export default class SelectorPanel extends React.Component {
     return (
       <article className="selector-panel" ref="selectorPanel">
         <section className={(this.props.selectorData.mode !== SelectorData.GUIDED_MODE) ? 'input-subpanel not-selected' : 'input-subpanel' } ref="subPanel_guided">
-          <h1 onClick={this.changeToGuided}>Guided Mode</h1>
+          <h1 onClick={this.changeToGuided}>Standard Mode</h1>
           <div className="input-row" ref="inputRow_species">
             <label ref="inputRow_species_label">Species</label>
             <ul ref="inputRow_species_list">
               {species}
             </ul>
           </div>
-          <div className="input-row" ref="inputRow_species">
-            <label ref="inputRow_species_label">Habitats</label>
-            <ul ref="inputRow_species_list">
+          <div className="input-row" ref="inputRow_habitats">
+            <label ref="inputRow_habitats_label">Habitats</label>
+            <ul ref="inputRow_habitats_list">
               {habitats}
+            </ul>
+          </div>
+          <div className="input-row" ref="inputRow_seasons">
+            <label ref="inputRow_seasons_label">Seasons</label>
+            <ul ref="inputRow_seasons_list">
+              {seasons}
             </ul>
           </div>
           <div className="input-row">
@@ -88,6 +101,9 @@ export default class SelectorPanel extends React.Component {
     });
     config.habitats.map((item) => {
       this.refs['inputRow_habitats_item_' + item.id].checked = (this.props.selectorData.habitats.indexOf(item.id) >= 0);
+    });
+    config.seasons.map((item) => {
+      this.refs['inputRow_seasons_item_' + item.id].checked = (this.props.selectorData.seasons.indexOf(item.id) >= 0);
     });
     
     //Same for the styling
@@ -142,6 +158,15 @@ export default class SelectorPanel extends React.Component {
       let ele = this.refs['inputRow_habitats_item_' + item.id];
       if (ele && ele.checked && ele.value) {
         data.habitats.push(item.id);
+      }
+    });
+    
+    //Filter control: seasons
+    data.seasons = [];
+    config.seasons.map((item) => {
+      let ele = this.refs['inputRow_seasons_item_' + item.id];
+      if (ele && ele.checked && ele.value) {
+        data.seasons.push(item.id);
       }
     });
     

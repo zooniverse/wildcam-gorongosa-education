@@ -17,6 +17,7 @@ export default class SelectorData {
     //Default filter selectors
     this.species = [];  //For a pre-set selection, use ['baboon', 'lion'] or etc.
     this.habitats = [];  //For a pre-set selection, use ['limestone', 'miombo'] or etc.
+    this.seasons = [];  //For a pre-set selection, use ['janmar', 'aprjun'] or etc.
     
     //Default marker styles.
     this.markerColor = '#ff9900';  //For... consistency, this is coLOR instead of coLOUR.
@@ -34,31 +35,37 @@ export default class SelectorData {
     
     //Where constructor: species
     let sqlWhere_species = [];
-    this.species.map((item) => {
-      sqlWhere_species.push('species ILIKE \'%' + item + '%\'');
-    });    
+    config.species.map((item) => {
+      if (this.species.indexOf(item.id) >= 0) {
+        sqlWhere_species.push('species ILIKE \'%' + item.dbName.replace(/'/, '\'\'') + '%\'');
+      }
+    });
     sqlWhere_species = (sqlWhere_species.length === 0)
-      ? ''
-      : '(' + sqlWhere_species.join(' OR ') + ')';
+      ? '' : '(' + sqlWhere_species.join(' OR ') + ')';
     
     //Where constructor: habitats
     let sqlWhere_habitats = [];
     config.habitats.map((item) => {
-      console.log('DEBUG: ' + item.name);
       if (this.habitats.indexOf(item.id) >= 0) {
-        sqlWhere_habitats.push('veg_type ILIKE \'%' + item.name.replace(/'/, '\'\'') + '%\'');
+        sqlWhere_habitats.push('veg_type ILIKE \'%' + item.dbName.replace(/'/, '\'\'') + '%\'');
       }
     });
-    console.log('!!![', sqlWhere_habitats.length, ']!!!');
     sqlWhere_habitats = (sqlWhere_habitats.length === 0)
-      ? ''
-      : '(' + sqlWhere_habitats.join(' OR ') + ')';
+      ? '' : '(' + sqlWhere_habitats.join(' OR ') + ')';
     
-    console.log('!!![', sqlWhere_habitats, ']!!!');
+    //Where constructor: seasons
+    let sqlWhere_seasons = [];
+    config.seasons.map((item) => {
+      if (this.seasons.indexOf(item.id) >= 0) {
+        sqlWhere_seasons.push('season ILIKE \'%' + item.dbName.replace(/'/, '\'\'') + '%\'');
+      }
+    });
+    sqlWhere_seasons = (sqlWhere_seasons.length === 0)
+      ? '' : '(' + sqlWhere_seasons.join(' OR ') + ')';
     
     //Join the Where constructor
     let sqlWhere = '';
-    [sqlWhere_species, sqlWhere_habitats].map((wherePart) => {
+    [sqlWhere_species, sqlWhere_habitats, sqlWhere_seasons].map((wherePart) => {
       if (wherePart !== '') {
         sqlWhere += (sqlWhere !== '') ? ' AND' : '';
         sqlWhere += wherePart;
@@ -67,6 +74,18 @@ export default class SelectorData {
     if (sqlWhere !== '') {
       sqlWhere = ' WHERE ' + sqlWhere;
     }
+    
+    //TODO: 2016.02.24
+    //Here are some table columns to use:
+    //user_hash: msyfoopoo99
+    //year: number
+    //month: Jan|Feb|Mar|Apr|etc
+    //season: Dry Jul-Sep
+    //        DryWet Oct-Dec
+    //        WetDry Apr-Jun
+    //        Wet Jan-Mar
+    //        null
+    //location: http://zooniverse-export.s3-website-us-east-1.amazonaws.com/21484_1000_C08_Season%201_Set%201_EK005157.JPG
     
     return config.cartodb.sqlQueryCountCameras
       .replace(/{CAMERAS}/ig, config.cartodb.sqlTableCameras)
