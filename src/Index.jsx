@@ -34,10 +34,9 @@ oauth.init(panoptesAppId)
               <IndexRedirect to="classrooms" />
               <Route path="classrooms" component={Classrooms}>
                 <IndexRoute component={ClassroomsOverview} />
+                <Route path="new" component={NewClassroomForm} />
                 <Route path=":classroomId" component={Classroom} />
-
               </Route>
-              <Route path="newclassroom" component={NewClassroomForm} />
               <Route path="data" component={MapExplorer} />
             </Route>
           </Route>
