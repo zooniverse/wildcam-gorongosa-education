@@ -55,8 +55,9 @@ export default class ClassroomSidebar extends Component {
     return (
       <div className="admin-sidebar">
         <div className="panel panel-default">
-          <div className="panel-heading">
-            <h3 className="panel-title">Classrooms</h3>
+          <div className="panel-heading clearfix">
+            <h3 className="panel-title pull-left">Classrooms</h3>
+            <Link className="btn btn-default pull-right" to="/teachers/classrooms/new">New</Link>
           </div>
           { this.renderStatusMessage(data) }
           { this.renderClassroomList(list) }
@@ -67,6 +68,6 @@ export default class ClassroomSidebar extends Component {
 
 }
 
-ClassroomSidebar.propTypes = {
+ClassroomSidebar.PropTypes = {
   classroomsData: PropTypes.object.isRequired,
 };

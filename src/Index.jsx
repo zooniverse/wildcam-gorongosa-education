@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, IndexRoute, IndexRedirect } from 'react-router';
+import { Router, Route, IndexRoute, IndexRedirect, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
 import App from './containers/App.jsx';
@@ -11,6 +11,7 @@ import Classroom from './containers/Classroom.jsx';
 
 import Home from './presentational/Home.jsx';
 import ClassroomsOverview from './presentational/ClassroomsOverview.jsx';
+import NewClassroomForm from './presentational/NewClassroomForm.jsx';
 
 import Styles from './styles/main.styl';
 
@@ -26,13 +27,14 @@ oauth.init(panoptesAppId)
   .then(function () {
     ReactDOM.render(
       <Provider store={store}>
-        <Router>
+        <Router history={browserHistory}>
           <Route path="/" component={App}>
             <IndexRoute component={Home} />
             <Route path="teachers" component={Teachers}>
               <IndexRedirect to="classrooms" />
               <Route path="classrooms" component={Classrooms}>
                 <IndexRoute component={ClassroomsOverview} />
+                <Route path="new" component={NewClassroomForm} />
                 <Route path=":classroomId" component={Classroom} />
               </Route>
               <Route path="data" component={MapExplorer} />
