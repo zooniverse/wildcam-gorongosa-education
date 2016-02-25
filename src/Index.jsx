@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, IndexRoute, IndexRedirect } from 'react-router';
+import { Router, Route, IndexRoute, IndexRedirect, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
 import App from './containers/App.jsx';
@@ -27,7 +27,7 @@ oauth.init(panoptesAppId)
   .then(function () {
     ReactDOM.render(
       <Provider store={store}>
-        <Router>
+        <Router history={browserHistory}>
           <Route path="/" component={App}>
             <IndexRoute component={Home} />
             <Route path="teachers" component={Teachers}>

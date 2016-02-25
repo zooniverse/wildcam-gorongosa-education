@@ -56,7 +56,7 @@ class NewClassroomForm extends Component {
               name="subject"
               placeholder="Subject (Optional)"
               value={this.state.subject}
-              onChange={this.handleChange} readonly/>
+              onChange={this.handleChange}/>
             </div>
           </div>
           <div className="form-group">

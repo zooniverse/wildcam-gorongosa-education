@@ -1,3 +1,4 @@
+import { browserHistory } from 'react-router';
 import fetch from 'isomorphic-fetch';
 import Panoptes from 'panoptes-client';
 
@@ -23,10 +24,13 @@ export function createClassroom(name) {
       body: JSON.stringify({'data': {'attributes': {'name': name}}})
     })
     .then(response => response.json())
-    .then(json => dispatch({
+    .then(json => {
+      dispatch({
         type: types.CREATE_CLASSROOM_SUCCESS,
         data: json.data
-      }))
+      });
+      browserHistory.push(`/teachers/classrooms/${json.data.id}`);
+    })
     .catch(response => console.log('RESPONSE-error: ', response))
   };
 }
