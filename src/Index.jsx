@@ -6,12 +6,14 @@ import { Provider } from 'react-redux';
 import App from './containers/App.jsx';
 import MapExplorer from './containers/MapExplorer.jsx';
 import Teachers from './containers/Teachers.jsx';
+import Students from './containers/Students.jsx';
 import Classrooms from './containers/Classrooms.jsx';
 import Classroom from './containers/Classroom.jsx';
 
 import Home from './presentational/Home.jsx';
 import ClassroomsOverview from './presentational/ClassroomsOverview.jsx';
 import NewClassroomForm from './presentational/NewClassroomForm.jsx';
+import StudentOverview from './presentational/StudentOverview.jsx';
 
 import Styles from './styles/main.styl';
 
@@ -38,6 +40,13 @@ oauth.init(panoptesAppId)
                 <Route path=":classroomId" component={Classroom} />
               </Route>
               <Route path="data" component={MapExplorer} />
+            </Route>
+            <Route path="students" component={Students}>
+              <IndexRedirect to="classrooms" />
+              <Route path="classrooms">
+                <IndexRoute component={StudentOverview} />
+                <Route path="join" />
+              </Route>
             </Route>
           </Route>
         </Router>

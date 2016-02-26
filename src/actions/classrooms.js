@@ -67,3 +67,25 @@ export function fetchClassrooms() {
 
   }
 }
+
+export function joinClassroom(id, token) {
+  return dispatch => {
+    dispatch({
+      type: types.JOIN_CLASSROOM
+    });
+    return fetch(eduAPI.root + eduAPI.students + id + '/join', {
+      method: 'POST',
+      mode: 'cors',
+      headers: new Headers({
+          'Authorization': Panoptes.apiClient.headers.Authorization,
+          'Content-Type': 'application/json'
+      }),
+      body: JSON.stringify({'join_token': token})
+    })
+    .then(response => response.json())
+    .then(json => console.log('JOIN-RESPONSE: ', json.data))
+    .catch(response => console.log('RESPONSE-error: ', response))
+  };
+
+}
+
