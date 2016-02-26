@@ -1,8 +1,8 @@
 import { Component} from 'react';
 import { Link } from 'react-router';
 import Panoptes from 'panoptes-client';
-import LoginButton from '../presentational/LoginButton.jsx';
 import Layout from './Layout.jsx'
+import LoginButton from '../presentational/LoginButton.jsx';
 import { panoptesReturnUrl } from '../constants/config.json';
 
 export default class TeacherNotLoggedIn extends Component {
@@ -14,9 +14,13 @@ export default class TeacherNotLoggedIn extends Component {
   render() {
     return (
       <Layout>
-        <div className="home-buttons container-fluid">
-          <h1>To access our features as a Teacher, you'll need to log in to the Zooniverse</h1>
-          <LoginButton login={this.login} />
+        <div className="info-page">
+          <section className="info-panel">
+            <p>To access our features as a Teacher, you'll need to log in to the Zooniverse</p>
+            <div className="action-subpanel">
+              <button className="btn btn-info" onClick={this.login}>Login to the Zooniverse</button>
+            </div>
+          </section>
         </div>
       </Layout>
     );

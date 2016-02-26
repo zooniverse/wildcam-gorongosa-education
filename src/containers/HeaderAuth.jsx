@@ -35,7 +35,8 @@ export default class HeaderAuth extends Component {
     Panoptes.oauth.signOut()
       .then(user => {
         this.setState({ user });
-        
+        //Force user out of the page she/he was viewing when logged in.
+        window.location = panoptesReturnUrl;
       });
   }
 
