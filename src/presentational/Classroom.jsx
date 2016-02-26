@@ -15,14 +15,15 @@ export default class Classroom extends Component {
   }
 
   onCopy() {
-    this.state = {
+    this.setState({
       copied: true
-    };
+    });
   }
 
   componentWillReceiveProps(nextProps){
     this.state = {
-      url: eduAPI.root + eduAPI.students + nextProps.data.id + '/join'
+      url: eduAPI.root + eduAPI.students + nextProps.data.id + '/join',
+      copied: false
     };
   }
 
