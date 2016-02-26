@@ -14,7 +14,7 @@ export function createClassroom(name) {
       type: types.CREATE_CLASSROOM,
       name,
     });
-    return fetch(eduAPI.root + eduAPI.classrooms, {
+    return fetch(eduAPI.root + eduAPI.teachers, {
       method: 'POST',
       mode: 'cors',
       headers: new Headers({
@@ -45,7 +45,7 @@ export function fetchClassrooms() {
     });
     // We return a promise to wait for.
     // This is not required by the middleware.
-    return fetch(eduAPI.root + eduAPI.classrooms, {
+    return fetch(eduAPI.root + eduAPI.teachers, {
       method: 'GET',
       mode: 'cors',
       headers: new Headers({
