@@ -9,6 +9,7 @@ import Teachers from './containers/Teachers.jsx';
 import Students from './containers/Students.jsx';
 import Classrooms from './containers/Classrooms.jsx';
 import Classroom from './containers/Classroom.jsx';
+import JoinClassroom from './containers/JoinClassroom.jsx'
 
 import Home from './presentational/Home.jsx';
 import ClassroomsOverview from './presentational/ClassroomsOverview.jsx';
@@ -45,7 +46,7 @@ oauth.init(panoptesAppId)
               <IndexRedirect to="classrooms" />
               <Route path="classrooms">
                 <IndexRoute component={StudentOverview} />
-                <Route path="join" />
+                <Route path="join" component={JoinClassroom} />
               </Route>
             </Route>
           </Route>

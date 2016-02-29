@@ -43,8 +43,7 @@ export default class Classroom extends Component {
           </TabList>
           <TabPanel>
             <h3>Join Link</h3>
-            <p>Send the following URL to all the students you want to join this classroom.</p>
-            <p>Note: students need to login to Zooniverse.org to be able to join.</p>
+            <p>Send the following URL to all the students you want to join this classroom. Note: students need to login to Zooniverse.org to be able to join.</p>
             <input className="form-control" type="text" value={this.state.url} readOnly/>
             <CopyToClipboard text={this.state.url} onCopy={this.onCopy}>
               <button className="btn btn-default">Copy Link</button>

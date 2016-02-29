@@ -11,9 +11,8 @@ export default class StudentOverview extends Component {
   render() {
     return (
       <div>
-        <JoinClassroom />
+        Student Overview
       </div>
-
     );
   }
 

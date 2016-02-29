@@ -5,6 +5,12 @@ const intialState = { loading: false, data: [], error: false };
 
 export function classrooms(state = intialState, action) {
   switch (action.type) {
+    case types.JOIN_CLASSROOM:
+      return Object.assign({}, state, {
+        loading: false,
+        data: action.data,
+        error: action.error,
+      });
     case types.REQUEST_CLASSROOMS:
       return Object.assign({}, state, {
         loading: true,

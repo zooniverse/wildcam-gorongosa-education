@@ -7,18 +7,20 @@ import JoinButton from '../presentational/JoinButton.jsx';
 class JoinClassroom extends Component {
   constructor(props) {
     super(props);
-    console.log('this.PROPS', props)
     this.join = this.join.bind(this);
   }
 
   join() {
-    console.log('Joining ...')
-    this.props.dispatch(joinClassroom());
+    console.log('Joining ... query: ', this.props.location.query)
+    this.props.dispatch(joinClassroom(this.props.location.query.id, this.props.location.query.token));
   }
 
   render() {
     return (
-      <JoinButton join={this.join}/>
+      <div>
+        <JoinButton join={this.join}/>
+      </div>
+
     );
   }
 
