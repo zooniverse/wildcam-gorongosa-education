@@ -7,7 +7,7 @@ import Panoptes from 'panoptes-client';
 
 import LoginButton from '../presentational/LoginButton.jsx';
 import LoggedInUser from '../presentational/LoggedInUser.jsx';
-import { panoptesAppId } from '../constants/config.json';
+import { panoptesAppId, panoptesReturnUrl } from '../constants/config.json';
 
 export default class HeaderAuth extends Component {
 
@@ -28,12 +28,16 @@ export default class HeaderAuth extends Component {
     // For deploy-preview, use the following Wildcam on staging details in config.json
     // const appId = '17bdbeb57f54a3bf6344cf7150047879cfa1c8d5f9fd77d64923e6c81fe6e949';
     // const redirectUri = 'https://preview.zooniverse.org/wge/';
-    return Panoptes.oauth.signIn('http://localhost:3000/?env=staging#/');
+    return Panoptes.oauth.signIn(panoptesReturnUrl);
   }
 
   logout() {
     Panoptes.oauth.signOut()
-      .then(user => this.setState({ user }));
+      .then(user => {
+        this.setState({ user });
+        //Force user out of the page she/he was viewing when logged in.
+        window.location = panoptesReturnUrl;
+      });
   }
 
   render() {
