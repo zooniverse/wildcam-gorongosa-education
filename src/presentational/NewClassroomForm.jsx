@@ -33,12 +33,11 @@ class NewClassroomForm extends Component {
 
   render() {
     return (
-      <div className="pull-left col-sm-6">
+      <div className="col-md-4">
         <h3>New Classroom</h3>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
-            <label className="sr-only">Name</label>
-            <div className="col-sm-12">
+            <label>Name</label>
               <input className="form-control"
               type="text"
               name="name"
@@ -46,23 +45,18 @@ class NewClassroomForm extends Component {
               autofocus="true"
               value={this.state.name}
               onChange={this.handleChange}/>
-            </div>
           </div>
           <div className="form-group">
-            <label className="sr-only">Subject</label>
-            <div className="col-sm-12">
+            <label>Subject</label>
               <input className="form-control"
               type="text"
               name="subject"
               placeholder="Subject (Optional)"
               value={this.state.subject}
               onChange={this.handleChange}/>
-            </div>
           </div>
           <div className="form-group">
-            <div className="col-sm-offset-10 col-sm-12">
               <button type="submit" className="btn btn-primary">Submit</button>
-            </div>
           </div>
         </form>
       </div>

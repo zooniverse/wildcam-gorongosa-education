@@ -13,6 +13,7 @@ export default class Home extends Component {
         <div className="home-buttons container-fluid">
           <h1>I am a...</h1>
           <Link className='btn btn-info' role='button' to='/teachers'>Teacher</Link>
+          <Link className='btn btn-info' role='button' to='/students'>Student</Link>
         </div>
       </Layout>
     );

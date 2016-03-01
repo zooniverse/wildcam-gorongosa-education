@@ -1,14 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import { eduAPI } from '../constants/config.json';
+import { routes } from '../constants/config.json';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 export default class Classroom extends Component {
   constructor(props) {
     super(props);
+    let id = props.data.id;
+    let token = props.data.attributes.join_token;
     this.state = {
-      url: eduAPI.root + eduAPI.students + this.props.data.id + '/join',
+      url: routes.root + routes.students + 'join?id=' + id + '&token=' + token,
       copied: false
     }
     this.onCopy = this.onCopy.bind(this);
@@ -21,9 +23,10 @@ export default class Classroom extends Component {
   }
 
   componentWillReceiveProps(nextProps){
+    let id = nextProps.data.id;
+    let token = nextProps.data.attributes.join_token;
     this.state = {
-      url: eduAPI.root + eduAPI.students + nextProps.data.id + '/join',
-      copied: false
+      url: routes.root + routes.students + 'join?id=' + id + '&token=' + token
     };
   }
 
@@ -40,13 +43,12 @@ export default class Classroom extends Component {
           </TabList>
           <TabPanel>
             <h3>Join Link</h3>
-            <p>Send the following URL to all the students you want to join this classroom.</p>
-            <p>Note: students need to login to Zooniverse.org to be able to join.</p>
+            <p>Send the following URL to all the students you want to join this classroom. Note: students need to login to Zooniverse.org to be able to join.</p>
             <input className="form-control" type="text" value={this.state.url} readOnly/>
             <CopyToClipboard text={this.state.url} onCopy={this.onCopy}>
-              <button className="btn btn-default">Copy to clipboard</button>
+              <button className="btn btn-default">Copy Link</button>
             </CopyToClipboard>
-            {this.state.copied ? <span style={{color: 'red'}}>Copied :)</span> : null}
+            {this.state.copied ? <span style={{color: 'red'}}>Copied!</span> : null}
           </TabPanel>
           <TabPanel>
             Sutdents
