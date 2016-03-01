@@ -48,6 +48,7 @@ oauth.init(panoptesAppId)
                 <IndexRoute component={StudentOverview} />
                 <Route path="join" component={JoinClassroom} />
               </Route>
+              <Route path="data" component={MapExplorer} />
             </Route>
           </Route>
         </Router>
