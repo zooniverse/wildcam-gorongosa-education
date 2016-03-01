@@ -64,7 +64,7 @@
     "json-loader": "^0.5.4",
     "mocha": "^2.3.0",
     "nib": "^1.1.0",
-    "panoptes-client": "zooniverse/panoptes-javascript-client#d97cbc1",
+    "panoptes-client": "^2.1.0",
     "publisssh": "^1.0.1",
     "react-addons-test-utils": "^0.14.3",
     "react-copy-to-clipboard": "^4.0.2",
