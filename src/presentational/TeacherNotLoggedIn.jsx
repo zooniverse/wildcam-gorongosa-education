@@ -1,8 +1,6 @@
 import { Component} from 'react';
-import { Link } from 'react-router';
 import Panoptes from 'panoptes-client';
 import Layout from './Layout.jsx'
-import LoginButton from '../presentational/LoginButton.jsx';
 import { panoptesReturnUrl } from '../constants/config.json';
 
 export default class TeacherNotLoggedIn extends Component {
