@@ -6,7 +6,7 @@ export default class ErrorPage extends Component {
   constructor(props) {
     super(props);
     
-    //TEMPORARY: REDIRECT EVERYTHING TO THE /WGE "ROOT" FOLDER
+    //TEMPORARY FIX: REDIRECT EVERYTHING TO THE /WGE "ROOT" FOLDER
     //Why? Because on the Panoptes Preview website, our root is /wge, not /.
     //----------------
     //let currentRoute = (this.props && this.props.location && this.props.location.pathname)
