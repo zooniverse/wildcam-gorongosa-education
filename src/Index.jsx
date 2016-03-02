@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, IndexRedirect, browserHistory } from 'react-router';
+import { useBasename } from 'history';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
 import { Provider } from 'react-redux';
 
 import App from './containers/App.jsx';
@@ -26,11 +28,23 @@ import { panoptesAppId } from './constants/config.json';
 
 window.React = React;
 
+let environment = process.env.NODE_ENV;
+let basename = '';
+
+if (environment = 'staging') {
+  basename = '/wge/'
+} else {
+  basename = ''
+}
+console.log('environment: '   + environment);
+console.log('basename: '   + basename);
+let history = useBasename(createBrowserHistory)({basename});
+
 oauth.init(panoptesAppId)
   .then(function () {
     ReactDOM.render(
       <Provider store={store}>
-        <Router history={browserHistory}>
+        <Router history={history}>
           <Route path="/" component={App}>
             <IndexRoute component={Home} />
             <Route path="teachers" component={Teachers}>
