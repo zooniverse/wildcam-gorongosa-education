@@ -16,6 +16,9 @@ import ClassroomsOverview from './presentational/ClassroomsOverview.jsx';
 import NewClassroomForm from './presentational/NewClassroomForm.jsx';
 import StudentOverview from './presentational/StudentOverview.jsx';
 
+import LoginPromptPage from './presentational/LoginPromptPage.jsx';
+import ErrorPage from './presentational/ErrorPage.jsx';
+
 import Styles from './styles/main.styl';
 
 import configureStore from './store';
@@ -50,7 +53,9 @@ oauth.init(panoptesAppId)
               </Route>
               <Route path="data" component={MapExplorer} />
             </Route>
+            <Route path="login" component={LoginPromptPage} />
           </Route>
+          <Route path="*" component={ErrorPage} />
         </Router>
       </Provider>,
       document.getElementById('app-container')
