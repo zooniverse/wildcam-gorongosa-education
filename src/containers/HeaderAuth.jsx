@@ -9,13 +9,15 @@ import LoginButton from '../presentational/LoginButton.jsx';
 import LoggedInUser from '../presentational/LoggedInUser.jsx';
 import { panoptesAppId } from '../constants/config.json';
 
-export default class HeaderAuth extends Component {
+let redirectUri = window.location.href;
 
+export default class HeaderAuth extends Component {
   constructor() {
     super();
     this.state = { user: null };
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
+    console.log('REDIRECT URI', redirectUri)
   }
 
   componentDidMount() {
@@ -28,7 +30,8 @@ export default class HeaderAuth extends Component {
     // For deploy-preview, use the following Wildcam on staging details in config.json
     // const appId = '17bdbeb57f54a3bf6344cf7150047879cfa1c8d5f9fd77d64923e6c81fe6e949';
     // const redirectUri = 'https://preview.zooniverse.org/wge/';
-    return Panoptes.oauth.signIn('https://learn.wildcamgorongosa.org/');
+
+    return Panoptes.oauth.signIn(redirectUri);
   }
 
   logout() {
