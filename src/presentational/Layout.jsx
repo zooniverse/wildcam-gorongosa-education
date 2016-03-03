@@ -1,15 +1,26 @@
 import { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
+import { connect } from 'react-redux';
 
 import HeaderAuth from '../containers/HeaderAuth.jsx';
+import { routes } from '../constants/config.json';
 
 
-export default class Layout extends Component {
+class Layout extends Component {
 
   constructor() {
     super();
     this.renderNav = this.renderNav.bind(this);
     this.renderNavItem = this.renderNavItem.bind(this);
+  }
+  
+  componentWillMount() {
+    //Login Check
+    let storeState = this.context.store.getState();
+    let loginUser = storeState.login.user;
+    if (this.props.loginSecured && !loginUser) {
+      browserHistory.push(routes.loginPrompt);
+    }
   }
 
   renderNav() {
@@ -56,9 +67,12 @@ export default class Layout extends Component {
       </div>
     );
   }
-
 }
 
 Layout.propTypes = {
   navItems: PropTypes.array
 }
+Layout.contextTypes = {  //Allows Component access to the Redux Store via this.context.*
+  store: PropTypes.object
+};
+export default Layout;  //Connects the Component to the Redux Store

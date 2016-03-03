@@ -7,7 +7,7 @@ export default class Teachers extends Component {
 
   render() {
     return (
-      <Layout {...this.props} navItems={this.props.navItems}>
+      <Layout loginSecured="true" {...this.props} navItems={this.props.navItems}>
         {this.props.children}
       </Layout>
     );

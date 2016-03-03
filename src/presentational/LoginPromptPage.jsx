@@ -14,7 +14,7 @@ export default class LoginPromptPage extends Component {
       <Layout>
         <div className="info-page">
           <section className="info-panel">
-            <p>To access our features as a Teacher or Student, you'll need to log in to the Zooniverse</p>
+            <p>To access our features, you'll need to log in to the Zooniverse</p>
             <div className="action-subpanel">
               <button className="btn btn-info" onClick={this.login}>Login to the Zooniverse</button>
             </div>

@@ -17,72 +17,43 @@ class HeaderAuth extends Component {
 
   constructor() {
     super();
-    this.state = { user: null };
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
-    console.log('HEADERAUTH()\n'+'^+'.repeat(20));
-    console.log(this);
   }
 
   componentDidMount() {
-    /*  TEST
     Panoptes.auth.checkCurrent()
       .then(user => {
-        console.log('HEADERAUTH.COMPONENTDIDMOUNT()\n'+'^-'.repeat(20));
-        console.log(this);
         this.props.dispatch(setLoginUser(user));
-        //this.setState({user})
       });
-    */
   }
   
   componentWillReceiveProps(nextProps){
-    console.log('HEADERAUTH.COMPONENTWILLRECEIVEPROPS()\n'+'^='.repeat(20));
-    console.log(nextProps);
-    this.setState({
-      user: nextProps.user
-    });
   }
 
   login() {
-    /*  TEST
-    console.log('Logging in ...');
+    console.log('Logging in via HeaderAuth...');
     // For deploy-preview, use the following Wildcam on staging details in config.json
     // const appId = '17bdbeb57f54a3bf6344cf7150047879cfa1c8d5f9fd77d64923e6c81fe6e949';
     // const redirectUri = 'https://preview.zooniverse.org/wge/';
     return Panoptes.oauth.signIn(panoptesReturnUrl);
-    */
-    
-    //TEST
-    this.props.dispatch(setLoginUser({ login: 'HELLO WORLD' }));
-    this.setState(this.state);
   }
 
   logout() {
-    /*  TEST
     Panoptes.oauth.signOut()
       .then(user => {
-        //this.setState({ user });
         this.props.dispatch(setLoginUser(user));
-        browserHistory.push(panoptesReturnUrl);
+        //browserHistory.push() and this.context.router.push() have an issue:
+        //the user will be redirected, but Login/Logout button will not update.
+        window.location = panoptesReturnUrl;        
       });
-    */
-    
-    //TEST
-    this.props.dispatch(setLoginUser(null));
-    this.setState(this.state);
   }
 
   render() {
-    console.log('HEADERAUTH.RENDER()\n'+'^'.repeat(40));
-    console.log(this);
-    
-    //return (this.state.user)
     return (this.props.user)
-      ? <LoggedInUser user={this.state.user} logout={this.logout} />
+      ? <LoggedInUser user={this.props.user} logout={this.logout} />
       : <LoginButton login={this.login} />;
   }
-
 }
 
 HeaderAuth.propTypes = {
@@ -91,13 +62,11 @@ HeaderAuth.propTypes = {
 HeaderAuth.defaultProps = {
   user: null
 };
-HeaderAuth.contextTypes = {  //Allows Component access to the Redux Store via this.context.store
+HeaderAuth.contextTypes = {  //Allows Component access to the Router and Redux Store via this.context.*
+  router: PropTypes.object,
   store: PropTypes.object
 };
 function mapStateToProps(state, ownProps) {  //Listens for changes in the Redux Store
-  console.log('HEADERAUTH.mapStateToProps()\n'+'^.'.repeat(20));
-  console.log(state);
-  console.log(ownProps);
   return {
     user: state.login.user
   };
