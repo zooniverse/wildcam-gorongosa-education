@@ -22,7 +22,8 @@
     "start": "babel-node server.js",
     "build": "webpack --config webpack.production.config.js -p",
     "test": "mocha --reporter nyan --compilers js:babel/register --recursive",
-    "deploy-preview": "npm run build && publisssh dist zooniverse-static/preview.zooniverse.org/wge"
+    "deploy-preview": "npm run build && publisssh dist zooniverse-static/preview.zooniverse.org/wge",
+    "deploy-production": "npm run build && publisssh dist zooniverse-static/learn.wildcamgorongosa.org"
   },
   "license": "Apache-2.0",
   "bugs": {
