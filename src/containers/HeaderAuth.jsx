@@ -1,6 +1,5 @@
 // A smart component that handles state for the LoginButton and LoggedInUser
-// components. Currently stores state on the components, but can be modified
-// to store it in Redux.
+// components. Stores state in Redux.
 
 import { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
@@ -26,9 +25,6 @@ class HeaderAuth extends Component {
       .then(user => {
         this.props.dispatch(setLoginUser(user));
       });
-  }
-  
-  componentWillReceiveProps(nextProps){
   }
 
   login() {
@@ -61,10 +57,6 @@ HeaderAuth.propTypes = {
 };
 HeaderAuth.defaultProps = {
   user: null
-};
-HeaderAuth.contextTypes = {  //Allows Component access to the Router and Redux Store via this.context.*
-  router: PropTypes.object,
-  store: PropTypes.object
 };
 function mapStateToProps(state, ownProps) {  //Listens for changes in the Redux Store
   return {

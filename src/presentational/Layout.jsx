@@ -12,13 +12,19 @@ class Layout extends Component {
     super();
     this.renderNav = this.renderNav.bind(this);
     this.renderNavItem = this.renderNavItem.bind(this);
+    this.verifyLogin = this.verifyLogin.bind(this);
   }
   
   componentWillMount() {
-    //Login Check
-    let storeState = this.context.store.getState();
-    let loginUser = storeState.login.user;
-    if (this.props.loginSecured && !loginUser) {
+    this.verifyLogin(this.props);
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    this.verifyLogin(nextProps);
+  }
+  
+  verifyLogin(props) {
+    if (props.loginSecured && !(props.user)) {
       browserHistory.push(routes.loginPrompt);
     }
   }
@@ -70,9 +76,18 @@ class Layout extends Component {
 }
 
 Layout.propTypes = {
-  navItems: PropTypes.array
+  navItems: PropTypes.array,
+  loginSecured: PropTypes.bool,
+  user: PropTypes.object
 }
-Layout.contextTypes = {  //Allows Component access to the Redux Store via this.context.*
-  store: PropTypes.object
+HeaderAuth.defaultProps = {
+  navItems: [],
+  loginSecured: false,
+  user: null
 };
-export default Layout;  //Connects the Component to the Redux Store
+function mapStateToProps(state, ownProps) {  //Listens for changes in the Redux Store
+  return {
+    user: state.login.user
+  };
+}
+export default connect(mapStateToProps)(Layout);  //Connects the Component to the Redux Store
