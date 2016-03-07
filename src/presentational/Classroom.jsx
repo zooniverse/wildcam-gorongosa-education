@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import { routes } from '../constants/config.json';
@@ -7,13 +8,13 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 export default class Classroom extends Component {
   constructor(props) {
     super(props);
-    let id = props.data.id;
-    let token = props.data.attributes.join_token;
+    let classrooms = props.data;
     this.state = {
-      url: routes.root + routes.students + 'join?id=' + id + '&token=' + token,
+      url: routes.root + routes.students + 'join?id=' + classrooms.id + '&token=' + classrooms.attributes.join_token,
       copied: false
     }
     this.onCopy = this.onCopy.bind(this);
+    this.renderStudentList = this.renderStudentList.bind(this);
   }
 
   onCopy() {
@@ -30,8 +31,26 @@ export default class Classroom extends Component {
     };
   }
 
+  renderStudentList(data) {
+    const list = (data.length > 0) ? data : [];
+    return (
+      <div className="list-group">
+        { list.map((student, i) =>
+          <Link
+            key={i}
+            className="list-group-item"
+            to="#"
+            >
+              {student.attributes.zooniverse_display_name}
+          </Link>
+        )}
+      </div>
+    );
+  }
+
   render() {
     const {attributes} = this.props.data;
+    const list = this.props.included;
     return (
       <section>
         <h1>Classroom {attributes.name} </h1>
@@ -51,7 +70,8 @@ export default class Classroom extends Component {
             {this.state.copied ? <span style={{color: 'red'}}>Copied!</span> : null}
           </TabPanel>
           <TabPanel>
-            Sutdents
+            students
+            { this.renderStudentList(list) }
           </TabPanel>
           <TabPanel>
             Groups

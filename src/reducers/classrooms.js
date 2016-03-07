@@ -20,6 +20,7 @@ export function classrooms(state = intialState, action) {
         loading: false,
         data: action.data,
         error: action.error,
+        included: action.included
       });
       case types.CREATE_CLASSROOM:
       return Object.assign({}, state, {
