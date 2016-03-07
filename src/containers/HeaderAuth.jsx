@@ -16,8 +16,6 @@ import { panoptesAppId, panoptesReturnUrl } from '../constants/config.json';
 let redirectUri = window.location.href;
 
 class HeaderAuth extends Component {
-
-export default class HeaderAuth extends Component {
   constructor() {
     super();
     this.login = this.login.bind(this);
