@@ -1,15 +1,32 @@
 import { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
+import { connect } from 'react-redux';
 
 import HeaderAuth from '../containers/HeaderAuth.jsx';
+import { routes } from '../constants/config.json';
 
 
-export default class Layout extends Component {
+class Layout extends Component {
 
   constructor() {
     super();
     this.renderNav = this.renderNav.bind(this);
     this.renderNavItem = this.renderNavItem.bind(this);
+    this.verifyLogin = this.verifyLogin.bind(this);
+  }
+  
+  componentWillMount() {
+    this.verifyLogin(this.props);
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    this.verifyLogin(nextProps);
+  }
+  
+  verifyLogin(props) {
+    if (props.loginSecured && !(props.user)) {
+      browserHistory.push(routes.loginPrompt);
+    }
   }
 
   renderNav() {
@@ -56,9 +73,21 @@ export default class Layout extends Component {
       </div>
     );
   }
-
 }
 
 Layout.propTypes = {
-  navItems: PropTypes.array
+  navItems: PropTypes.array,
+  loginSecured: PropTypes.bool,
+  user: PropTypes.object
 }
+HeaderAuth.defaultProps = {
+  navItems: [],
+  loginSecured: false,
+  user: null
+};
+function mapStateToProps(state, ownProps) {  //Listens for changes in the Redux Store
+  return {
+    user: state.login.user
+  };
+}
+export default connect(mapStateToProps)(Layout);  //Connects the Component to the Redux Store
