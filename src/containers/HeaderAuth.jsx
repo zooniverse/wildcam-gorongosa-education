@@ -12,9 +12,6 @@ import LoginButton from '../presentational/LoginButton.jsx';
 import LoggedInUser from '../presentational/LoggedInUser.jsx';
 import { panoptesAppId, panoptesReturnUrl } from '../constants/config.json';
 
-
-let redirectUri = window.location.href;
-
 class HeaderAuth extends Component {
   constructor() {
     super();
@@ -32,8 +29,7 @@ class HeaderAuth extends Component {
 
   login() {
     console.log('Logging in ...');
-    return Panoptes.oauth.signIn(redirectUri);
-
+    return Panoptes.oauth.signIn(panoptesReturnUrl);
   }
 
   logout() {
