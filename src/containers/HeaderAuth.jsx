@@ -17,7 +17,6 @@ class HeaderAuth extends Component {
     super();
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
-    console.log('REDIRECT URI', redirectUri)
   }
 
   componentDidMount() {
