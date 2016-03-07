@@ -15,11 +15,13 @@ export default class SelectorPanel extends React.Component {
   }
 
   render() {
+    let thisId = this.props.selectorData.id;
+    
     //Input Choice: Species
     let species = [];
     config.species.map((item) => {
       species.push(
-        <li key={'species_'+item.id}><input type="checkbox" id={'inputRow_species_item_' + item.id} ref={'inputRow_species_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label htmlFor={'inputRow_species_item_' + item.id}>{item.displayName}</label></li>
+        <li key={'species_'+item.id}><input type="checkbox" id={'inputRow_species_item_' + item.id + '_' + thisId} ref={'inputRow_species_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label htmlFor={'inputRow_species_item_' + item.id + '_' + thisId}>{item.displayName}</label></li>
       );
     });
     
@@ -27,7 +29,7 @@ export default class SelectorPanel extends React.Component {
     let habitats = [];
     config.habitats.map((item) => {
       habitats.push(
-        <li key={'habitat_'+item.id}><input type="checkbox" id={'inputRow_habitats_item_' + item.id} ref={'inputRow_habitats_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label htmlFor={'inputRow_habitats_item_' + item.id}>{item.displayName}</label></li>
+        <li key={'habitat_'+item.id}><input type="checkbox" id={'inputRow_habitats_item_' + item.id + '_' + thisId} ref={'inputRow_habitats_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label htmlFor={'inputRow_habitats_item_' + item.id + '_' + thisId}>{item.displayName}</label></li>
       );
     });
     
@@ -35,7 +37,7 @@ export default class SelectorPanel extends React.Component {
     let seasons = [];
     config.seasons.map((item) => {
       seasons.push(
-        <li key={'seasons_'+item.id}><input type="checkbox" id={'inputRow_seasons_item_' + item.id} ref={'inputRow_seasons_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label htmlFor={'inputRow_seasons_item_' + item.id}>{item.displayName}</label></li>
+        <li key={'seasons_'+item.id}><input type="checkbox" id={'inputRow_seasons_item_' + item.id + '_' + thisId} ref={'inputRow_seasons_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label htmlFor={'inputRow_seasons_item_' + item.id + '_' + thisId}>{item.displayName}</label></li>
       );
     });
     
