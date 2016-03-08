@@ -3,6 +3,10 @@ const config = require('../constants/mapExplorer.config.json');
 import SelectorData from './MapExplorer-SelectorData.jsx';
 import fetch from 'isomorphic-fetch';
 
+const DIALOG_IDLE = 'idle';
+const DIALOG_MESSAGE = 'message';
+const DIALOG_DOWNLOAD = 'download-me';
+
 export default class SelectorPanel extends React.Component {
   constructor(props) {
     super(props);
@@ -13,7 +17,16 @@ export default class SelectorPanel extends React.Component {
     this.deleteMe = this.deleteMe.bind(this);
     this.downloadMe = this.downloadMe.bind(this);
     this.changeToGuided = this.changeToGuided.bind(this);
-    this.changeToAdvanced = this.changeToAdvanced.bind(this); 
+    this.changeToAdvanced = this.changeToAdvanced.bind(this);
+    this.closeDialog = this.closeDialog.bind(this);
+    this.noAction = this.noAction.bind(this);
+    
+    //Initialise state
+    this.state = {
+      status: DIALOG_IDLE,
+      message: '',
+      data: null
+    };
   }
 
   render() {
@@ -101,7 +114,19 @@ export default class SelectorPanel extends React.Component {
         <section className="action-subpanel">
           <button onClick={this.updateMe}>(Update)</button>
           <button onClick={this.deleteMe}>(Delete)</button>
-          <button onClick={this.downloadMe}>(Update Map and Download CSV)</button>
+          <button onClick={this.downloadMe}>(Update Map and Prepare CSV)</button>
+        </section>
+        <section className={(this.state.status === DIALOG_IDLE) ? 'dialog-screen' : 'dialog-screen enabled' } onClick={this.closeDialog}>
+          {(this.state.status === DIALOG_MESSAGE) ?
+            <div className="dialog-box" onClick={this.noAction}>{this.state.message}</div>
+          : null}
+          {(this.state.status === DIALOG_DOWNLOAD) ?
+            <div className="dialog-box" onClick={this.noAction}>
+              <div>{this.state.message}</div>
+              <div><textarea ref="dialog_textarea" defaultValue={(this.state.data) ? this.state.data : null }></textarea></div>
+              <div ><a download="WildcamGorongosa.csv" className="btn" onClick={(e) => { window.location = 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.state.data); }}>Download</a></div>
+            </div>
+          : null}
         </section>
       </article>
     );
@@ -155,6 +180,26 @@ export default class SelectorPanel extends React.Component {
     let data = this.props.selectorData.copy();
     data.mode = SelectorData.ADVANCED_MODE;
     this.props.updateMeHandler(data);
+  }
+  
+  //----------------------------------------------------------------
+  
+  closeDialog(e) {
+    this.setState({
+      status: DIALOG_IDLE,
+      message: '',
+      data: null
+    });
+  }
+  
+  noAction(e) {
+    if (e) {
+      e.preventDefault && e.preventDefault();
+      e.stopPropagation && e.stopPropagation();
+      e.returnValue = false;
+      e.cancelBubble = true;
+    }
+    return false;
   }
   
   //----------------------------------------------------------------
@@ -226,13 +271,54 @@ export default class SelectorPanel extends React.Component {
     //First things first: make sure the user sees what she/he is going to download.
     this.updateMe(null);
     
-    let sqlQuery = 'SELECT * FROM wildcam_gorongosa_compiled_201601 LIMIT 100';  //TEST
+    let sqlQuery = 'SELECT * FROM wildcam_gorongosa_compiled_201601 LIMIT 1000000';  //TEST
     fetch(config.cartodb.sqlApi.replace('{SQLQUERY}', encodeURI(sqlQuery)))
       .then((response) => {
+        if (response.status !== 200) {
+          throw 'Can\'t reach CartoDB API, HTTP response code ' + response.status;
+        }
+        this.setState({
+          status: DIALOG_MESSAGE,
+          message: 'Preparing CSV file...',
+          data: null
+        });
         return response.json();
       })
       .then((json) => {
-        console.log(json);
+        let data = [];
+        let row = [];
+      
+        for (let key in json.fields) {
+          row.push('"'+key.replace(/"/g, '\\"')+'"');
+        }
+        row = row.join(',');
+        data.push(row);
+      
+        json.rows.map((rowItem) => {
+          let row = [];
+          for (let key in json.fields) {
+            (json.fields[key].type === 'string' && rowItem[key])
+              ? row.push('"'+rowItem[key].replace(/"/g, '\\"')+'"')
+              : row.push(rowItem[key]);
+          }
+          row = row.join(',');
+          data.push(row);
+        });
+        data = data.join('\n');
+
+        this.setState({
+          status: DIALOG_DOWNLOAD,
+          message: 'CSV ready!',
+          data: data
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({
+          status: DIALOG_MESSAGE,
+          message: 'ERROR',
+          data: null
+        });
       });
   }
   
