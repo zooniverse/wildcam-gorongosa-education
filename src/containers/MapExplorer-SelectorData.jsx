@@ -118,9 +118,9 @@ export default class SelectorData {
     
     return config.cartodb.cssStandard
       .replace(/{LAYER}/ig, config.cartodb.sqlTableCameras)  //Actually, any ID will do
-      .replace(/{MARKER-COLOR}/ig, this.markerColor)
-      .replace(/{MARKER-OPACITY}/ig, this.markerOpacity)
-      .replace(/{MARKER-SIZE}/ig, this.markerSize)
+      .replace(/{MARKERCOLOR}/ig, this.markerColor)
+      .replace(/{MARKEROPACITY}/ig, this.markerOpacity)
+      .replace(/{MARKERSIZE}/ig, this.markerSize)
       .replace(/{CHILDREN}/ig, children);
   }
   

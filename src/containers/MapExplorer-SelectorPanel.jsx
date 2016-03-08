@@ -1,6 +1,7 @@
 import React from 'react';
 const config = require('../constants/mapExplorer.config.json');
 import SelectorData from './MapExplorer-SelectorData.jsx';
+import fetch from 'isomorphic-fetch';
 
 export default class SelectorPanel extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ export default class SelectorPanel extends React.Component {
     this.refreshUI = this.refreshUI.bind(this);
     this.updateMe = this.updateMe.bind(this);
     this.deleteMe = this.deleteMe.bind(this);
+    this.downloadMe = this.downloadMe.bind(this);
     this.changeToGuided = this.changeToGuided.bind(this);
     this.changeToAdvanced = this.changeToAdvanced.bind(this); 
   }
@@ -99,6 +101,7 @@ export default class SelectorPanel extends React.Component {
         <section className="action-subpanel">
           <button onClick={this.updateMe}>(Update)</button>
           <button onClick={this.deleteMe}>(Delete)</button>
+          <button onClick={this.downloadMe}>(Update Map and Download CSV)</button>
         </section>
       </article>
     );
@@ -216,6 +219,21 @@ export default class SelectorPanel extends React.Component {
   //Tells the parent that this Selector wants to be deleted.
   deleteMe(e) {
     this.props.deleteMeHandler(this.props.selectorData.id);
+  }
+  
+  //Download the current results into a CSV.
+  downloadMe(e) {
+    //First things first: make sure the user sees what she/he is going to download.
+    this.updateMe(null);
+    
+    let sqlQuery = 'SELECT * FROM wildcam_gorongosa_compiled_201601 LIMIT 100';  //TEST
+    fetch(config.cartodb.sqlApi.replace('{SQLQUERY}', encodeURI(sqlQuery)))
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        console.log(json);
+      });
   }
   
   //Update the UI based on user actions.
