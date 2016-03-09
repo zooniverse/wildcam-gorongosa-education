@@ -31,17 +31,17 @@ export default class Classroom extends Component {
   }
 
   renderStudentList(allMembers, classroomMembers) {
-    const list = (allMembers.length > 0) ? allMembers : 'No student found';
+    const list = (allMembers.length > 0) ? allMembers : [];
     const studentIds = classroomMembers.map((student) => { return student.id; } )
 
     const filteredList =
-          list
-            .filter((itm) => {
-              return studentIds.indexOf( itm.id ) > -1;
-            })
-            .map((itm) => {
-              return itm.attributes.zooniverse_display_name
-            });
+      list
+        .filter((itm) => {
+          return studentIds.indexOf( itm.id ) > -1;
+        })
+        .map((itm) => {
+          return itm.attributes.zooniverse_display_name
+        });
     return (
       <div className="list-group">
         { (filteredList.length > 0) ? filteredList.map((name, i) =>
@@ -59,7 +59,7 @@ export default class Classroom extends Component {
 
   render() {
     const {attributes} = this.props.data;
-    const allMembers = this.props.included;
+    const allMembers = this.props.members;
     const classroomMembers = this.props.data.relationships.students.data;
     return (
       <section>
