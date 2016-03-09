@@ -59,7 +59,7 @@ export default class Classroom extends Component {
 
   render() {
     const {attributes} = this.props.data;
-    const allMembers = this.props.included;
+    const allMembers = this.props.members;
     const classroomMembers = this.props.data.relationships.students.data;
     return (
       <section>
