@@ -96,5 +96,6 @@ Classroom.defaultProps = {
     attributes: {
       name: ''
     }
-  }
+  },
+  members: []
 };

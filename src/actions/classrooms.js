@@ -81,6 +81,7 @@ export function fetchClassrooms() {
       .then(json => dispatch({
         type: types.RECEIVE_CLASSROOMS,
         data: json.data,
+        error: false,
         members: json.included
       }))
       .catch(response => dispatch({
