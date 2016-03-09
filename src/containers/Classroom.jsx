@@ -8,9 +8,10 @@ import { default as ClassroomPresentational } from '../presentational/Classroom.
 export default class Classroom extends Component {
 
   render() {
+    const members = this.props.classrooms.members;
     const classroom = this.props.classrooms.data.find(classroom =>
       classroom.id === this.props.params.classroomId);
-    return (<ClassroomPresentational data={classroom} />);
+    return (<ClassroomPresentational data={classroom} members={members} />);
   }
 
 }
@@ -24,6 +25,7 @@ Classroom.defaultProps = {
     data: [],
     loading: false,
     error: false,
+    members: []
   }
 };
 
