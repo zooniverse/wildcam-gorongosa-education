@@ -101,8 +101,10 @@
         .range-input
           display: flex
           
-          input 
-            flex: 1 1 30%
+          input
+            display: block
+            flex: 1 1 auto
+            width: 20%
             margin: 0 0.5em
             text-align: center
             
@@ -131,13 +133,10 @@
       
       .dialog-box
         flex: 0 0 auto
-        background: #eee
+        background: #fff
         padding: 1em
         border-radius: 1em
         cursor: default
-        
-        textarea
-          width: 50%
-          min-width: 50em
-          height: 10em
 
+        > div
+          text-align: center

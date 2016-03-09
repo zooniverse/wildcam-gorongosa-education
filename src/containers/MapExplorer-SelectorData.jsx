@@ -33,7 +33,15 @@ export default class SelectorData {
     this.css = this.calculateCss();
   }
   
-  calculateSql() {
+  calculateSql(sqlQueryTemplate = config.cartodb.sqlQueryCountCameras) {
+    return sqlQueryTemplate
+      .replace(/{CAMERAS}/ig, config.cartodb.sqlTableCameras)
+      .replace(/{SUBJECTS}/ig, config.cartodb.sqlTableSubjects)
+      .replace(/{CLASSIFICATIONS}/ig, config.cartodb.sqlTableClassifications)
+      .replace(/{WHERE}/ig, this.calculateSqlWhereClause());
+  }
+  
+  calculateSqlWhereClause() {
     //The biggest variable in the SQL query is the 'WHERE' clause.
     
     //Where constructor: species
@@ -99,11 +107,7 @@ export default class SelectorData {
     //user_hash: msyfoopoo99
     //location: http://zooniverse-export.s3-website-us-east-1.amazonaws.com/21484_1000_C08_Season%201_Set%201_EK005157.JPG
     
-    return config.cartodb.sqlQueryCountCameras
-      .replace(/{CAMERAS}/ig, config.cartodb.sqlTableCameras)
-      .replace(/{SUBJECTS}/ig, config.cartodb.sqlTableSubjects)
-      .replace(/{CLASSIFICATIONS}/ig, config.cartodb.sqlTableClassifications)
-      .replace(/{WHERE}/ig, sqlWhere);
+    return sqlWhere;
   }
   
   calculateCss() {

@@ -15,7 +15,8 @@ export default class SelectorPanel extends React.Component {
     this.refreshUI = this.refreshUI.bind(this);
     this.updateMe = this.updateMe.bind(this);
     this.deleteMe = this.deleteMe.bind(this);
-    this.downloadMe = this.downloadMe.bind(this);
+    this.prepareCsv = this.prepareCsv.bind(this);
+    this.downloadCsv = this.downloadCsv.bind(this);
     this.changeToGuided = this.changeToGuided.bind(this);
     this.changeToAdvanced = this.changeToAdvanced.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
@@ -114,7 +115,7 @@ export default class SelectorPanel extends React.Component {
         <section className="action-subpanel">
           <button onClick={this.updateMe}>(Update)</button>
           <button onClick={this.deleteMe}>(Delete)</button>
-          <button onClick={this.downloadMe}>(Update Map and Prepare CSV)</button>
+          <button onClick={this.prepareCsv}>(Update Map and Prepare CSV)</button>
         </section>
         <section className={(this.state.status === DIALOG_IDLE) ? 'dialog-screen' : 'dialog-screen enabled' } onClick={this.closeDialog}>
           {(this.state.status === DIALOG_MESSAGE) ?
@@ -123,8 +124,7 @@ export default class SelectorPanel extends React.Component {
           {(this.state.status === DIALOG_DOWNLOAD) ?
             <div className="dialog-box" onClick={this.noAction}>
               <div>{this.state.message}</div>
-              <div><textarea ref="dialog_textarea" defaultValue={(this.state.data) ? this.state.data : null }></textarea></div>
-              <div ><a download="WildcamGorongosa.csv" className="btn" onClick={(e) => { window.location = 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.state.data); }}>Download</a></div>
+              <div><a download="WildcamGorongosa.csv" className="btn" onClick={this.downloadCsv}>Download</a></div>
             </div>
           : null}
         </section>
@@ -192,6 +192,7 @@ export default class SelectorPanel extends React.Component {
     });
   }
   
+  //'Eats up' events to prevent them from bubbling to a parent element.
   noAction(e) {
     if (e) {
       e.preventDefault && e.preventDefault();
@@ -251,7 +252,7 @@ export default class SelectorPanel extends React.Component {
 
     //Filter control: mode
     if (data.mode === SelectorData.GUIDED_MODE) {
-      this.refs.sql.value = data.calculateSql();
+      this.refs.sql.value = data.calculateSql(config.cartodb.sqlQueryCountCameras);
       this.refs.css.value = data.calculateCss();
     }
     data.sql = this.refs.sql.value;
@@ -267,21 +268,23 @@ export default class SelectorPanel extends React.Component {
   }
   
   //Download the current results into a CSV.
-  downloadMe(e) {
+  prepareCsv(e) {
     //First things first: make sure the user sees what she/he is going to download.
     this.updateMe(null);
     
-    let sqlQuery = 'SELECT * FROM wildcam_gorongosa_compiled_201601 LIMIT 1000000';  //TEST
+    this.setState({
+      status: DIALOG_MESSAGE,
+      message: 'Preparing CSV file...',
+      data: null
+    });
+    
+    let sqlQuery = this.props.selectorData.calculateSql(config.cartodb.sqlQuerySelectItems);
+    console.log('Prepare CSV: ', sqlQuery);
     fetch(config.cartodb.sqlApi.replace('{SQLQUERY}', encodeURI(sqlQuery)))
       .then((response) => {
         if (response.status !== 200) {
           throw 'Can\'t reach CartoDB API, HTTP response code ' + response.status;
         }
-        this.setState({
-          status: DIALOG_MESSAGE,
-          message: 'Preparing CSV file...',
-          data: null
-        });
         return response.json();
       })
       .then((json) => {
@@ -320,6 +323,17 @@ export default class SelectorPanel extends React.Component {
           data: null
         });
       });
+  }
+  
+  downloadCsv(e) {
+    if (this.state.data) {
+      let dataBlob = new Blob([this.state.data], {type: 'text/csv'});
+      let dataAsAFile = window.URL.createObjectURL(dataBlob);
+      window.open(dataAsAFile);
+      window.URL.revokeObjectURL(dataAsAFile);
+    } else {
+      console.error('Download CSV Error: no CSV');
+    }
   }
   
   //Update the UI based on user actions.
