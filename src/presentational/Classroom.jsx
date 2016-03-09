@@ -44,15 +44,15 @@ export default class Classroom extends Component {
             });
     return (
       <div className="list-group">
-        { list.map((student, i) =>
+        { (filteredList.length > 0) ? filteredList.map((name, i) =>
           <Link
             key={i}
             className="list-group-item"
             to="#"
             >
-              {(filteredList.length > 0) ? filteredList : 'No students in here yet'}
+             { name }
           </Link>
-        )}
+        ) : 'No students in here yet' }
       </div>
     )
   }
