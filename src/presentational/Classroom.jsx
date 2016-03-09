@@ -24,15 +24,24 @@ export default class Classroom extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    let id = nextProps.data.id;
-    let token = nextProps.data.attributes.join_token;
+    let classrooms = nextProps.data;
     this.state = {
-      url: routes.root + routes.students + 'join?id=' + id + '&token=' + token
+      url: routes.root + routes.students + 'join?id=' + classrooms.id + '&token=' + classrooms.attributes.join_token
     };
   }
 
-  renderStudentList(data) {
-    const list = (data.length > 0) ? data : [];
+  renderStudentList(allMembers, classroomMembers) {
+    const list = (allMembers.length > 0) ? allMembers : 'No student found';
+    const studentIds = classroomMembers.map((student) => { return student.id; } )
+
+    const filteredList =
+          list
+            .filter((itm) => {
+              return studentIds.indexOf( itm.id ) > -1;
+            })
+            .map((itm) => {
+              return itm.attributes.zooniverse_display_name
+            });
     return (
       <div className="list-group">
         { list.map((student, i) =>
@@ -41,16 +50,17 @@ export default class Classroom extends Component {
             className="list-group-item"
             to="#"
             >
-              {student.attributes.zooniverse_display_name}
+              {(filteredList.length > 0) ? filteredList : 'No students in here yet'}
           </Link>
         )}
       </div>
-    );
+    )
   }
 
   render() {
     const {attributes} = this.props.data;
-    const list = this.props.included;
+    const allMembers = this.props.included;
+    const classroomMembers = this.props.data.relationships.students.data;
     return (
       <section>
         <h1>Classroom {attributes.name} </h1>
@@ -67,11 +77,10 @@ export default class Classroom extends Component {
             <CopyToClipboard text={this.state.url} onCopy={this.onCopy}>
               <button className="btn btn-default">Copy Link</button>
             </CopyToClipboard>
-            {this.state.copied ? <span style={{color: 'red'}}>Copied!</span> : null}
+            {this.state.copied ? <span style={{color: 'red'}}>&nbsp;Copied!</span> : null}
           </TabPanel>
           <TabPanel>
-            students
-            { this.renderStudentList(list) }
+            { this.renderStudentList(allMembers, classroomMembers) }
           </TabPanel>
           <TabPanel>
             Groups
@@ -80,7 +89,6 @@ export default class Classroom extends Component {
       </section>
     );
   }
-
 }
 
 Classroom.defaultProps = {
