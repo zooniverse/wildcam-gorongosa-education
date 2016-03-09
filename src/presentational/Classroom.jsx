@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import { routes } from '../constants/config.json';
@@ -7,13 +8,13 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 export default class Classroom extends Component {
   constructor(props) {
     super(props);
-    let id = props.data.id;
-    let token = props.data.attributes.join_token;
+    let classrooms = props.data;
     this.state = {
-      url: routes.root + routes.students + 'join?id=' + id + '&token=' + token,
+      url: routes.root + routes.students + 'join?id=' + classrooms.id + '&token=' + classrooms.attributes.join_token,
       copied: false
     }
     this.onCopy = this.onCopy.bind(this);
+    this.renderStudentList = this.renderStudentList.bind(this);
   }
 
   onCopy() {
@@ -23,15 +24,43 @@ export default class Classroom extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    let id = nextProps.data.id;
-    let token = nextProps.data.attributes.join_token;
+    let classrooms = nextProps.data;
     this.state = {
-      url: routes.root + routes.students + 'join?id=' + id + '&token=' + token
+      url: routes.root + routes.students + 'join?id=' + classrooms.id + '&token=' + classrooms.attributes.join_token
     };
+  }
+
+  renderStudentList(allMembers, classroomMembers) {
+    const list = (allMembers.length > 0) ? allMembers : 'No student found';
+    const studentIds = classroomMembers.map((student) => { return student.id; } )
+
+    const filteredList =
+          list
+            .filter((itm) => {
+              return studentIds.indexOf( itm.id ) > -1;
+            })
+            .map((itm) => {
+              return itm.attributes.zooniverse_display_name
+            });
+    return (
+      <div className="list-group">
+        { list.map((student, i) =>
+          <Link
+            key={i}
+            className="list-group-item"
+            to="#"
+            >
+              {(filteredList.length > 0) ? filteredList : 'No students in here yet'}
+          </Link>
+        )}
+      </div>
+    )
   }
 
   render() {
     const {attributes} = this.props.data;
+    const allMembers = this.props.included;
+    const classroomMembers = this.props.data.relationships.students.data;
     return (
       <section>
         <h1>Classroom {attributes.name} </h1>
@@ -48,10 +77,10 @@ export default class Classroom extends Component {
             <CopyToClipboard text={this.state.url} onCopy={this.onCopy}>
               <button className="btn btn-default">Copy Link</button>
             </CopyToClipboard>
-            {this.state.copied ? <span style={{color: 'red'}}>Copied!</span> : null}
+            {this.state.copied ? <span style={{color: 'red'}}>&nbsp;Copied!</span> : null}
           </TabPanel>
           <TabPanel>
-            Sutdents
+            { this.renderStudentList(allMembers, classroomMembers) }
           </TabPanel>
           <TabPanel>
             Groups
@@ -60,7 +89,6 @@ export default class Classroom extends Component {
       </section>
     );
   }
-
 }
 
 Classroom.defaultProps = {
