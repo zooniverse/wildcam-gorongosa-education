@@ -1,6 +1,11 @@
 import React from 'react';
 const config = require('../constants/mapExplorer.config.json');
 import SelectorData from './MapExplorer-SelectorData.jsx';
+import fetch from 'isomorphic-fetch';
+
+const DIALOG_IDLE = 'idle';
+const DIALOG_MESSAGE = 'message';
+const DIALOG_DOWNLOAD = 'download-me';
 
 export default class SelectorPanel extends React.Component {
   constructor(props) {
@@ -10,16 +15,29 @@ export default class SelectorPanel extends React.Component {
     this.refreshUI = this.refreshUI.bind(this);
     this.updateMe = this.updateMe.bind(this);
     this.deleteMe = this.deleteMe.bind(this);
+    this.prepareCsv = this.prepareCsv.bind(this);
+    this.downloadCsv = this.downloadCsv.bind(this);
     this.changeToGuided = this.changeToGuided.bind(this);
-    this.changeToAdvanced = this.changeToAdvanced.bind(this); 
+    this.changeToAdvanced = this.changeToAdvanced.bind(this);
+    this.closeDialog = this.closeDialog.bind(this);
+    this.noAction = this.noAction.bind(this);
+    
+    //Initialise state
+    this.state = {
+      status: DIALOG_IDLE,
+      message: '',
+      data: null
+    };
   }
 
   render() {
+    let thisId = this.props.selectorData.id;
+    
     //Input Choice: Species
     let species = [];
     config.species.map((item) => {
       species.push(
-        <li key={'species_'+item.id}><input type="checkbox" id={'inputRow_species_item_' + item.id} ref={'inputRow_species_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label htmlFor={'inputRow_species_item_' + item.id}>{item.displayName}</label></li>
+        <li key={'species_'+item.id}><input type="checkbox" id={'inputRow_species_item_' + item.id + '_' + thisId} ref={'inputRow_species_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label htmlFor={'inputRow_species_item_' + item.id + '_' + thisId}>{item.displayName}</label></li>
       );
     });
     
@@ -27,7 +45,7 @@ export default class SelectorPanel extends React.Component {
     let habitats = [];
     config.habitats.map((item) => {
       habitats.push(
-        <li key={'habitat_'+item.id}><input type="checkbox" id={'inputRow_habitats_item_' + item.id} ref={'inputRow_habitats_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label htmlFor={'inputRow_habitats_item_' + item.id}>{item.displayName}</label></li>
+        <li key={'habitat_'+item.id}><input type="checkbox" id={'inputRow_habitats_item_' + item.id + '_' + thisId} ref={'inputRow_habitats_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label htmlFor={'inputRow_habitats_item_' + item.id + '_' + thisId}>{item.displayName}</label></li>
       );
     });
     
@@ -35,7 +53,7 @@ export default class SelectorPanel extends React.Component {
     let seasons = [];
     config.seasons.map((item) => {
       seasons.push(
-        <li key={'seasons_'+item.id}><input type="checkbox" id={'inputRow_seasons_item_' + item.id} ref={'inputRow_seasons_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label htmlFor={'inputRow_seasons_item_' + item.id}>{item.displayName}</label></li>
+        <li key={'seasons_'+item.id}><input type="checkbox" id={'inputRow_seasons_item_' + item.id + '_' + thisId} ref={'inputRow_seasons_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label htmlFor={'inputRow_seasons_item_' + item.id + '_' + thisId}>{item.displayName}</label></li>
       );
     });
     
@@ -97,6 +115,18 @@ export default class SelectorPanel extends React.Component {
         <section className="action-subpanel">
           <button onClick={this.updateMe}>(Update)</button>
           <button onClick={this.deleteMe}>(Delete)</button>
+          <button onClick={this.prepareCsv}>(Update Map and Prepare CSV)</button>
+        </section>
+        <section className={(this.state.status === DIALOG_IDLE) ? 'dialog-screen' : 'dialog-screen enabled' } onClick={this.closeDialog}>
+          {(this.state.status === DIALOG_MESSAGE) ?
+            <div className="dialog-box" onClick={this.noAction}>{this.state.message}</div>
+          : null}
+          {(this.state.status === DIALOG_DOWNLOAD) ?
+            <div className="dialog-box" onClick={this.noAction}>
+              <div>{this.state.message}</div>
+              <div><a download="WildcamGorongosa.csv" className="btn" onClick={this.downloadCsv}>Download</a></div>
+            </div>
+          : null}
         </section>
       </article>
     );
@@ -154,6 +184,27 @@ export default class SelectorPanel extends React.Component {
   
   //----------------------------------------------------------------
   
+  closeDialog(e) {
+    this.setState({
+      status: DIALOG_IDLE,
+      message: '',
+      data: null
+    });
+  }
+  
+  //'Eats up' events to prevent them from bubbling to a parent element.
+  noAction(e) {
+    if (e) {
+      e.preventDefault && e.preventDefault();
+      e.stopPropagation && e.stopPropagation();
+      e.returnValue = false;
+      e.cancelBubble = true;
+    }
+    return false;
+  }
+  
+  //----------------------------------------------------------------
+  
   //Tells the parent that this Selector has updated its values.
   updateMe(e) {
     //Create a copy of the current Selector Data, which we will then modify and
@@ -201,7 +252,7 @@ export default class SelectorPanel extends React.Component {
 
     //Filter control: mode
     if (data.mode === SelectorData.GUIDED_MODE) {
-      this.refs.sql.value = data.calculateSql();
+      this.refs.sql.value = data.calculateSql(config.cartodb.sqlQueryCountCameras);
       this.refs.css.value = data.calculateCss();
     }
     data.sql = this.refs.sql.value;
@@ -214,6 +265,75 @@ export default class SelectorPanel extends React.Component {
   //Tells the parent that this Selector wants to be deleted.
   deleteMe(e) {
     this.props.deleteMeHandler(this.props.selectorData.id);
+  }
+  
+  //Download the current results into a CSV.
+  prepareCsv(e) {
+    //First things first: make sure the user sees what she/he is going to download.
+    this.updateMe(null);
+    
+    this.setState({
+      status: DIALOG_MESSAGE,
+      message: 'Preparing CSV file...',
+      data: null
+    });
+    
+    let sqlQuery = this.props.selectorData.calculateSql(config.cartodb.sqlQuerySelectItems);
+    console.log('Prepare CSV: ', sqlQuery);
+    fetch(config.cartodb.sqlApi.replace('{SQLQUERY}', encodeURI(sqlQuery)))
+      .then((response) => {
+        if (response.status !== 200) {
+          throw 'Can\'t reach CartoDB API, HTTP response code ' + response.status;
+        }
+        return response.json();
+      })
+      .then((json) => {
+        let data = [];
+        let row = [];
+      
+        for (let key in json.fields) {
+          row.push('"'+key.replace(/"/g, '\\"')+'"');
+        }
+        row = row.join(',');
+        data.push(row);
+      
+        json.rows.map((rowItem) => {
+          let row = [];
+          for (let key in json.fields) {
+            (json.fields[key].type === 'string' && rowItem[key])
+              ? row.push('"'+rowItem[key].replace(/"/g, '\\"')+'"')
+              : row.push(rowItem[key]);
+          }
+          row = row.join(',');
+          data.push(row);
+        });
+        data = data.join('\n');
+
+        this.setState({
+          status: DIALOG_DOWNLOAD,
+          message: 'CSV ready!',
+          data: data
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({
+          status: DIALOG_MESSAGE,
+          message: 'ERROR',
+          data: null
+        });
+      });
+  }
+  
+  downloadCsv(e) {
+    if (this.state.data) {
+      let dataBlob = new Blob([this.state.data], {type: 'text/csv'});
+      let dataAsAFile = window.URL.createObjectURL(dataBlob);
+      window.open(dataAsAFile);
+      window.URL.revokeObjectURL(dataAsAFile);
+    } else {
+      console.error('Download CSV Error: no CSV');
+    }
   }
   
   //Update the UI based on user actions.
