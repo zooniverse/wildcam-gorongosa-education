@@ -50,7 +50,7 @@ export default class Classroom extends Component {
             className="list-group-item"
             to="#"
             >
-             { name }
+             {name}
           </Link>
         ) : 'No students in here yet' }
       </div>
@@ -58,7 +58,7 @@ export default class Classroom extends Component {
   }
 
   render() {
-    const {attributes} = this.props.data;
+    const { attributes} = this.props.data;
     const allMembers = this.props.members;
     const classroomMembers = this.props.data.relationships.students.data;
     return (
@@ -71,6 +71,9 @@ export default class Classroom extends Component {
             <Tab>Groups</Tab>
           </TabList>
           <TabPanel>
+            <h3>Subject: {attributes.subject}</h3>
+            <h3>School: {attributes.school}</h3>
+            <h3>Description: {attributes.description}</h3>
             <h3>Join Link</h3>
             <p>Send the following URL to all the students you want to join this classroom. Note: students need to login to Zooniverse.org to be able to join.</p>
             <input className="form-control" type="text" value={this.state.url} readOnly/>
@@ -94,7 +97,10 @@ export default class Classroom extends Component {
 Classroom.defaultProps = {
   data: {
     attributes: {
-      name: ''
+      name: '',
+      subject: '',
+      school: '',
+      description: '',
     }
   },
   members: []

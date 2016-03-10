@@ -8,11 +8,14 @@ import * as types from '../constants/actionTypes';
 
 // Action creators
 
-export function createClassroom(name) {
+export function createClassroom(name, subject, school, description) {
   return dispatch => {
     dispatch({
       type: types.CREATE_CLASSROOM,
       name,
+      subject,
+      school,
+      description
     });
     return fetch(eduAPI.root + eduAPI.teachers, {
       method: 'POST',
@@ -21,7 +24,16 @@ export function createClassroom(name) {
           'Authorization': Panoptes.apiClient.headers.Authorization,
           'Content-Type': 'application/json'
       }),
-      body: JSON.stringify({'data': {'attributes': {'name': name}}})
+      body: JSON.stringify({
+        'data': {
+          'attributes': {
+            'name': name,
+            'subject': subject,
+            'school': school,
+            'description': description,
+          }
+        }
+      })
     })
     .then(response => response.json())
     .then(json => {
