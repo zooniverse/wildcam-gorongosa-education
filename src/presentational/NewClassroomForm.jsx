@@ -17,7 +17,7 @@ class NewClassroomForm extends Component {
   }
 
   handleChange(e) {
-    var nextState = {};
+    let nextState = {};
     nextState[e.target.name] = e.target.value;
     this.setState(nextState);
   }
@@ -25,10 +25,23 @@ class NewClassroomForm extends Component {
   handleSubmit(e) {
     e.preventDefault();
     let name = e.target[0].value.trim();
+    let subject = e.target[1].value.trim();
+    let school = e.target[2].value.trim();
+    let description = e.target[3].value.trim();
     if (name.length > 0) {
-      this.props.dispatch(createClassroom(name));
-    }
-    this.setState({ name: '', subject: '' })
+      this.props.dispatch(createClassroom(
+        name,
+        subject,
+        school,
+        description
+      )
+    )}
+    this.setState({
+      name: '',
+      subject: '',
+      school  : '',
+      description: '',
+    })
   }
 
   render() {
@@ -37,26 +50,44 @@ class NewClassroomForm extends Component {
         <h3>New Classroom</h3>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
-            <label>Name</label>
-              <input className="form-control"
-              type="text"
-              name="name"
-              placeholder="Insert Name"
-              autofocus="true"
-              value={this.state.name}
-              onChange={this.handleChange}/>
+           <label>Name</label>
+           <input className="form-control"
+            type="text"
+            name="name"
+            placeholder="Insert Name"
+            autofocus="true"
+            value={this.state.name}
+            onChange={this.handleChange}/>
           </div>
           <div className="form-group">
-            <label>Subject</label>
-              <input className="form-control"
-              type="text"
-              name="subject"
-              placeholder="Subject (Optional)"
-              value={this.state.subject}
-              onChange={this.handleChange}/>
+           <label>Subject</label>
+           <input className="form-control"
+            type="text"
+            name="subject"
+            placeholder="Subject (Optional)"
+            value={this.state.subject}
+            onChange={this.handleChange}/>
           </div>
           <div className="form-group">
-              <button type="submit" className="btn btn-primary">Submit</button>
+           <label>School</label>
+           <input className="form-control"
+            type="text"
+            name="school"
+            placeholder="School (Optional)"
+            value={this.state.school}
+            onChange={this.handleChange}/>
+          </div>
+          <div className="form-group">
+           <label>Description</label>
+           <input className="form-control"
+            type="text"
+            name="description"
+            placeholder="Description (Optional)"
+            value={this.state.description}
+            onChange={this.handleChange}/>
+          </div>
+          <div className="form-group">
+           <button type="submit" className="btn btn-primary">Submit</button>
           </div>
         </form>
       </div>
