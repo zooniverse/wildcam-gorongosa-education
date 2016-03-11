@@ -42,12 +42,20 @@ class Layout extends Component {
   }
 
   renderNavItem(item) {
-    const isActive = (this.props.location.pathname ===  item.to) ? 'active' : null;
-    return (
-      <li key={item.label} className={isActive}>
-        <Link to={item.to}>{item.label}</Link>
-      </li>
-    );
+    if (item.to.match(/^https?:/ig)) {  //Is it an external link?
+      return (
+        <li key={item.label}>
+          <a href={item.to} target="_blank">{item.label}</a>
+        </li>
+      );
+    } else {  //Is it an internal link?
+      const isActive = (this.props.location.pathname ===  item.to) ? 'active' : null;
+      return (
+        <li key={item.label} className={isActive}>
+          <Link to={item.to}>{item.label}</Link>
+        </li>
+      );
+    }
   }
 
   render() {
@@ -67,7 +75,7 @@ class Layout extends Component {
         </main>
 
         <footer className='site-footer'>
-          Placeholder footer, to be replaced. Note the &quot;flex: 0 0 auto&quot;, though.
+          &nbsp;
         </footer>
 
       </div>
