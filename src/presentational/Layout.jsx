@@ -14,15 +14,15 @@ class Layout extends Component {
     this.renderNavItem = this.renderNavItem.bind(this);
     this.verifyLogin = this.verifyLogin.bind(this);
   }
-  
+
   componentWillMount() {
     this.verifyLogin(this.props);
   }
-  
+
   componentWillReceiveProps(nextProps) {
     this.verifyLogin(nextProps);
   }
-  
+
   verifyLogin(props) {
     if (props.loginSecured && !(props.user)) {
       browserHistory.push(routes.loginPrompt);
@@ -75,7 +75,8 @@ class Layout extends Component {
         </main>
 
         <footer className='site-footer'>
-          &nbsp;
+          <p className='pull-left'><a href="https://www.zooniverse.org/" target="_blanket">Zooniverse.org</a> The universe is too big to explore without you</p>
+          <p className='pull-right'>2016</p>
         </footer>
 
       </div>
