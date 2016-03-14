@@ -11,17 +11,17 @@ export default class Home extends Component {
     return (
       <Layout>
         <div className='home'>
-          <div className='jumbotron'>
-           <div className='page-header'>
-            <h1>Welcome to Wildcam Gorongosa Education Portal</h1>
-           </div>
-           <div className='sub-title'>
-            <p>Are you a teacher or a student?</p>
-            <p>Choose one and get started!</p>
-            <Link className='btn btn-primary btn-lg' role='button' to='/teachers'>Teacher </Link>
-            &nbsp;&nbsp;
-            <Link className='btn btn-primary btn-lg' role='button' to='/students'>Student</Link>
-           </div>
+            <div className='jumbotron'>
+              <div className='page-header'>
+                <h1>Welcome to the Wildcam Gorongosa Education Portal</h1>
+              </div>
+              <div className='sub-title'>
+                <p>Are you a teacher or a student?</p>
+                <p>Choose one and get started!</p>
+                <Link className='btn btn-primary btn-lg' role='button' to='/teachers'>Teacher </Link>
+                &nbsp;&nbsp;
+                <Link className='btn btn-primary btn-lg' role='button' to='/students'>Student</Link>
+              </div>
           </div>
         </div>
       </Layout>
