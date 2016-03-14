@@ -87,7 +87,7 @@ class NewClassroomForm extends Component {
             onChange={this.handleChange}/>
           </div>
           <div className="form-group">
-           <button type="submit" className="btn btn-primary">Submit</button>
+           <button type="submit" className="btn btn-primary pull-right">Submit</button>
           </div>
         </form>
       </div>
