@@ -62,8 +62,10 @@ export default class Classroom extends Component {
     const allMembers = this.props.members;
     const classroomMembers = this.props.data.relationships.students.data;
     return (
-      <section>
+      <section className="content-view">
+        <div className='page-header'>
         <h1>Classroom {attributes.name} </h1>
+        </div>
         <Tabs className="admin-tabs">
           <TabList>
             <Tab>Overview</Tab>
