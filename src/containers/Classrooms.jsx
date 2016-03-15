@@ -12,6 +12,12 @@ class Classrooms extends Component {
       this.props.dispatch(fetchClassrooms());
     }
   }
+  
+  getChildContext() {
+    return {
+      classrooms: this.props.classrooms
+    }
+  }
 
   render() {
     return (
@@ -37,6 +43,10 @@ Classrooms.defaultProps = {
     loading: false,
     error: false,
   }
+};
+
+Classrooms.childContextTypes = {
+  classrooms: PropTypes.object
 };
 
 function mapStateToProps(state) {

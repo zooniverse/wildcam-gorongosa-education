@@ -7,9 +7,13 @@ export default class ClassroomsOverview extends Component {
   render() {
     return (
       <div>
-        ClassroomsOverview
+      ClassroomsOverview. There are {this.context.classrooms.data.length} classrooms.
       </div>
     );
   }
 
+}
+
+ClassroomsOverview.contextTypes = {
+  classrooms: PropTypes.object
 }
