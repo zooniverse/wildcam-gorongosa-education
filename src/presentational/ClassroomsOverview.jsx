@@ -2,16 +2,12 @@ import { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
 
-export default class ClassroomsOverview extends Component {
-
-  render() {
-    return (
-      <div>
-      ClassroomsOverview. There are {this.context.classrooms.data.length} classrooms.
-      </div>
-    );
-  }
-
+export default function ClassroomsOverview(props, context) {
+  return (
+    <div>
+    ClassroomsOverview. There are {context.classrooms.data.length} classrooms.
+    </div>
+  );
 }
 
 ClassroomsOverview.contextTypes = {
