@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes';
 
-const intialState = { loading: false, data: [], error: false };
+const intialState = { loading: false, data: [], error: false, members: [] };
 
 
 export function classrooms(state = intialState, action) {

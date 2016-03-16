@@ -1,15 +1,14 @@
-import { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import { PropTypes } from 'react';
 
-
-export default function ClassroomsOverview(props, context) {
-  return (
-    <div>
-    ClassroomsOverview. There are {context.classrooms.data.length} classrooms.
-    </div>
-  );
-}
+const ClassroomsOverview = (props, context) => (
+  <div>
+    <p>{context.classrooms.data.length} Classrooms.</p>
+    <p>{context.classrooms.members.length} Students</p>
+  </div>
+);
 
 ClassroomsOverview.contextTypes = {
   classrooms: PropTypes.object
 }
+
+export {ClassroomsOverview as default}
