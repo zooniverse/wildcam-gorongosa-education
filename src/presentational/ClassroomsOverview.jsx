@@ -1,15 +1,14 @@
-import { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import { PropTypes } from 'react';
 
+const ClassroomsOverview = (props, context) => (
+  <div>
+    <p>{context.classrooms.data.length} Classrooms.</p>
+    <p>{context.classrooms.members.length} Students</p>
+  </div>
+);
 
-export default class ClassroomsOverview extends Component {
-
-  render() {
-    return (
-      <div>
-        ClassroomsOverview
-      </div>
-    );
-  }
-
+ClassroomsOverview.contextTypes = {
+  classrooms: PropTypes.object
 }
+
+export {ClassroomsOverview as default}
