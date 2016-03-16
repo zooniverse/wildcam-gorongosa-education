@@ -13,7 +13,7 @@ export default class Home extends Component {
         <div className='home'>
             <div className='jumbotron'>
               <div className='page-header'>
-                <h1>Welcome to the Wildcam Gorongosa Education Portal</h1>
+                <h1>Welcome to the WildCam Lab</h1>
               </div>
               <div className='sub-title'>
                 <p>Are you a teacher or a student?</p>

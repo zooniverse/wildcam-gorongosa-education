@@ -64,7 +64,7 @@ class Layout extends Component {
 
         <header className='site-header'>
           <div className='container-fluid'>
-            <Link className='navbar-brand' to='/'>Wildcam Gorongosa Education</Link>
+            <Link className='navbar-brand' to='/'>WildCam Lab</Link>
             {this.renderNav()}
             <HeaderAuth />
           </div>
