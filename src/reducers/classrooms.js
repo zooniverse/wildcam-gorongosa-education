@@ -1,9 +1,9 @@
 import * as types from '../constants/actionTypes';
 
-const intialState = { loading: false, data: [], error: false };
+const initialState = { loading: false, data: [], error: false, members: [] };
 
 
-export function classrooms(state = intialState, action) {
+export function classrooms(state = initialState, action) {
   switch (action.type) {
     case types.JOIN_CLASSROOM:
       return Object.assign({}, state, {
