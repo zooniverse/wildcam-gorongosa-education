@@ -1,11 +1,8 @@
 import React from 'react';
 const config = require('../constants/mapExplorer.config.json');
 import SelectorData from './MapExplorer-SelectorData.jsx';
+import DialogScreen from '../presentational/DialogScreen.jsx';
 import fetch from 'isomorphic-fetch';
-
-const DIALOG_IDLE = 'idle';
-const DIALOG_MESSAGE = 'message';
-const DIALOG_DOWNLOAD = 'download-me';
 
 export default class SelectorPanel extends React.Component {
   constructor(props) {
@@ -24,9 +21,11 @@ export default class SelectorPanel extends React.Component {
     
     //Initialise state
     this.state = {
-      status: DIALOG_IDLE,
-      message: '',
-      data: null
+      downloadDialog: {
+        status: DialogScreen.DIALOG_IDLE,
+        message: '',
+        data: null
+      }
     };
   }
 
@@ -117,20 +116,24 @@ export default class SelectorPanel extends React.Component {
           <button onClick={this.deleteMe}>(Delete)</button>
           <button onClick={this.prepareCsv}>(Update Map and Prepare CSV)</button>
         </section>
-        <section className={(this.state.status === DIALOG_IDLE) ? 'dialog-screen' : 'dialog-screen enabled' } onClick={this.closeDialog}>
-          {(this.state.status === DIALOG_MESSAGE) ?
-            <div className="dialog-box" onClick={this.noAction}>{this.state.message}</div>
-          : null}
-          {(this.state.status === DIALOG_DOWNLOAD) ?
-            <div className="dialog-box" onClick={this.noAction}>
-              <div>{this.state.message}</div>
-              <div><a download="WildcamGorongosa.csv" className="btn" onClick={this.downloadCsv}>Download</a></div>
-            </div>
-          : null}
-        </section>
+        <DialogScreen status={this.state.downloadDialog.status} message={this.state.downloadDialog.message} data={this.state.downloadDialog.data} closeMeHandler={this.closeDialog} />
       </article>
     );
   }
+  
+  /*
+    <section className={(this.state.status === DIALOG_IDLE) ? 'dialog-screen' : 'dialog-screen enabled' } onClick={this.closeDialog}>
+      {(this.state.status === DIALOG_MESSAGE) ?
+        <div className="dialog-box" onClick={this.noAction}>{this.state.message}</div>
+      : null}
+      {(this.state.status === DIALOG_DOWNLOAD) ?
+        <div className="dialog-box" onClick={this.noAction}>
+          <div>{this.state.message}</div>
+          <div><a download="WildcamGorongosa.csv" className="btn" onClick={this.downloadCsv}>Download</a></div>
+        </div>
+      : null}
+    </section>
+  */
   
   componentDidMount() {
     //Set <input> values based on the selector data.
@@ -186,10 +189,11 @@ export default class SelectorPanel extends React.Component {
   
   closeDialog(e) {
     this.setState({
-      status: DIALOG_IDLE,
-      message: '',
-      data: null
-    });
+      downloadDialog: {
+        status: DialogScreen.DIALOG_IDLE,
+        message: '',
+        data: null
+    }});
   }
   
   //'Eats up' events to prevent them from bubbling to a parent element.
@@ -273,10 +277,11 @@ export default class SelectorPanel extends React.Component {
     this.updateMe(null);
     
     this.setState({
-      status: DIALOG_MESSAGE,
-      message: 'Preparing CSV file...',
-      data: null
-    });
+      downloadDialog: {
+        status: DialogScreen.DIALOG_MESSAGE,
+        message: 'Preparing CSV file...',
+        data: null
+    }});
     
     let sqlQuery = this.props.selectorData.calculateSql(config.cartodb.sqlQuerySelectItems);
     console.log('Prepare CSV: ', sqlQuery);
@@ -310,18 +315,20 @@ export default class SelectorPanel extends React.Component {
         data = data.join('\n');
 
         this.setState({
-          status: DIALOG_DOWNLOAD,
-          message: 'CSV ready!',
-          data: data
-        });
+          downloadDialog: {
+            status: DialogScreen.DIALOG_DOWNLOAD_CSV,
+            message: 'CSV ready!',
+            data: data
+        }});
       })
       .catch((err) => {
         console.log(err);
         this.setState({
-          status: DIALOG_MESSAGE,
-          message: 'ERROR',
-          data: null
-        });
+          downloadDialog: {
+            status: DialogScreen.DIALOG_MESSAGE,
+            message: 'ERROR',
+            data: null
+        }});
       });
   }
   
