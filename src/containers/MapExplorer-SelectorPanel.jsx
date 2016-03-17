@@ -9,15 +9,12 @@ export default class SelectorPanel extends React.Component {
     super(props);
 
     //Event binding
-    this.refreshUI = this.refreshUI.bind(this);
     this.updateMe = this.updateMe.bind(this);
     this.deleteMe = this.deleteMe.bind(this);
     this.prepareCsv = this.prepareCsv.bind(this);
-    this.downloadCsv = this.downloadCsv.bind(this);
     this.changeToGuided = this.changeToGuided.bind(this);
     this.changeToAdvanced = this.changeToAdvanced.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
-    this.noAction = this.noAction.bind(this);
     
     //Initialise state
     this.state = {
@@ -36,7 +33,7 @@ export default class SelectorPanel extends React.Component {
     let species = [];
     config.species.map((item) => {
       species.push(
-        <li key={'species_'+item.id}><input type="checkbox" id={'inputRow_species_item_' + item.id + '_' + thisId} ref={'inputRow_species_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label htmlFor={'inputRow_species_item_' + item.id + '_' + thisId}>{item.displayName}</label></li>
+        <li key={'species_'+item.id}><input type="checkbox" id={'inputRow_species_item_' + item.id + '_' + thisId} ref={'inputRow_species_item_' + item.id} value={item.id} /><label htmlFor={'inputRow_species_item_' + item.id + '_' + thisId}>{item.displayName}</label></li>
       );
     });
     
@@ -44,7 +41,7 @@ export default class SelectorPanel extends React.Component {
     let habitats = [];
     config.habitats.map((item) => {
       habitats.push(
-        <li key={'habitat_'+item.id}><input type="checkbox" id={'inputRow_habitats_item_' + item.id + '_' + thisId} ref={'inputRow_habitats_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label htmlFor={'inputRow_habitats_item_' + item.id + '_' + thisId}>{item.displayName}</label></li>
+        <li key={'habitat_'+item.id}><input type="checkbox" id={'inputRow_habitats_item_' + item.id + '_' + thisId} ref={'inputRow_habitats_item_' + item.id} value={item.id} /><label htmlFor={'inputRow_habitats_item_' + item.id + '_' + thisId}>{item.displayName}</label></li>
       );
     });
     
@@ -52,7 +49,7 @@ export default class SelectorPanel extends React.Component {
     let seasons = [];
     config.seasons.map((item) => {
       seasons.push(
-        <li key={'seasons_'+item.id}><input type="checkbox" id={'inputRow_seasons_item_' + item.id + '_' + thisId} ref={'inputRow_seasons_item_' + item.id} value={item.id} onchange={this.refreshUI} /><label htmlFor={'inputRow_seasons_item_' + item.id + '_' + thisId}>{item.displayName}</label></li>
+        <li key={'seasons_'+item.id}><input type="checkbox" id={'inputRow_seasons_item_' + item.id + '_' + thisId} ref={'inputRow_seasons_item_' + item.id} value={item.id} /><label htmlFor={'inputRow_seasons_item_' + item.id + '_' + thisId}>{item.displayName}</label></li>
       );
     });
     
@@ -89,11 +86,11 @@ export default class SelectorPanel extends React.Component {
           </div>
           <div className="input-row">
             <label>Username:</label>
-            <input type="text" ref="username" onChange={this.refreshUI} />
+            <input type="text" ref="username" />
           </div>
           <div className="input-row">
             <label>Marker Color:</label>
-            <input type="text" ref="markerColor" onChange={this.refreshUI} />
+            <input type="text" ref="markerColor" />
             <label>Marker Size:</label>
             <input type="text" ref="markerSize" onChange={this.refreshUI} />
             <label>Marker Opacity:</label>
@@ -120,20 +117,6 @@ export default class SelectorPanel extends React.Component {
       </article>
     );
   }
-  
-  /*
-    <section className={(this.state.status === DIALOG_IDLE) ? 'dialog-screen' : 'dialog-screen enabled' } onClick={this.closeDialog}>
-      {(this.state.status === DIALOG_MESSAGE) ?
-        <div className="dialog-box" onClick={this.noAction}>{this.state.message}</div>
-      : null}
-      {(this.state.status === DIALOG_DOWNLOAD) ?
-        <div className="dialog-box" onClick={this.noAction}>
-          <div>{this.state.message}</div>
-          <div><a download="WildcamGorongosa.csv" className="btn" onClick={this.downloadCsv}>Download</a></div>
-        </div>
-      : null}
-    </section>
-  */
   
   componentDidMount() {
     //Set <input> values based on the selector data.
@@ -194,17 +177,6 @@ export default class SelectorPanel extends React.Component {
         message: '',
         data: null
     }});
-  }
-  
-  //'Eats up' events to prevent them from bubbling to a parent element.
-  noAction(e) {
-    if (e) {
-      e.preventDefault && e.preventDefault();
-      e.stopPropagation && e.stopPropagation();
-      e.returnValue = false;
-      e.cancelBubble = true;
-    }
-    return false;
   }
   
   //----------------------------------------------------------------
@@ -330,21 +302,5 @@ export default class SelectorPanel extends React.Component {
             data: null
         }});
       });
-  }
-  
-  downloadCsv(e) {
-    if (this.state.data) {
-      let dataBlob = new Blob([this.state.data], {type: 'text/csv'});
-      let dataAsAFile = window.URL.createObjectURL(dataBlob);
-      window.open(dataAsAFile);
-      window.URL.revokeObjectURL(dataAsAFile);
-    } else {
-      console.error('Download CSV Error: no CSV');
-    }
-  }
-  
-  //Update the UI based on user actions.
-  refreshUI(e) {
-    console.log('Selectors.refreshUI()');
   }
 }
