@@ -2,8 +2,8 @@ import { PropTypes } from 'react';
 
 const ClassroomsOverview = (props, context) => (
   <div>
-    <p>{(context.classrooms.data) ? context.classrooms.data.length : 0} Classrooms</p>
-    <p>{(context.classrooms.members) ? context.classrooms.members.length : 0} Students</p>
+    <p>{context.classrooms.data.length} Classrooms</p>
+    <p>{context.classrooms.members.length} Students</p>
   </div>
 );
 
