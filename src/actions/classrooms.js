@@ -39,7 +39,8 @@ export function createClassroom(name, subject, school, description) {
     .then(json => {
       dispatch({
         type: types.CREATE_CLASSROOM_SUCCESS,
-        data: json.data
+        data: json.data,
+        members: json.included,
       });
       browserHistory.push(`/teachers/classrooms/${json.data.id}`);
     })

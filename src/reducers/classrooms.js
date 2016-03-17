@@ -18,9 +18,9 @@ export function classrooms(state = initialState, action) {
     case types.RECEIVE_CLASSROOMS:
       return Object.assign({}, state, {
         loading: false,
-        data: action.data,
+        data: action.data || [],
         error: action.error,
-        members: action.members
+        members: action.members || [],
       });
       case types.CREATE_CLASSROOM:
       return Object.assign({}, state, {
@@ -32,6 +32,7 @@ export function classrooms(state = initialState, action) {
         loading: false,
         data: newlist,
         error: false,
+        members: action.members || [],
       });
     case types.CREATE_CLASSROOM_ERROR:
       return Object.assign({}, state, {

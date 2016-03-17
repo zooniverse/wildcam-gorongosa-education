@@ -8,7 +8,7 @@ const ClassroomsOverview = (props, context) => (
 );
 
 ClassroomsOverview.contextTypes = {
-  classrooms: PropTypes.object
+  classrooms: PropTypes.object.isRequired
 }
 
 export {ClassroomsOverview as default}
