@@ -8,11 +8,11 @@ import ClassroomsSidebar from '../presentational/ClassroomsSidebar.jsx';
 class Classrooms extends Component {
 
   componentDidMount() {
-    if (!this.props.classrooms.data.length && !this.props.classrooms.loading) {
+    if (!this.props.classrooms.members.length && !this.props.classrooms.data.length && !this.props.classrooms.loading) {
       this.props.dispatch(fetchClassrooms());
     }
   }
-  
+
   getChildContext() {
     return {
       classrooms: this.props.classrooms
@@ -40,13 +40,14 @@ Classrooms.propTypes = {
 Classrooms.defaultProps = {
   classrooms: {
     data: [],
-    loading: false,
     error: false,
+    loading: false,
+    members: [],
   }
 };
 
 Classrooms.childContextTypes = {
-  classrooms: PropTypes.object
+  classrooms: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
