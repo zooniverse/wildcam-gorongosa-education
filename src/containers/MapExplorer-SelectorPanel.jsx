@@ -92,9 +92,9 @@ export default class SelectorPanel extends React.Component {
             <label>Marker Color:</label>
             <input type="text" ref="markerColor" />
             <label>Marker Size:</label>
-            <input type="text" ref="markerSize" onChange={this.refreshUI} />
+            <input type="text" ref="markerSize" />
             <label>Marker Opacity:</label>
-            <input type="text" ref="markerOpacity" onChange={this.refreshUI} />
+            <input type="text" ref="markerOpacity" />
           </div>
         </section>
         <section className={(this.props.selectorData.mode !== SelectorData.ADVANCED_MODE) ? 'input-subpanel not-selected' : 'input-subpanel' } ref="subPanel_advanced" >
@@ -147,8 +147,6 @@ export default class SelectorPanel extends React.Component {
     //Same for the Advanced panel.
     this.refs.sql.value = this.props.selectorData.sql;
     this.refs.css.value = this.props.selectorData.css;
-    
-    this.refreshUI(null);
     
     //Once mounted, be sure to inform the parent.
     this.updateMe(null);
@@ -242,6 +240,8 @@ export default class SelectorPanel extends React.Component {
   deleteMe(e) {
     this.props.deleteMeHandler(this.props.selectorData.id);
   }
+  
+  //----------------------------------------------------------------
   
   //Download the current results into a CSV.
   prepareCsv(e) {
