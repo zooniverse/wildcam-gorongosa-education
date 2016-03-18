@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import Spinner from 'Spinner.jsx';
 
 export default class ClassroomSidebar extends Component {
 
@@ -12,7 +13,7 @@ export default class ClassroomSidebar extends Component {
   renderStatusMessage(props) {
     let message = null;
     if (props.loading) {
-      message = 'Loading classrooms...';
+      message = 'Loading ...';
     } else if (props.error) {
       message = 'There was an error loading the classrooms :(';
     } else if (props.data && props.data.length === 0) {
@@ -31,9 +32,6 @@ export default class ClassroomSidebar extends Component {
     const list = (data.length > 0) ? data : [];
     return (
       <div className="list-group">
-        <Link className="list-group-item" to="/teachers/classrooms">
-          Overview
-        </Link>
         { list.map((classroom, i) =>
           <Link
             key={i}
@@ -56,7 +54,7 @@ export default class ClassroomSidebar extends Component {
       <div className="admin-sidebar">
         <div className="panel panel-default">
           <div className="panel-heading clearfix">
-            <h3 className="panel-title pull-left">Classrooms</h3>
+            <div className="panel-title pull-left">Classrooms</div>
             <Link className="btn btn-default pull-right" to="/teachers/classrooms/new">New</Link>
           </div>
           { this.renderStatusMessage(data) }

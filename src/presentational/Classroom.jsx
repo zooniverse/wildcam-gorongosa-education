@@ -40,20 +40,29 @@ export default class Classroom extends Component {
           return studentIds.indexOf( itm.id ) > -1;
         })
         .map((itm) => {
-          return itm.attributes.zooniverse_display_name
+          return itm. attributes
         });
     return (
-      <div className="list-group">
-        { (filteredList.length > 0) ? filteredList.map((name, i) =>
-          <Link
-            key={i}
-            className="list-group-item"
-            to="#"
-            >
-             {name}
-          </Link>
-        ) : 'No students in here yet' }
-      </div>
+    <div>
+      { (filteredList.length > 0) ? filteredList.map((attributes, i) =>
+      <table className="table table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Classifications</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr key={i}>
+            <td>{attributes.zooniverse_display_name}</td>
+            <td>{attributes.classifications_count}</td>
+            <td className="btn btn-warning" role="button">Remove</td>
+          </tr>
+        </tbody>
+      </table>
+      ) : 'No students in here yet' }
+    </div>
     )
   }
 
@@ -73,6 +82,7 @@ export default class Classroom extends Component {
             <Tab>Groups</Tab>
           </TabList>
           <TabPanel>
+            <h3>Classifications: {attributes.classifications_count}</h3>
             <h3>Subject: {attributes.subject}</h3>
             <h3>School: {attributes.school}</h3>
             <h3>Description: {attributes.description}</h3>
