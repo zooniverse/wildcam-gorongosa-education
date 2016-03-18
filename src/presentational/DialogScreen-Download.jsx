@@ -32,6 +32,7 @@ export default class DialogScreen_DownloadCSV extends DialogScreen {
     if (this.props.data) {
       let dataBlob = new Blob([this.props.data], {type: 'text/csv'});
       saveAs(dataBlob, 'wildcam.csv');
+      this.closeMe();
     } else {
       console.error('Download CSV Error: no CSV');
     }
