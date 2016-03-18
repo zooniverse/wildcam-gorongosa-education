@@ -2,6 +2,7 @@ import React from 'react';
 const config = require('../constants/mapExplorer.config.json');
 import SelectorData from './MapExplorer-SelectorData.jsx';
 import DialogScreen from '../presentational/DialogScreen.jsx';
+import DialogScreen_DownloadCSV from '../presentational/DialogScreen-DownloadCSV.jsx';
 import fetch from 'isomorphic-fetch';
 
 export default class SelectorPanel extends React.Component {
@@ -84,11 +85,11 @@ export default class SelectorPanel extends React.Component {
               <input ref="inputRow_dates_item_end" placeholder="2020-12-31" />
             </div>
           </div>
-          <div className="input-row">
+          <div className="input-row" className="hidden">
             <label>Username:</label>
             <input type="text" ref="username" />
           </div>
-          <div className="input-row">
+          <div className="input-row" className="hidden">
             <label>Marker Color:</label>
             <input type="text" ref="markerColor" />
             <label>Marker Size:</label>
@@ -113,7 +114,7 @@ export default class SelectorPanel extends React.Component {
           <button onClick={this.deleteMe}>(Delete)</button>
           <button onClick={this.prepareCsv}>(Update Map and Prepare CSV)</button>
         </section>
-        <DialogScreen status={this.state.downloadDialog.status} message={this.state.downloadDialog.message} data={this.state.downloadDialog.data} closeMeHandler={this.closeDialog} />
+        <DialogScreen_DownloadCSV status={this.state.downloadDialog.status} message={this.state.downloadDialog.message} data={this.state.downloadDialog.data} closeMeHandler={this.closeDialog} />
       </article>
     );
   }

@@ -3,33 +3,23 @@ import React from 'react';
 const DIALOG_IDLE = 'idle';
 const DIALOG_MESSAGE = 'message';
 const DIALOG_DOWNLOAD_CSV = 'download-csv';
+const DIALOG_SELECT_SPECIES = 'select-species';
 
 export default class DialogScreen extends React.Component {
   constructor(props) {
     super(props);
     
     this.closeMe = this.closeMe.bind(this);
-    this.downloadCsv = this.downloadCsv.bind(this);
   }
 
   render() {
-    console.log('-'.repeat(40));
-    console.log(this.props);
-    
     return (
       <section className={(this.props.status === DIALOG_IDLE) ? 'dialog-screen' : 'dialog-screen enabled' } onClick={this.closeMe}>
         
         {(this.props.status === DIALOG_MESSAGE)
         ? <div className="dialog-box" onClick={this.noAction}>{this.props.message}</div>
         : null}
-        
-        {(this.props.status === DIALOG_DOWNLOAD_CSV)
-        ? <div className="dialog-box" onClick={this.noAction}>
-            <div>{this.props.message}</div>
-            <div><a download="WildcamGorongosa.csv" className="btn" onClick={this.downloadCsv}>Download</a></div>
-          </div>
-        : null}
-        
+
       </section>
     );
   }
@@ -64,4 +54,5 @@ export default class DialogScreen extends React.Component {
   static get DIALOG_IDLE() { return DIALOG_IDLE; }
   static get DIALOG_MESSAGE() { return DIALOG_MESSAGE; }
   static get DIALOG_DOWNLOAD_CSV() { return DIALOG_DOWNLOAD_CSV; }
+  static get DIALOG_SELECT_SPECIES() { return DIALOG_SELECT_SPECIES; }
 }
