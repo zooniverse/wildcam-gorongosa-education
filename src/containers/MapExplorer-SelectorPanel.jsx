@@ -2,7 +2,8 @@ import React from 'react';
 const config = require('../constants/mapExplorer.config.json');
 import SelectorData from './MapExplorer-SelectorData.jsx';
 import DialogScreen from '../presentational/DialogScreen.jsx';
-import DialogScreen_DownloadCSV from '../presentational/DialogScreen-DownloadCSV.jsx';
+import DialogScreen_Download from '../presentational/DialogScreen-Download.jsx';
+import DialogScreen_Species from '../presentational/DialogScreen-Species.jsx';
 import fetch from 'isomorphic-fetch';
 
 export default class SelectorPanel extends React.Component {
@@ -12,10 +13,11 @@ export default class SelectorPanel extends React.Component {
     //Event binding
     this.updateMe = this.updateMe.bind(this);
     this.deleteMe = this.deleteMe.bind(this);
+    this.updateSpeciesSelection = this.updateSpeciesSelection.bind(this);
     this.prepareCsv = this.prepareCsv.bind(this);
     this.changeToGuided = this.changeToGuided.bind(this);
     this.changeToAdvanced = this.changeToAdvanced.bind(this);
-    this.closeDialog = this.closeDialog.bind(this);
+    this.closeAllDialogs = this.closeAllDialogs.bind(this);
     
     //Initialise state
     this.state = {
@@ -23,12 +25,21 @@ export default class SelectorPanel extends React.Component {
         status: DialogScreen.DIALOG_IDLE,
         message: '',
         data: null
+      },
+      speciesDialog: {
+        status: DialogScreen.DIALOG_IDLE
       }
     };
   }
 
   render() {
     let thisId = this.props.selectorData.id;
+    
+    let speciesText = [];
+    config.species.map((item) => {
+      (this.props.selectorData.species.indexOf(item.id) >= 0) ? speciesText.push(item.displayName) : null;
+    });
+    speciesText = speciesText.join(', ');
     
     //Input Choice: Species
     let species = [];
@@ -56,30 +67,40 @@ export default class SelectorPanel extends React.Component {
     
     //Render!
     return (
-      <article className="selector-panel" ref="selectorPanel">
+      <article className="selector-panel">
         <section className={(this.props.selectorData.mode !== SelectorData.GUIDED_MODE) ? 'input-subpanel not-selected' : 'input-subpanel' } ref="subPanel_guided">
-          <h1 onClick={this.changeToGuided}>Standard Mode</h1>
+          <h1 className="hidden" onClick={this.changeToGuided}>Standard Mode</h1>
+          <div className="input-row">
+            <label>SPECIES:</label>
+            {
+              (speciesText.length > 0)
+              ? <span>Viewing {speciesText}</span>
+              : <span>Viewing all species</span>
+            }
+            <button onClick={(e) => { this.setState({ speciesDialog: { status: DialogScreen.DIALOG_ACTIVE } }) }}>...</button>
+          </div>
+          <DialogScreen_Species ref="dialog_species" status={this.state.speciesDialog.status} data={this.props.selectorData.species} updateMeHandler={this.updateSpeciesSelection} closeMeHandler={this.closeAllDialogs} />
           <div className="input-row" ref="inputRow_species">
-            <label ref="inputRow_species_label">Species</label>
-            <ul ref="inputRow_species_list">
+            <label>Species</label>
+            <ul>
               {species}
             </ul>
           </div>
-          <div className="input-row" ref="inputRow_habitats">
-            <label ref="inputRow_habitats_label">Habitats</label>
-            <ul ref="inputRow_habitats_list">
+          <div className="input-row">
+            <label>Habitats</label>
+            <ul>
               {habitats}
             </ul>
           </div>
           <div className="input-row" ref="inputRow_seasons">
-            <label ref="inputRow_seasons_label">Seasons</label>
-            <ul ref="inputRow_seasons_list">
+            <label>Seasons</label>
+            <ul>
               {seasons}
             </ul>
           </div>
-          <div className="input-row" ref="inputRow_dates">
-            <label ref="inputRow_dates_label">Date</label>
-            <div ref="inputRow_dates_list" className="range-input">
+          <div className="input-row">
+            <label>Date</label>
+            <div className="range-input">
               <input ref="inputRow_dates_item_start" placeholder="2000-12-31" />
               <span>to</span>
               <input ref="inputRow_dates_item_end" placeholder="2020-12-31" />
@@ -99,7 +120,7 @@ export default class SelectorPanel extends React.Component {
           </div>
         </section>
         <section className={(this.props.selectorData.mode !== SelectorData.ADVANCED_MODE) ? 'input-subpanel not-selected' : 'input-subpanel' } ref="subPanel_advanced" >
-          <h1 onClick={this.changeToAdvanced}>Advanced Mode</h1>
+          <h1 className="hidden" onClick={this.changeToAdvanced}>Advanced Mode</h1>
           <div className="input-row">
             <label>SQL Query</label>
             <textarea ref="sql"></textarea>
@@ -110,11 +131,11 @@ export default class SelectorPanel extends React.Component {
           </div>
         </section>
         <section className="action-subpanel">
-          <button onClick={this.updateMe}>(Update)</button>
-          <button onClick={this.deleteMe}>(Delete)</button>
-          <button onClick={this.prepareCsv}>(Update Map and Prepare CSV)</button>
+          <button onClick={this.updateMe}>(Apply)</button>
+          <button className="hidden" onClick={this.deleteMe}>(Delete)</button>
+          <button onClick={this.prepareCsv}>(Download)</button>
         </section>
-        <DialogScreen_DownloadCSV status={this.state.downloadDialog.status} message={this.state.downloadDialog.message} data={this.state.downloadDialog.data} closeMeHandler={this.closeDialog} />
+        <DialogScreen_Download status={this.state.downloadDialog.status} message={this.state.downloadDialog.message} data={this.state.downloadDialog.data} closeMeHandler={this.closeAllDialogs} />
       </article>
     );
   }
@@ -169,13 +190,19 @@ export default class SelectorPanel extends React.Component {
   
   //----------------------------------------------------------------
   
-  closeDialog(e) {
-    this.setState({
-      downloadDialog: {
-        status: DialogScreen.DIALOG_IDLE,
-        message: '',
-        data: null
-    }});
+  closeAllDialogs(e) {
+    this.setState(
+      {
+        downloadDialog: {
+          status: DialogScreen.DIALOG_IDLE,
+          message: '',
+          data: null
+        },
+        speciesDialog: {
+          status: DialogScreen.DIALOG_IDLE
+        }
+      }
+    );
   }
   
   //----------------------------------------------------------------
@@ -244,6 +271,12 @@ export default class SelectorPanel extends React.Component {
   
   //----------------------------------------------------------------
   
+  updateSpeciesSelection(e) {
+    
+  }
+  
+  //----------------------------------------------------------------
+  
   //Download the current results into a CSV.
   prepareCsv(e) {
     //First things first: make sure the user sees what she/he is going to download.
@@ -251,7 +284,7 @@ export default class SelectorPanel extends React.Component {
     
     this.setState({
       downloadDialog: {
-        status: DialogScreen.DIALOG_MESSAGE,
+        status: DialogScreen.DIALOG_ACTOVE,
         message: 'Preparing CSV file...',
         data: null
     }});
@@ -289,7 +322,7 @@ export default class SelectorPanel extends React.Component {
 
         this.setState({
           downloadDialog: {
-            status: DialogScreen.DIALOG_DOWNLOAD_CSV,
+            status: DialogScreen.DIALOG_ACTIVE,
             message: 'CSV ready!',
             data: data
         }});
@@ -298,7 +331,7 @@ export default class SelectorPanel extends React.Component {
         console.log(err);
         this.setState({
           downloadDialog: {
-            status: DialogScreen.DIALOG_MESSAGE,
+            status: DialogScreen.DIALOG_ACTIVE,
             message: 'ERROR',
             data: null
         }});

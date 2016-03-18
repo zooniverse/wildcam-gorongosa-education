@@ -57,7 +57,7 @@ export default class MapExplorer extends React.Component {
               <SelectorPanel key={selector.id} selectorData={selector} updateMeHandler={this.updateSelector} deleteMeHandler={this.deleteSelector} />
             );
           })}
-          <div className="controlPanel">
+          <div className="controlPanel hidden">
             <button onClick={this.addSelector}>Add Selector</button>
           </div>
         </section>
