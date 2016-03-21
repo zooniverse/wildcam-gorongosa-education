@@ -8,14 +8,10 @@ https://github.com/zooniverse/wildcam-gorongosa-education/
 
 Info
 ----
-The Map Explorer will be used by teachers and students to explore Wildcam
+The Map Explorer component lets teachers and students explore WildCam
 Gorongosa's collected data & information about wildlife, etc on a visual map.
 
-The ME is a component of the Wildcam Gorongosa Education project. It exists on a
-standalone 'Map' page on the website, and consists of an interactive map and
-controls to filter the data shown on the visuals.
-
-(- shaun.a.noordin, 20160216)
+(- shaun.a.noordin, 20160317)
 ********************************************************************************
  */
 
@@ -47,7 +43,6 @@ export default class MapExplorer extends React.Component {
   }
 
   render() {
-    console.log('MapExplorer.render()');
     return (  //Reminder: the parent .content-section is a <main>, so don't set .map-explorer as <main> as well.
       <div ref="mapExplorer" className="map-explorer">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
@@ -62,20 +57,12 @@ export default class MapExplorer extends React.Component {
               <SelectorPanel key={selector.id} selectorData={selector} updateMeHandler={this.updateSelector} deleteMeHandler={this.deleteSelector} />
             );
           })}
-          <div className="controlPanel">
+          <div className="controlPanel hidden">
             <button onClick={this.addSelector}>Add Selector</button>
           </div>
         </section>
       </div>
     );
-  }
-
-  componentDidMount() {
-    console.log('MapExplorer.componentDidMount()');
-  }
-
-  componentWillUnmount() {
-    console.log('MapExplorer.componentWillUnmount()');
   }
   
   //----------------------------------------------------------------
@@ -86,8 +73,6 @@ export default class MapExplorer extends React.Component {
     if (!(window.L && window.cartodb)) {
       console.log('MapExplorer.initMapExplorer(): failed');
       return;
-    } else {
-      console.log('MapExplorer.initMapExplorer()');
     }
     
     if (this.state.map) {
@@ -97,10 +82,6 @@ export default class MapExplorer extends React.Component {
     }
     
     //Create the map (Leaflet + CartoDB ver)
-    //1. Prepare the base layers
-    //2. Create the Leaflet Map
-    //3. Create the CartoDB data layer, and at that same step, add the controls
-    //   for controlling the base layers AND the data layer.
     //--------------------------------
     //Prepare the base layers.
     let baseLayers = [];
@@ -134,8 +115,8 @@ export default class MapExplorer extends React.Component {
         //Add the controls for the layers
         L.control.layers(baseLayersForControls, { 'Data': layer }).addTo(this.state.map);                                                 
         
-        //updateMapExplorer performs some cleanup
-        this.updateMapExplorer();
+        //updateDataVisualisation performs some cleanup
+        this.updateDataVisualisation();
       })
       .on('error', (err) => {
         console.error('ERROR (initMapExplorer(), cartodb.createLayer()):' + err);
@@ -150,14 +131,12 @@ export default class MapExplorer extends React.Component {
     //--------------------------------
   }
   
-  updateMapExplorer() {
+  updateDataVisualisation() {
     
     //Req check
     if (!(this.state.map && this.state.cartodbLayer)) {
-      console.log('MapExplorer.updateMapExplorer(): failed');
+      console.log('MapExplorer.updateDataVisualisation(): failed');
       return;
-    } else {
-      console.log('MapExplorer.updateMapExplorer()');
     }
 
     //Remove all sublayers
@@ -202,15 +181,31 @@ export default class MapExplorer extends React.Component {
   //----------------------------------------------------------------
   
   onMapClick(e, latlng, pos, data) {
-    console.log('--------', e, latlng, pos, data, '========');
-    alert('This is camera ' + data.id + ' at ' + latlng[0] + ', ' + latlng[1]);
+    console.log(e, latlng, pos, data);
   }
   
   //----------------------------------------------------------------
   
+  addSelector() {
+    var newSelector = new SelectorData();    
+    this.state.selectors.push(newSelector);
+    this.setState({
+      selectors: this.state.selectors
+    });
+    this.updateDataVisualisation();
+  }
+  
+  deleteSelector(id) {
+    this.state.selectors = this.state.selectors.filter((selector) => {
+      return selector.id !== id;
+    });    
+    this.setState({
+      selectors: this.state.selectors
+    });
+    this.updateDataVisualisation();
+  }
+
   updateSelector(data) {
-    console.log('MapExplorer.updateSelector('+data.id+')');
-    
     //Find the Selector and then copy the values from the new input.
     for (var selector of this.state.selectors) {  //for...of, not for...in.
       if (selector.id === data.id) {
@@ -222,27 +217,6 @@ export default class MapExplorer extends React.Component {
     this.setState({
       selectors: this.state.selectors
     });    
-    this.updateMapExplorer();
-  }
-  
-  deleteSelector(id) {
-    console.log('MapExplorer.deleteSelector('+id+')');
-    this.state.selectors = this.state.selectors.filter((selector) => {
-      return selector.id !== id;
-    });    
-    this.setState({
-      selectors: this.state.selectors
-    });
-    this.updateMapExplorer();
-  }
-
-  addSelector() {
-    console.log('MapExplorer.addSelector()');
-    var newSelector = new SelectorData();    
-    this.state.selectors.push(newSelector);
-    this.setState({
-      selectors: this.state.selectors
-    });
-    this.updateMapExplorer();
+    this.updateDataVisualisation();
   }
 }
