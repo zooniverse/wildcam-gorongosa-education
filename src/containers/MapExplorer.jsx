@@ -8,7 +8,7 @@ https://github.com/zooniverse/wildcam-gorongosa-education/
 
 Info
 ----
-The Map Explorer component lets teachers and students explore WildCam
+The Map Explorer component lets educators and students explore WildCam
 Gorongosa's collected data & information about wildlife, etc on a visual map.
 
 (- shaun.a.noordin, 20160317)
@@ -27,14 +27,14 @@ const config = require('../constants/mapExplorer.config.json');
 export default class MapExplorer extends React.Component {
   constructor(props) {
     super(props);
-    
+
     //Event binding
     this.addSelector = this.addSelector.bind(this);
     this.deleteSelector = this.deleteSelector.bind(this);
     this.updateSelector = this.updateSelector.bind(this);
-   
+
     let defaultSelector = new SelectorData();
-    
+
     this.state = {
       map: undefined,
       cartodbLayer: undefined,  //Array of map layers. layer[0] is the base (cartographic map).
@@ -64,7 +64,7 @@ export default class MapExplorer extends React.Component {
       </div>
     );
   }
-  
+
   //----------------------------------------------------------------
 
   //Initialises the Map Explorer.
@@ -74,13 +74,13 @@ export default class MapExplorer extends React.Component {
       console.log('MapExplorer.initMapExplorer(): failed');
       return;
     }
-    
+
     if (this.state.map) {
       //This prevents CartoDB from re-creating a map one when navigating from
       //the Map Explorer page to the (same) Map Explorer page.
       return <div className="message">Welcome to the Map Explorer</div>;;
     }
-    
+
     //Create the map (Leaflet + CartoDB ver)
     //--------------------------------
     //Prepare the base layers.
@@ -93,28 +93,28 @@ export default class MapExplorer extends React.Component {
       baseLayers.push(newLayer);
       baseLayersForControls[layer.name] = newLayer;
     });
-          
+
     //Go go gadget Leaflet Map!
     this.state.map = new L.Map('mapVisuals', {  //Leaflet 0.7.7 comes with cartodb.js 3.15
       center: [config.mapCentre.latitude, config.mapCentre.longitude],
       zoom: config.mapCentre.zoom,
       layers: baseLayers[0]  //Set the default base layer
     });
-    
+
     //Create the CartoDB layer
     cartodb.createLayer(this.state.map, config.cartodb.vizUrl)
       .addTo(this.state.map)
-      .on('done', (layer) => {   
+      .on('done', (layer) => {
         this.state.cartodbLayer = layer;
         this.state.cartodbLayer.setInteraction(true);
         this.state.cartodbLayer.on('featureClick', this.onMapClick);  //Other events: featureOver
         layer.on('error', (err) => {
           console.error('ERROR (initMapExplorer(), cartodb.createLayer().on(\'done\')): ' + err);
         });
-      
+
         //Add the controls for the layers
-        L.control.layers(baseLayersForControls, { 'Data': layer }).addTo(this.state.map);                                                 
-        
+        L.control.layers(baseLayersForControls, { 'Data': layer }).addTo(this.state.map);
+
         //updateDataVisualisation performs some cleanup
         this.updateDataVisualisation();
       })
@@ -122,7 +122,7 @@ export default class MapExplorer extends React.Component {
         console.error('ERROR (initMapExplorer(), cartodb.createLayer()):' + err);
       });
     //--------------------------------
-    
+
     //Cleanup then go
     //--------------------------------
     this.resizeMapExplorer();
@@ -130,9 +130,9 @@ export default class MapExplorer extends React.Component {
     //Note: use `return null` if we don't want a message to pop up.
     //--------------------------------
   }
-  
+
   updateDataVisualisation() {
-    
+
     //Req check
     if (!(this.state.map && this.state.cartodbLayer)) {
       console.log('MapExplorer.updateDataVisualisation(): failed');
@@ -143,11 +143,11 @@ export default class MapExplorer extends React.Component {
     for (let i = this.state.cartodbLayer.getSubLayerCount() - 1; i >= 0; i--) {
       this.state.cartodbLayer.getSubLayer(i).remove();
     }
-    
+
     //Add a new sublayer for each selector
     this.state.selectors.map((selector) => {
       let sql = selector.sql.trim();
-      let css = selector.css.trim();      
+      let css = selector.css.trim();
       if (sql !== '' && css !== '') {
         let newSubLayer = this.state.cartodbLayer.createSubLayer({
           sql: sql,
@@ -177,28 +177,28 @@ export default class MapExplorer extends React.Component {
     this.refs.mapVisuals.style.height = availableHeight+'px';
     this.refs.mapControls.style.height = availableHeight+'px';
   }
-  
+
   //----------------------------------------------------------------
-  
+
   onMapClick(e, latlng, pos, data) {
     console.log(e, latlng, pos, data);
   }
-  
+
   //----------------------------------------------------------------
-  
+
   addSelector() {
-    var newSelector = new SelectorData();    
+    var newSelector = new SelectorData();
     this.state.selectors.push(newSelector);
     this.setState({
       selectors: this.state.selectors
     });
     this.updateDataVisualisation();
   }
-  
+
   deleteSelector(id) {
     this.state.selectors = this.state.selectors.filter((selector) => {
       return selector.id !== id;
-    });    
+    });
     this.setState({
       selectors: this.state.selectors
     });
@@ -216,7 +216,7 @@ export default class MapExplorer extends React.Component {
     }
     this.setState({
       selectors: this.state.selectors
-    });    
+    });
     this.updateDataVisualisation();
   }
 }
