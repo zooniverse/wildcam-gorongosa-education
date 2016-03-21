@@ -47,7 +47,9 @@ class NewClassroomForm extends Component {
   render() {
     return (
       <div className="col-md-4">
-        <h3>New Classroom</h3>
+        <div className='page-header'>
+          <h1>New Classroom</h1>
+        </div>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
            <label>Name</label>
