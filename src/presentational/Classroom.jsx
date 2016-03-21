@@ -57,7 +57,7 @@ export default class Classroom extends Component {
           <tr key={i}>
             <td>{attributes.zooniverse_display_name}</td>
             <td>{attributes.classifications_count}</td>
-            <button className="btn btn-warning" role="button">Remove</button>
+            <td><button className="btn btn-warning" role="button">Remove</button></td>
           </tr>
         </tbody>
       </table>
@@ -79,7 +79,7 @@ export default class Classroom extends Component {
           <TabList>
             <Tab>Overview</Tab>
             <Tab>Students</Tab>
-            <Tab>Groups</Tab>
+            <Tab>Assignments</Tab>
           </TabList>
           <TabPanel>
             <h3>Classifications: {attributes.classifications_count}</h3>
@@ -98,7 +98,7 @@ export default class Classroom extends Component {
             { this.renderStudentList(allMembers, classroomMembers) }
           </TabPanel>
           <TabPanel>
-            Groups
+            Assignments
           </TabPanel>
         </Tabs>
       </section>
