@@ -13,7 +13,7 @@ const ClassroomsOverview = (props, context) => (
           <div className="panel-heading">
             <div className="panel-title row">
               <div className="col-xs-3">
-                <i className="fa fa-compass fa-5x"></i>
+                <i className="fa fa-institution fa-4x"></i>
               </div>
               <div className="col-xs-9 text-right">
                 <h1>{context.classrooms.data.length}</h1>
@@ -30,7 +30,7 @@ const ClassroomsOverview = (props, context) => (
           <div className="panel-heading">
             <div className="panel-title row">
               <div className="col-xs-3">
-                <i className="fa fa-graduation-cap fa-5x"></i>
+                <i className="fa fa-graduation-cap fa-4x"></i>
               </div>
               <div className="col-xs-9 text-right">
                 <h1>{context.classrooms.members.length}</h1>

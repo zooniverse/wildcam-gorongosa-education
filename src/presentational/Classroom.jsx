@@ -40,7 +40,7 @@ export default class Classroom extends Component {
           return studentIds.indexOf( itm.id ) > -1;
         })
         .map((itm) => {
-          return itm. attributes
+          return itm.attributes
         });
     return (
     <div>
@@ -57,7 +57,7 @@ export default class Classroom extends Component {
           <tr key={i}>
             <td>{attributes.zooniverse_display_name}</td>
             <td>{attributes.classifications_count}</td>
-            <td className="btn btn-warning" role="button">Remove</td>
+            <button className="btn btn-warning" role="button">Remove</button>
           </tr>
         </tbody>
       </table>
