@@ -17,6 +17,5 @@
   "panoptesAppId": {
     "staging": "24ad5676d5d25c6aa850dc5d5f63ec8c03dbc7ae113b6442b8571fce6c5b974c",
     "production": "442c8c4910fbb9be14bd9a92ee6e14ad29159d0217d0345fd9b2db3d881c4a7d"
-  },
-  "panoptesReturnUrl": "http://localhost:3000"
+  }
 }
