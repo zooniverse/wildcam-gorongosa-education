@@ -11,7 +11,7 @@ class JoinClassroom extends Component {
   }
 
   join() {
-    console.log('Joining ... query: ', this.props.location.query)
+    console.log('Joining ...')
     this.props.dispatch(joinClassroom(this.props.location.query.id, this.props.location.query.token));
   }
 
