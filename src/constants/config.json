@@ -5,7 +5,7 @@
     "dataLayerIndex": 1
   },
   "eduAPI": {
-    "root": "https://education.staging.zooniverse.org/",
+    "root": "https://education-api.zooniverse.org/",
     "students": "students/classrooms/",
     "teachers": "teachers/classrooms/"
   },
