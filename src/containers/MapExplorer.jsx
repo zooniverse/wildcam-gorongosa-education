@@ -109,7 +109,7 @@ export default class MapExplorer extends React.Component {
       .on('done', (layer) => {
         this.state.cartodbLayer = layer;
         this.state.cartodbLayer.setInteraction(true);
-        this.state.cartodbLayer.on('featureClick', this.onMapClick);  //Other events: featureOver
+        //this.state.cartodbLayer.on('featureClick', this.onMapClick);  //Other events: featureOver
         layer.on('error', (err) => {
           console.error('ERROR (initMapExplorer(), cartodb.createLayer().on(\'done\')): ' + err);
         });
@@ -157,6 +157,8 @@ export default class MapExplorer extends React.Component {
           interactivity: 'id'  //Specify which data fields we want when we handle input events. Camera ID is enough, thanks.
         });
         newSubLayer.setInteraction(true);
+        newSubLayer.on('featureClick', selector.mapClickHandler);
+        selector.mapReference = newSubLayer;
       }
     });
 
