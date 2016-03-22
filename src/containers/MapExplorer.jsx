@@ -32,6 +32,8 @@ export default class MapExplorer extends React.Component {
     this.addSelector = this.addSelector.bind(this);
     this.deleteSelector = this.deleteSelector.bind(this);
     this.updateSelector = this.updateSelector.bind(this);
+    this.resizeMapExplorer = this.resizeMapExplorer.bind(this);
+    window.onresize = this.resizeMapExplorer;
 
     let defaultSelector = new SelectorData();
 

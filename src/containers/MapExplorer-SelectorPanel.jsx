@@ -70,7 +70,7 @@ export default class SelectorPanel extends React.Component {
       <article className="selector-panel">
         <section className={(this.props.selectorData.mode !== SelectorData.GUIDED_MODE) ? 'input-subpanel not-selected' : 'input-subpanel' } ref="subPanel_guided">
           <h1 className="hidden" onClick={this.changeToGuided}>Standard Mode</h1>
-          <div className="input-row">
+          <div className="input-row hidden">
             <label>SPECIES:</label>
             {
               (speciesText.length > 0)
