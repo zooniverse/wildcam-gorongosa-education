@@ -33,7 +33,6 @@ export default class Classroom extends Component {
   renderStudentList(allMembers, classroomMembers) {
     const list = (allMembers.length > 0) ? allMembers : [];
     const studentIds = classroomMembers.map((student) => { return student.id; } )
-
     const filteredList =
       list
         .filter((itm) => {
@@ -44,7 +43,7 @@ export default class Classroom extends Component {
         });
     return (
     <div>
-      { (filteredList.length > 0) ? filteredList.map((attributes, i) =>
+      {(filteredList.length > 0) ?
       <table className="table table-hover">
         <thead>
           <tr>
@@ -54,14 +53,16 @@ export default class Classroom extends Component {
           </tr>
         </thead>
         <tbody>
+          {filteredList.map((attributes, i) =>
           <tr key={i}>
             <td>{attributes.zooniverse_display_name}</td>
             <td>{attributes.classifications_count}</td>
             <td><button className="btn btn-warning" role="button">Remove</button></td>
           </tr>
+          )}
         </tbody>
       </table>
-      ) : 'No students in here yet' }
+      : 'No students here yet' }
     </div>
     )
   }
