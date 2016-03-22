@@ -29,7 +29,13 @@ import { panoptesAppId } from './constants/config.json';
 
 window.React = React;
 
-oauth.init(panoptesAppId)
+console.log(process.env.NODE_ENV)
+
+const env = process.env.NODE_ENV || 'staging';
+
+const appId = panoptesAppId[env] || panoptesAppId['staging'];
+
+oauth.init(appId)
   .then(function () {
     ReactDOM.render(
       <Provider store={store}>

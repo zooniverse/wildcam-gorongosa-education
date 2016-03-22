@@ -10,7 +10,7 @@ import { setLoginUser } from '../actions/login';
 
 import LoginButton from '../presentational/LoginButton.jsx';
 import LoggedInUser from '../presentational/LoggedInUser.jsx';
-import { panoptesAppId, panoptesReturnUrl } from '../constants/config.json';
+import { panoptesReturnUrl } from '../constants/config.json';
 
 class HeaderAuth extends Component {
 
@@ -41,7 +41,7 @@ class HeaderAuth extends Component {
         this.props.dispatch(setLoginUser(user));
         //browserHistory.push() and this.context.router.push() have an issue:
         //the user will be redirected, but Login/Logout button will not update.
-        window.location = panoptesReturnUrl;        
+        window.location = panoptesReturnUrl;
       });
   }
 
