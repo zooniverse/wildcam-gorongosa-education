@@ -4,7 +4,6 @@ import { Link } from 'react-router';
 
 import { createClassroom, fetchClassrooms } from '../actions/classrooms';
 
-
 class NewClassroomForm extends Component {
   constructor(props) {
     super(props);
@@ -28,6 +27,7 @@ class NewClassroomForm extends Component {
     let subject = e.target[1].value.trim();
     let school = e.target[2].value.trim();
     let description = e.target[3].value.trim();
+    // only name field is required
     if (name.length > 0) {
       this.props.dispatch(createClassroom(
         name,
