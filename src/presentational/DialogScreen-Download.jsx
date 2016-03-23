@@ -31,7 +31,12 @@ export default class DialogScreen_DownloadCSV extends DialogScreen {
   downloadCsv(e) {
     if (this.props.data) {
       let dataBlob = new Blob([this.props.data], {type: 'text/csv'});
-      saveAs(dataBlob, 'wildcam.csv');
+      let timeString = new Date();
+      timeString =
+        timeString.getDate() +
+        ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'][timeString.getMonth()] +
+        timeString.getFullYear();
+      saveAs(dataBlob, 'wildcam-'+timeString+'.csv');
       this.closeMe();
     } else {
       console.error('Download CSV Error: no CSV');
