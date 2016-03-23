@@ -46,7 +46,7 @@ oauth.init(panoptesAppId)
               <Route path="data" component={MapExplorer} />
             </Route>
             <Route path="students" component={Students}>
-              <IndexRedirect to="classrooms" />
+              <IndexRedirect to="data" />
               <Route path="classrooms">
                 <IndexRoute component={StudentOverview} />
                 <Route path="join" component={JoinClassroom} />
