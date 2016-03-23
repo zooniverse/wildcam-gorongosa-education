@@ -13,12 +13,6 @@ class Classrooms extends Component {
     }
   }
 
-  getChildContext() {
-    return {
-      classrooms: this.props.classrooms
-    }
-  }
-
   render() {
     return (
       <div className="admin-component">
@@ -44,10 +38,6 @@ Classrooms.defaultProps = {
     loading: false,
     members: [],
   }
-};
-
-Classrooms.childContextTypes = {
-  classrooms: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
