@@ -1,9 +1,7 @@
 import { PropTypes } from 'react';
 
 const Spinner = (props) => (
-  <div>
-    <i className="fa fa-cog fa-spin fa-2x"></i>
-  </div>
+    <i className="fa fa-cog fa-spin fa-3x"></i>
 );
 
 export {Spinner as default}
