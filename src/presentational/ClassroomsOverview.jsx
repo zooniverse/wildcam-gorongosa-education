@@ -18,7 +18,7 @@ const ClassroomsOverview = (props, context) => (
                 <i className="fa fa-institution fa-4x"></i>
               </div>
               <div className="col-xs-9 text-right">
-                {(context.classrooms.data.length > 0) ?
+                {(context.classrooms.loading === false) ?
                 <h1>{context.classrooms.data.length}</h1>
                 : <Spinner/>}
               </div>
@@ -37,7 +37,7 @@ const ClassroomsOverview = (props, context) => (
                 <i className="fa fa-graduation-cap fa-4x"></i>
               </div>
               <div className="col-xs-9 text-right">
-                {(context.classrooms.members.length > 0) ?
+                {(context.classrooms.loading === false) ?
                 <h1>{context.classrooms.members.length}</h1>
                 : <Spinner/>}
               </div>
