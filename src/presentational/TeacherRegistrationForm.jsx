@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import Dropdown from 'Dropdown.jsx';
-import { getCountries } from '../constants/util';
+import Checkbox from 'Checkbox.jsx';
+import CheckboxStudentsType from 'CheckboxStudentsType.jsx';
+
+import { getCountries, getSettings, getStudentsTypes } from '../constants/util';
 
 
 class TeacherRegistrationForm extends Component {
@@ -17,12 +20,15 @@ class TeacherRegistrationForm extends Component {
     e.preventDefault();
   }
 
-  dropDownOnChange(change) {
-    console.log('Old Value: ' + change.oldValue + '\nNew Value: ' + change.newValue);
+  dropDownOnChange(value, change) {
+    console.log('Old Value: ' + change.oldValue + '\nNew Value: ' + change.newValue + '\nVALUES: ' + value);
   }
 
   render() {
     const countries = getCountries();
+    const types = getStudentsTypes();
+    const typesLabels = types.map((type) => type.label);
+    console.log('LABELS: ', typesLabels)
     return (
       <div className="col-md-4">
         <div className='page-header'>
@@ -31,14 +37,27 @@ class TeacherRegistrationForm extends Component {
         </div>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
-           <label>Where do you teach?</label>
+           <label>
+             Where do you teach?
+            </label>
            <Dropdown options={countries}
               value="select"
               labelField="label"
-              multiple={true}
               valueField="value"
               onChange={this.dropDownOnChange}
             />
+          </div>
+          <div className="form-group">
+            <label>
+              In what educational setting do you plan to use this resource? (select all that apply)
+            </label>
+            <Checkbox/>
+          </div>
+          <div className="form-group">
+            <label>
+              I plan to use this resource with my students. (Select all that apply)
+            </label>
+            <CheckboxStudentsType data={typesLabels}/>
           </div>
           <div className="form-group">
            <button type="submit" className="btn btn-primary pull-right">Submit</button>

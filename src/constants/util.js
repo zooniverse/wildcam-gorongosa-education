@@ -1,3 +1,54 @@
+export function getSettings() {
+  return [
+    {
+      'label': 'Formal education',
+      'value': 'FE'
+    },
+    {
+      'label': 'Informal education',
+      'value': 'IE'
+    },
+    {
+      'label': 'Home School',
+      'value': 'HS'
+    },
+    {
+      'label': 'Other',
+      'value': 'other'
+    }
+  ]
+}
+
+export function getStudentsTypes() {
+  return [
+    {
+      'label': 'Elementary School',
+      'value': 'ES'
+    },
+    {
+      'label': 'Middle School/Junior High',
+      'value': 'MS'
+    },
+    {
+      'label': 'High School',
+      'value': 'HS'
+    },
+    {
+      'label': '2-yr College',
+      'value': '2C'
+    },
+    {
+      'label': '4-yr College/University',
+      'value': '4U'
+    },
+    {
+      'label': 'Other',
+      'value': 'other'
+    }
+
+  ]
+}
+
 export function getCountries() {
   return [
     {

@@ -1,10 +1,11 @@
 import { Component, PropTypes } from 'react';
 
-export default class Dropdown extends Component {
+export default class CheckboxStudentsType extends Component {
   constructor(props) {
     super(props);
     let selected = this.getSelectedFromProps(props);
     this.state = {
+      data: props.data,
       selected: selected,
     }
     this.handleChange = this.handleChange.bind(this);
@@ -13,34 +14,19 @@ export default class Dropdown extends Component {
   componentWillReceiveProps(nextProps) {
     let selected = this.getSelectedFromProps(nextProps);
     this.setState({
-      selected: selected
+      data: nextProps.data,
+      selected: selected,
     });
   }
 
   getSelectedFromProps(props) {
     let selected;
-    if (props.value === null && props.options.length !== 0) {
-      selected = props.options[0][props.valueField];
+    if (props.value === null && props.data.length !== 0) {
+      selected = props.data[0][props.valueField];
     } else {
       selected = props.value;
     }
     return selected;
-  }
-
-  render() {
-    let options = this.props.options.map((option, i) =>
-      <option key={i} value={option.value}>
-        {option.label}
-      </option>
-    )
-    return (
-      <select
-        className='form-control'
-        value={this.state.selected}
-        onChange={this.handleChange}>
-        {options}
-      </select>
-    )
   }
 
   handleChange(e) {
@@ -53,17 +39,34 @@ export default class Dropdown extends Component {
     }
     this.setState({selected: e.target.value});
   }
+
+  render() {
+    let checkboxes = this.props.data.map((item, i) =>
+      <div>
+        <label>
+          <input type="checkbox" key={i} value={item.value}/>
+          {item.label}
+        </label>
+        <br/>
+      </div>
+    )
+    return (
+      <div className="checkbox">
+        {checkboxes}
+      </div>
+    )
+  }
 }
 
-Dropdown.defaultProps = {
+CheckboxStudentsType.defaultProps = {
   value: null,
   valueField: 'value',
   labelField: 'label',
   onChange: null,
 }
 
-Dropdown.PropTypes = {
-  options: PropTypes.array.isRequired,
+CheckboxStudentsType.PropTypes = {
+  data: PropTypes.array.isRequired,
   value: PropTypes.string,
   valueField: PropTypes.string,
   labelField: PropTypes.string,
