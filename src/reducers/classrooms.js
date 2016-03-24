@@ -15,7 +15,18 @@ export function classrooms(state = initialState, action) {
       return Object.assign({}, state, {
         loading: true,
       });
+    case types.REQUEST_STUDENT_CLASSROOMS:
+      return Object.assign({}, state, {
+        loading: true,
+      });
     case types.RECEIVE_CLASSROOMS:
+      return Object.assign({}, state, {
+        loading: false,
+        data: action.data || [],
+        error: action.error,
+        members: action.members || [],
+      });
+    case types.RECEIVE_STUDENT_CLASSROOMS:
       return Object.assign({}, state, {
         loading: false,
         data: action.data || [],

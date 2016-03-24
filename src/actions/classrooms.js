@@ -73,15 +73,10 @@ export function joinClassroom(id, token) {
 }
 
 export function fetchClassrooms() {
-
-  // Thunk middleware passes the dispatch method as an argument to the function,
-  // thus making it able to dispatch actions itself.
   return dispatch => {
     dispatch({
       type: types.REQUEST_CLASSROOMS,
     });
-    // We return a promise to wait for.
-    // This is not required by the middleware.
     return fetch(eduAPI.root + eduAPI.teachers, {
       method: 'GET',
       mode: 'cors',
@@ -101,8 +96,37 @@ export function fetchClassrooms() {
         type: types.RECEIVE_CLASSROOMS,
         data: [],
         error: true,
-      }));
+      })
+    );
+  }
+}
 
+export function fetchStudentClassrooms() {
+  return dispatch => {
+    dispatch({
+      type: types.REQUEST_STUDENT_CLASSROOMS,
+    });
+    return fetch(eduAPI.root + eduAPI.students, {
+      method: 'GET',
+      mode: 'cors',
+      headers: new Headers({
+          'Authorization': Panoptes.apiClient.headers.Authorization,
+          'Content-Type': 'application/json'
+        })
+      })
+      .then(response => response.json())
+      .then(json => dispatch({
+        type: types.RECEIVE_STUDENT_CLASSROOMS,
+        data: json.data,
+        error: false,
+        members: json.included,
+      }))
+      .catch(response => dispatch({
+        type: types.RECEIVE_STUDENT_CLASSROOMS,
+        data: [],
+        error: true,
+      })
+    );
   }
 }
 
