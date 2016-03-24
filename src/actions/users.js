@@ -48,11 +48,9 @@ export function upsertTeacherMetadata(userId, data) {
         }
       })
     })
-    .then(response => response.json())
-    .then(json => {
+    .then(response => {
       dispatch({
         type: types.UPSERT_TEACHER_METADATA_SUCCESS,
-        data: json.data,
       });
       browserHistory.push('/teachers/classrooms/new');
     })
