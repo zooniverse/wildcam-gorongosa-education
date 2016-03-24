@@ -55,7 +55,7 @@ export default class ClassroomSidebar extends Component {
         <div className="panel panel-default">
           <div className="panel-heading clearfix">
             <div className="panel-title pull-left">Classrooms</div>
-            <Link className="btn btn-default pull-right" to="/teachers/classrooms/new">New</Link>
+            <Link className="btn btn-default pull-right" to="/teachers/classrooms/register">New</Link>
           </div>
           { this.renderStatusMessage(data) }
           { this.renderClassroomList(list) }
