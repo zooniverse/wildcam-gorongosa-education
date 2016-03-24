@@ -285,7 +285,7 @@ export default class SelectorPanel extends React.Component {
     this.setState({
       downloadDialog: {
         status: DialogScreen.DIALOG_ACTOVE,
-        message: 'Preparing CSV file...',
+        message: 'Preparing data file...',
         data: null
     }});
     
@@ -323,7 +323,7 @@ export default class SelectorPanel extends React.Component {
         this.setState({
           downloadDialog: {
             status: DialogScreen.DIALOG_ACTIVE,
-            message: 'CSV ready!',
+            message: 'Data file ready!',
             data: data
         }});
       })
