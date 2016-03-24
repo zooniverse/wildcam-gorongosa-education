@@ -41,6 +41,7 @@ export default class SelectorData {
       .replace(/{CAMERAS}/ig, config.cartodb.sqlTableCameras)
       .replace(/{SUBJECTS}/ig, config.cartodb.sqlTableSubjects)
       .replace(/{CLASSIFICATIONS}/ig, config.cartodb.sqlTableClassifications)
+      .replace(/{AGGREGATIONS}/ig, config.cartodb.sqlTableAggregations)
       .replace(/{WHERE}/ig, this.calculateSqlWhereClause());
   }
   
