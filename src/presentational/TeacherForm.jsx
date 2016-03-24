@@ -9,6 +9,12 @@ class TeacherForm extends Component {
     super(props);
     this.state = {
       country: this.props.country || '',
+      setting: this.props.setting || '',
+      age: this.props.age || '',
+      course: this.props.course || '',
+      foundon: this.props.foundon || '',
+      resources: this.props.resources || '',
+      feedback: this.props.feedback || '',
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -17,7 +23,6 @@ class TeacherForm extends Component {
   componentDidMount() {
     const currentUserId = this.props.user.id;
     this.props.dispatch(fetchUserDetails(currentUserId));
-
   }
 
   handleChange(e) {
@@ -29,15 +34,30 @@ class TeacherForm extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const currentUserId = this.props.user.id;
-    const country = e.target[0].value.trim();
-    if (country.length > 0) {
-      this.props.dispatch(updateTeacherMetadata(
+    Object.assign({}, this.state, {
+      country: e.target[0].value.trim(),
+      setting: e.target[1].value.trim(),
+      age: e.target[2].value.trim(),
+      course: e.target[3].value.trim(),
+      foundon: e.target[4].value.trim(),
+      resources: e.target[5].value.trim(),
+      feedback: e.target[6].value.trim(),
+    });
+    const metadata = this.state;
+    if (metadata) {
+      this.props.dispatch(upsertTeacherMetadata(
         currentUserId,
-        country
+        metadata
       )
     )}
     this.setState({
       country: '',
+      setting: '',
+      age: '',
+      course: '',
+      foundon: '',
+      resources: '',
+      feedback: '',
     })
   }
 
@@ -128,7 +148,7 @@ class TeacherForm extends Component {
   }
 }
 
-TeacherForm.propTypes = {
+TeacherForm.PropTypes = {
   dispatch: PropTypes.func.isRequired
 };
 

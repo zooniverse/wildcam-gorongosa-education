@@ -19,7 +19,10 @@ export function fetchUserDetails(userId) {
       })
     })
     .then(response => response.json())
-    .then(json => console.log('USER DATA: ', json.data))
+    .then(json => dispatch({
+        type: types.RECEIVE_USER,
+        data: json.data,
+      }))
     .catch(response => console.log('RESPONSE-error: ', response))
   }
 }
@@ -40,23 +43,20 @@ export function upsertTeacherMetadata(userId, data) {
       body: JSON.stringify({
         'data': {
           'attributes': {
-            'metadata': {
-              'country': data
-            }
+            'metadata': data
           }
         }
       })
     })
-    .then(response => response.json())
-    .then(json => console.log('DATA: ', json.data))
+    .then(response => {
+      dispatch({
+        type: types.UPSERT_TEACHER_METADATA_SUCCESS,
+        data: response,
+      });
+      browserHistory.push('/teachers/classrooms/new');
+    })
     .catch(response => console.log('RESPONSE-error: ', response))
   };
 }
 
-//{
-//      dispatch({
-//        type: types.UPSERT_TEACHER_METADATA_SUCCESS,
-//        data: json.data,
-//      });
-//      browserHistory.push('/teachers/classrooms/new');
-//    }
+
