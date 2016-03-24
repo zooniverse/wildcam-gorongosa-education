@@ -1,6 +1,12 @@
 import * as types from '../constants/actionTypes';
 
-const initialState = { data: {}, loading: false };
+const initialState = {
+  data: {
+    attributes: {
+      metadata: {}
+    }
+  },
+  loading: false };
 
 export function users(state = initialState, action) {
   switch (action.type) {

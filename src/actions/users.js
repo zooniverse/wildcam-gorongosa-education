@@ -49,13 +49,22 @@ export function upsertTeacherMetadata(userId, data) {
       })
     })
     .then(response => {
-      dispatch({
-        type: types.UPSERT_TEACHER_METADATA_SUCCESS,
-      });
-      browserHistory.push('/teachers/classrooms/new');
-    })
+        if (response.ok) {
+          dispatch({
+            type: types.UPSERT_TEACHER_METADATA_SUCCESS,
+            data
+          });
+          browserHistory.push('/teachers/classrooms/new');
+        }
+      }
+    )
     .catch(response => console.log('RESPONSE-error: ', response))
   };
 }
-
+//.then(json => {
+//  dispatch({
+//    type: types.UPSERT_TEACHER_METADATA_SUCCESS,
+//  });
+//  browserHistory.push('/teachers/classrooms/new');
+//})
 

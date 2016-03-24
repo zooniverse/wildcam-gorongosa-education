@@ -52,7 +52,7 @@ Classrooms.defaultProps = {
   userdetails: {
     data: {
       attributes: {
-
+        metadata: {}
       }
     },
     loading: false
