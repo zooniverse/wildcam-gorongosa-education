@@ -48,6 +48,14 @@ Classrooms.defaultProps = {
     error: false,
     loading: false,
     members: [],
+  },
+  userdetails: {
+    data: {
+      attributes: {
+
+      }
+    },
+    loading: false
   }
 };
 
