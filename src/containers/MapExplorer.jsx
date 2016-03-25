@@ -19,11 +19,9 @@ import React from 'react';
 import {Script} from 'react-loadscript';
 import SelectorData from './MapExplorer-SelectorData.jsx';
 import SelectorPanel from './MapExplorer-SelectorPanel.jsx';
+import DialogScreen from '../presentational/DialogScreen.jsx';
+import DialogScreen_ViewCamera from '../presentational/DialogScreen-ViewCamera.jsx'
 const config = require('../constants/mapExplorer.config.json');
-
-const VIEWCAMERA_IDLE = 0;
-const VIEWCAMERA_LOADING = 1;
-const VIEWCAMERA_READY = 2;
 
 //WARNING: DON'T import Leaflet. Leaflet 0.7.7 is packaged with cartodb.js 3.15.
 //import L from 'leaflet';
@@ -38,6 +36,7 @@ export default class MapExplorer extends React.Component {
     this.updateSelector = this.updateSelector.bind(this);
     this.resizeMapExplorer = this.resizeMapExplorer.bind(this);
     window.onresize = this.resizeMapExplorer;
+    this.closeAllDialogs = this.closeAllDialogs.bind(this);
 
     let defaultSelector = new SelectorData();
 
@@ -46,8 +45,9 @@ export default class MapExplorer extends React.Component {
       cartodbLayer: undefined,  //Array of map layers. layer[0] is the base (cartographic map).
       selectors: [defaultSelector],
       viewCamera: {
-        status: VIEWCAMERA_IDLE,
-        data: []
+        status: DialogScreen.DIALOG_IDLE,
+        message: null,
+        data: null
       }
     };
   }
@@ -71,6 +71,7 @@ export default class MapExplorer extends React.Component {
             <button onClick={this.addSelector}>Add Selector</button>
           </div>
         </section>
+        <DialogScreen_ViewCamera status={this.state.viewCamera.status} data={this.state.viewCamera.data} message={this.state.viewCamera.message} closeMeHandler={this.closeAllDialogs} />
       </div>
     );
   }
@@ -166,11 +167,59 @@ export default class MapExplorer extends React.Component {
         });
         newSubLayer.setInteraction(true);
         newSubLayer.on('featureClick', (e, latlng, pos, data) => {
-          console.log('FeatureClick on ', selector, 'with data ', data);
+          console.log('Map.featureClick on ', selector, 'with data ', data);
           let sqlQuery = selector.calculateSql(config.cartodb.sqlQueryViewCameraImagesOnly, data.id);
           console.log(sqlQuery);
           
+          this.setState({
+            viewCamera: {
+              status: DialogScreen.DIALOG_ACTIVE,
+              message: 'Loading images from camera...',
+              data: null
+          }});
           
+          fetch(config.cartodb.sqlApi.replace('{SQLQUERY}', encodeURI(sqlQuery)))
+            .then((response) => {
+              if (response.status !== 200) {
+                throw 'Can\'t reach CartoDB API, HTTP response code ' + response.status;
+              }
+              return response.json();
+            })
+            .then((json) => {
+              let MAX_IMAGES = 6;
+              let randomlySelectedImages = [];
+              if (json.rows.length <= MAX_IMAGES) {
+                randomlySelectedImages = json.rows;
+              } else {  //Select X random images.
+                let index = Math.floor(Math.random() * json.rows.length);
+                while (randomlySelectedImages.length < MAX_IMAGES) {
+                  randomlySelectedImages.push(json.rows[index]);
+                  index = (index + 1) % json.rows.length;
+                }
+              }
+              
+              let message = 'Showing selected photos from camera ' + data.id;
+              if (randomlySelectedImages.length === 0) {
+                message = 'There are no photos from camera ' + data.id;
+                randomlySelectedImages = null;
+              }
+            
+              this.setState({
+                viewCamera: {
+                  status: DialogScreen.DIALOG_ACTIVE,
+                  message: message,
+                  data: randomlySelectedImages
+              }});
+            })
+            .catch((err) => {
+              console.log(err);
+              this.setState({
+                viewCamera: {
+                  status: DialogScreen.DIALOG_ACTIVE,
+                  message: 'ERROR',
+                  data: null
+              }});
+            });;
         });
         selector.mapReference = newSubLayer;
       }
@@ -197,9 +246,14 @@ export default class MapExplorer extends React.Component {
   }
 
   //----------------------------------------------------------------
-
-  onMapClick(e, latlng, pos, data) {
-    console.log(e, latlng, pos, data);
+  
+  closeAllDialogs() {
+    this.setState({
+      viewCamera: {
+        status: DialogScreen.DIALOG_IDLE,
+        message: null,
+        data: null
+    }});
   }
 
   //----------------------------------------------------------------
