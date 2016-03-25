@@ -21,6 +21,10 @@ import SelectorData from './MapExplorer-SelectorData.jsx';
 import SelectorPanel from './MapExplorer-SelectorPanel.jsx';
 const config = require('../constants/mapExplorer.config.json');
 
+const VIEWCAMERA_IDLE = 0;
+const VIEWCAMERA_LOADING = 1;
+const VIEWCAMERA_READY = 2;
+
 //WARNING: DON'T import Leaflet. Leaflet 0.7.7 is packaged with cartodb.js 3.15.
 //import L from 'leaflet';
 
@@ -40,7 +44,11 @@ export default class MapExplorer extends React.Component {
     this.state = {
       map: undefined,
       cartodbLayer: undefined,  //Array of map layers. layer[0] is the base (cartographic map).
-      selectors: [defaultSelector]
+      selectors: [defaultSelector],
+      viewCamera: {
+        status: VIEWCAMERA_IDLE,
+        data: []
+      }
     };
   }
 
@@ -157,7 +165,13 @@ export default class MapExplorer extends React.Component {
           interactivity: 'id'  //Specify which data fields we want when we handle input events. Camera ID is enough, thanks.
         });
         newSubLayer.setInteraction(true);
-        newSubLayer.on('featureClick', selector.mapClickHandler);
+        newSubLayer.on('featureClick', (e, latlng, pos, data) => {
+          console.log('FeatureClick on ', selector, 'with data ', data);
+          let sqlQuery = selector.calculateSql(config.cartodb.sqlQueryViewCameraImagesOnly, data.id);
+          console.log(sqlQuery);
+          
+          
+        });
         selector.mapReference = newSubLayer;
       }
     });
