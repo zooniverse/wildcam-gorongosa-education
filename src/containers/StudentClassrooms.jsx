@@ -53,6 +53,7 @@ StudentClassrooms.childContextTypes = {
 function mapStateToProps(state) {
   return {
     classrooms: state.classrooms,
+    user: state.login.user
   };
 }
 export default connect(mapStateToProps)(StudentClassrooms);
