@@ -10,7 +10,6 @@ export default class StudentClassroom extends Component {
     this.renderStudentList = this.renderStudentList.bind(this);
   }
 
- //return currentUsername === itm.attributes.zooniverse_display_name;
   renderStudentList(allMembers, classroomMembers) {
     const list = (allMembers.length > 0) ? allMembers : [];
     const studentIds = classroomMembers.map((student) => { return student.id; } )
