@@ -132,6 +132,17 @@ export default class MapExplorer extends React.Component {
       .on('error', (err) => {
         console.error('ERROR (initMapExplorer(), cartodb.createLayer()):' + err);
       });
+    
+    //Bonus: Add legends to map
+    var legend = L.control({position: 'bottomright'});
+    legend.onAdd = function (map) {
+      var div = L.DomUtil.create('div', 'info legend');
+      div.innerHTML +=
+        '<div><svg height="10" width="10"><circle cx="5" cy="5" r="5" fill="#666" /></svg> : Camera with no images</div>' +
+        '<div><svg height="10" width="10"><circle cx="5" cy="5" r="5" fill="#fc3" /></svg> : Camera with images (click to view)</div>';
+      return div;
+    };
+    legend.addTo(this.state.map);
     //--------------------------------
 
     //Cleanup then go
