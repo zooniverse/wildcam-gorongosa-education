@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import Spinner from 'Spinner.jsx';
+
+import Spinner from 'Spinner.jsx'
 
 export default class ClassroomSidebar extends Component {
 
@@ -45,21 +47,26 @@ export default class ClassroomSidebar extends Component {
     );
   }
 
-
   render() {
     const data = this.props.classroomsData;
     const list = data.data; // RENAME!!
-
     return (
       <div className="admin-sidebar">
-        <div className="panel panel-default">
-          <div className="panel-heading clearfix">
-            <div className="panel-title pull-left">Classrooms</div>
-            <Link className="btn btn-default pull-right" to="/teachers/classrooms/new">New</Link>
+         <div className="panel panel-default">
+          {(!this.props.userdetails.loading && this.props.userdetails.data.attributes)
+          ? <div className="panel-heading clearfix">
+              <div className="panel-title pull-left">Classrooms</div>
+              {
+                (!this.props.userdetails.data.attributes.metadata)
+                ? <Link className="btn btn-default pull-right" to="/teachers/classrooms/register">Register</Link>
+                : <Link className="btn btn-default pull-right" to="/teachers/classrooms/new">New</Link>
+              }
+            </div>
+          : <Spinner/>}
+            { this.renderStatusMessage(data) }
+            { this.renderClassroomList(list) }
           </div>
-          { this.renderStatusMessage(data) }
-          { this.renderClassroomList(list) }
-        </div>
+
       </div>
     );
   }
@@ -68,4 +75,19 @@ export default class ClassroomSidebar extends Component {
 
 ClassroomSidebar.PropTypes = {
   classroomsData: PropTypes.object.isRequired,
+  userdetails: PropTypes.object.isRequired,
 };
+
+ClassroomSidebar.defaultProps = {
+  userdetails: {
+    data: {
+      attributes: {
+        metadata: {}
+      }
+    },
+    loading: false,
+  }
+};
+
+
+
