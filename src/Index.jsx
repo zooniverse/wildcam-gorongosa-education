@@ -15,9 +15,11 @@ import Home from './presentational/Home.jsx';
 import ClassroomsOverview from './presentational/ClassroomsOverview.jsx';
 import NewClassroomForm from './presentational/NewClassroomForm.jsx';
 import StudentOverview from './presentational/StudentOverview.jsx';
-import Resources from './presentational/Resources.jsx'
-import TutorialForTeachers from './presentational/Tutorial-Teachers.jsx'
-import TutorialForStudents from './presentational/Tutorial-Students.jsx'
+
+import TeacherForm from './presentational/TeacherForm.jsx';
+import Resources from './presentational/Resources.jsx';
+import TutorialForTeachers from './presentational/Tutorial-Teachers.jsx';
+import TutorialForStudents from './presentational/Tutorial-Students.jsx';
 
 import LoginPromptPage from './presentational/LoginPromptPage.jsx';
 import ErrorPage from './presentational/ErrorPage.jsx';
@@ -43,6 +45,7 @@ oauth.init(panoptesAppId)
               <IndexRedirect to="classrooms" />
               <Route path="classrooms" component={Classrooms}>
                 <IndexRoute component={ClassroomsOverview} />
+                <Route path="register" component={TeacherForm} />
                 <Route path="new" component={NewClassroomForm} />
                 <Route path=":classroomId" component={Classroom} />
               </Route>

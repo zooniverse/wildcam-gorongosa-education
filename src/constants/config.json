@@ -7,7 +7,8 @@
   "eduAPI": {
     "root": "https://education-api.zooniverse.org/",
     "students": "students/classrooms/",
-    "teachers": "teachers/classrooms/"
+    "teachers": "teachers/classrooms/",
+    "users": "users/"
   },
   "routes": {
     "root": "https://learn.wildcamgorongosa.org/",
