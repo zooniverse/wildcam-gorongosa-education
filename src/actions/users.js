@@ -41,11 +41,7 @@ export function upsertTeacherMetadata(userId, data) {
         'Content-Type': 'application/json'
       }),
       body: JSON.stringify({
-        'data': {
-          'attributes': {
-            'metadata': data
-          }
-        }
+        'data': data
       })
     })
     .then(response => {
@@ -61,10 +57,4 @@ export function upsertTeacherMetadata(userId, data) {
     .catch(response => console.log('RESPONSE-error: ', response))
   };
 }
-//.then(json => {
-//  dispatch({
-//    type: types.UPSERT_TEACHER_METADATA_SUCCESS,
-//  });
-//  browserHistory.push('/teachers/classrooms/new');
-//})
 

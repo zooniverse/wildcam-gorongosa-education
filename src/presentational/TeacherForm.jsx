@@ -8,13 +8,19 @@ class TeacherForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      country: this.props.country || '',
-      setting: this.props.setting || '',
-      age: this.props.age || '',
-      course: this.props.course || '',
-      foundon: this.props.foundon || '',
-      resources: this.props.resources || '',
-      feedback: this.props.feedback || '',
+      data: {
+        attributes: {
+          metadata: {
+            country: this.props.country || '',
+            setting: this.props.setting || '',
+            age: this.props.age || '',
+            course: this.props.course || '',
+            foundon: this.props.foundon || '',
+            resources: this.props.resources || '',
+            feedback: this.props.feedback || '',
+          }
+        }
+      }
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -26,8 +32,8 @@ class TeacherForm extends Component {
   }
 
   handleChange(e) {
-    let nextState = {};
-    nextState[e.target.name] = e.target.value;
+    let nextState = this.state;
+    nextState.data.attributes.metadata[e.target.name] = e.target.value;
     this.setState(nextState);
   }
 
@@ -35,29 +41,41 @@ class TeacherForm extends Component {
     e.preventDefault();
     const currentUserId = this.props.user.id;
     Object.assign({}, this.state, {
-      country: e.target[0].value.trim(),
-      setting: e.target[1].value.trim(),
-      age: e.target[2].value.trim(),
-      course: e.target[3].value.trim(),
-      foundon: e.target[4].value.trim(),
-      resources: e.target[5].value.trim(),
-      feedback: e.target[6].value.trim(),
+      data:{
+        attributes:{
+          metadata: {
+            country: e.target[0].value.trim(),
+            setting: e.target[1].value.trim(),
+            age: e.target[2].value.trim(),
+            course: e.target[3].value.trim(),
+            foundon: e.target[4].value.trim(),
+            resources: e.target[5].value.trim(),
+            feedback: e.target[6].value.trim(),
+          }
+        }
+      }
     });
-    const metadata = this.state;
-    if (metadata) {
+    const data = this.state.data;
+    if (data) {
       this.props.dispatch(upsertTeacherMetadata(
         currentUserId,
-        metadata
+        data
       )
     )}
     this.setState({
-      country: '',
-      setting: '',
-      age: '',
-      course: '',
-      foundon: '',
-      resources: '',
-      feedback: '',
+      data: {
+        attributes: {
+          metadata: {
+            country: '',
+            setting: '',
+            age: '',
+            course: '',
+            foundon: '',
+            resources: '',
+            feedback: '',
+          }
+        }
+      }
     })
   }
 

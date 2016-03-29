@@ -39,7 +39,8 @@ class Classrooms extends Component {
 
 Classrooms.propTypes = {
   classrooms: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  userdetails: PropTypes.object.isRequired
 };
 
 Classrooms.defaultProps = {
