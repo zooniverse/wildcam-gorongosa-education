@@ -119,7 +119,6 @@ export function fetchStudentClassrooms() {
         type: types.RECEIVE_STUDENT_CLASSROOMS,
         data: json.data,
         error: false,
-        members: json.included,
       }))
       .catch(response => dispatch({
         type: types.RECEIVE_STUDENT_CLASSROOMS,
