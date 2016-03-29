@@ -30,6 +30,10 @@ Students.defaultProps = {
       to: '/students/tutorial'
     },
     {
+      label: 'Blog',
+      to: 'http://blog.wildcamgorongosa.org/'
+    },
+    {
       label: 'Feedback',
       to: 'https://docs.google.com/a/zooniverse.org/forms/d/1Cx4LDXevyqZZheB_EupVRxd7jCzpoH-m8j494cyNNfc/edit'
     }
