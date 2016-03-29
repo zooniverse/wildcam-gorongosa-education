@@ -6,8 +6,11 @@
     "sqlTableCameras": "wildcam_gorongosa_cameras_201601",
     "sqlTableSubjects": "wildcam_gorongosa_subjects_201601",
     "sqlTableClassifications": "wildcam_gorongosa_classifications_201601",
-    "sqlQueryCountCameras": "SELECT cameras.*, COUNT(items.*) as count FROM {CAMERAS} AS cameras LEFT JOIN (SELECT {SUBJECTS}.camera, {SUBJECTS}.location, {SUBJECTS}.dateutc, {SUBJECTS}.month, {SUBJECTS}.year, {SUBJECTS}.season, {SUBJECTS}.time_period, {CLASSIFICATIONS}.species, {CLASSIFICATIONS}.species_count, {CLASSIFICATIONS}.user_hash, {SUBJECTS}.subject_id, {CLASSIFICATIONS}.classification_id FROM {SUBJECTS} INNER JOIN {CLASSIFICATIONS} ON {SUBJECTS}.subject_id = {CLASSIFICATIONS}.subject_zooniverse_id) AS items ON cameras.id = items.camera {WHERE} GROUP BY cameras.cartodb_id",
-    "sqlQuerySelectItems": "SELECT cameras.*, items.* FROM {CAMERAS} AS cameras LEFT JOIN (SELECT {SUBJECTS}.camera, {SUBJECTS}.location, {SUBJECTS}.dateutc, {SUBJECTS}.month, {SUBJECTS}.year, {SUBJECTS}.season, {SUBJECTS}.time_period, {CLASSIFICATIONS}.species, {CLASSIFICATIONS}.species_count, {CLASSIFICATIONS}.user_hash, {SUBJECTS}.subject_id, {CLASSIFICATIONS}.classification_id FROM {SUBJECTS} INNER JOIN {CLASSIFICATIONS} ON {SUBJECTS}.subject_id = {CLASSIFICATIONS}.subject_zooniverse_id) AS items ON cameras.id = items.camera {WHERE} LIMIT 1000",
+    "sqlTableAggregations": "wildcam_gorongosa_aggregations_201603",
+    "sqlQueryCountCameras": "SELECT cameras.*, COUNT(items.*) as count FROM {CAMERAS} AS cameras LEFT JOIN (SELECT a.camera, a.location, a.dateutc, a.month, a.year, a.season, a.time_period, b.species, a.subject_id FROM {SUBJECTS} as a INNER JOIN {AGGREGATIONS} as b ON a.subject_id = b.subject_id) AS items ON cameras.id = items.camera {WHERE} GROUP BY cameras.cartodb_id",
+    "sqlQueryCountCamerasCLASSIFICATIONSVER": "SELECT cameras.*, COUNT(items.*) as count FROM {CAMERAS} AS cameras LEFT JOIN (SELECT {SUBJECTS}.camera, {SUBJECTS}.location, {SUBJECTS}.dateutc, {SUBJECTS}.month, {SUBJECTS}.year, {SUBJECTS}.season, {SUBJECTS}.time_period, {CLASSIFICATIONS}.species, {CLASSIFICATIONS}.species_count, {CLASSIFICATIONS}.user_hash, {SUBJECTS}.subject_id, {CLASSIFICATIONS}.classification_id FROM {SUBJECTS} INNER JOIN {CLASSIFICATIONS} ON {SUBJECTS}.subject_id = {CLASSIFICATIONS}.subject_zooniverse_id) AS items ON cameras.id = items.camera {WHERE} GROUP BY cameras.cartodb_id",
+    "sqlQuerySelectItems": "SELECT cameras.*, items.* FROM {CAMERAS} AS cameras LEFT JOIN (SELECT a.camera, a.location, a.dateutc, a.month, a.year, a.season, a.time_period, b.species, b.maximum_number_of_animals, b.minimum_number_of_animals, a.subject_id FROM {SUBJECTS} as a INNER JOIN {AGGREGATIONS} as b ON a.subject_id = b.subject_id) AS items ON cameras.id = items.camera {WHERE} LIMIT 1000",
+    "sqlQuerySelectItemsCLASSIFICATIONSVER": "SELECT cameras.*, items.* FROM {CAMERAS} AS cameras LEFT JOIN (SELECT {SUBJECTS}.camera, {SUBJECTS}.location, {SUBJECTS}.dateutc, {SUBJECTS}.month, {SUBJECTS}.year, {SUBJECTS}.season, {SUBJECTS}.time_period, {CLASSIFICATIONS}.species, {CLASSIFICATIONS}.species_count, {CLASSIFICATIONS}.user_hash, {SUBJECTS}.subject_id, {CLASSIFICATIONS}.classification_id FROM {SUBJECTS} INNER JOIN {CLASSIFICATIONS} ON {SUBJECTS}.subject_id = {CLASSIFICATIONS}.subject_zooniverse_id) AS items ON cameras.id = items.camera {WHERE} LIMIT 1000",
     "cssStandard": "#{LAYER} { marker-fill: {MARKERCOLOR}; marker-fill-opacity: {MARKEROPACITY}; marker-width: {MARKERSIZE}; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; {CHILDREN} }"
   },
   "mapCentre": {
@@ -18,12 +21,12 @@
   "baseLayers": [
     {
       "name": "Terrain",
-      "url": "http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png",
+      "url": "//{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png",
       "attribution": "&copy; <a href=\"http://www.opencyclemap.org\">OpenCycleMap</a>, &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>"
     },
     {
       "name": "Satellite",
-      "url": "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      "url": "//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       "attribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
     }
   ],
