@@ -34,7 +34,6 @@ class Classrooms extends Component {
       </div>
     );
   }
-
 }
 
 Classrooms.propTypes = {

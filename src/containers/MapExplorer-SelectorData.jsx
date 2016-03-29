@@ -31,6 +31,9 @@ export default class SelectorData {
     //settings above.
     this.sql = this.calculateSql();
     this.css = this.calculateCss();
+    
+    this.mapReference = null;
+    this.mapClickHandler = this.mapClickHandler.bind(this);
   }
   
   calculateSql(sqlQueryTemplate = config.cartodb.sqlQueryCountCameras) {
@@ -38,6 +41,7 @@ export default class SelectorData {
       .replace(/{CAMERAS}/ig, config.cartodb.sqlTableCameras)
       .replace(/{SUBJECTS}/ig, config.cartodb.sqlTableSubjects)
       .replace(/{CLASSIFICATIONS}/ig, config.cartodb.sqlTableClassifications)
+      .replace(/{AGGREGATIONS}/ig, config.cartodb.sqlTableAggregations)
       .replace(/{WHERE}/ig, this.calculateSqlWhereClause());
   }
   
@@ -136,6 +140,12 @@ export default class SelectorData {
       }
     }
     return newCopy;
+  }
+  
+  mapClickHandler(e, latlng, pos, data) {
+    console.log('-'.repeat(40));
+    console.log(this);
+    console.log(e, latlng, pos, data);
   }
 }
 SelectorData.GUIDED_MODE = 1;

@@ -49,7 +49,6 @@ export default class Classroom extends Component {
           <tr>
             <th>Name</th>
             <th>Classifications</th>
-            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -57,7 +56,6 @@ export default class Classroom extends Component {
           <tr key={i}>
             <td>{attributes.zooniverse_display_name}</td>
             <td>{attributes.classifications_count}</td>
-            <td><button className="btn btn-warning" role="button">Remove</button></td>
           </tr>
           )}
         </tbody>
