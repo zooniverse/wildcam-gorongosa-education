@@ -31,21 +31,18 @@ export default class SelectorData {
     //settings above.
     this.sql = this.calculateSql();
     this.css = this.calculateCss();
-    
-    this.mapReference = null;
-    this.mapClickHandler = this.mapClickHandler.bind(this);
   }
   
-  calculateSql(sqlQueryTemplate = config.cartodb.sqlQueryCountCameras) {
+  calculateSql(sqlQueryTemplate = config.cartodb.sqlQueryCountCameras, specificCamera = '') {
     return sqlQueryTemplate
       .replace(/{CAMERAS}/ig, config.cartodb.sqlTableCameras)
       .replace(/{SUBJECTS}/ig, config.cartodb.sqlTableSubjects)
       .replace(/{CLASSIFICATIONS}/ig, config.cartodb.sqlTableClassifications)
       .replace(/{AGGREGATIONS}/ig, config.cartodb.sqlTableAggregations)
-      .replace(/{WHERE}/ig, this.calculateSqlWhereClause());
+      .replace(/{WHERE}/ig, this.calculateSqlWhereClause(specificCamera));
   }
   
-  calculateSqlWhereClause() {
+  calculateSqlWhereClause(specificCamera = '') {
     //The biggest variable in the SQL query is the 'WHERE' clause.
     
     //Where constructor: species
@@ -94,9 +91,14 @@ export default class SelectorData {
       ? '': '(user_hash ILIKE \''+this.user.replace(/'/, '\'\'').trim()+'\')';
       //WARNING: Either use =, LIKE or ILIKE (case-insensitive Like) depending on what the Panoptes API demands.
     
+    //Where constructor: specific camera
+    let sqlWhere_camera = (specificCamera.trim() !== '')
+      ? '(camera ILIKE \''+specificCamera.replace(/'/, '\'\'').trim()+'\')'
+      : '';
+    
     //Join the Where constructor
     let sqlWhere = '';
-    [sqlWhere_species, sqlWhere_habitats, sqlWhere_seasons, sqlWhere_dates, sqlWhere_user].map((wherePart) => {
+    [sqlWhere_species, sqlWhere_habitats, sqlWhere_seasons, sqlWhere_dates, sqlWhere_user, sqlWhere_camera].map((wherePart) => {
       if (wherePart !== '') {
         sqlWhere += (sqlWhere !== '') ? ' AND' : '';
         sqlWhere += wherePart;
@@ -105,11 +107,6 @@ export default class SelectorData {
     if (sqlWhere !== '') {
       sqlWhere = ' WHERE ' + sqlWhere;
     }
-    
-    //TODO: 2016.02.24
-    //Here are some table columns to use:
-    //user_hash: msyfoopoo99
-    //location: http://zooniverse-export.s3-website-us-east-1.amazonaws.com/21484_1000_C08_Season%201_Set%201_EK005157.JPG
     
     return sqlWhere;
   }
@@ -140,12 +137,6 @@ export default class SelectorData {
       }
     }
     return newCopy;
-  }
-  
-  mapClickHandler(e, latlng, pos, data) {
-    console.log('-'.repeat(40));
-    console.log(this);
-    console.log(e, latlng, pos, data);
   }
 }
 SelectorData.GUIDED_MODE = 1;

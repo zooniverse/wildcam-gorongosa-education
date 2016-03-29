@@ -9,7 +9,7 @@ export default class DialogScreen_Species extends DialogScreen {
 
   render() {
     return (
-      <section className={(this.props.status === DialogScreen.DIALOG_IDLE) ? 'dialog-screen' : 'dialog-screen enabled' } onClick={this.closeMe}>
+      <section role="dialog" className={(this.props.status === DialogScreen.DIALOG_IDLE) ? 'dialog-screen' : 'dialog-screen enabled' } onClick={this.closeMe}>
         <div className="dialog-box" onClick={this.noAction}>
           <h1>TODO: SPECIES</h1>
         </div>
