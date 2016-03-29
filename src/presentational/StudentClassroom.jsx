@@ -10,27 +10,27 @@ export default class StudentClassroom extends Component {
     this.renderStudentList = this.renderStudentList.bind(this);
   }
 
-
+ //return currentUsername === itm.attributes.zooniverse_display_name;
   renderStudentList(allMembers, classroomMembers) {
     const list = (allMembers.length > 0) ? allMembers : [];
-    //const studentIds = classroomMembers.map((student) => { return student.id; } )
+    const studentIds = classroomMembers.map((student) => { return student.id; } )
     const currentUsername = this.props.user.display_name;
     const filteredList =
       list
         .filter((itm) => {
-          return currentUsername === itm.attributes.zooniverse_display_name;
+          return studentIds.indexOf( itm.id ) > -1;
         })
         .map((itm) => {
           return itm.attributes
+        })
+        .filter((attributes) => {
+          return currentUsername === attributes.zooniverse_display_name;
         });
-    console.log('FILTERED: ', filteredList)
     return (
       <div>
-        {(filteredList.length > 0 )
-        ? filteredList.map((attributes, i) =>
-            <h3 key={i}>My classifications:{attributes.classifications_count}</h3>
-          )
-        : 'No classifications yet' }
+        {filteredList.map((item) =>
+          <h3>My classifications: {item.classifications_count}</h3>
+        )}
       </div>
     )
   }
