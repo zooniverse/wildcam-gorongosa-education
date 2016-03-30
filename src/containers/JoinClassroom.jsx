@@ -1,7 +1,7 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { joinClassroom } from '../actions/classrooms';
+import { fetchStudentClassrooms, joinClassroom } from '../actions/classrooms';
 import JoinButton from '../presentational/JoinButton.jsx';
 
 class JoinClassroom extends Component {
@@ -11,8 +11,10 @@ class JoinClassroom extends Component {
   }
 
   join() {
-    console.log('Joining ... query: ', this.props.location.query)
+    console.log('Joining ...')
+    this.props.dispatch(fetchStudentClassrooms());
     this.props.dispatch(joinClassroom(this.props.location.query.id, this.props.location.query.token));
+
   }
 
   render() {
