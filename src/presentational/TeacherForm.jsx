@@ -95,6 +95,7 @@ class TeacherForm extends Component {
             placeholder="Insert a country"
             autofocus="true"
             value={this.state.country}
+            required
             onChange={this.handleChange}/>
           </div>
           <div className="form-group">
@@ -104,6 +105,7 @@ class TeacherForm extends Component {
             name="setting"
             placeholder="E.g. Classroom, home"
             autofocus="true"
+            required
             value={this.state.setting}
             onChange={this.handleChange}/>
           </div>
@@ -114,6 +116,7 @@ class TeacherForm extends Component {
             name="age"
             placeholder="E.g. Junior high, 2-yr College"
             autofocus="true"
+            required
             value={this.state.age}
             onChange={this.handleChange}/>
           </div>
@@ -124,6 +127,7 @@ class TeacherForm extends Component {
             name="course"
             placeholder="E.g. Biology, Ecology"
             autofocus="true"
+            required
             value={this.state.course}
             onChange={this.handleChange}/>
           </div>
@@ -134,6 +138,7 @@ class TeacherForm extends Component {
             name="foundon"
             placeholder="E.g. Zooniverse, Social Media"
             autofocus="true"
+            required
             value={this.state.foundon}
             onChange={this.handleChange}/>
           </div>
@@ -144,6 +149,7 @@ class TeacherForm extends Component {
             name="resources"
             placeholder="Yes or no"
             autofocus="true"
+            required
             value={this.state.resources}
             onChange={this.handleChange}/>
           </div>
@@ -154,6 +160,7 @@ class TeacherForm extends Component {
             name="feedback"
             placeholder="Yes or no"
             autofocus="true"
+            required
             value={this.state.feedback}
             onChange={this.handleChange}/>
           </div>

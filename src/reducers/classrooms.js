@@ -7,9 +7,7 @@ export function classrooms(state = initialState, action) {
   switch (action.type) {
     case types.JOIN_CLASSROOM:
       return Object.assign({}, state, {
-        loading: false,
-        data: action.data,
-        error: action.error,
+        loading: true,
       });
     case types.REQUEST_CLASSROOMS:
       return Object.assign({}, state, {

@@ -64,7 +64,6 @@ export function joinClassroom(id, token) {
     })
     .then(response => response.json())
     .then(json => {
-      console.log('JOIN-RESPONSE: ', json.data);
       browserHistory.push('/students/classrooms/');
     })
     .catch(response => console.log('RESPONSE-error: ', response))
@@ -129,6 +128,4 @@ export function fetchStudentClassrooms() {
     );
   }
 }
-
-
 
