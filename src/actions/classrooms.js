@@ -64,7 +64,6 @@ export function joinClassroom(id, token) {
     })
     .then(response => response.json())
     .then(json => {
-      console.log('JOIN-RESPONSE: ', json.data);
       browserHistory.push('/students/classrooms/');
     })
     .catch(response => console.log('RESPONSE-error: ', response))
@@ -130,5 +129,16 @@ export function fetchStudentClassrooms() {
   }
 }
 
+
+//.then(json => {
+//      dispatch({
+//        type: types.JOIN_CLASSROOM_SUCCESS,
+//        loading: true
+//      });
+//      console.log('JOIN-RESPONSE: ', json.data);
+//      // the following reloads the page causing the classroomlist to refresh
+//      // not sure if there is a better way that uses react-router methods.
+//      window.location.assign('/students/classrooms/')
+//    })
 
 
