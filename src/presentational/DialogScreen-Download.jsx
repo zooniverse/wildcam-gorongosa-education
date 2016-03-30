@@ -25,7 +25,7 @@ export default class DialogScreen_DownloadCSV extends DialogScreen {
           : null}
           
           {(this.props.data)
-          ? <div className="note">(Depending on your computer setup, you may need to right-click on the link above and choose "Save As", then open the downloaded file in Excel.)</div>
+          ? <div className="note">(Depending on your computer setup, you may need to right-click on the link above and choose "Save As", then open the downloaded file in Excel. At the moment, the download is limited to 10000 items per file.)</div>
           : null}
           
         </div>
