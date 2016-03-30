@@ -96,11 +96,16 @@ export default class SelectorData {
       ? '(camera ILIKE \''+specificCamera.replace(/'/, '\'\'').trim()+'\')'
       : '';
     
+    //SPECIAL CASE: Beta launch on 30 Mar 2016
+    //Currently, the Aggregated data is "unclean" and contains unexpected non-retired images.
+    //As a result, we're "cleaning" that data at runtime.
+    let sqlWhere_arbitraryMagicVoodoo = '(num_classifications >= 5)';
+    
     //Join the Where constructor
     let sqlWhere = '';
-    [sqlWhere_species, sqlWhere_habitats, sqlWhere_seasons, sqlWhere_dates, sqlWhere_user, sqlWhere_camera].map((wherePart) => {
+    [sqlWhere_species, sqlWhere_habitats, sqlWhere_seasons, sqlWhere_dates, sqlWhere_user, sqlWhere_camera, sqlWhere_arbitraryMagicVoodoo].map((wherePart) => {
       if (wherePart !== '') {
-        sqlWhere += (sqlWhere !== '') ? ' AND' : '';
+        sqlWhere += (sqlWhere !== '') ? ' AND ' : '';
         sqlWhere += wherePart;
       }
     });
