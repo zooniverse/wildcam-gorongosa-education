@@ -3,7 +3,7 @@ import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 
 import HeaderAuth from '../containers/HeaderAuth.jsx';
-import { routes } from '../constants/config.json';
+import config from '../constants/config';
 
 
 class Layout extends Component {
@@ -25,7 +25,7 @@ class Layout extends Component {
 
   verifyLogin(props) {
     if (props.loginSecured && !(props.user)) {
-      browserHistory.push(routes.loginPrompt);
+      browserHistory.push(config.routes.loginPrompt);
     }
   }
 
