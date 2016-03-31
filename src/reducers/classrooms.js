@@ -9,6 +9,13 @@ export function classrooms(state = initialState, action) {
       return Object.assign({}, state, {
         loading: true,
       });
+    case types.JOIN_CLASSROOM_SUCCESS:
+      return Object.assign({}, state, {
+        data: state.data.concat(action.data),
+        loading: false,
+        error: false,
+        members: state.members.concat(action.members),
+      });
     case types.REQUEST_CLASSROOMS:
       return Object.assign({}, state, {
         loading: true,

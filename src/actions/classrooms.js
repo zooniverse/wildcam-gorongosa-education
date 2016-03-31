@@ -63,9 +63,12 @@ export function joinClassroom(id, token) {
       body: JSON.stringify({'join_token': token})
     })
     .then(response => response.json())
-    .then(json => {
-      browserHistory.push('/students/classrooms/');
-    })
+    .then(json => dispatch({
+      type: types.JOIN_CLASSROOM_SUCCESS,
+      data: json.data,
+      members: json.included
+    }))
+    .then(() => browserHistory.push('/students/classrooms/'))
     .catch(response => console.log('RESPONSE-error: ', response))
   };
 
