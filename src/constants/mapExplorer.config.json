@@ -16,9 +16,9 @@
     "cssStandard": "#{LAYER} { marker-fill: {MARKERCOLOR}; marker-fill-opacity: {MARKEROPACITY}; marker-width: {MARKERSIZE}; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; {CHILDREN} }"
   },
   "mapCentre": {
-    "latitude": -18.9178413223141,
-    "longitude": 34.5057041322314,
-    "zoom": 12
+    "latitude": -19.1,
+    "longitude": 34.45,
+    "zoom": 11
   },
   "baseLayers": [
     {
