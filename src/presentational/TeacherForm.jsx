@@ -2,9 +2,10 @@ import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Dropdown from '../presentational/Dropdown.jsx';
+import Checkbox from '../presentational/Checkbox.jsx';
 
 import { fetchUserDetails, upsertTeacherMetadata } from '../actions/users';
-import { countries } from '../constants/util';
+import { countries, settings } from '../constants/util';
 
 class TeacherForm extends Component {
   constructor(props) {
@@ -84,7 +85,7 @@ class TeacherForm extends Component {
   }
 
   render() {
-    const options = countries;
+    //const options = countries;
     return (
       <div className="col-md-4">
         <div className='page-header'>
@@ -92,23 +93,23 @@ class TeacherForm extends Component {
           <p>Before you get started setting up your first classroom, please answer the following questions about how you plan to use WildCam Lab in your teaching.</p>
         </div>
         <form onSubmit={this.handleSubmit}>
+
           <div className="form-group">
             <label>Where do you teach?</label>
             <Dropdown
+              required
               name='country'
-              options={options}
+              options={countries}
               value='default'
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">
             <label>In what educational setting do you plan to use this resource?</label>
-            <input className="form-control"
-              type="text"
+            <Checkbox className="form-control"
               name="setting"
-              placeholder="E.g. Classroom, home"
-              autofocus="true"
+              options={settings}
               required
-              value={this.state.setting}
+              value='default'
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">

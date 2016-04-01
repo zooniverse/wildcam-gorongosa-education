@@ -246,3 +246,13 @@ export const countries = [
   { 'label': 'Zambia', 'value': 'ZM' },
   { 'label': 'Zimbabwe', 'value': 'ZW' }
 ]
+
+export const settings = [
+  { 'label': 'Formal education (e.g., classroom, lab)', 'value': 'default' },
+  { 'label': 'Informal education (e.g., zoo, museum, nature center)', 'value': 'IE' },
+  { 'label': 'Home school', 'value': 'HS' },
+  { 'label': 'Other', 'value': 'Ot' },
+
+
+
+]
