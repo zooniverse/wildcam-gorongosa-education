@@ -12,7 +12,6 @@ export default class SelectorData {
       '0123456789abcdef'[Math.floor(Math.random() * 16)] +
       '0123456789abcdef'[Math.floor(Math.random() * 16)];
     this.mode = SelectorData.GUIDED_MODE;
-    //this.colour = '#000000';
     
     //Default filter selectors
     this.species = [];  //For a pre-set selection, use ['baboon', 'lion'] or etc.
