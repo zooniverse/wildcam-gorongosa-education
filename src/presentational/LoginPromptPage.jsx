@@ -1,7 +1,7 @@
 import { Component} from 'react';
 import Panoptes from 'panoptes-client';
 import Layout from './Layout.jsx'
-import { panoptesReturnUrl } from '../constants/config.json';
+import config from '../constants/config';
 
 export default class LoginPromptPage extends Component {
   constructor() {
@@ -23,9 +23,9 @@ export default class LoginPromptPage extends Component {
       </Layout>
     );
   }
-  
+
   login() {
     console.log('Logging in');
-    return Panoptes.oauth.signIn(panoptesReturnUrl);
+    return Panoptes.oauth.signIn(config.panoptesReturnUrl);
   }
 }

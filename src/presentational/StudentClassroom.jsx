@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import { routes } from '../constants/config.json';
 
 export default class StudentClassroom extends Component {
   constructor(props) {

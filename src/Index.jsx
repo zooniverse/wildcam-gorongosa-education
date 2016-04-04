@@ -32,11 +32,11 @@ import configureStore from './store';
 const store = configureStore();
 
 import { oauth } from 'panoptes-client';
-import { panoptesAppId } from './constants/config.json';
+import config from './constants/config';
 
 window.React = React;
 
-oauth.init(panoptesAppId)
+oauth.init(config.panoptesAppId)
   .then(function () {
     ReactDOM.render(
       <Provider store={store}>

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import { routes } from '../constants/config.json';
+import config from '../constants/config';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 export default class Classroom extends Component {
@@ -10,7 +10,7 @@ export default class Classroom extends Component {
     super(props);
     let classrooms = props.data;
     this.state = {
-      url: routes.root + routes.students + 'join?id=' + classrooms.id + '&token=' + classrooms.attributes.join_token,
+      url: config.routes.root + config.routes.students + 'join?id=' + classrooms.id + '&token=' + classrooms.attributes.join_token,
       copied: false
     }
     this.onCopy = this.onCopy.bind(this);
@@ -26,7 +26,7 @@ export default class Classroom extends Component {
   componentWillReceiveProps(nextProps){
     let classrooms = nextProps.data;
     this.state = {
-      url: routes.root + routes.students + 'join?id=' + classrooms.id + '&token=' + classrooms.attributes.join_token
+      url: config.routes.root + config.routes.students + 'join?id=' + classrooms.id + '&token=' + classrooms.attributes.join_token
     };
   }
 
