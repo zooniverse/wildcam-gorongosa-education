@@ -13,7 +13,6 @@ import LoggedInUser from '../presentational/LoggedInUser.jsx';
 import { panoptesAppId, panoptesReturnUrl } from '../constants/config.json';
 
 class HeaderAuth extends Component {
-
   constructor() {
     super();
     this.login = this.login.bind(this);
@@ -28,10 +27,7 @@ class HeaderAuth extends Component {
   }
 
   login() {
-    console.log('Logging in via HeaderAuth...');
-    // For deploy-preview, use the following Wildcam on staging details in config.json
-    // const appId = '17bdbeb57f54a3bf6344cf7150047879cfa1c8d5f9fd77d64923e6c81fe6e949';
-    // const redirectUri = 'https://preview.zooniverse.org/wge/';
+    console.log('Logging in ...');
     return Panoptes.oauth.signIn(panoptesReturnUrl);
   }
 
@@ -41,7 +37,7 @@ class HeaderAuth extends Component {
         this.props.dispatch(setLoginUser(user));
         //browserHistory.push() and this.context.router.push() have an issue:
         //the user will be redirected, but Login/Logout button will not update.
-        window.location = panoptesReturnUrl;        
+        window.location = panoptesReturnUrl;
       });
   }
 

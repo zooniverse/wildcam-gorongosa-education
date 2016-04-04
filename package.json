@@ -20,9 +20,10 @@
   ],
   "scripts": {
     "start": "babel-node server.js",
-    "build": "webpack --config webpack.production.config.js -p",
+    "build": "NODE_ENV=production webpack --config webpack.production.config.js -p",
     "test": "mocha --reporter nyan --compilers js:babel/register --recursive",
-    "deploy-preview": "npm run build && publisssh dist zooniverse-static/preview.zooniverse.org/wge"
+    "deploy-preview": "npm run build && publisssh dist zooniverse-static/preview.zooniverse.org/wge",
+    "deploy-production": "npm run build && publisssh dist zooniverse-static/learn.wildcamgorongosa.org"
   },
   "license": "Apache-2.0",
   "bugs": {
@@ -65,7 +66,7 @@
     "json-loader": "^0.5.4",
     "mocha": "^2.3.0",
     "nib": "^1.1.0",
-    "panoptes-client": "^2.2.0",
+    "panoptes-client": "git://github.com/zooniverse/panoptes-javascript-client#a102de7685d90378c5cf4de829d4213f7ed362bb",
     "publisssh": "^1.0.1",
     "react-addons-test-utils": "^0.14.3",
     "react-copy-to-clipboard": "^4.0.2",
