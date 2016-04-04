@@ -69,7 +69,7 @@ export default class SelectorPanel extends React.Component {
     return (
       <article className="selector-panel">
         <section className={(this.props.selectorData.mode !== SelectorData.GUIDED_MODE) ? 'input-subpanel not-selected' : 'input-subpanel' } ref="subPanel_guided">
-          <h1 className="hidden" onClick={this.changeToGuided}>Standard Mode</h1>
+          <h1 onClick={this.changeToGuided}>Standard Mode</h1>
           <div className="input-row hidden">
             <label>SPECIES:</label>
             {
@@ -120,7 +120,7 @@ export default class SelectorPanel extends React.Component {
           </div>
         </section>
         <section className={(this.props.selectorData.mode !== SelectorData.ADVANCED_MODE) ? 'input-subpanel not-selected' : 'input-subpanel' } ref="subPanel_advanced" >
-          <h1 className="hidden" onClick={this.changeToAdvanced}>Advanced Mode</h1>
+          <h1 onClick={this.changeToAdvanced}>Advanced Mode</h1>
           <div className="input-row">
             <label>SQL Query</label>
             <textarea ref="sql"></textarea>
