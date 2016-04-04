@@ -1,9 +1,9 @@
 import { Component} from 'react';
-import Panoptes from 'panoptes-client';
+import { connect } from 'react-redux';
 import Layout from './Layout.jsx'
-import config from '../constants/config';
+import { loginToPanoptes } from '../actions/login';
 
-export default class LoginPromptPage extends Component {
+class LoginPromptPage extends Component {
   constructor() {
     super();
     this.login = this.login.bind(this);
@@ -25,7 +25,8 @@ export default class LoginPromptPage extends Component {
   }
 
   login() {
-    console.log('Logging in');
-    return Panoptes.oauth.signIn(config.panoptesReturnUrl);
+    return this.props.dispatch(loginToPanoptes());
   }
 }
+
+export default connect()(LoginPromptPage);  //Connects the Component to the Redux Store
