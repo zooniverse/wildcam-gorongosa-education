@@ -24,7 +24,7 @@ export default class SelectorData {
     //Default marker styles.
     this.markerColor = '#ff9900';  //For... consistency, this is coLOR instead of coLOUR.
     this.markerSize = '15';
-    this.markerOpacity = '0.6';
+    this.markerOpacity = '0.8';
     
     //These two are the most important values; they're derived from the selector
     //settings above.
@@ -120,8 +120,8 @@ export default class SelectorData {
     
     //For presentation, TODO: give options to change styles
     //----------------
-    for (let i = 0; i < 10; i++) {
-      children += '[count>'+(i*50)+'] {marker-width:'+(parseFloat(this.markerSize)+2*i)+';} ';
+    for (let i = 0; i < 20; i++) {
+      children += '[count>'+(i*50)+'] {marker-width:'+(parseFloat(this.markerSize)*(1 + i / 10))+';} ';
     }
     //----------------
     
