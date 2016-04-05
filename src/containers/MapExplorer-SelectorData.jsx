@@ -32,7 +32,7 @@ export default class SelectorData {
     this.css = this.calculateCss();
   }
   
-  calculateSql(sqlQueryTemplate = config.cartodb.sqlQueryCountCameras, specificCamera = '') {
+  calculateSql(sqlQueryTemplate = config.cartodb.sqlQueryCountItems, specificCamera = '') {
     return sqlQueryTemplate
       .replace(/{CAMERAS}/ig, config.cartodb.sqlTableCameras)
       .replace(/{SUBJECTS}/ig, config.cartodb.sqlTableSubjects)
@@ -98,7 +98,7 @@ export default class SelectorData {
     //SPECIAL CASE: Beta launch on 30 Mar 2016
     //Currently, the Aggregated data is "unclean" and contains unexpected non-retired images.
     //As a result, we're "cleaning" that data at runtime.
-    let sqlWhere_arbitraryMagicVoodoo = '(num_classifications >= 5)';
+    let sqlWhere_arbitraryMagicVoodoo = '';  //'(num_classifications >= 5)';
     
     //Join the Where constructor
     let sqlWhere = '';

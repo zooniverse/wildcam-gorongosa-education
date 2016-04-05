@@ -254,7 +254,7 @@ export default class SelectorPanel extends React.Component {
 
     //Filter control: mode
     if (data.mode === SelectorData.GUIDED_MODE) {
-      this.refs.sql.value = data.calculateSql(config.cartodb.sqlQueryCountCameras);
+      this.refs.sql.value = data.calculateSql(config.cartodb.sqlQueryCountItems);
       this.refs.css.value = data.calculateCss();
     }
     data.sql = this.refs.sql.value;
@@ -289,7 +289,7 @@ export default class SelectorPanel extends React.Component {
         data: null
     }});
     
-    let sqlQuery = this.props.selectorData.calculateSql(config.cartodb.sqlQuerySelectItems);
+    let sqlQuery = this.props.selectorData.calculateSql(config.cartodb.sqlQueryDownload);
     console.log('Prepare CSV: ', sqlQuery);
     fetch(config.cartodb.sqlApi.replace('{SQLQUERY}', encodeURI(sqlQuery)))
       .then((response) => {

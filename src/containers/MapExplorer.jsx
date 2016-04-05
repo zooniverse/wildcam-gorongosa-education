@@ -179,7 +179,7 @@ export default class MapExplorer extends React.Component {
         newSubLayer.setInteraction(true);
         newSubLayer.on('featureClick', (e, latlng, pos, data) => {
           console.log('Map.featureClick on ', selector, 'with data ', data);
-          let sqlQuery = selector.calculateSql(config.cartodb.sqlQueryViewCameraImagesOnly, data.id);
+          let sqlQuery = selector.calculateSql(config.cartodb.sqlQueryViewCamera, data.id);
           console.log(sqlQuery);
           
           this.setState({
