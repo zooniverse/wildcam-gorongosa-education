@@ -1,3 +1,12 @@
+export const age = [
+  {'label': 'Elementary School', 'value': 'ES'},
+  {'label': 'Middle School/Junior High', 'value': 'MS'},
+  {'label': 'High School', 'value': 'HS'},
+  {'label': '2-yr College', 'value': '2C'},
+  {'label': '4-yr College/University', 'value': '4C'},
+  {'label': 'Other', 'value': 'O'},
+]
+
 export const countries = [
   { 'label': 'Select a country', 'value': 'default' },
   { 'label': 'Afghanistan', 'value': 'AF' },
@@ -244,15 +253,34 @@ export const countries = [
   { 'label': 'Western Sahara', 'value': 'EH' },
   { 'label': 'Yemen', 'value': 'YE' },
   { 'label': 'Zambia', 'value': 'ZM' },
-  { 'label': 'Zimbabwe', 'value': 'ZW' }
+  { 'label': 'Zimbabwe', 'value': 'ZW' },
+]
+
+export const courses = [
+  { 'label': 'Ecology', 'value': 'E' },
+  { 'label': 'Biology', 'value': 'B' },
+  { 'label': 'Environmental Science', 'value': 'ES' },
+  { 'label': 'Geology/Earth Science', 'value': 'GE' },
+  { 'label': 'Geography', 'value': 'G' },
+  { 'label': 'Other', 'value': 'O' },
+]
+
+export const resources = [
+  { 'label': 'Zooniverse', 'value': 'Z' },
+  { 'label': 'BioInteractive News e-newsletter', 'value': 'BN' },
+  { 'label': 'Workshop/conference', 'value': 'WC' },
+  { 'label': 'Social Media', 'value': 'SM' },
+  { 'label': 'News story/blog', 'value': 'N' },
+  { 'label': 'Internet search', 'value': 'IS' },
+  { 'label': 'News story/blog', 'value': 'N' },
+  { 'label': 'Educator Forum or ListServ', 'value': 'EF' },
+  { 'label': 'Friend/Colleague', 'value': 'FC' },
+  { 'label': 'Other', 'value': 'O' },
 ]
 
 export const settings = [
   { 'label': 'Formal education (e.g., classroom, lab)', 'value': 'default' },
   { 'label': 'Informal education (e.g., zoo, museum, nature center)', 'value': 'IE' },
   { 'label': 'Home school', 'value': 'HS' },
-  { 'label': 'Other', 'value': 'Ot' },
-
-
-
+  { 'label': 'Other', 'value': 'O' },
 ]

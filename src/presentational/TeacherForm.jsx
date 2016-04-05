@@ -2,10 +2,10 @@ import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Dropdown from '../presentational/Dropdown.jsx';
-import Checkbox from '../presentational/Checkbox.jsx';
+import CheckboxGroup from '../presentational/CheckboxGroup.jsx';
 
 import { fetchUserDetails, upsertTeacherMetadata } from '../actions/users';
-import { countries, settings } from '../constants/util';
+import { age, courses, countries, resources, settings } from '../constants/util';
 
 class TeacherForm extends Component {
   constructor(props) {
@@ -15,11 +15,11 @@ class TeacherForm extends Component {
         attributes: {
           metadata: {
             country: this.props.country || '',
-            setting: this.props.setting || '',
+            setting: this.props.setting || [],
             age: this.props.age || '',
             course: this.props.course || '',
             foundon: this.props.foundon || '',
-            resources: this.props.resources || '',
+            resource: this.props.resource || '',
             feedback: this.props.feedback || '',
           }
         }
@@ -33,6 +33,7 @@ class TeacherForm extends Component {
     const currentUserId = this.props.user.id;
     this.props.dispatch(fetchUserDetails(currentUserId));
   }
+
 
   handleChange(e) {
     let nextState = this.state;
@@ -50,11 +51,11 @@ class TeacherForm extends Component {
         attributes:{
           metadata: {
             country: e.target[0].value.trim(),
-            setting: e.target[1].value.trim(),
+            setting: e.target[1].value,
             age: e.target[2].value.trim(),
             course: e.target[3].value.trim(),
             foundon: e.target[4].value.trim(),
-            resources: e.target[5].value.trim(),
+            resource: e.target[5].value.trim(),
             feedback: e.target[6].value.trim(),
           }
         }
@@ -72,11 +73,11 @@ class TeacherForm extends Component {
         attributes: {
           metadata: {
             country: '',
-            setting: '',
+            setting: [],
             age: '',
             course: '',
             foundon: '',
-            resources: '',
+            resource: '',
             feedback: '',
           }
         }
@@ -85,7 +86,6 @@ class TeacherForm extends Component {
   }
 
   render() {
-    //const options = countries;
     return (
       <div className="col-md-4">
         <div className='page-header'>
@@ -93,10 +93,10 @@ class TeacherForm extends Component {
           <p>Before you get started setting up your first classroom, please answer the following questions about how you plan to use WildCam Lab in your teaching.</p>
         </div>
         <form onSubmit={this.handleSubmit}>
-
           <div className="form-group">
             <label>Where do you teach?</label>
             <Dropdown
+              autofocus="true"
               required
               name='country'
               options={countries}
@@ -105,7 +105,7 @@ class TeacherForm extends Component {
           </div>
           <div className="form-group">
             <label>In what educational setting do you plan to use this resource?</label>
-            <Checkbox className="form-control"
+            <CheckboxGroup className="form-control"
               name="setting"
               options={settings}
               required
@@ -114,24 +114,20 @@ class TeacherForm extends Component {
           </div>
           <div className="form-group">
             <label>I plan to use this resource with my students.</label>
-            <input className="form-control"
-              type="text"
+            <CheckboxGroup className="form-control"
               name="age"
-              placeholder="E.g. Junior high, 2-yr College"
-              autofocus="true"
+              options={age}
               required
-              value={this.state.age}
+              value=''
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">
             <label>In what course(s) do you plan to use this resource?</label>
-            <input className="form-control"
-              type="text"
+            <CheckboxGroup className="form-control"
               name="course"
-              placeholder="E.g. Biology, Ecology"
-              autofocus="true"
+              options={courses}
               required
-              value={this.state.course}
+              value=''
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">
@@ -149,11 +145,11 @@ class TeacherForm extends Component {
             <label>Have you used HHMI BioInteractive resources other than WildCam Gorongosa in your teaching before?</label>
             <input className="form-control"
               type="text"
-              name="resources"
+              name="resource"
               placeholder="Yes or no"
               autofocus="true"
               required
-              value={this.state.resources}
+              value={this.state.resource}
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">
