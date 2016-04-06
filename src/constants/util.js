@@ -7,6 +7,11 @@ export const age = [
   {'label': 'Other', 'value': 'O'},
 ]
 
+export const boolean = [
+  { 'label': 'Yes', 'value': 'Y' },
+  { 'label': 'No', 'value': 'N' },
+]
+
 export const countries = [
   { 'label': 'Select a country', 'value': 'default' },
   { 'label': 'Afghanistan', 'value': 'AF' },

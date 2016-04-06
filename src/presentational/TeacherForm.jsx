@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Dropdown from '../presentational/Dropdown.jsx';
 import CheckboxGroup from '../presentational/CheckboxGroup.jsx';
+import RadioButtonGroup from '../presentational/RadioButtonGroup.jsx';
 
 import { fetchUserDetails, upsertTeacherMetadata } from '../actions/users';
-import { age, courses, countries, resources, settings } from '../constants/util';
+import { age, boolean, courses, countries, resources, settings } from '../constants/util';
 
 class TeacherForm extends Component {
   constructor(props) {
@@ -14,17 +15,18 @@ class TeacherForm extends Component {
       data: {
         attributes: {
           metadata: {
-            country: this.props.country || '',
-            setting: this.props.setting || [],
-            age: this.props.age || '',
-            course: this.props.course || '',
-            foundon: this.props.foundon || '',
-            resource: this.props.resource || '',
-            feedback: this.props.feedback || '',
+            country: this.props.country || null,
+            setting: this.props.setting || null,
+            age: this.props.age || null,
+            course: this.props.course || null,
+            foundon: this.props.foundon || null,
+            resource: this.props.resource || null,
+            feedback: this.props.feedback || null,
           }
         }
       }
     }
+    this.checkArray = this.checkArray.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -34,11 +36,16 @@ class TeacherForm extends Component {
     this.props.dispatch(fetchUserDetails(currentUserId));
   }
 
+  checkArray(array){
+    for (var i = 0; i < array.length; i++) {
+      if (array[i] === null || array[i] === '')
+        return false;
+    }
+   return true;
+  }
 
   handleChange(e) {
     let nextState = this.state;
-    console.log('name: ', e.target.name)
-    console.log('value: ', e.target.value)
     nextState.data.attributes.metadata[e.target.name] = e.target.value;
     this.setState(nextState);
   }
@@ -50,54 +57,52 @@ class TeacherForm extends Component {
       data:{
         attributes:{
           metadata: {
-            country: e.target[0].value.trim(),
+            country: e.target[0].value,
             setting: e.target[1].value,
-            age: e.target[2].value.trim(),
-            course: e.target[3].value.trim(),
-            foundon: e.target[4].value.trim(),
-            resource: e.target[5].value.trim(),
-            feedback: e.target[6].value.trim(),
+            age: e.target[2].value,
+            course: e.target[3].value,
+            foundon: e.target[4].value,
+            resource: e.target[5].value,
+            feedback: e.target[6].value,
           }
         }
       }
     });
-    const data = this.state.data;
-    if (data) {
-      this.props.dispatch(upsertTeacherMetadata(
-        currentUserId,
-        data
-      )
-    )}
-    this.setState({
-      data: {
-        attributes: {
-          metadata: {
-            country: '',
-            setting: [],
-            age: '',
-            course: '',
-            foundon: '',
-            resource: '',
-            feedback: '',
+    const metadata = this.state.data.attributes.metadata;
+    const values = Object.keys(metadata).map(key => metadata[key]);
+    if (this.checkArray(values)) {
+      this.props.dispatch(upsertTeacherMetadata(currentUserId, data));
+      this.setState({
+        data: {
+          attributes: {
+            metadata: {
+              country: this.props.country || null,
+              setting: this.props.setting || null,
+              age: this.props.age || null,
+              course: this.props.course || null,
+              foundon: this.props.foundon || null,
+              resource: this.props.resource || null,
+              feedback: this.props.feedback || null,
+            }
           }
         }
-      }
-    })
+      })
+    }
   }
 
   render() {
+    const metadata = this.state.data.attributes;
     return (
       <div className="col-md-4">
         <div className='page-header'>
           <h1>Registration</h1>
-          <p>Before you get started setting up your first classroom, please answer the following questions about how you plan to use WildCam Lab in your teaching.</p>
+          <p>Before you get started setting up your first classroom, please answer the following questions about how you plan to use WildCam Lab in your teaching. (All fields required. Select all that apply.)</p>
         </div>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label>Where do you teach?</label>
             <Dropdown
               autofocus="true"
-              required
               name='country'
               options={countries}
               value='default'
@@ -108,7 +113,6 @@ class TeacherForm extends Component {
             <CheckboxGroup className="form-control"
               name="setting"
               options={settings}
-              required
               value='default'
               onChange={this.handleChange}/>
           </div>
@@ -117,8 +121,7 @@ class TeacherForm extends Component {
             <CheckboxGroup className="form-control"
               name="age"
               options={age}
-              required
-              value=''
+              value={metadata.age}
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">
@@ -126,41 +129,31 @@ class TeacherForm extends Component {
             <CheckboxGroup className="form-control"
               name="course"
               options={courses}
-              required
-              value=''
+              value={metadata.course}
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">
             <label>How did you find out about this resource?</label>
-            <input className="form-control"
-              type="text"
+            <CheckboxGroup className="form-control"
               name="foundon"
-              placeholder="E.g. Zooniverse, Social Media"
-              autofocus="true"
-              required
-              value={this.state.foundon}
+              options={resources}
+              value={metadata.foundon}
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">
             <label>Have you used HHMI BioInteractive resources other than WildCam Gorongosa in your teaching before?</label>
-            <input className="form-control"
-              type="text"
+            <RadioButtonGroup className="form-control"
               name="resource"
-              placeholder="Yes or no"
-              autofocus="true"
-              required
-              value={this.state.resource}
+              options={boolean}
+              value={metadata.resource}
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">
             <label>Feedback from educators like you helps us improve our free educational resources. May we contact you at a later time?</label>
-            <input className="form-control"
-              type="text"
+            <RadioButtonGroup className="form-control"
               name="feedback"
-              placeholder="Yes or no"
-              autofocus="true"
-              required
-              value={this.state.feedback}
+              options={boolean}
+              value={metadata.resource}
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">

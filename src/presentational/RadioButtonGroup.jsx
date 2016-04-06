@@ -1,31 +1,19 @@
 import { Component, PropTypes } from 'react';
 
-export default class CheckboxGroup extends Component {
+export default class RadioButtonGroup extends Component {
   constructor(props) {
     super(props);
     this.state = {
       checked: 'false',
     }
-    this.getCheckboxValues = this.getCheckboxValues.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
-  getCheckboxValues(name) {
-    const values = [];
-    const options = document.getElementsByName(name);
-    for (var i = 0; i < options.length; i++) {
-      if (options[i].checked) {
-        values.push(options[i].value);
-      }
-    }
-    return values;
-  }
-
   handleChange(e) {
-    e.target.value = this.getCheckboxValues(e.target.name);
     this.props.onChange(e);
     this.setState({checked: e.target.checked});
   }
+
   render() {
     const options = this.props.options.map((option) =>
       <li>
@@ -33,7 +21,7 @@ export default class CheckboxGroup extends Component {
         <input
           key={option.value}
           name={this.props.name}
-          type="checkbox"
+          type="radio"
           value={option.label}
           onChange={this.handleChange} />
           {option.label}
@@ -48,13 +36,13 @@ export default class CheckboxGroup extends Component {
   }
 }
 
-CheckboxGroup.defaultProps = {
+RadioButtonGroup.defaultProps = {
   name: null,
   onChange: null,
   options: [],
-  value: null,
+  value: [],
 }
 
-CheckboxGroup.PropTypes = {
+RadioButtonGroup.PropTypes = {
   options: PropTypes.array.isRequired
 }
