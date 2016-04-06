@@ -38,7 +38,7 @@ const ClassroomsOverview = (props, context) => (
               </div>
               <div className="col-xs-9 text-right">
                 {(context.classrooms.loading === false) ?
-                <h1>{context.classrooms.members.length}</h1>
+                <h1>{context.classrooms.uniqueMemberLogins.length}</h1>
                 : <Spinner/>}
               </div>
             </div>
