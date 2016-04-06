@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes';
 
-const initialState = { loading: false, data: [], error: false, members: [] };
+const initialState = { loading: false, data: [], error: false, members: [], uniqueMembers: [] };
 
 
 export function classrooms(state = initialState, action) {
@@ -25,11 +25,18 @@ export function classrooms(state = initialState, action) {
         loading: true,
       });
     case types.RECEIVE_CLASSROOMS:
+      let uniqueMembers = [];
+      action.members.map((item) => {
+        if (uniqueMembers.indexOf(item.attributes.zooniverse_login) < 0) {
+          uniqueMembers.push(item.attributes.zooniverse_login);
+        }
+      });
       return Object.assign({}, state, {
         loading: false,
         data: action.data || [],
         error: action.error,
         members: action.members || [],
+        uniqueMembers: uniqueMembers || [],
       });
     case types.RECEIVE_STUDENT_CLASSROOMS:
       return Object.assign({}, state, {
