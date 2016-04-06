@@ -4,7 +4,7 @@ export default class CheckboxGroup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      checked: 'false',
+      checked: null,
     }
     this.getCheckboxValues = this.getCheckboxValues.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -29,7 +29,6 @@ export default class CheckboxGroup extends Component {
   render() {
     const options = this.props.options.map((option) =>
       <li>
-        <label>
         <input
           key={option.value}
           name={this.props.name}
@@ -37,18 +36,20 @@ export default class CheckboxGroup extends Component {
           value={option.label}
           onChange={this.handleChange} />
           {option.label}
-        </label>
       </li>
     )
     return (
-      <ul>
-        {options}
-      </ul>
+      <label>{this.props.label}
+        <ul>
+          {options}
+        </ul>
+      </label>
     );
   }
 }
 
 CheckboxGroup.defaultProps = {
+  label: null,
   name: null,
   onChange: null,
   options: [],

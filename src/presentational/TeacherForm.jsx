@@ -68,7 +68,8 @@ class TeacherForm extends Component {
         }
       }
     });
-    const metadata = this.state.data.attributes.metadata;
+    const data = this.state;
+    const metadata = data.attributes.metadata;
     const values = Object.keys(metadata).map(key => metadata[key]);
     if (this.checkArray(values)) {
       this.props.dispatch(upsertTeacherMetadata(currentUserId, data));
@@ -100,57 +101,57 @@ class TeacherForm extends Component {
         </div>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
-            <label>Where do you teach?</label>
             <Dropdown
               autofocus="true"
+              label='Where do you teach?'
               name='country'
               options={countries}
               value='default'
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">
-            <label>In what educational setting do you plan to use this resource?</label>
             <CheckboxGroup className="form-control"
+              label='In what educational setting do you plan to use this resource?'
               name="setting"
               options={settings}
               value='default'
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">
-            <label>I plan to use this resource with my students.</label>
             <CheckboxGroup className="form-control"
+              label='I plan to use this resource with my students.'
               name="age"
               options={age}
               value={metadata.age}
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">
-            <label>In what course(s) do you plan to use this resource?</label>
             <CheckboxGroup className="form-control"
+              label='In what course(s) do you plan to use this resource?'
               name="course"
               options={courses}
               value={metadata.course}
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">
-            <label>How did you find out about this resource?</label>
             <CheckboxGroup className="form-control"
+              label='How did you find out about this resource?'
               name="foundon"
               options={resources}
               value={metadata.foundon}
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">
-            <label>Have you used HHMI BioInteractive resources other than WildCam Gorongosa in your teaching before?</label>
             <RadioButtonGroup className="form-control"
+              label='Have you used HHMI BioInteractive resources other than WildCam Gorongosa in your teaching before?'
               name="resource"
               options={boolean}
               value={metadata.resource}
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">
-            <label>Feedback from educators like you helps us improve our free educational resources. May we contact you at a later time?</label>
             <RadioButtonGroup className="form-control"
+              label='Feedback from educators like you helps us improve our free educational resources. May we contact you at a later time?'
               name="feedback"
               options={boolean}
               value={metadata.resource}

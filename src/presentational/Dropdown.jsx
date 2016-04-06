@@ -4,7 +4,7 @@ export default class Dropdown extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: 'selected',
+      selected: null,
     }
     this.handleChange = this.handleChange.bind(this);
   }
@@ -23,18 +23,21 @@ export default class Dropdown extends Component {
         </option>
     )
     return (
-      <select
-        className='form-control'
-        name={this.props.name}
-        value={this.state.selected}
-        onChange={this.handleChange}>
-          {options}
-      </select>
+      <label>{this.props.label}
+        <select
+          className='form-control'
+          name={this.props.name}
+          value={this.state.selected}
+          onChange={this.handleChange}>
+            {options}
+        </select>
+      </label>
     )
   }
 }
 
 Dropdown.defaultProps = {
+  label: null,
   name: null,
   onChange: null,
   options: [],
