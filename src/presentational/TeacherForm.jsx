@@ -94,7 +94,7 @@ class TeacherForm extends Component {
   render() {
     const metadata = this.state.data.attributes;
     return (
-      <div className="col-md-4">
+      <div className="col-md-6">
         <div className='page-header'>
           <h1>Registration</h1>
           <p>Before you get started setting up your first classroom, please answer the following questions about how you plan to use WildCam Lab in your teaching. (All fields required. Select all that apply.)</p>
@@ -103,7 +103,7 @@ class TeacherForm extends Component {
           <div className="form-group">
             <Dropdown
               autofocus="true"
-              label='Where do you teach?'
+              question='Where do you teach?'
               name='country'
               options={countries}
               value='default'
@@ -111,7 +111,7 @@ class TeacherForm extends Component {
           </div>
           <div className="form-group">
             <CheckboxGroup className="form-control"
-              label='In what educational setting do you plan to use this resource?'
+              question='In what educational setting do you plan to use this resource?'
               name="setting"
               options={settings}
               value='default'
@@ -119,7 +119,7 @@ class TeacherForm extends Component {
           </div>
           <div className="form-group">
             <CheckboxGroup className="form-control"
-              label='I plan to use this resource with my students.'
+              question='I plan to use this resource with my students.'
               name="age"
               options={age}
               value={metadata.age}
@@ -127,7 +127,7 @@ class TeacherForm extends Component {
           </div>
           <div className="form-group">
             <CheckboxGroup className="form-control"
-              label='In what course(s) do you plan to use this resource?'
+              question='In what course(s) do you plan to use this resource?'
               name="course"
               options={courses}
               value={metadata.course}
@@ -135,7 +135,7 @@ class TeacherForm extends Component {
           </div>
           <div className="form-group">
             <CheckboxGroup className="form-control"
-              label='How did you find out about this resource?'
+              question='How did you find out about this resource?'
               name="foundon"
               options={resources}
               value={metadata.foundon}
@@ -143,7 +143,7 @@ class TeacherForm extends Component {
           </div>
           <div className="form-group">
             <RadioButtonGroup className="form-control"
-              label='Have you used HHMI BioInteractive resources other than WildCam Gorongosa in your teaching before?'
+              question='Have you used HHMI BioInteractive resources other than WildCam Gorongosa in your teaching before?'
               name="resource"
               options={boolean}
               value={metadata.resource}
@@ -151,7 +151,7 @@ class TeacherForm extends Component {
           </div>
           <div className="form-group">
             <RadioButtonGroup className="form-control"
-              label='Feedback from educators like you helps us improve our free educational resources. May we contact you at a later time?'
+              question='Feedback from educators like you helps us improve our free educational resources. May we contact you at a later time?'
               name="feedback"
               options={boolean}
               value={metadata.resource}

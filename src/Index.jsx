@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, IndexRedirect, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
+import a11y from 'react-a11y';
 
 import App from './containers/App.jsx';
 import MapExplorer from './containers/MapExplorer.jsx';
@@ -35,7 +36,7 @@ import { oauth } from 'panoptes-client';
 import { panoptesAppId } from './constants/config.json';
 
 window.React = React;
-
+if (process.env.NODE_ENV === 'staging') {a11y(React)};
 oauth.init(panoptesAppId)
   .then(function () {
     ReactDOM.render(

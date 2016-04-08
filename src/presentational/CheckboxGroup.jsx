@@ -29,6 +29,7 @@ export default class CheckboxGroup extends Component {
   render() {
     const options = this.props.options.map((option) =>
       <li>
+        <label>
         <input
           key={option.value}
           name={this.props.name}
@@ -36,20 +37,23 @@ export default class CheckboxGroup extends Component {
           value={option.label}
           onChange={this.handleChange} />
           {option.label}
+        </label>
       </li>
     )
     return (
-      <label>{this.props.label}
+      <div>
+        <p>{this.props.question}</p>
         <ul>
           {options}
         </ul>
-      </label>
+      </div>
+
     );
   }
 }
 
 CheckboxGroup.defaultProps = {
-  label: null,
+  question: null,
   name: null,
   onChange: null,
   options: [],

@@ -17,27 +17,30 @@ export default class RadioButtonGroup extends Component {
   render() {
     const options = this.props.options.map((option) =>
       <li>
-        <input
-          key={option.value}
-          name={this.props.name}
-          type="radio"
-          value={option.label}
-          onChange={this.handleChange} />
-          {option.label}
+      <label>
+      <input
+        key={option.value}
+        name={this.props.name}
+        type="radio"
+        value={option.label}
+        onChange={this.handleChange} />
+        {option.label}
+        </label>
       </li>
     )
     return (
-      <label>{this.props.label}
+      <div>
+        <p>{this.props.question}</p>
         <ul>
           {options}
         </ul>
-      </label>
+      </div>
     );
   }
 }
 
 RadioButtonGroup.defaultProps = {
-  label: null,
+  question: null,
   name: null,
   onChange: null,
   options: [],
