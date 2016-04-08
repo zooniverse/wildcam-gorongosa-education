@@ -1,16 +1,12 @@
-// A smart component that handles state for the LoginButton and LoggedInUser
-// components. Stores state in Redux.
+//A smart component that handles state for the LoginButton and LoggedInUser
+//components. Stores state in Redux.
 
 import { Component, PropTypes } from 'react';
-import { browserHistory } from 'react-router';
-import Panoptes from 'panoptes-client';
-
 import { connect } from 'react-redux';
-import { setLoginUser } from '../actions/login';
+import { checkLoginUser, setLoginUser, loginToPanoptes, logoutFromPanoptes } from '../actions/login';
 
 import LoginButton from '../presentational/LoginButton.jsx';
 import LoggedInUser from '../presentational/LoggedInUser.jsx';
-import { panoptesAppId, panoptesReturnUrl } from '../constants/config.json';
 
 class HeaderAuth extends Component {
 
@@ -21,28 +17,17 @@ class HeaderAuth extends Component {
   }
 
   componentDidMount() {
-    Panoptes.auth.checkCurrent()
-      .then(user => {
-        this.props.dispatch(setLoginUser(user));
-      });
+    if (!this.props.initialised) {
+      this.props.dispatch(checkLoginUser());
+    }
   }
 
   login() {
-    console.log('Logging in via HeaderAuth...');
-    // For deploy-preview, use the following Wildcam on staging details in config.json
-    // const appId = '17bdbeb57f54a3bf6344cf7150047879cfa1c8d5f9fd77d64923e6c81fe6e949';
-    // const redirectUri = 'https://preview.zooniverse.org/wge/';
-    return Panoptes.oauth.signIn(panoptesReturnUrl);
+    return this.props.dispatch(loginToPanoptes());
   }
 
   logout() {
-    Panoptes.oauth.signOut()
-      .then(user => {
-        this.props.dispatch(setLoginUser(user));
-        //browserHistory.push() and this.context.router.push() have an issue:
-        //the user will be redirected, but Login/Logout button will not update.
-        window.location = panoptesReturnUrl;        
-      });
+    this.props.dispatch(logoutFromPanoptes());
   }
 
   render() {
@@ -53,14 +38,17 @@ class HeaderAuth extends Component {
 }
 
 HeaderAuth.propTypes = {
-  user: PropTypes.object
+  user: PropTypes.object,
+  initialised: PropTypes.bool
 };
 HeaderAuth.defaultProps = {
-  user: null
+  user: null,
+  initialised: false
 };
 function mapStateToProps(state, ownProps) {  //Listens for changes in the Redux Store
   return {
-    user: state.login.user
+    user: state.login.user,
+    initialised: state.login.initialised
   };
 }
 export default connect(mapStateToProps)(HeaderAuth);  //Connects the Component to the Redux Store

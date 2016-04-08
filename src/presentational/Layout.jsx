@@ -3,8 +3,8 @@ import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 
 import HeaderAuth from '../containers/HeaderAuth.jsx';
-import { routes } from '../constants/config.json';
-
+import config from '../constants/config';
+import Spinner from 'Spinner.jsx';
 
 class Layout extends Component {
 
@@ -24,8 +24,8 @@ class Layout extends Component {
   }
 
   verifyLogin(props) {
-    if (props.loginSecured && !(props.user)) {
-      browserHistory.push(routes.loginPrompt);
+    if (props.loginInitialised && props.loginSecured && !(props.loginUser)) {
+      browserHistory.push(config.routes.loginPrompt);
     }
   }
 
@@ -49,7 +49,7 @@ class Layout extends Component {
         </li>
       );
     } else {  //Is it an internal link?
-      const isActive = (this.props.location.pathname ===  item.to) ? 'active' : null;
+      const isActive = (this.props.location.pathname.toLowerCase().startsWith(item.to)) ? 'active' : null;
       return (
         <li key={item.label} className={isActive}>
           <Link to={item.to}>{item.label}</Link>
@@ -71,7 +71,9 @@ class Layout extends Component {
         </header>
 
         <main className='content-section'>
-          {this.props.children}
+          {(!this.props.loginSecured || (this.props.loginInitialised && this.props.loginUser))
+          ? this.props.children
+          : <div><Spinner/></div> }
         </main>
 
         <footer className='site-footer'>
@@ -87,16 +89,19 @@ class Layout extends Component {
 Layout.propTypes = {
   navItems: PropTypes.array,
   loginSecured: PropTypes.bool,
-  user: PropTypes.object
+  loginUser: PropTypes.object,
+  loginInitialised: PropTypes.bool
 }
-HeaderAuth.defaultProps = {
+Layout.defaultProps = {
   navItems: [],
   loginSecured: false,
-  user: null
+  loginUser: null,
+  loginInitialised: false
 };
 function mapStateToProps(state, ownProps) {  //Listens for changes in the Redux Store
   return {
-    user: state.login.user
+    loginUser: state.login.user,
+    loginInitialised: state.login.initialised
   };
 }
 export default connect(mapStateToProps)(Layout);  //Connects the Component to the Redux Store

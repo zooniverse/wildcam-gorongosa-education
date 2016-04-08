@@ -2,7 +2,7 @@ import { browserHistory } from 'react-router';
 import fetch from 'isomorphic-fetch';
 import Panoptes from 'panoptes-client';
 
-import { eduAPI } from '../constants/config.json';
+import config from '../constants/config';
 import * as types from '../constants/actionTypes';
 
 export function fetchUserDetails(userId) {
@@ -10,7 +10,7 @@ export function fetchUserDetails(userId) {
     dispatch({
       type: types.REQUEST_USER,
     });
-    return fetch(eduAPI.root + eduAPI.users + userId, {
+    return fetch(config.eduAPI.root + config.eduAPI.users + userId, {
       method: 'GET',
       mode: 'cors',
       headers: new Headers({
@@ -33,7 +33,7 @@ export function upsertTeacherMetadata(userId, data) {
       type: types.UPSERT_TEACHER_METADATA,
       data
     });
-    return fetch(eduAPI.root + eduAPI.users + userId, {
+    return fetch(config.eduAPI.root + config.eduAPI.users + userId, {
       method: 'PUT',
       mode: 'cors',
       headers: new Headers({

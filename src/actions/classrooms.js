@@ -2,7 +2,7 @@ import { browserHistory } from 'react-router';
 import fetch from 'isomorphic-fetch';
 import Panoptes from 'panoptes-client';
 
-import { eduAPI } from '../constants/config.json';
+import config from '../constants/config';
 import * as types from '../constants/actionTypes';
 
 
@@ -17,7 +17,7 @@ export function createClassroom(name, subject, school, description) {
       school,
       description
     });
-    return fetch(eduAPI.root + eduAPI.teachers, {
+    return fetch(config.eduAPI.root + config.eduAPI.teachers, {
       method: 'POST',
       mode: 'cors',
       headers: new Headers({
@@ -53,7 +53,7 @@ export function joinClassroom(id, token) {
     dispatch({
       type: types.JOIN_CLASSROOM
     });
-    return fetch(eduAPI.root + eduAPI.students + id + '/join', {
+    return fetch(config.eduAPI.root + config.eduAPI.students + id + '/join', {
       method: 'POST',
       mode: 'cors',
       headers: new Headers({
@@ -79,7 +79,7 @@ export function fetchClassrooms() {
     dispatch({
       type: types.REQUEST_CLASSROOMS,
     });
-    return fetch(eduAPI.root + eduAPI.teachers, {
+    return fetch(config.eduAPI.root + config.eduAPI.teachers, {
       method: 'GET',
       mode: 'cors',
       headers: new Headers({
@@ -108,7 +108,7 @@ export function fetchStudentClassrooms() {
     dispatch({
       type: types.REQUEST_STUDENT_CLASSROOMS,
     });
-    return fetch(eduAPI.root + eduAPI.students, {
+    return fetch(config.eduAPI.root + config.eduAPI.students, {
       method: 'GET',
       mode: 'cors',
       headers: new Headers({

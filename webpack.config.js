@@ -7,6 +7,7 @@ import nib from 'nib';
 import bootstrap from 'bootstrap-styl';
 
 
+
 module.exports = {
 
   devtool: 'eval-source-map',
@@ -34,7 +35,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('staging'), // swapping development with staging seems to fix a bunch of problems, at least locally.
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV) || '"staging"',
     }),
   ],
 
