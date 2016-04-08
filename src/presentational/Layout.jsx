@@ -24,7 +24,7 @@ class Layout extends Component {
   }
 
   verifyLogin(props) {
-    if (this.props.loginInitialised && props.loginSecured && !(props.loginUser)) {
+    if (props.loginInitialised && props.loginSecured && !(props.loginUser)) {
       browserHistory.push(config.routes.loginPrompt);
     }
   }
@@ -49,7 +49,7 @@ class Layout extends Component {
         </li>
       );
     } else {  //Is it an internal link?
-      const isActive = (this.props.location.pathname ===  item.to) ? 'active' : null;
+      const isActive = (this.props.location.pathname.toLowerCase().startsWith(item.to)) ? 'active' : null;
       return (
         <li key={item.label} className={isActive}>
           <Link to={item.to}>{item.label}</Link>
@@ -71,7 +71,7 @@ class Layout extends Component {
         </header>
 
         <main className='content-section'>
-          {(!this.props.loginSecured || this.props.loginInitialised)
+          {(!this.props.loginSecured || (this.props.loginInitialised && this.props.loginUser))
           ? this.props.children
           : <div><Spinner/></div> }
         </main>
