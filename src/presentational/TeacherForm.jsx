@@ -37,11 +37,7 @@ class TeacherForm extends Component {
   }
 
   checkArray(array){
-    for (var i = 0; i < array.length; i++) {
-      if (array[i] === null || array[i] === '')
-        return false;
-    }
-   return true;
+    return array.some(item => item === null || item === '')
   }
 
   handleChange(e) {
@@ -68,10 +64,10 @@ class TeacherForm extends Component {
         }
       }
     });
-    const data = this.state;
+    const data = this.state.data;
     const metadata = data.attributes.metadata;
     const values = Object.keys(metadata).map(key => metadata[key]);
-    if (this.checkArray(values)) {
+    if (!this.checkArray(values)) {
       this.props.dispatch(upsertTeacherMetadata(currentUserId, data));
       this.setState({
         data: {
@@ -99,7 +95,7 @@ class TeacherForm extends Component {
           <h1>Registration</h1>
           <p>Before you get started setting up your first classroom, please answer the following questions about how you plan to use WildCam Lab in your teaching. (All fields required. Select all that apply.)</p>
         </div>
-        <form onSubmit={this.handleSubmit}>
+        <form className="teacher-form" onSubmit={this.handleSubmit}>
           <div className="form-group">
             <Dropdown
               autofocus="true"

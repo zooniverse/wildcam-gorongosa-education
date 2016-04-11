@@ -23,7 +23,7 @@ export default class Dropdown extends Component {
         </option>
     )
     return (
-      <label>{this.props.question}
+      <label><p>{this.props.question}</p>
         <select
           className='form-control'
           name={this.props.name}
