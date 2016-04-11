@@ -93,7 +93,8 @@ class TeacherForm extends Component {
       <div className="col-md-6">
         <div className='page-header'>
           <h1>Registration</h1>
-          <p>Before you get started setting up your first classroom, please answer the following questions about how you plan to use WildCam Lab in your teaching. (All fields required. Select all that apply.)</p>
+          <p>Before you get started setting up your first classroom, please answer the following questions about how you plan to use WildCam Lab in your teaching.</p>
+          <p><em>All fields required. Select all that apply.</em></p>
         </div>
         <form className="teacher-form" onSubmit={this.handleSubmit}>
           <div className="form-group">
