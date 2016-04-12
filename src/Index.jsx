@@ -39,7 +39,7 @@ window.React = React;
 if (process.env.NODE_ENV === 'staging') {a11y(React)};
 
 oauth.init(config.panoptesAppId)
-  .then(function () {
+  .then(() => {
     ReactDOM.render(
       <Provider store={store}>
         <Router history={browserHistory}>

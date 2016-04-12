@@ -10,8 +10,8 @@ export default class CheckboxGroup extends Component {
   getCheckboxValues(name) {
     const options = document.getElementsByName(name);
     const values = Array.from(options)
-    .filter(option => option.checked)
-    .map(option => option.value)
+      .filter(option => option.checked)
+      .map(option => option.value)
     return values;
   }
 
@@ -20,6 +20,7 @@ export default class CheckboxGroup extends Component {
     this.props.onChange(e);
   }
   render() {
+    console.log('INPUT VALUE: ', this.props.value)
     const options = this.props.options.map((option) =>
       <li>
         <label>
@@ -27,7 +28,7 @@ export default class CheckboxGroup extends Component {
           key={option.value}
           name={this.props.name}
           type="checkbox"
-          value={option.label}
+          value={this.props.value}
           onChange={this.handleChange} />
           {option.label}
         </label>

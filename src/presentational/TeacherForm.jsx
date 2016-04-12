@@ -15,29 +15,29 @@ class TeacherForm extends Component {
       data: {
         attributes: {
           metadata: {
-            country: this.props.country || null,
-            setting: this.props.setting || null,
-            age: this.props.age || null,
-            course: this.props.course || null,
-            foundon: this.props.foundon || null,
-            resource: this.props.resource || null,
-            feedback: this.props.feedback || null,
+            country: this.props.metadata.country || null,
+            setting: this.props.metadata.setting || null,
+            age: this.props.metadata.age || null,
+            course: this.props.metadata.course || null,
+            foundon: this.props.metadata.foundon || null,
+            resource: this.props.metadata.resource || null,
+            feedback: this.props.metadata.feedback || null,
           }
         }
       }
     }
-    this.checkArray = this.checkArray.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.hasNullOrEmptyValue = this.hasNullOrEmptyValue.bind(this);
   }
 
   componentDidMount() {
     const currentUserId = this.props.user.id;
-    this.props.dispatch(fetchUserDetails(currentUserId));
+    this.props.dispatch(fetchUserDetails(currentUserId))
   }
 
-  checkArray(array){
-    return array.some(item => item === null || item === '')
+  hasNullOrEmptyValue(array){
+    return Array.from(array).some(item => item === null || item === '')
   }
 
   handleChange(e) {
@@ -67,19 +67,19 @@ class TeacherForm extends Component {
     const data = this.state.data;
     const metadata = data.attributes.metadata;
     const values = Object.keys(metadata).map(key => metadata[key]);
-    if (!this.checkArray(values)) {
+    if (!this.hasNullOrEmptyValue(values)) {
       this.props.dispatch(upsertTeacherMetadata(currentUserId, data));
       this.setState({
         data: {
           attributes: {
             metadata: {
-              country: this.props.country || null,
-              setting: this.props.setting || null,
-              age: this.props.age || null,
-              course: this.props.course || null,
-              foundon: this.props.foundon || null,
-              resource: this.props.resource || null,
-              feedback: this.props.feedback || null,
+              country: this.props.metadata.country || null,
+              setting: this.props.metadata.setting || null,
+              age: this.props.metadata.age || null,
+              course: this.props.metadata.course || null,
+              foundon: this.props.metadata.foundon || null,
+              resource: this.props.metadata.resource || null,
+              feedback: this.props.metadata.feedback || null,
             }
           }
         }
@@ -88,7 +88,9 @@ class TeacherForm extends Component {
   }
 
   render() {
-    const metadata = this.state.data.attributes;
+    console.log('RENDER!');
+    const metadata = this.props.metadata;
+    console.log('METADATA: ', this.props.metadata);
     return (
       <div className="col-md-6">
         <div className='page-header'>
@@ -103,7 +105,7 @@ class TeacherForm extends Component {
               question='Where do you teach?'
               name='country'
               options={countries}
-              value='default'
+              value={metadata.country}
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">
@@ -111,7 +113,7 @@ class TeacherForm extends Component {
               question='In what educational setting do you plan to use this resource?'
               name="setting"
               options={settings}
-              value='default'
+              value={metadata.setting}
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">
@@ -151,7 +153,7 @@ class TeacherForm extends Component {
               question='Feedback from educators like you helps us improve our free educational resources. May we contact you at a later time?'
               name="feedback"
               options={boolean}
-              value={metadata.resource}
+              value={metadata.feedback}
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">
@@ -169,7 +171,8 @@ TeacherForm.PropTypes = {
 
 function mapStateToProps(state) {
   return {
-    user: state.login.user
+    user: state.login.user,
+    metadata: state.users.data.attributes.metadata
   };
 }
 

@@ -15,6 +15,7 @@ export default class Dropdown extends Component {
   }
 
   render() {
+    console.log('SELECT VALUE: ', this.props.value)
     const options = this.props.options.map((option) =>
         <option
           key={option.value}
@@ -25,7 +26,7 @@ export default class Dropdown extends Component {
     return (
       <label><p>{this.props.question}</p>
         <select
-          className='form-control'
+          className="form-control"
           name={this.props.name}
           value={this.state.selected}
           onChange={this.handleChange}>
