@@ -5,22 +5,7 @@ const initialState = { loading: false, data: [], error: false, members: [], uniq
 
 export function classrooms(state = initialState, action) {
   switch (action.type) {
-    case types.JOIN_CLASSROOM:
-      return Object.assign({}, state, {
-        loading: true,
-      });
-    case types.JOIN_CLASSROOM_SUCCESS:
-      return Object.assign({}, state, {
-        data: state.data.concat(action.data),
-        loading: false,
-        error: false,
-        members: state.members.concat(action.members),
-      });
     case types.REQUEST_CLASSROOMS:
-      return Object.assign({}, state, {
-        loading: true,
-      });
-    case types.REQUEST_STUDENT_CLASSROOMS:
       return Object.assign({}, state, {
         loading: true,
       });
@@ -37,17 +22,6 @@ export function classrooms(state = initialState, action) {
         error: action.error,
         members: action.members || [],
         uniqueMembers: uniqueMembers || [],
-      });
-    case types.RECEIVE_STUDENT_CLASSROOMS:
-      return Object.assign({}, state, {
-        loading: false,
-        data: action.data || [],
-        error: action.error,
-        members: action.members || [],
-      });
-      case types.CREATE_CLASSROOM:
-      return Object.assign({}, state, {
-        loading: true
       });
     case types.CREATE_CLASSROOM_SUCCESS:
       const newlist = state.data.concat(action.data)

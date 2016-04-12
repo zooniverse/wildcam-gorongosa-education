@@ -1,7 +1,7 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchStudentClassrooms, joinClassroom } from '../actions/classrooms';
+import { fetchStudentClassrooms, joinClassroom } from '../actions/student';
 import JoinButton from '../presentational/JoinButton.jsx';
 
 class JoinClassroom extends Component {

@@ -8,52 +8,38 @@ import * as types from '../constants/actionTypes';
 
 // Action creators
 
-export function createClassroom(name, subject, school, description) {
+export function joinClassroom(id, token) {
   return dispatch => {
     dispatch({
-      type: types.CREATE_CLASSROOM,
-      name,
-      subject,
-      school,
-      description
+      type: types.JOIN_CLASSROOM
     });
-    return fetch(config.eduAPI.root + config.eduAPI.teachers, {
+    return fetch(config.eduAPI.root + config.eduAPI.students + id + '/join', {
       method: 'POST',
       mode: 'cors',
       headers: new Headers({
           'Authorization': Panoptes.apiClient.headers.Authorization,
           'Content-Type': 'application/json'
       }),
-      body: JSON.stringify({
-        'data': {
-          'attributes': {
-            'name': name,
-            'subject': subject,
-            'school': school,
-            'description': description,
-          }
-        }
-      })
+      body: JSON.stringify({'join_token': token})
     })
     .then(response => response.json())
-    .then(json => {
-      dispatch({
-        type: types.CREATE_CLASSROOM_SUCCESS,
-        data: json.data,
-        members: json.included,
-      });
-      browserHistory.push(`/teachers/classrooms/${json.data.id}`);
-    })
+    .then(json => dispatch({
+      type: types.JOIN_CLASSROOM_SUCCESS,
+      data: json.data,
+      members: json.included
+    }))
+    .then(() => browserHistory.push('/students/classrooms/'))
     .catch(response => console.log('RESPONSE-error: ', response))
   };
+
 }
 
-export function fetchClassrooms() {
+export function fetchStudentClassrooms() {
   return dispatch => {
     dispatch({
-      type: types.REQUEST_CLASSROOMS,
+      type: types.REQUEST_STUDENT_CLASSROOMS,
     });
-    return fetch(config.eduAPI.root + config.eduAPI.teachers, {
+    return fetch(config.eduAPI.root + config.eduAPI.students, {
       method: 'GET',
       mode: 'cors',
       headers: new Headers({
@@ -63,16 +49,17 @@ export function fetchClassrooms() {
       })
       .then(response => response.json())
       .then(json => dispatch({
-        type: types.RECEIVE_CLASSROOMS,
+        type: types.RECEIVE_STUDENT_CLASSROOMS,
         data: json.data,
         error: false,
         members: json.included,
       }))
       .catch(response => dispatch({
-        type: types.RECEIVE_CLASSROOMS,
+        type: types.RECEIVE_STUDENT_CLASSROOMS,
         data: [],
         error: true,
       })
     );
   }
 }
+
