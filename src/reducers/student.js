@@ -14,10 +14,12 @@ export function student(state = initialState, action) {
   switch (action.type) {
     case types.JOIN_CLASSROOM:
       return Object.assign({}, state, {
-        loading: true,
-        data: [],
-        error: false,
-        members: []
+        classrooms: {
+          loading: true,
+          data: state.classrooms.data,
+          error: false,
+          members: state.classrooms.members
+        }
       });
     case types.JOIN_CLASSROOM_SUCCESS:
       return Object.assign({}, state, {
