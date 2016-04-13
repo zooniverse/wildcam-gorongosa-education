@@ -2,7 +2,7 @@ import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import { createClassroom, fetchClassrooms } from '../actions/classrooms';
+import { createClassroom, fetchClassrooms } from '../actions/teacher';
 
 
 class NewClassroomForm extends Component {

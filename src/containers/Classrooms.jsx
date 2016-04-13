@@ -1,7 +1,7 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { createClassroom, fetchClassrooms } from '../actions/classrooms';
+import { createClassroom, fetchClassrooms } from '../actions/teacher';
 import { fetchUserDetails } from '../actions/users';
 import ClassroomsSidebar from '../presentational/ClassroomsSidebar.jsx';
 
@@ -65,7 +65,7 @@ Classrooms.childContextTypes = {
 
 function mapStateToProps(state) {
   return {
-    classrooms: state.classrooms,
+    classrooms: state.teacher.classrooms,
     user: state.login.user,
     userdetails: state.users
   };

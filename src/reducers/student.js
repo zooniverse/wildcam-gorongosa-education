@@ -18,7 +18,7 @@ export function student(state = initialState, action) {
           loading: true,
           data: state.classrooms.data,
           error: false,
-          members: state.classrooms.members
+          members: state.classrooms.members,
         }
       });
     case types.JOIN_CLASSROOM_SUCCESS:
@@ -36,7 +36,7 @@ export function student(state = initialState, action) {
           loading: true,
           data: [],
           error: false,
-          members: []
+          members: [],
         }
       });
     case types.RECEIVE_STUDENT_CLASSROOMS:
