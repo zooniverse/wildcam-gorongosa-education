@@ -2,8 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { default as ClassroomPresentational } from '../presentational/Classroom.jsx';
-
-
+import Spinner from '../presentational/Spinner.jsx';
 
 export default class Classroom extends Component {
 
@@ -11,7 +10,11 @@ export default class Classroom extends Component {
     const members = this.props.classrooms.members;
     const classroom = this.props.classrooms.data.find(classroom =>
       classroom.id === this.props.params.classroomId);
-    return (<ClassroomPresentational data={classroom} members={members} />);
+    if (classroom && members) {
+      return (<ClassroomPresentational data={classroom} members={members} />);
+    } else {
+      return (<Spinner />);
+    }
   }
 
 }
