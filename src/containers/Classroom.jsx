@@ -25,13 +25,14 @@ Classroom.defaultProps = {
     data: [],
     loading: false,
     error: false,
-    members: []
+    members: [],
+    uniqueMembers: [],
   }
 };
 
 function mapStateToProps(state) {
   return Object.assign({}, {
-    classrooms: state.classrooms
+    classrooms: state.teacher.classrooms
   });
 }
 

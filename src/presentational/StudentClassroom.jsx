@@ -26,9 +26,9 @@ export default class StudentClassroom extends Component {
         });
     return (
       <div>
-        {filteredList.map((item) =>
-          <h3>My classifications: {item.classifications_count}</h3>
-        )}
+        {filteredList.map((item) => {
+          return <h3 key={item.zooniverse_id}>My classifications: {item.classifications_count}</h3>;
+        })}
       </div>
     )
   }
@@ -52,7 +52,6 @@ export default class StudentClassroom extends Component {
             <h3>Subject: {attributes.subject}</h3>
             <h3>School: {attributes.school}</h3>
             <h3>Description: {attributes.description}</h3>
-
           </TabPanel>
           <TabPanel>
             Assignments

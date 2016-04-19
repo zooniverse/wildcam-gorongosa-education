@@ -33,7 +33,7 @@ StudentClassroom.defaultProps = {
 
 function mapStateToProps(state) {
   return Object.assign({}, {
-    classrooms: state.classrooms,
+    classrooms: state.student.classrooms,
     user: state.login.user
   });
 }

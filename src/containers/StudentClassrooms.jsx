@@ -1,7 +1,7 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchStudentClassrooms } from '../actions/classrooms';
+import { fetchStudentClassrooms } from '../actions/student';
 import StudentClassroomsSidebar from '../presentational/StudentClassroomsSidebar.jsx';
 
 
@@ -42,7 +42,7 @@ StudentClassrooms.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    classrooms: state.classrooms,
+    classrooms: state.student.classrooms,
     user: state.login.user
   };
 }

@@ -48,32 +48,6 @@ export function createClassroom(name, subject, school, description) {
   };
 }
 
-export function joinClassroom(id, token) {
-  return dispatch => {
-    dispatch({
-      type: types.JOIN_CLASSROOM
-    });
-    return fetch(config.eduAPI.root + config.eduAPI.students + id + '/join', {
-      method: 'POST',
-      mode: 'cors',
-      headers: new Headers({
-          'Authorization': Panoptes.apiClient.headers.Authorization,
-          'Content-Type': 'application/json'
-      }),
-      body: JSON.stringify({'join_token': token})
-    })
-    .then(response => response.json())
-    .then(json => dispatch({
-      type: types.JOIN_CLASSROOM_SUCCESS,
-      data: json.data,
-      members: json.included
-    }))
-    .then(() => browserHistory.push('/students/classrooms/'))
-    .catch(response => console.log('RESPONSE-error: ', response))
-  };
-
-}
-
 export function fetchClassrooms() {
   return dispatch => {
     dispatch({
@@ -102,33 +76,3 @@ export function fetchClassrooms() {
     );
   }
 }
-
-export function fetchStudentClassrooms() {
-  return dispatch => {
-    dispatch({
-      type: types.REQUEST_STUDENT_CLASSROOMS,
-    });
-    return fetch(config.eduAPI.root + config.eduAPI.students, {
-      method: 'GET',
-      mode: 'cors',
-      headers: new Headers({
-          'Authorization': Panoptes.apiClient.headers.Authorization,
-          'Content-Type': 'application/json'
-        })
-      })
-      .then(response => response.json())
-      .then(json => dispatch({
-        type: types.RECEIVE_STUDENT_CLASSROOMS,
-        data: json.data,
-        error: false,
-        members: json.included,
-      }))
-      .catch(response => dispatch({
-        type: types.RECEIVE_STUDENT_CLASSROOMS,
-        data: [],
-        error: true,
-      })
-    );
-  }
-}
-
