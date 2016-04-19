@@ -1,11 +1,6 @@
 import { mergeDeep } from '../helpers';
 
 const defaultConfig = {
-  cartoDB: {
-    mapVisualisationUrl: 'https://shaunanoordin-zooniverse.cartodb.com/api/v2/viz/e04c2e20-a8a9-11e5-8d6b-0e674067d321/viz.json',
-    dataTable: 'wildcam_gorongosa_cameras_201601',
-    dataLayerIndex: 1
-  },
   eduAPI: {
     students: 'students/classrooms/',
     teachers: 'teachers/classrooms/',

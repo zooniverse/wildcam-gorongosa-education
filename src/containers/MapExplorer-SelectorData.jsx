@@ -24,7 +24,7 @@ export default class SelectorData {
     //Default marker styles.
     this.markerColor = '#ff9900';  //For... consistency, this is coLOR instead of coLOUR.
     this.markerSize = '15';
-    this.markerOpacity = '0.6';
+    this.markerOpacity = '0.8';
     
     //These two are the most important values; they're derived from the selector
     //settings above.
@@ -32,7 +32,7 @@ export default class SelectorData {
     this.css = this.calculateCss();
   }
   
-  calculateSql(sqlQueryTemplate = config.cartodb.sqlQueryCountCameras, specificCamera = '') {
+  calculateSql(sqlQueryTemplate = config.cartodb.sqlQueryCountItems, specificCamera = '') {
     return sqlQueryTemplate
       .replace(/{CAMERAS}/ig, config.cartodb.sqlTableCameras)
       .replace(/{SUBJECTS}/ig, config.cartodb.sqlTableSubjects)
@@ -95,14 +95,9 @@ export default class SelectorData {
       ? '(camera ILIKE \''+specificCamera.replace(/'/, '\'\'').trim()+'\')'
       : '';
     
-    //SPECIAL CASE: Beta launch on 30 Mar 2016
-    //Currently, the Aggregated data is "unclean" and contains unexpected non-retired images.
-    //As a result, we're "cleaning" that data at runtime.
-    let sqlWhere_arbitraryMagicVoodoo = '(num_classifications >= 5)';
-    
     //Join the Where constructor
     let sqlWhere = '';
-    [sqlWhere_species, sqlWhere_habitats, sqlWhere_seasons, sqlWhere_dates, sqlWhere_user, sqlWhere_camera, sqlWhere_arbitraryMagicVoodoo].map((wherePart) => {
+    [sqlWhere_species, sqlWhere_habitats, sqlWhere_seasons, sqlWhere_dates, sqlWhere_user, sqlWhere_camera].map((wherePart) => {
       if (wherePart !== '') {
         sqlWhere += (sqlWhere !== '') ? ' AND ' : '';
         sqlWhere += wherePart;
@@ -120,8 +115,8 @@ export default class SelectorData {
     
     //For presentation, TODO: give options to change styles
     //----------------
-    for (let i = 0; i < 10; i++) {
-      children += '[count>'+(i*50)+'] {marker-width:'+(parseFloat(this.markerSize)+2*i)+';} ';
+    for (let i = 0; i < 20; i++) {
+      children += '[count>'+(i*50)+'] {marker-width:'+(parseFloat(this.markerSize)*(1 + i / 10))+';} ';
     }
     //----------------
     
