@@ -29,10 +29,10 @@ const envConfig = {
       root: 'https://education-api.zooniverse.org/'
     },
     routes: {
-      root: 'https://learn.wildcamgorongosa.org/'
+      root: 'https://lab.wildcamgorongosa.org/'
     },
     panoptesAppId: '442c8c4910fbb9be14bd9a92ee6e14ad29159d0217d0345fd9b2db3d881c4a7d',
-    panoptesReturnUrl: 'https://learn.wildcamgorongosa.org/'
+    panoptesReturnUrl: 'https://lab.wildcamgorongosa.org/'
   }
 };
 
