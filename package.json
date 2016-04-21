@@ -23,7 +23,7 @@
     "build": "webpack --config webpack.production.config.js -p",
     "test": "mocha --reporter nyan --compilers js:babel/register --recursive",
     "deploy-preview": "npm run build && publisssh dist zooniverse-static/preview.zooniverse.org/wge",
-    "deploy-production": "npm run build && publisssh dist zooniverse-static/learn.wildcamgorongosa.org"
+    "deploy-production": "npm run build && publisssh dist zooniverse-static/lab.wildcamgorongosa.org"
   },
   "license": "Apache-2.0",
   "bugs": {

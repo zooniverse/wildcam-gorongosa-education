@@ -12,7 +12,7 @@ const TutorialForTeachers = (props) => (
 
     <h2>Enter the WildCam Lab</h2>
     <ul>
-      <li>From the main page of the WildCam Lab <a href="https://learn.wildcamgorongosa.org">(https://learn.wildcamgorongosa.org)</a>, click the button for educators. </li>
+      <li>From the main page of the WildCam Lab <a href="https://lab.wildcamgorongosa.org">(https://lab.wildcamgorongosa.org)</a>, click the button for educators. </li>
       <li>If you are not yet logged in to Zooniverse, you will be prompted to log in.</li>
     </ul>
 
