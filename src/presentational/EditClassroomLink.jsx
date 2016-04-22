@@ -10,4 +10,8 @@ const EditClassroomLink = ({ classroom }) => {
   );
 }
 
+EditClassroomLink.PropTypes = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+});
+
 export default EditClassroomLink;

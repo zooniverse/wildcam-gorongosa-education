@@ -8,30 +8,21 @@ import * as types from '../constants/actionTypes';
 
 // Action creators
 
-export function createClassroom(name, subject, school, description) {
+export function createClassroom(classroom) {
   return dispatch => {
-    dispatch({
-      type: types.CREATE_CLASSROOM,
-      name,
-      subject,
-      school,
-      description
-    });
+    const createAction = Object.assign({}, classroom, { type: types.CREATE_CLASSROOM });
+    dispatch(createAction);
+
     return fetch(config.eduAPI.root + config.eduAPI.teachers, {
       method: 'POST',
       mode: 'cors',
       headers: new Headers({
-          'Authorization': Panoptes.apiClient.headers.Authorization,
-          'Content-Type': 'application/json'
+        'Authorization': Panoptes.apiClient.headers.Authorization,
+        'Content-Type': 'application/json'
       }),
       body: JSON.stringify({
-        'data': {
-          'attributes': {
-            'name': name,
-            'subject': subject,
-            'school': school,
-            'description': description,
-          }
+        data: {
+          attributes: classroom
         }
       })
     })
@@ -44,7 +35,7 @@ export function createClassroom(name, subject, school, description) {
       });
       browserHistory.push(`/teachers/classrooms/${json.data.id}`);
     })
-    .catch(response => console.log('RESPONSE-error: ', response))
+    .catch(response => console.log('RESPONSE-error: ', response));
   };
 }
 
