@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 
-import { createClassroom } from '../actions/teacher';
+import { editClassroom } from '../actions/teacher';
 import NewClassroomForm from '../presentational/NewClassroomForm';
 
 
@@ -33,14 +33,14 @@ class EditClassroom extends Component {
         <div className='page-header'>
           <h1>Edit Classroom</h1>
         </div>
-        <NewClassroomForm submitForm={this.props.createClassroom} fields={fields} />
+        <NewClassroomForm submitForm={this.props.editClassroom} fields={fields} />
       </div>
     );
   }
 }
 
 EditClassroom.propTypes = {
-  createClassroom: PropTypes.func.isRequired
+  editClassroom: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {

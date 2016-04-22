@@ -41,32 +41,33 @@ export function createClassroom(classroom) {
 
 export function editClassroom(classroom) {
   return dispatch => {
-    const createAction = Object.assign({}, classroom, { type: types.EDIT_CLASSROOM });
-    dispatch(createAction);
+    console.error('Not working yet...');
+  //   const createAction = Object.assign({}, classroom, { type: types.EDIT_CLASSROOM });
+  //   dispatch(createAction);
 
-    return fetch(config.eduAPI.root + config.eduAPI.teachers, {
-      method: 'POST',
-      mode: 'cors',
-      headers: new Headers({
-        'Authorization': Panoptes.apiClient.headers.Authorization,
-        'Content-Type': 'application/json'
-      }),
-      body: JSON.stringify({
-        data: {
-          attributes: classroom
-        }
-      })
-    })
-    .then(response => response.json())
-    .then(json => {
-      dispatch({
-        type: types.EDIT_CLASSROOM_SUCCESS,
-        data: json.data,
-        members: json.included,
-      });
-      browserHistory.push(`/teachers/classrooms/${json.data.id}`);
-    })
-    .catch(response => console.log('RESPONSE-error: ', response));
+  //   return fetch(config.eduAPI.root + config.eduAPI.teachers, {
+  //     method: 'POST',
+  //     mode: 'cors',
+  //     headers: new Headers({
+  //       'Authorization': Panoptes.apiClient.headers.Authorization,
+  //       'Content-Type': 'application/json'
+  //     }),
+  //     body: JSON.stringify({
+  //       data: {
+  //         attributes: classroom
+  //       }
+  //     })
+  //   })
+  //   .then(response => response.json())
+  //   .then(json => {
+  //     dispatch({
+  //       type: types.EDIT_CLASSROOM_SUCCESS,
+  //       data: json.data,
+  //       members: json.included,
+  //     });
+  //     browserHistory.push(`/teachers/classrooms/${json.data.id}`);
+  //   })
+  //   .catch(response => console.log('RESPONSE-error: ', response));
   };
 }
 
