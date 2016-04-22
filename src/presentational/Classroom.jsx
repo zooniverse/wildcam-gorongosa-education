@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 import config from '../constants/config';
-import CopyToClipboard from 'react-copy-to-clipboard';
+import EditClassroomLink from './EditClassroomLink';
 
 export default class Classroom extends Component {
   constructor(props) {
@@ -66,7 +67,8 @@ export default class Classroom extends Component {
   }
 
   render() {
-    const { attributes} = this.props.data;
+    const { attributes } = this.props.data;
+    console.log(this.props)
     const allMembers = this.props.members;
     const classroomMembers = this.props.data.relationships.students.data;
     return (
@@ -81,6 +83,9 @@ export default class Classroom extends Component {
             <Tab>Assignments</Tab>
           </TabList>
           <TabPanel>
+            <div>
+              <EditClassroomLink classroom={this.props.data} />
+            </div>
             <h3>Classifications: {attributes.classifications_count}</h3>
             <h3>Subject: {attributes.subject}</h3>
             <h3>School: {attributes.school}</h3>
