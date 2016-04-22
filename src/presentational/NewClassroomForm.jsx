@@ -4,17 +4,25 @@ import { Link } from 'react-router';
 import NewClassroomFormElement from './NewClassroomFormElement';
 
 
+const initialState = {
+  name: '',
+  subject: '',
+  school  : '',
+  description: '',
+};
+
 class NewClassroomForm extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      name: this.props.name || '',
-      subject: this.props.subject || ''
-    }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.resetForm = this.resetForm.bind(this);
+    this.state = Object.assign({}, initialState, props.fields);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState(nextProps.fields);
   }
 
   handleChange(e) {
@@ -24,12 +32,7 @@ class NewClassroomForm extends Component {
   }
 
   resetForm() {
-    this.setState({
-      name: '',
-      subject: '',
-      school  : '',
-      description: '',
-    })
+    this.setState(initialState);
   }
 
   handleSubmit(e) {
