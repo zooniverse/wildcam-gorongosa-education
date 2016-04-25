@@ -7,19 +7,19 @@ const NewClassroomFormElement = props => {
   const id = `editform-${ other.name }`;
 
   return (
-    <div className="form-group">
-      <label htmlFor={ id }>{ label }</label>
-      <input
-        id={ id }
-        className="form-control"
+    <label className="form-group">
+      <span>{ label }</span>
+      <input className="form-control"
         type="text"
         { ...other }
       />
-    </div>
+    </label>
   );
 }
 
-NewClassroomFormElement.PropTypes = PropTypes.shape({
-});
+NewClassroomFormElement.PropTypes = {
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string,
+};
 
 export default NewClassroomFormElement;
