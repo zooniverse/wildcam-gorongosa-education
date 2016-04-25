@@ -6,13 +6,13 @@ const NewClassroomFormElement = props => {
   other.name = other.name || label.toLowerCase();
 
   return (
-    <div className="form-group">
-      <label>{ label }</label>
+    <label className="form-group">
+      <span>{ label }</span>
       <input className="form-control"
         type="text"
         { ...other }
       />
-    </div>
+    </label>
   );
 }
 
