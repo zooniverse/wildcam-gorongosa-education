@@ -40,7 +40,8 @@ class EditClassroom extends Component {
 }
 
 EditClassroom.propTypes = {
-  editClassroom: PropTypes.func.isRequired
+  editClassroom: PropTypes.func.isRequired,
+  classroom: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => {
