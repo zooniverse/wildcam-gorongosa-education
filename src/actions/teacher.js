@@ -76,3 +76,13 @@ export function fetchClassrooms() {
     );
   }
 }
+
+export function deleteClassroom(classroomId) {
+  return dispatch => {
+    dispatch({
+      type: types.CLASSROOM_DELETE,
+      classroomId,
+    });
+    browserHistory.push('/teachers/classrooms');
+  }
+}

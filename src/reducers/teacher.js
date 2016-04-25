@@ -69,6 +69,13 @@ export function teacher(state = initialState, action) {
           uniqueMembers: state.classrooms.uniqueMembers,
         }
       });
+
+    case types.CLASSROOM_DELETE:
+      let newState = Object.assign({}, state);
+      const classroomsWithoutDeleted = state.classrooms.data.filter(classroom => classroom.id !== action.classroomId);
+      newState.classrooms.data = classroomsWithoutDeleted;
+      return newState;
+
     default:
       return state;
   }

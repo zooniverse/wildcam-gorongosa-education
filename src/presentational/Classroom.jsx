@@ -14,6 +14,7 @@ export default class Classroom extends Component {
       copied: false
     }
     this.onCopy = this.onCopy.bind(this);
+    this.deleteClassroom = this.deleteClassroom.bind(this);
     this.renderStudentList = this.renderStudentList.bind(this);
   }
 
@@ -23,50 +24,59 @@ export default class Classroom extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps){
-    let classrooms = nextProps.data;
+  componentWillReceiveProps(nextProps) {
+    const classrooms = nextProps.data;
     this.state = {
-      url: config.routes.root + config.routes.students + 'join?id=' + classrooms.id + '&token=' + classrooms.attributes.join_token
+      url: [
+        config.routes.root,
+        config.routes.students,
+        'join?id=',
+        classrooms.id,
+        '&token=',
+        classrooms.attributes.join_token
+      ].join('')
     };
   }
 
   renderStudentList(allMembers, classroomMembers) {
     const list = (allMembers.length > 0) ? allMembers : [];
-    const studentIds = classroomMembers.map((student) => { return student.id; } )
-    const filteredList =
-      list
-        .filter((itm) => {
-          return studentIds.indexOf( itm.id ) > -1;
-        })
-        .map((itm) => {
-          return itm.attributes
-        });
+    const studentIds = classroomMembers.map(student => student.id);
+    const filteredList = list.filter(itm => studentIds.indexOf(itm.id) > -1)
+      .map(itm => itm.attributes);
+
     return (
-    <div>
-      {(filteredList.length > 0) ?
-      <table className="table table-hover">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Classifications</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredList.map((attributes, i) =>
-          <tr key={i}>
-            <td>{attributes.zooniverse_display_name}</td>
-            <td>{attributes.classifications_count}</td>
-          </tr>
-          )}
-        </tbody>
-      </table>
-      : 'No students here yet' }
-    </div>
+      <div>
+        {(filteredList.length > 0) ?
+          <table className="table table-hover">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Classifications</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredList.map((attributes, i) =>
+              <tr key={i}>
+                <td>{attributes.zooniverse_display_name}</td>
+                <td>{attributes.classifications_count}</td>
+              </tr>
+              )}
+            </tbody>
+          </table>
+        : 'No students here yet' }
+      </div>
     )
   }
 
+  deleteClassroom() {
+    var result = confirm('Sure you want to delete this classroom?');
+    if (result) {
+      this.props.deleteClassroom();
+    }
+  }
+
   render() {
-    const { attributes} = this.props.data;
+    const { attributes } = this.props.data;
     const allMembers = this.props.members;
     const classroomMembers = this.props.data.relationships.students.data;
     return (
@@ -92,6 +102,9 @@ export default class Classroom extends Component {
               <button className="btn btn-default">Copy Link</button>
             </CopyToClipboard>
             {this.state.copied ? <span style={{color: 'red'}}>&nbsp;Copied!</span> : null}
+            <div>
+              <button onClick={this.deleteClassroom}>Delete classroom</button>
+            </div>
           </TabPanel>
           <TabPanel>
             { this.renderStudentList(allMembers, classroomMembers) }
@@ -116,3 +129,9 @@ Classroom.defaultProps = {
   },
   members: []
 };
+
+Classroom.propTypes = {
+  actions: PropTypes.shape({
+    deleteClassroom: PropTypes.func.isRequired,
+  })
+}
