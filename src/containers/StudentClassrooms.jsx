@@ -12,6 +12,13 @@ class StudentClassrooms extends Component {
       this.props.dispatch(fetchStudentClassrooms());
     }
   }
+  
+  getChildContext() {
+    return {
+      classrooms: this.props.classrooms,
+      user: this.props.user
+    }
+  }
 
   render() {
     return (
@@ -28,6 +35,7 @@ class StudentClassrooms extends Component {
 
 StudentClassrooms.propTypes = {
   classrooms: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 };
 
@@ -37,7 +45,12 @@ StudentClassrooms.defaultProps = {
     error: false,
     loading: false,
     members: [],
-  }
+  },
+  user: null
+};
+StudentClassrooms.childContextTypes = {
+  classrooms: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
