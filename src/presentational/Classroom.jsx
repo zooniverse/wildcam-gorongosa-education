@@ -22,6 +22,20 @@ export default class Classroom extends Component {
       copied: true
     });
   }
+  
+  selectStudents(allMembers, classroomMembers) {
+    const list = (allMembers.length > 0) ? allMembers : [];
+    const studentIds = classroomMembers.map((student) => { return student.id; } )
+    const students =
+      list
+        .filter((itm) => {
+          return studentIds.indexOf( itm.id ) > -1;
+        })
+        .map((itm) => {
+          return itm.attributes
+        });
+    return students;
+  }
 
   componentWillReceiveProps(nextProps){
     let classrooms = nextProps.data;
@@ -30,20 +44,10 @@ export default class Classroom extends Component {
     };
   }
 
-  renderStudentList(allMembers, classroomMembers) {
-    const list = (allMembers.length > 0) ? allMembers : [];
-    const studentIds = classroomMembers.map((student) => { return student.id; } )
-    const filteredList =
-      list
-        .filter((itm) => {
-          return studentIds.indexOf( itm.id ) > -1;
-        })
-        .map((itm) => {
-          return itm.attributes
-        });
+  renderStudentList(students) {
     return (
     <div>
-      {(filteredList.length > 0) ?
+      {(students.length > 0) ?
       <table className="table table-hover">
         <thead>
           <tr>
@@ -52,7 +56,7 @@ export default class Classroom extends Component {
           </tr>
         </thead>
         <tbody>
-          {filteredList.map((attributes, i) =>
+          {students.map((attributes, i) =>
           <tr key={i}>
             <td>{attributes.zooniverse_display_name}</td>
             <td>{attributes.classifications_count}</td>
@@ -69,6 +73,12 @@ export default class Classroom extends Component {
     const { attributes} = this.props.data;
     const allMembers = this.props.members;
     const classroomMembers = this.props.data.relationships.students.data;
+    const students = this.selectStudents(allMembers, classroomMembers);
+    const classroomClassificationsCount = students.reduce(
+      (prev, cur, index, arr) => {
+        return prev + cur.classifications_count;
+      }, 0);
+    
     return (
       <section className="content-view">
         <div className='page-header'>
@@ -81,7 +91,7 @@ export default class Classroom extends Component {
             <Tab>Assignments</Tab>
           </TabList>
           <TabPanel>
-            <h3>Classifications: {attributes.classifications_count}</h3>
+            <h3>Classifications: {classroomClassificationsCount}</h3>
             <h3>Subject: {attributes.subject}</h3>
             <h3>School: {attributes.school}</h3>
             <h3>Description: {attributes.description}</h3>
@@ -94,7 +104,7 @@ export default class Classroom extends Component {
             {this.state.copied ? <span style={{color: 'red'}}>&nbsp;Copied!</span> : null}
           </TabPanel>
           <TabPanel>
-            { this.renderStudentList(allMembers, classroomMembers) }
+            { this.renderStudentList(students) }
           </TabPanel>
           <TabPanel>
             Assignments
