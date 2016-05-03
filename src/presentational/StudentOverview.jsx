@@ -2,14 +2,15 @@ import { PropTypes } from 'react';
 import Spinner from 'Spinner.jsx'
 
 const StudentOverview = (props, context) => {
-  
-  let myClassifications = false;  
-  if (context.classrooms && context.classrooms.members && context.classrooms.loading === false && context.user) {
-    myClassifications = context.classrooms.members.reduce((prev, cur, index, arr) => {
-      return prev + ((context.user.id === cur.attributes.zooniverse_id) ? cur.attributes.classifications_count : 0);
+
+  let myClassifications = false;
+  const {classrooms, user} = context;
+  if (classrooms && classrooms.members && classrooms.loading === false && user) {
+    myClassifications = classrooms.members.reduce((prev, cur, index, arr) => {
+      return prev + ((user.id === cur.attributes.zooniverse_id) ? cur.attributes.classifications_count : 0);
     }, 0);
   }
-  
+
   return (
     <section className="content-view">
       <div className="row">
@@ -31,8 +32,8 @@ const StudentOverview = (props, context) => {
                   <i className="fa fa-institution fa-4x"></i>
                 </div>
                 <div className="col-xs-9 text-right">
-                  {(context.classrooms.loading === false) ?
-                  <h1>{context.classrooms.data.length}</h1>
+                  {(classrooms.loading === false) ?
+                  <h1>{classrooms.data.length}</h1>
                   : <Spinner/>}
                 </div>
               </div>

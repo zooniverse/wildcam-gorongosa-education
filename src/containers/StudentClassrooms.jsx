@@ -8,24 +8,27 @@ import StudentClassroomsSidebar from '../presentational/StudentClassroomsSidebar
 class StudentClassrooms extends Component {
 
   componentDidMount() {
-    if (!this.props.classrooms.members.length && !this.props.classrooms.data.length && !this.props.classrooms.loading) {
-      this.props.dispatch(fetchStudentClassrooms());
+    const {classrooms, dispatch} = this.props;
+    if (!classrooms.members.length && !classrooms.data.length && !classrooms.loading) {
+      dispatch(fetchStudentClassrooms());
     }
   }
-  
+
   getChildContext() {
+    const {classrooms, user} = this.props;
     return {
-      classrooms: this.props.classrooms,
-      user: this.props.user
+      classrooms: classrooms,
+      user: user
     }
   }
 
   render() {
+    const {children, classrooms} = this.props;
     return (
       <div className="admin-component">
         <div className="row">
-          <StudentClassroomsSidebar classroomsData={this.props.classrooms} />
-          {this.props.children}
+          <StudentClassroomsSidebar classroomsData={classrooms} />
+          {children}
         </div>
       </div>
     );
