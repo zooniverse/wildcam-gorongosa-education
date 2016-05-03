@@ -22,7 +22,7 @@ export default class Classroom extends Component {
       copied: true
     });
   }
-  
+
   selectStudents(allMembers, classroomMembers) {
     const list = (allMembers.length > 0) ? allMembers : [];
     const studentIds = classroomMembers.map((student) => { return student.id; } )
@@ -70,15 +70,16 @@ export default class Classroom extends Component {
   }
 
   render() {
-    const { attributes} = this.props.data;
-    const allMembers = this.props.members;
-    const classroomMembers = this.props.data.relationships.students.data;
+    const {data, members} = this.props;
+    const {attributes} = data;
+    const allMembers = members;
+    const classroomMembers = data.relationships.students.data;
     const students = this.selectStudents(allMembers, classroomMembers);
     const classroomClassificationsCount = students.reduce(
-      (prev, cur, index, arr) => {
+      (prev, cur) => {
         return prev + cur.classifications_count;
       }, 0);
-    
+
     return (
       <section className="content-view">
         <div className='page-header'>
@@ -101,7 +102,7 @@ export default class Classroom extends Component {
             <CopyToClipboard text={this.state.url} onCopy={this.onCopy}>
               <button className="btn btn-default">Copy Link</button>
             </CopyToClipboard>
-            {this.state.copied ? <span style={{color: 'red'}}>&nbsp;Copied!</span> : null}
+            {this.state.copied ? <div className="alert alert-success" role="alert">&nbsp;Copied!</div> : null}
           </TabPanel>
           <TabPanel>
             { this.renderStudentList(students) }
