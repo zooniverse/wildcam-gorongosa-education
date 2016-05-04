@@ -44,6 +44,6 @@ Dropdown.defaultProps = {
   value: null,
 }
 
-Dropdown.PropTypes = {
+Dropdown.propTypes = {
   options: PropTypes.array.isRequired
 }

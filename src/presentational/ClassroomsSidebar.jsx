@@ -73,7 +73,7 @@ export default class ClassroomSidebar extends Component {
 
 }
 
-ClassroomSidebar.PropTypes = {
+ClassroomSidebar.propTypes = {
   classroomsData: PropTypes.object.isRequired,
   userdetails: PropTypes.object.isRequired,
 };
@@ -88,6 +88,3 @@ ClassroomSidebar.defaultProps = {
     loading: false,
   }
 };
-
-
-

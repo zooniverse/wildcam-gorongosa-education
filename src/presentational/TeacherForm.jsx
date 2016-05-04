@@ -163,7 +163,7 @@ class TeacherForm extends Component {
   }
 }
 
-TeacherForm.PropTypes = {
+TeacherForm.propTypes = {
   dispatch: PropTypes.func.isRequired
 };
 

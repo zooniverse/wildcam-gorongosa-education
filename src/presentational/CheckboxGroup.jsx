@@ -53,6 +53,6 @@ CheckboxGroup.defaultProps = {
   value: null,
 }
 
-CheckboxGroup.PropTypes = {
+CheckboxGroup.propTypes = {
   options: PropTypes.array.isRequired
 }
