@@ -45,10 +45,11 @@ EditClassroom.propTypes = {
 };
 
 const mapStateToProps = state => {
-  if (state.teacher.classrooms.data.length > 0) {
+  const {data} = state.teacher.classrooms;
+  if (data.length > 0) {
     const editId = window.location.pathname.split('/')[3];
     return {
-      classroom: state.teacher.classrooms.data.find(classroom => classroom.id === editId)
+      classroom: data.find(classroom => classroom.id === editId)
     }
   } else {
     return {};

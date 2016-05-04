@@ -10,7 +10,7 @@ import * as types from '../constants/actionTypes';
 
 export function createClassroom(classroom) {
   return dispatch => {
-    const createAction = Object.assign({}, classroom, { type: types.CREATE_CLASSROOM });
+    const createAction = { ...classroom, type: types.CREATE_CLASSROOM };
     dispatch(createAction);
 
     return fetch(config.eduAPI.root + config.eduAPI.teachers, {
@@ -42,7 +42,7 @@ export function createClassroom(classroom) {
 export function editClassroom(classroom) {
   return dispatch => {
     console.error('Not working yet...');
-  //   const createAction = Object.assign({}, classroom, { type: types.EDIT_CLASSROOM });
+  //   const createAction = { ...classroom, type: types.EDIT_CLASSROOM };
   //   dispatch(createAction);
 
   //   return fetch(config.eduAPI.root + config.eduAPI.teachers, {

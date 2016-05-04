@@ -18,7 +18,7 @@ class NewClassroomForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.resetForm = this.resetForm.bind(this);
-    this.state = Object.assign({}, initialState, props.fields);
+    this.state = { initialState, ...props.fields };
   }
 
   componentWillReceiveProps(nextProps) {
