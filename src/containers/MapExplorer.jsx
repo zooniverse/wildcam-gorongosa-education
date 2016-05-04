@@ -15,7 +15,9 @@ Gorongosa's collected data & information about wildlife, etc on a visual map.
 ********************************************************************************
  */
 
-import React from 'react';
+import { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { addMapSelector, removeMapSelector, editMapSelector } from '../actions/login';
 import {Script} from 'react-loadscript';
 import SelectorData from './MapExplorer-SelectorData.jsx';
 import SelectorPanel from './MapExplorer-SelectorPanel.jsx';
@@ -26,7 +28,7 @@ const config = require('../constants/mapExplorer.config.json');
 //WARNING: DON'T import Leaflet. Leaflet 0.7.7 is packaged with cartodb.js 3.15.
 //import L from 'leaflet';
 
-export default class MapExplorer extends React.Component {
+class MapExplorer extends Component {
   constructor(props) {
     super(props);
 
@@ -303,3 +305,16 @@ export default class MapExplorer extends React.Component {
     this.updateDataVisualisation();
   }
 }
+
+MapExplorer.propTypes = {
+  selectors: PropTypes.object
+};
+MapExplorer.defaultProps = {
+  selectors: []
+};
+function mapStateToProps(state, ownProps) {  //Listens for changes in the Redux Store
+  return {
+    selectors: []  //TODO
+  };
+}
+export default connect(mapStateToProps)(MapExplorer);  //Connects the Component to the Redux Store
