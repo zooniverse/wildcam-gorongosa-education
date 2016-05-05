@@ -17,7 +17,7 @@ Gorongosa's collected data & information about wildlife, etc on a visual map.
 
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { addMapSelector, removeMapSelector, editMapSelector } from '../actions/login';
+import { addMapSelector, removeMapSelector, editMapSelector } from '../actions/map';
 import {Script} from 'react-loadscript';
 import SelectorData from './MapExplorer-SelectorData.jsx';
 import SelectorPanel from './MapExplorer-SelectorPanel.jsx';
@@ -39,6 +39,8 @@ class MapExplorer extends Component {
     this.resizeMapExplorer = this.resizeMapExplorer.bind(this);
     window.onresize = this.resizeMapExplorer;
     this.closeAllDialogs = this.closeAllDialogs.bind(this);
+    
+    this.debugAdd = this.debugAdd.bind(this);
 
     let defaultSelector = new SelectorData();
 
@@ -53,6 +55,8 @@ class MapExplorer extends Component {
       }
     };
   }
+  
+  componentWillReceiveProps(nextProps) {}
 
   render() {
     return (  //Reminder: the parent .content-section is a <main>, so don't set .map-explorer as <main> as well.
@@ -61,6 +65,17 @@ class MapExplorer extends Component {
         <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css" />
         <section ref="mapVisuals" id="mapVisuals" className="map-visuals"></section>
         <section ref="mapControls" className="map-controls">
+          
+          <div>
+            {this.props.selectors.map(selector =>
+              <div>[{selector}]</div>
+            )}
+          </div>
+          <div>
+            <button className="button" onClick={this.debugAdd}>+</button>
+          </div>
+          
+          <hr/>
           <Script src={'https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js'}>{
             ({done}) => !done ? <div className="message">Map Explorer is loading...</div> : this.initMapExplorer()
           }</Script>
@@ -79,6 +94,10 @@ class MapExplorer extends Component {
   }
 
   //----------------------------------------------------------------
+  
+  debugAdd() {
+    this.props.dispatch(addMapSelector());
+  }
 
   //Initialises the Map Explorer.
   initMapExplorer() {
@@ -307,14 +326,14 @@ class MapExplorer extends Component {
 }
 
 MapExplorer.propTypes = {
-  selectors: PropTypes.object
+  selectors: PropTypes.array
 };
 MapExplorer.defaultProps = {
   selectors: []
 };
 function mapStateToProps(state, ownProps) {  //Listens for changes in the Redux Store
   return {
-    selectors: []  //TODO
+    selectors: state.map.selectors
   };
 }
 export default connect(mapStateToProps)(MapExplorer);  //Connects the Component to the Redux Store
