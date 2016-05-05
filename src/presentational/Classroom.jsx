@@ -24,47 +24,49 @@ export default class Classroom extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const classrooms = nextProps.data;
+  selectStudents(allMembers, classroomMembers) {
+    const list = (allMembers.length > 0) ? allMembers : [];
+    const studentIds = classroomMembers.map((student) => { return student.id; } )
+    const students =
+      list
+        .filter((itm) => {
+          return studentIds.indexOf( itm.id ) > -1;
+        })
+        .map((itm) => {
+          return itm.attributes
+        });
+    return students;
+  }
+
+  componentWillReceiveProps(nextProps){
+    let classrooms = nextProps.data;
     this.state = {
-      url: [
-        config.routes.root,
-        config.routes.students,
-        'join?id=',
-        classrooms.id,
-        '&token=',
-        classrooms.attributes.join_token
-      ].join('')
+      url: config.routes.root + config.routes.students + 'join?id=' + classrooms.id + '&token=' + classrooms.attributes.join_token
     };
   }
 
-  renderStudentList(allMembers, classroomMembers) {
-    const list = (allMembers.length > 0) ? allMembers : [];
-    const studentIds = classroomMembers.map(student => student.id);
-    const filteredList = list.filter(itm => studentIds.indexOf(itm.id) > -1)
-      .map(itm => itm.attributes);
-
+  renderStudentList(students) {
     return (
-      <div>
-        {(filteredList.length > 0) ?
-          <table className="table table-hover">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Classifications</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredList.map((attributes, i) =>
-              <tr key={i}>
-                <td>{attributes.zooniverse_display_name}</td>
-                <td>{attributes.classifications_count}</td>
-              </tr>
-              )}
-            </tbody>
-          </table>
-        : 'No students here yet' }
-      </div>
+    <div>
+      {(students.length > 0) ?
+      <table className="table table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Classifications</th>
+          </tr>
+        </thead>
+        <tbody>
+          {students.map((attributes, i) =>
+          <tr key={i}>
+            <td>{attributes.zooniverse_display_name}</td>
+            <td>{attributes.classifications_count}</td>
+          </tr>
+          )}
+        </tbody>
+      </table>
+      : 'No students here yet' }
+    </div>
     )
   }
 
@@ -76,9 +78,15 @@ export default class Classroom extends Component {
   }
 
   render() {
-    const { attributes } = this.props.data;
-    const allMembers = this.props.members;
-    const classroomMembers = this.props.data.relationships.students.data;
+    const {data, members} = this.props;
+    const {attributes} = data;
+    const allMembers = members;
+    const classroomMembers = data.relationships.students.data;
+    const students = this.selectStudents(allMembers, classroomMembers);
+    const classroomClassificationsCount = students.reduce(
+      (prev, cur) => {
+        return prev + cur.classifications_count;
+      }, 0);
     return (
       <section className="content-view">
         <div className='page-header'>
@@ -91,7 +99,7 @@ export default class Classroom extends Component {
             <Tab>Assignments</Tab>
           </TabList>
           <TabPanel>
-            <h3>Classifications: {attributes.classifications_count}</h3>
+            <h3>Classifications: {classroomClassificationsCount}</h3>
             <h3>Subject: {attributes.subject}</h3>
             <h3>School: {attributes.school}</h3>
             <h3>Description: {attributes.description}</h3>
@@ -101,13 +109,13 @@ export default class Classroom extends Component {
             <CopyToClipboard text={this.state.url} onCopy={this.onCopy}>
               <button className="btn btn-default">Copy Link</button>
             </CopyToClipboard>
-            {this.state.copied ? <span style={{color: 'red'}}>&nbsp;Copied!</span> : null}
+            {this.state.copied ? <div className="alert alert-success" role="alert">&nbsp;Copied!</div> : null}
             <div>
               <button onClick={this.deleteClassroom}>Delete classroom</button>
             </div>
           </TabPanel>
           <TabPanel>
-            { this.renderStudentList(allMembers, classroomMembers) }
+            { this.renderStudentList(students) }
           </TabPanel>
           <TabPanel>
             Assignments

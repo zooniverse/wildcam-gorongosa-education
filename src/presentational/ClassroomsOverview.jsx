@@ -4,10 +4,8 @@ import Spinner from 'Spinner.jsx'
 
 const ClassroomsOverview = (props, context) => (
   <section className="content-view">
-    <div className="row">
-      <div className="page-header">
-        <h1>Overview</h1>
-      </div>
+    <div className="page-header">
+      <h1>Overview</h1>
     </div>
     <div className="row">
       <div className="col-lg-3 col-md-6">
