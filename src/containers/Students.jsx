@@ -5,7 +5,7 @@ import Layout from '../presentational/Layout.jsx';
 export default class Students extends Component {
 
   render() {
-    let loginSecured = this.props.navItems.reduce((prev, item, index, arr) => {  //Is this particular sub-page login secured?
+    let loginSecured = this.props.navItems.reduce((prev, item) => {  //Is this particular sub-page login secured?
       return prev || (item.loginSecured === true && this.props.location.pathname.toLowerCase().startsWith(item.to));
     }, false);
 
