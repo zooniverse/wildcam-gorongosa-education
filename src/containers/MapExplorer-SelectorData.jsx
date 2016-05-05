@@ -131,7 +131,7 @@ export default class SelectorData {
   copy() {
     var newCopy = new SelectorData();
     for (var i in this) {
-      if (this.hasOwnProperty(i) & i !== 'copy') {
+      if (this.hasOwnProperty(i) && i !== 'copy') {
         newCopy[i] = this[i];
       }
     }

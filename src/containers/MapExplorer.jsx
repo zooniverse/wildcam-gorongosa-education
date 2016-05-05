@@ -17,7 +17,7 @@ Gorongosa's collected data & information about wildlife, etc on a visual map.
 
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { addMapSelector, removeMapSelector, editMapSelector } from '../actions/map';
+import { addMapSelector } from '../actions/map';
 import {Script} from 'react-loadscript';
 import SelectorData from './MapExplorer-SelectorData.jsx';
 import SelectorPanel from './MapExplorer-SelectorPanel.jsx';
@@ -34,13 +34,9 @@ class MapExplorer extends Component {
 
     //Event binding
     this.addSelector = this.addSelector.bind(this);
-    this.deleteSelector = this.deleteSelector.bind(this);
-    this.updateSelector = this.updateSelector.bind(this);
     this.resizeMapExplorer = this.resizeMapExplorer.bind(this);
     window.onresize = this.resizeMapExplorer;
     this.closeAllDialogs = this.closeAllDialogs.bind(this);
-    
-    this.debugAdd = this.debugAdd.bind(this);
 
     let defaultSelector = new SelectorData();
 
@@ -56,7 +52,9 @@ class MapExplorer extends Component {
     };
   }
   
-  componentWillReceiveProps(nextProps) {}
+  componentWillReceiveProps(nextProps) {
+    this.updateDataVisualisation(nextProps);
+  }
 
   render() {
     return (  //Reminder: the parent .content-section is a <main>, so don't set .map-explorer as <main> as well.
@@ -65,27 +63,16 @@ class MapExplorer extends Component {
         <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css" />
         <section ref="mapVisuals" id="mapVisuals" className="map-visuals"></section>
         <section ref="mapControls" className="map-controls">
-          
-          <div>
-            {this.props.selectors.map(selector =>
-              <div>[{selector}]</div>
-            )}
-          </div>
-          <div>
-            <button className="button" onClick={this.debugAdd}>+</button>
-          </div>
-          
-          <hr/>
           <Script src={'https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js'}>{
             ({done}) => !done ? <div className="message">Map Explorer is loading...</div> : this.initMapExplorer()
           }</Script>
-          {this.state.selectors.map((selector) => {
+          {this.props.selectors.map((selector) => {
             return (
-              <SelectorPanel key={selector.id} selectorData={selector} updateMeHandler={this.updateSelector} deleteMeHandler={this.deleteSelector} />
+              <SelectorPanel key={selector.id} selectorData={selector} />
             );
           })}
-          <div className="controlPanel hidden">
-            <button onClick={this.addSelector}>Add Selector</button>
+          <div className="controlPanel">
+            <button className="hidden" onClick={this.addSelector}>Add Selector</button>
           </div>
         </section>
         <DialogScreen_ViewCamera status={this.state.viewCamera.status} data={this.state.viewCamera.data} message={this.state.viewCamera.message} closeMeHandler={this.closeAllDialogs} />
@@ -94,10 +81,6 @@ class MapExplorer extends Component {
   }
 
   //----------------------------------------------------------------
-  
-  debugAdd() {
-    this.props.dispatch(addMapSelector());
-  }
 
   //Initialises the Map Explorer.
   initMapExplorer() {
@@ -148,7 +131,7 @@ class MapExplorer extends Component {
         L.control.layers(baseLayersForControls, { 'Data': layer }).addTo(this.state.map);
 
         //updateDataVisualisation performs some cleanup
-        this.updateDataVisualisation();
+        this.updateDataVisualisation(this.props);
       })
       .on('error', (err) => {
         console.error('ERROR (initMapExplorer(), cartodb.createLayer()):' + err);
@@ -174,7 +157,7 @@ class MapExplorer extends Component {
     //--------------------------------
   }
 
-  updateDataVisualisation() {
+  updateDataVisualisation(props = this.props) {
 
     //Req check
     if (!(this.state.map && this.state.cartodbLayer)) {
@@ -188,7 +171,7 @@ class MapExplorer extends Component {
     }
 
     //Add a new sublayer for each selector
-    this.state.selectors.map((selector) => {
+    props.selectors.map((selector) => {
       let sql = selector.sql.trim();
       let css = selector.css.trim();
       if (sql !== '' && css !== '') {
@@ -290,42 +273,13 @@ class MapExplorer extends Component {
 
   //----------------------------------------------------------------
 
-  addSelector() {
-    var newSelector = new SelectorData();
-    this.state.selectors.push(newSelector);
-    this.setState({
-      selectors: this.state.selectors
-    });
-    this.updateDataVisualisation();
-  }
-
-  deleteSelector(id) {
-    this.state.selectors = this.state.selectors.filter((selector) => {
-      return selector.id !== id;
-    });
-    this.setState({
-      selectors: this.state.selectors
-    });
-    this.updateDataVisualisation();
-  }
-
-  updateSelector(data) {
-    //Find the Selector and then copy the values from the new input.
-    for (var selector of this.state.selectors) {  //for...of, not for...in.
-      if (selector.id === data.id) {
-        for (var prop in selector)  {  //for...in
-          selector[prop] = data[prop];
-        }
-      }
-    }
-    this.setState({
-      selectors: this.state.selectors
-    });
-    this.updateDataVisualisation();
+  addSelector() {    
+    this.props.dispatch(addMapSelector());
   }
 }
 
 MapExplorer.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   selectors: PropTypes.array
 };
 MapExplorer.defaultProps = {

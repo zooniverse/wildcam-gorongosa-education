@@ -12,18 +12,20 @@ export function addMapSelector() {
   };
 }
 
-export function removeMapSelector() {
+export function removeMapSelector(selector) {
   return (dispatch) => {
     dispatch({
-      type: types.REMOVE_MAP_SELECTOR
+      type: types.REMOVE_MAP_SELECTOR,
+      selector: selector
     });
   };
 }
 
-export function editMapSelector() {
+export function editMapSelector(selector) {
   return (dispatch) => {
     dispatch({
-      type: types.EDIT_MAP_SELECTOR
+      type: types.EDIT_MAP_SELECTOR,
+      selector: selector
     });
   };
 }

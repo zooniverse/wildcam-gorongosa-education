@@ -1,4 +1,6 @@
-import React from 'react';
+import { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { removeMapSelector, editMapSelector } from '../actions/map';
 const config = require('../constants/mapExplorer.config.json');
 import SelectorData from './MapExplorer-SelectorData.jsx';
 import DialogScreen from '../presentational/DialogScreen.jsx';
@@ -6,7 +8,7 @@ import DialogScreen_Download from '../presentational/DialogScreen-Download.jsx';
 import DialogScreen_Species from '../presentational/DialogScreen-Species.jsx';
 import fetch from 'isomorphic-fetch';
 
-export default class SelectorPanel extends React.Component {
+class SelectorPanel extends Component {
   constructor(props) {
     super(props);
 
@@ -169,9 +171,6 @@ export default class SelectorPanel extends React.Component {
     //Same for the Advanced panel.
     this.refs.sql.value = this.props.selectorData.sql;
     this.refs.css.value = this.props.selectorData.css;
-    
-    //Once mounted, be sure to inform the parent.
-    this.updateMe(null);
   }
   
   //----------------------------------------------------------------
@@ -179,13 +178,13 @@ export default class SelectorPanel extends React.Component {
   changeToGuided(e) {
     let data = this.props.selectorData.copy();
     data.mode = SelectorData.GUIDED_MODE;
-    this.props.updateMeHandler(data);
+    this.props.dispatch(editMapSelector(data));
   }
   
   changeToAdvanced(e) {
     let data = this.props.selectorData.copy();
     data.mode = SelectorData.ADVANCED_MODE;
-    this.props.updateMeHandler(data);
+    this.props.dispatch(editMapSelector(data));
   }
   
   //----------------------------------------------------------------
@@ -261,12 +260,11 @@ export default class SelectorPanel extends React.Component {
     data.css = this.refs.css.value;
     
     //Commit the changes.
-    this.props.updateMeHandler(data);
+    this.props.dispatch(editMapSelector(data));
   }
   
-  //Tells the parent that this Selector wants to be deleted.
   deleteMe(e) {
-    this.props.deleteMeHandler(this.props.selectorData.id);
+    this.props.dispatch(removeMapSelector(this.props.selectorData));
   }
   
   //----------------------------------------------------------------
@@ -338,3 +336,8 @@ export default class SelectorPanel extends React.Component {
       });
   }
 }
+
+SelectorPanel.propTypes = {
+  dispatch: PropTypes.func.isRequired
+};
+export default connect()(SelectorPanel);
