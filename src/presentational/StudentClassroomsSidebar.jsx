@@ -64,6 +64,6 @@ export default class StudentClassroomSidebar extends Component {
 
 }
 
-StudentClassroomSidebar.PropTypes = {
+StudentClassroomSidebar.propTypes = {
   classroomsData: PropTypes.object.isRequired,
 };

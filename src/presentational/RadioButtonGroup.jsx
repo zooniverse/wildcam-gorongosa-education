@@ -43,6 +43,6 @@ RadioButtonGroup.defaultProps = {
   value: null,
 }
 
-RadioButtonGroup.PropTypes = {
+RadioButtonGroup.propTypes = {
   options: PropTypes.array.isRequired
 }
