@@ -1,4 +1,6 @@
-import React from 'react';
+import { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { removeMapSelector, editMapSelector } from '../actions/map';
 const config = require('../constants/mapExplorer.config.json');
 import SelectorData from './MapExplorer-SelectorData.jsx';
 import DialogScreen from '../presentational/DialogScreen.jsx';
@@ -6,7 +8,7 @@ import DialogScreen_Download from '../presentational/DialogScreen-Download.jsx';
 import DialogScreen_Species from '../presentational/DialogScreen-Species.jsx';
 import fetch from 'isomorphic-fetch';
 
-export default class SelectorPanel extends React.Component {
+class SelectorPanel extends Component {
   constructor(props) {
     super(props);
 
@@ -33,7 +35,7 @@ export default class SelectorPanel extends React.Component {
   }
 
   render() {
-    let thisId = this.props.selectorData.id;
+    const thisId = this.props.selectorData.id;
     
     let speciesText = [];
     config.species.map((item) => {
@@ -169,9 +171,6 @@ export default class SelectorPanel extends React.Component {
     //Same for the Advanced panel.
     this.refs.sql.value = this.props.selectorData.sql;
     this.refs.css.value = this.props.selectorData.css;
-    
-    //Once mounted, be sure to inform the parent.
-    this.updateMe(null);
   }
   
   //----------------------------------------------------------------
@@ -179,13 +178,13 @@ export default class SelectorPanel extends React.Component {
   changeToGuided(e) {
     let data = this.props.selectorData.copy();
     data.mode = SelectorData.GUIDED_MODE;
-    this.props.updateMeHandler(data);
+    this.props.dispatch(editMapSelector(data));
   }
   
   changeToAdvanced(e) {
     let data = this.props.selectorData.copy();
     data.mode = SelectorData.ADVANCED_MODE;
-    this.props.updateMeHandler(data);
+    this.props.dispatch(editMapSelector(data));
   }
   
   //----------------------------------------------------------------
@@ -216,7 +215,7 @@ export default class SelectorPanel extends React.Component {
     //Filter control: species
     data.species = [];
     config.species.map((item) => {
-      let ele = this.refs['inputRow_species_item_' + item.id];
+      const ele = this.refs['inputRow_species_item_' + item.id];
       if (ele && ele.checked && ele.value) {
         data.species.push(item.id);
       }
@@ -225,7 +224,7 @@ export default class SelectorPanel extends React.Component {
     //Filter control: habitats
     data.habitats = [];
     config.habitats.map((item) => {
-      let ele = this.refs['inputRow_habitats_item_' + item.id];
+      const ele = this.refs['inputRow_habitats_item_' + item.id];
       if (ele && ele.checked && ele.value) {
         data.habitats.push(item.id);
       }
@@ -234,7 +233,7 @@ export default class SelectorPanel extends React.Component {
     //Filter control: seasons
     data.seasons = [];
     config.seasons.map((item) => {
-      let ele = this.refs['inputRow_seasons_item_' + item.id];
+      const ele = this.refs['inputRow_seasons_item_' + item.id];
       if (ele && ele.checked && ele.value) {
         data.seasons.push(item.id);
       }
@@ -261,12 +260,11 @@ export default class SelectorPanel extends React.Component {
     data.css = this.refs.css.value;
     
     //Commit the changes.
-    this.props.updateMeHandler(data);
+    this.props.dispatch(editMapSelector(data));
   }
   
-  //Tells the parent that this Selector wants to be deleted.
   deleteMe(e) {
-    this.props.deleteMeHandler(this.props.selectorData.id);
+    this.props.dispatch(removeMapSelector(this.props.selectorData));
   }
   
   //----------------------------------------------------------------
@@ -289,7 +287,7 @@ export default class SelectorPanel extends React.Component {
         data: null
     }});
     
-    let sqlQuery = this.props.selectorData.calculateSql(config.cartodb.sqlQueryDownload);
+    const sqlQuery = this.props.selectorData.calculateSql(config.cartodb.sqlQueryDownload);
     console.log('Prepare CSV: ', sqlQuery);
     fetch(config.cartodb.sqlApi.replace('{SQLQUERY}', encodeURI(sqlQuery)))
       .then((response) => {
@@ -338,3 +336,8 @@ export default class SelectorPanel extends React.Component {
       });
   }
 }
+
+SelectorPanel.propTypes = {
+  dispatch: PropTypes.func.isRequired
+};
+export default connect()(SelectorPanel);
