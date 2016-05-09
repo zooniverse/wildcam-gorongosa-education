@@ -18,7 +18,7 @@ Gorongosa's collected data & information about wildlife, etc on a visual map.
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { addMapSelector } from '../actions/map';
-import {Script} from 'react-loadscript';
+import { Script } from 'react-loadscript';
 import SelectorData from './MapExplorer-SelectorData.jsx';
 import SelectorPanel from './MapExplorer-SelectorPanel.jsx';
 import DialogScreen from '../presentational/DialogScreen.jsx';
@@ -38,12 +38,9 @@ class MapExplorer extends Component {
     window.onresize = this.resizeMapExplorer;
     this.closeAllDialogs = this.closeAllDialogs.bind(this);
 
-    let defaultSelector = new SelectorData();
-
     this.state = {
       map: undefined,
       cartodbLayer: undefined,  //Array of map layers. layer[0] is the base (cartographic map).
-      selectors: [defaultSelector],
       viewCamera: {
         status: DialogScreen.DIALOG_IDLE,
         message: null,
@@ -102,7 +99,7 @@ class MapExplorer extends Component {
     let baseLayers = [];
     let baseLayersForControls = {};
     config.baseLayers.map((layer) => {
-      let newLayer = L.tileLayer(layer.url, {
+      const newLayer = L.tileLayer(layer.url, {
         attribution: layer.attribution
       });
       baseLayers.push(newLayer);
@@ -138,12 +135,12 @@ class MapExplorer extends Component {
       });
     
     //Bonus: Add legends to map
-    var legend = L.control({position: 'bottomright'});
+    const legend = L.control({position: 'bottomright'});
     legend.onAdd = function (map) {
-      var div = L.DomUtil.create('div', 'info legend');
+      const div = L.DomUtil.create('div', 'info legend');
       div.innerHTML +=
         '<div><svg height="10" width="10"><circle cx="5" cy="5" r="5" fill="#666" /></svg> : Camera with no images</div>' +
-        '<div><svg height="10" width="10"><circle cx="5" cy="5" r="5" fill="#fc3" /></svg> : Camera with images (click to view)</div>';
+        '<div><svg height="10" width="10"><circle cx="5" cy="5" r="5" fill="#f93" /></svg> : Camera with images (click to view)</div>';
       return div;
     };
     legend.addTo(this.state.map);
@@ -201,7 +198,7 @@ class MapExplorer extends Component {
               return response.json();
             })
             .then((json) => {
-              let MAX_IMAGES = 6;
+              const MAX_IMAGES = 6;
               let randomlySelectedImages = [];
               if (json.rows.length <= MAX_IMAGES) {
                 randomlySelectedImages = json.rows;
@@ -252,10 +249,10 @@ class MapExplorer extends Component {
   }
 
   resizeMapExplorer() {
-    let windowHeight = window.innerHeight;
-    let headerHeight = document.getElementsByClassName('site-header')[0].offsetHeight;
-    let footerHeight = document.getElementsByClassName('site-footer')[0].offsetHeight;
-    let availableHeight = windowHeight - headerHeight - footerHeight;
+    const windowHeight = window.innerHeight;
+    const headerHeight = document.getElementsByClassName('site-header')[0].offsetHeight;
+    const footerHeight = document.getElementsByClassName('site-footer')[0].offsetHeight;
+    const availableHeight = windowHeight - headerHeight - footerHeight;
     this.refs.mapVisuals.style.height = availableHeight+'px';
     this.refs.mapControls.style.height = availableHeight+'px';
   }

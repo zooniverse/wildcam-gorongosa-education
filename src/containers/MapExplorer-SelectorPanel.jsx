@@ -35,7 +35,7 @@ class SelectorPanel extends Component {
   }
 
   render() {
-    let thisId = this.props.selectorData.id;
+    const thisId = this.props.selectorData.id;
     
     let speciesText = [];
     config.species.map((item) => {
@@ -215,7 +215,7 @@ class SelectorPanel extends Component {
     //Filter control: species
     data.species = [];
     config.species.map((item) => {
-      let ele = this.refs['inputRow_species_item_' + item.id];
+      const ele = this.refs['inputRow_species_item_' + item.id];
       if (ele && ele.checked && ele.value) {
         data.species.push(item.id);
       }
@@ -224,7 +224,7 @@ class SelectorPanel extends Component {
     //Filter control: habitats
     data.habitats = [];
     config.habitats.map((item) => {
-      let ele = this.refs['inputRow_habitats_item_' + item.id];
+      const ele = this.refs['inputRow_habitats_item_' + item.id];
       if (ele && ele.checked && ele.value) {
         data.habitats.push(item.id);
       }
@@ -233,7 +233,7 @@ class SelectorPanel extends Component {
     //Filter control: seasons
     data.seasons = [];
     config.seasons.map((item) => {
-      let ele = this.refs['inputRow_seasons_item_' + item.id];
+      const ele = this.refs['inputRow_seasons_item_' + item.id];
       if (ele && ele.checked && ele.value) {
         data.seasons.push(item.id);
       }
@@ -287,7 +287,7 @@ class SelectorPanel extends Component {
         data: null
     }});
     
-    let sqlQuery = this.props.selectorData.calculateSql(config.cartodb.sqlQueryDownload);
+    const sqlQuery = this.props.selectorData.calculateSql(config.cartodb.sqlQueryDownload);
     console.log('Prepare CSV: ', sqlQuery);
     fetch(config.cartodb.sqlApi.replace('{SQLQUERY}', encodeURI(sqlQuery)))
       .then((response) => {
