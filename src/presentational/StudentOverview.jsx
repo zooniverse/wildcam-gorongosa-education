@@ -3,12 +3,19 @@ import Spinner from 'Spinner.jsx'
 
 const StudentOverview = (props, context) => {
 
-  let myClassifications = false;
   const {classrooms, user} = context;
+  
+  let myClassifications = false;
   if (classrooms && classrooms.members && classrooms.loading === false && user) {
-    myClassifications = classrooms.members.reduce((prev, cur, index, arr) => {
-      return prev + ((user.id === cur.attributes.zooniverse_id) ? cur.attributes.classifications_count : 0);
-    }, 0);
+    myClassifications = 0;
+    classrooms.members.map((student) => {
+      if (user.id === student.attributes.zooniverse_id)
+        myClassifications = Math.max(student.attributes.classifications_count, myClassifications);
+    });
+    //NOTE: The current Classifications counter assumes that each Classroom the
+    //Student is in shares the same number of *unique* classifications.
+    //Previously, this was an array.reduce() function that totalled the number
+    //of Classifications across all Classrooms the Student is in.
   }
 
   return (
