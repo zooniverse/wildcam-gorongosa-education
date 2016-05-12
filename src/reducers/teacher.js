@@ -11,6 +11,7 @@ const initialState = {
 };
 
 export function teacher(state = initialState, action) {
+  let newState = Object.assign({}, state);
   switch (action.type) {
     case types.REQUEST_CLASSROOMS:
       return Object.assign({}, state, {
@@ -69,6 +70,23 @@ export function teacher(state = initialState, action) {
           uniqueMembers: state.classrooms.uniqueMembers,
         }
       });
+
+    case types.CLASSROOM_DELETE:
+      const classroomsWithoutDeleted = state.classrooms.data.filter(classroom => classroom.id !== action.classroomId);
+      newState.classrooms.data = classroomsWithoutDeleted;
+      return newState;
+
+    case types.DELETE_STUDENT:
+      const classroom = state.classrooms.data.find(classroom => classroom.id === action.classroomId);
+      const students = classroom ? classroom.relationships.students.data : undefined;
+      const studentsWithoutDeleted = students.filter(student => student.id !== action.studentId);
+      newState.classrooms.data.map(classroom => {
+        if (classroom.id === action.classroomId) {
+          classroom.relationships.students.data = studentsWithoutDeleted
+        }
+      });
+      return newState;
+
     default:
       return state;
   }

@@ -4,19 +4,32 @@ import { connect } from 'react-redux';
 import { default as ClassroomPresentational } from '../presentational/Classroom.jsx';
 import Spinner from '../presentational/Spinner.jsx';
 
+import { deleteClassroom, deleteStudent } from '../actions/teacher';
+
 export default class Classroom extends Component {
 
   render() {
-    const members = this.props.classrooms.members;
-    const classroom = this.props.classrooms.data.find(classroom =>
-      classroom.id === this.props.params.classroomId);
-    if (classroom && members) {
-      return (<ClassroomPresentational data={classroom} members={members} />);
-    } else {
-      return (<Spinner />);
-    }
-  }
+    const { classrooms, params, actions } = this.props;
+    const members = classrooms.members;
+    const classroom = classrooms.data.find(classroom => classroom.id === params.classroomId);
+    const classroomId = (classroom && classroom.id) ? classroom.id : undefined;
+    const boundDeleteClassroom = actions.deleteClassroom.bind(this, classroomId);
+    const students = classroom ? classroom.relationships.students.data : undefined;
+    const studentIds = students ? students.map(student => student.id) : undefined;
+    const boundDeleteStudent = actions.deleteStudent.bind(this)
 
+    return (classroom && members)
+      ? <ClassroomPresentational
+          data={classroom}
+          members={members}
+          deleteClassroom={boundDeleteClassroom}
+          deleteStudent={boundDeleteStudent}
+          studentsIds={studentIds}
+          classroomId={classroomId}
+        />
+      : <Spinner />;
+
+  }
 }
 
 Classroom.propTypes = {
@@ -33,10 +46,15 @@ Classroom.defaultProps = {
   }
 };
 
-function mapStateToProps(state) {
-  return Object.assign({}, {
-    classrooms: state.teacher.classrooms
-  });
-}
+const mapStateToProps = state => ({
+  classrooms: state.teacher.classrooms
+});
+
+const mapDispatchToProps = dispatch => ({
+  actions: {
+    deleteClassroom: bindActionCreators(deleteClassroom, dispatch),
+    deleteStudent: bindActionCreators(deleteStudent, dispatch),
+  }
+});
 
 export default connect(mapStateToProps)(Classroom);
