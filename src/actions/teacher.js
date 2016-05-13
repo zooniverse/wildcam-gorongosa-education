@@ -88,14 +88,13 @@ export function deleteClassroom(classroomId) {
 }
 
 export function deleteStudent(classroomId, studentId) {
-  console.log('ACTION: deleteStudent', studentId)
-  console.log('ACTION: currentClassroom', classroomId)
   return dispatch => {
     dispatch({
       type: types.DELETE_STUDENT,
       classroomId,
       studentId,
     });
+    browserHistory.push('/teachers/classrooms/' + classroomId);
   }
 }
 

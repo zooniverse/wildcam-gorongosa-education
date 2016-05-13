@@ -11,7 +11,8 @@ export default class StudentClassroom extends Component {
 
   renderStudentList(allMembers, classroomMembers) {
     const list = (allMembers.length > 0) ? allMembers : [];
-    const studentIds = classroomMembers.map((student) => { return student.id; } )
+    const studentIds = classroomMembers.map(student => student.id)
+    console.log('studentIds', studentIds)
     const currentUsername = this.props.user.display_name;
     const filteredList =
       list
@@ -26,9 +27,9 @@ export default class StudentClassroom extends Component {
         });
     return (
       <div>
-        {filteredList.map((item) => {
-          return <h3 key={item.zooniverse_id}>My classifications: {item.classifications_count}</h3>;
-        })}
+        {filteredList.map(item =>
+          <h3 key={item.zooniverse_id}>My classifications: {item.classifications_count}</h3>
+        )}
       </div>
     )
   }

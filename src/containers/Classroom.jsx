@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { default as ClassroomPresentational } from '../presentational/Classroom.jsx';
 import Spinner from '../presentational/Spinner.jsx';
@@ -28,7 +29,6 @@ export default class Classroom extends Component {
           classroomId={classroomId}
         />
       : <Spinner />;
-
   }
 }
 
@@ -57,4 +57,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(mapStateToProps)(Classroom);
+export default connect(mapStateToProps, mapDispatchToProps)(Classroom);

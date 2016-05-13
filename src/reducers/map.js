@@ -11,7 +11,7 @@ export function map(state = initialState, action) {
       return Object.assign({}, state, {
         selectors: newSelectors,
       });
-      
+
     case types.REMOVE_MAP_SELECTOR:
       let removedSelectors = state.selectors.filter((selector) => {
         return selector.id !== action.selector.id;
@@ -19,15 +19,15 @@ export function map(state = initialState, action) {
       return Object.assign({}, state, {
         selectors: removedSelectors,
       });
-      
+
     case types.EDIT_MAP_SELECTOR:
-      let editedSelectors = state.selectors.map((selector) => {
+      let editedSelectors = state.selectors.map(selector => {
         return (selector.id === action.selector.id) ? action.selector : selector;
       });
       return Object.assign({}, state, {
         selectors: editedSelectors,
       });
-      
+
     default:
       return state;
   }

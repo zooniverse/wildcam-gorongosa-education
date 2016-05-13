@@ -27,10 +27,10 @@ export default class Classroom extends Component {
 
   selectStudents(allMembers, classroomMembers) {
     const list = (allMembers.length > 0) ? allMembers : [];
-    const studentIds = classroomMembers.map((student) => { return student.id; } )
+    const studentIds = classroomMembers.map(student => student.id)
     const students =
       list.filter(itm => studentIds.indexOf( itm.id ) > -1)
-        .map(itm => { return itm });
+        .map(itm => itm);
     return students;
   }
 
@@ -42,7 +42,6 @@ export default class Classroom extends Component {
   }
 
   renderStudentList(students) {
-    console.log('STUDENTS', students)
     return (
       <div>
         {(students.length > 0) ?
