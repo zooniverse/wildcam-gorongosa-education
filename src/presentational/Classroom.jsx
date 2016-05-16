@@ -91,7 +91,7 @@ export default class Classroom extends Component {
     const students = this.selectStudents(allMembers, classroomMembers);
     const classroomClassificationsCount = students.reduce(
       (prev, cur) => {
-        return prev + cur.classifications_count;
+        return prev + cur.attributes.classifications_count;
       }, 0);
 
     return (
