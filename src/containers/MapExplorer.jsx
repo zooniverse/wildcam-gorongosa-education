@@ -253,8 +253,7 @@ class MapExplorer extends Component {
     const headerHeight = document.getElementsByClassName('site-header')[0].offsetHeight;
     const footerHeight = document.getElementsByClassName('site-footer')[0].offsetHeight;
     const availableHeight = windowHeight - headerHeight - footerHeight;
-    this.refs.mapVisuals.style.height = availableHeight+'px';
-    this.refs.mapControls.style.height = availableHeight+'px';
+    this.refs.mapExplorer.style.height = availableHeight+'px';
   }
 
   //----------------------------------------------------------------
