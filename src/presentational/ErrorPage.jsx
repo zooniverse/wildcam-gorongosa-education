@@ -1,20 +1,14 @@
-import { Component} from 'react';
 import Layout from './Layout.jsx';
 
-export default class ErrorPage extends Component {
-  constructor(props) {
-    super(props);
-  }
+const ErrorPage = (props) => (
+  <Layout>
+    <div className="info-page">
+      <section className="info-panel">
+        <p>Not found, sorry.</p>
+        <p><a href="/">Start over</a> :)</p>
+      </section>
+    </div>
+  </Layout>
+)
 
-  render() {
-    return (
-      <Layout>
-        <div className="info-page">
-          <section className="info-panel">
-            <p>404, Sorry</p>
-          </section>
-        </div>
-      </Layout>
-    );
-  }
-}
+export {ErrorPage as default}
