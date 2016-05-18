@@ -38,6 +38,16 @@ export function teacher(state = initialState, action) {
           uniqueMembers: uniqueMembers || [],
         }
       });
+    case types.CREATE_ASSIGNMENT:
+      return Object.assign({}, state, {
+        classrooms: {
+          loading: true,
+          data: state.classrooms.data,
+          error: state.classrooms.error,
+          members: state.classrooms.members,
+          uniqueMembers: state.classrooms.uniqueMembers,
+        }
+      });
     case types.CREATE_CLASSROOM:
       return Object.assign({}, state, {
         classrooms: {

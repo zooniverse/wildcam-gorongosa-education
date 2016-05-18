@@ -8,6 +8,21 @@ import * as types from '../constants/actionTypes';
 
 // Action creators
 
+export function createAssignment() {
+  return dispatch => {
+    dispatch({
+      type: types.CREATE_ASSIGNMENT,
+      name,
+      classroom,
+      subjects,
+      date,
+      classifications,
+    });
+    return true;
+  }
+}
+
+
 export function createClassroom(name, subject, school, description) {
   return dispatch => {
     dispatch({

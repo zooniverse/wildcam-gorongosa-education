@@ -17,9 +17,10 @@ export default class Dropdown extends Component {
   render() {
     const options = this.props.options.map((option) =>
         <option
-          key={option.value}
-          value={option.label}>
-            {option.label}
+          // the disjunctions allow for the case where options are classrooms (right-hand side)
+          key={option.value || option.id}
+          value={option.label || option.attributes.name}>
+            {option.label || option.attributes.name}
         </option>
     )
     return (
@@ -40,10 +41,10 @@ Dropdown.defaultProps = {
   question: null,
   name: null,
   onChange: null,
-  options: [],
+  options: null,
   value: null,
 }
 
 Dropdown.propTypes = {
-  options: PropTypes.array.isRequired
+  options: PropTypes.object.isRequired
 }

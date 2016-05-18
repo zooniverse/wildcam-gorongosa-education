@@ -20,6 +20,7 @@ import NewClassroomForm from './presentational/NewClassroomForm.jsx';
 import StudentOverview from './presentational/StudentOverview.jsx';
 
 import TeacherForm from './presentational/TeacherForm.jsx';
+import NewAssignmentForm from './presentational/NewAssignmentForm.jsx';
 import Resources from './presentational/Resources.jsx';
 import TutorialForTeachers from './presentational/Tutorial-Teachers.jsx';
 import TutorialForStudents from './presentational/Tutorial-Students.jsx';
@@ -51,6 +52,7 @@ oauth.init(config.panoptesAppId)
                 <IndexRoute component={ClassroomsOverview} />
                 <Route path="register" component={TeacherForm} />
                 <Route path="new" component={NewClassroomForm} />
+                <Route path="new-assignment" component={NewAssignmentForm} />
                 <Route path=":classroomId" component={Classroom} />
               </Route>
               <Route path="data" component={MapExplorer} />

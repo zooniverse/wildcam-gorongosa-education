@@ -108,7 +108,7 @@ export default class Classroom extends Component {
             { this.renderStudentList(students) }
           </TabPanel>
           <TabPanel>
-            Assignments
+            <Link className="btn btn-default" to="/teachers/classrooms/new-assignment">New assignment</Link>
           </TabPanel>
         </Tabs>
       </section>
