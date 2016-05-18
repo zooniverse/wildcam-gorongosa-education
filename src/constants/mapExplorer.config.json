@@ -12,7 +12,7 @@
     "cssStandard": "#{LAYER} { marker-fill: {MARKERCOLOR}; marker-fill-opacity: {MARKEROPACITY}; marker-width: {MARKERSIZE}; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; {CHILDREN} }"
   },
   "mapCentre": {
-    "latitude": -19.1,
+    "latitude": -18.9278,
     "longitude": 34.45,
     "zoom": 11
   },

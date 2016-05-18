@@ -34,6 +34,7 @@ class MapExplorer extends Component {
 
     //Event binding
     this.addSelector = this.addSelector.bind(this);
+    this.toggleSelectors = this.toggleSelectors.bind(this);
     this.resizeMapExplorer = this.resizeMapExplorer.bind(this);
     window.onresize = this.resizeMapExplorer;
     this.closeAllDialogs = this.closeAllDialogs.bind(this);
@@ -136,7 +137,7 @@ class MapExplorer extends Component {
     
     //Bonus: Add legends to map
     const legend = L.control({position: 'bottomright'});
-    legend.onAdd = function (map) {
+    legend.onAdd = (map) => {
       const div = L.DomUtil.create('div', 'info legend');
       div.innerHTML +=
         '<div><svg height="10" width="10"><circle cx="5" cy="5" r="5" fill="#666" /></svg> : Camera with no images</div>' +
@@ -144,6 +145,18 @@ class MapExplorer extends Component {
       return div;
     };
     legend.addTo(this.state.map);
+    
+    //TEST
+    const selectorToggle = L.control({position: 'topleft'});
+    selectorToggle.onAdd = (map) => {
+      const container = L.DomUtil.create('div', 'info');
+      const button = document.createElement('button');
+      button.innerHTML = 'TOGGLE SELECTORS &raquo;';
+      button.onclick = this.toggleSelectors;
+      container.appendChild(button);
+      return container;
+    }
+    selectorToggle.addTo(this.state.map);
     //--------------------------------
 
     //Cleanup then go
@@ -253,7 +266,9 @@ class MapExplorer extends Component {
     const headerHeight = document.getElementsByClassName('site-header')[0].offsetHeight;
     const footerHeight = document.getElementsByClassName('site-footer')[0].offsetHeight;
     const availableHeight = windowHeight - headerHeight - footerHeight;
-    this.refs.mapExplorer.style.height = availableHeight+'px';
+    this.refs.mapExplorer.style.height = availableHeight+'px';  
+    this.state.map && this.state.map.invalidateSize() &&
+      this.state.map.panTo([config.mapCentre.latitude, config.mapCentre.longitude]);
   }
 
   //----------------------------------------------------------------
@@ -271,6 +286,13 @@ class MapExplorer extends Component {
 
   addSelector() {    
     this.props.dispatch(addMapSelector());
+  }
+  
+  toggleSelectors() {
+    //alert('TODO! toggleSelectors');
+    
+    this.state.map.panTo([config.mapCentre.latitude, config.mapCentre.longitude]);
+    console.log(this.state.map.getSize(), this.state.map.getCenter());
   }
 }
 
