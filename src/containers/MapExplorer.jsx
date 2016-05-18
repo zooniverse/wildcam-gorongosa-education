@@ -289,11 +289,20 @@ class MapExplorer extends Component {
   }
   
   toggleSelectors() {
-    const regex = /\b\s*enabled\s*\b/g;
-    if (regex.test(this.refs.mapControls.className)) {
-      this.refs.mapControls.className = this.refs.mapControls.className.replace(regex, ' ');
+    //const regex = /\b\s*enabled\s*\b/g;
+    //if (regex.test(this.refs.mapControls.className)) {
+    //  this.refs.mapControls.className = this.refs.mapControls.className.replace(regex, ' ');
+    //} else {
+    //  this.refs.mapControls.className += ' enabled';
+    //}
+    
+    const regexExpand = /\b\s*expand\s*\b/g;
+    const regexCollapse = /\b\s*collapse\s*\b/g;
+    
+    if (regexCollapse.test(this.refs.mapExplorer.className)) {
+      this.refs.mapExplorer.className = this.refs.mapExplorer.className.replace(regexCollapse, ' ') + ' expand';
     } else {
-      this.refs.mapControls.className += ' enabled';
+      this.refs.mapExplorer.className = this.refs.mapExplorer.className.replace(regexExpand, ' ') + ' collapse';
     }
   }
 }

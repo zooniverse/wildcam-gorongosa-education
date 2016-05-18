@@ -1,19 +1,30 @@
-@keyframes slideRightTo20 {
-  from { left: -100%; }
-  to   { left: 20% }
+slideMarginRight = -80%
+
+@keyframes slideLeft {
+  from { margin-right: slideMarginRight; }
+  to   { margin-right: 0% }
+}
+
+@keyframes slideRight {
+  from { margin-right: 0%; }
+  to   { margin-right: slideMarginRight; }
 }
 
 .map-explorer
   background: #9ab
   width: 100%
   overflow: hidden
+  display: flex
+  flex-direction: row-reverse
   border: 10px solid red
+  padding-left: 0
   
   .hidden
     display: none
   
   .map-visuals
-    width: 100%
+    flex: 0 0 auto
+    width: 90%
     height: 100%
     border: 10px solid blue
     
@@ -22,25 +33,24 @@
       background: rgba(255, 255, 255, 0.8)
       border-radius: 0.5em
   
+  &.expand .map-visuals
+    animation: slideLeft 0.5s
+    
+  &.collapse .map-visuals
+    animation: slideRight 0.5s
+    margin-right: slideMarginRight
+  
   .map-controls
-    display: none
-    background: white
-    position: absolute
-    z-index: 2000000  //Place above map plugin elements, but below the dialog boxes.
-    top: 20%
-    left: 20%
-    width: 60%
-    height: 60%
     border: 10px solid cyan
+    background: white
+    flex: 0 0 auto
+    width: 90%
+    height: 100%
     overflow: hidden
     min-height: 20px
     overflow: auto
     overflow-x: hidden
-    overflow-y: scroll
-    animation: slideRightTo20 0.5s
-    
-    &.enabled
-      display: block
+    overflow-y: scroll    
 
   .message
     margin: 0.5em
