@@ -1,3 +1,8 @@
+@keyframes slideRightTo20 {
+  from { left: -100%; }
+  to   { left: 20% }
+}
+
 .map-explorer
   background: #9ab
   width: 100%
@@ -21,18 +26,21 @@
     display: none
     background: white
     position: absolute
-    z-index: 1000  //Place above map plugin elements, but below the dialog boxes.
-    top: 30%
-    left: 30%
-    width: 40%
-    height: 40%
+    z-index: 2000000  //Place above map plugin elements, but below the dialog boxes.
+    top: 20%
+    left: 20%
+    width: 60%
+    height: 60%
     border: 10px solid cyan
     overflow: hidden
-    
     min-height: 20px
     overflow: auto
     overflow-x: hidden
     overflow-y: scroll
+    animation: slideRightTo20 0.5s
+    
+    &.enabled
+      display: block
 
   .message
     margin: 0.5em

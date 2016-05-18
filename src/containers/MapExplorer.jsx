@@ -289,10 +289,12 @@ class MapExplorer extends Component {
   }
   
   toggleSelectors() {
-    //alert('TODO! toggleSelectors');
-    
-    this.state.map.panTo([config.mapCentre.latitude, config.mapCentre.longitude]);
-    console.log(this.state.map.getSize(), this.state.map.getCenter());
+    const regex = /\b\s*enabled\s*\b/g;
+    if (regex.test(this.refs.mapControls.className)) {
+      this.refs.mapControls.className = this.refs.mapControls.className.replace(regex, ' ');
+    } else {
+      this.refs.mapControls.className += ' enabled';
+    }
   }
 }
 
