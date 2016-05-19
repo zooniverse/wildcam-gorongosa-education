@@ -16,7 +16,6 @@ slideMarginRight = -80%
   overflow: hidden
   display: flex
   flex-direction: row-reverse
-  border: 10px solid red
   padding-left: 0
   
   .hidden
@@ -26,31 +25,52 @@ slideMarginRight = -80%
     flex: 0 0 auto
     width: 90%
     height: 100%
-    border: 10px solid blue
     
     .legend
       padding: 0.2em 0.5em
       background: rgba(255, 255, 255, 0.8)
-      border-radius: 0.5em
+      border-radius: 0.2em
   
-  &.expand .map-visuals
-    animation: slideLeft 0.5s
+  &.expand
+    .map-visuals
+      animation: slideRight 0.5s
+      margin-right: slideMarginRight
     
-  &.collapse .map-visuals
-    animation: slideRight 0.5s
-    margin-right: slideMarginRight
+  &.collapse
+    .map-visuals
+      animation: slideLeft 0.2s
   
   .map-controls
-    border: 10px solid cyan
+    border: 5px solid cyan
     background: white
     flex: 0 0 auto
     width: 90%
     height: 100%
     overflow: hidden
     min-height: 20px
-    overflow: auto
-    overflow-x: hidden
-    overflow-y: scroll    
+    overflow: hidden
+    display: flex
+    flex-direction: row-reverse
+
+    > button
+      flex: 0 0 10%
+      overflow: hidden
+      border: 5px solid yellow
+    > div
+      border: 5px solid blue
+      flex: 1 1 auto
+      flex-direction: column
+      display: flex
+      height: 100%
+      overflow: hidden
+      
+      > div
+        flex: 0 0 auto
+        background: red
+      > div.selectors-list
+        overflow: auto
+        background: green
+        flex: 1 1 auto
 
   .message
     margin: 0.5em

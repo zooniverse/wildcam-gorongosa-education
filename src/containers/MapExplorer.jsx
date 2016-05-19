@@ -35,6 +35,8 @@ class MapExplorer extends Component {
     //Event binding
     this.addSelector = this.addSelector.bind(this);
     this.toggleSelectors = this.toggleSelectors.bind(this);
+    this.expandSelectors = this.expandSelectors.bind(this);
+    this.collapseSelectors = this.collapseSelectors.bind(this);
     this.resizeMapExplorer = this.resizeMapExplorer.bind(this);
     window.onresize = this.resizeMapExplorer;
     this.closeAllDialogs = this.closeAllDialogs.bind(this);
@@ -61,16 +63,21 @@ class MapExplorer extends Component {
         <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css" />
         <section ref="mapVisuals" id="mapVisuals" className="map-visuals"></section>
         <section ref="mapControls" className="map-controls">
-          <Script src={'https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js'}>{
-            ({done}) => !done ? <div className="message">Map Explorer is loading...</div> : this.initMapExplorer()
-          }</Script>
-          {this.props.selectors.map((selector) => {
-            return (
-              <SelectorPanel key={selector.id} selectorData={selector} />
-            );
-          })}
-          <div className="controlPanel">
-            <button className="hidden" onClick={this.addSelector}>Add Selector</button>
+          <button className="btn" onClick={this.toggleSelectors}>TOGGLE</button>
+          <div>
+            <Script src={'https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js'}>{
+              ({done}) => !done ? <div className="message">Map Explorer is loading...</div> : this.initMapExplorer()
+            }</Script>
+            <div className="selectors-list">
+            {this.props.selectors.map((selector) => {
+              return (
+                <SelectorPanel key={selector.id} selectorData={selector} />
+              );
+            })}
+            </div>
+            <div className="controlPanel">
+              <button className="btn" onClick={this.addSelector}>Add Selector</button>
+            </div>
           </div>
         </section>
         <DialogScreen_ViewCamera status={this.state.viewCamera.status} data={this.state.viewCamera.data} message={this.state.viewCamera.message} closeMeHandler={this.closeAllDialogs} />
@@ -289,21 +296,25 @@ class MapExplorer extends Component {
   }
   
   toggleSelectors() {
-    //const regex = /\b\s*enabled\s*\b/g;
-    //if (regex.test(this.refs.mapControls.className)) {
-    //  this.refs.mapControls.className = this.refs.mapControls.className.replace(regex, ' ');
-    //} else {
-    //  this.refs.mapControls.className += ' enabled';
-    //}
-    
     const regexExpand = /\b\s*expand\s*\b/g;
     const regexCollapse = /\b\s*collapse\s*\b/g;
     
-    if (regexCollapse.test(this.refs.mapExplorer.className)) {
-      this.refs.mapExplorer.className = this.refs.mapExplorer.className.replace(regexCollapse, ' ') + ' expand';
+    if (regexExpand.test(this.refs.mapExplorer.className)) {
+      this.collapseSelectors();
     } else {
-      this.refs.mapExplorer.className = this.refs.mapExplorer.className.replace(regexExpand, ' ') + ' collapse';
+      
+      this.expandSelectors();
     }
+  }
+  
+  expandSelectors() {
+    const regexCollapse = /\b\s*collapse\s*\b/g;
+    this.refs.mapExplorer.className = this.refs.mapExplorer.className.replace(regexCollapse, ' ') + ' expand';
+  }
+  
+  collapseSelectors() {
+    const regexExpand = /\b\s*expand\s*\b/g;
+    this.refs.mapExplorer.className = this.refs.mapExplorer.className.replace(regexExpand, ' ') + ' collapse';
   }
 }
 
