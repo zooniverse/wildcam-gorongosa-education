@@ -12,6 +12,36 @@ const initialState = {
 
 export function teacher(state = initialState, action) {
   switch (action.type) {
+    case types.EDIT_CLASSROOM:
+      return { ...state,
+        classrooms: {
+          loading: true,
+          data: state.classrooms.data,
+          error: state.classrooms.error,
+          members: state.classrooms.members,
+          uniqueMembers: state.classrooms.uniqueMembers,
+        }
+      }
+    case types.EDIT_CLASSROOM_SUCCESS:
+      return { ...state,
+        classrooms: {
+          loading: false,
+          data: state.classrooms.data,
+          error: false,
+          members: state.classrooms.members || [],
+          uniqueMembers: state.classrooms.uniqueMembers,
+        }
+      }
+    case types.EDIT_CLASSROOM_ERROR:
+      return { ...state,
+        classrooms: {
+          loading: false,
+          data: action.data,
+          error: action.error || false,
+          members: state.classrooms.members,
+          uniqueMembers: state.classrooms.uniqueMembers,
+        }
+      }
     case types.REQUEST_CLASSROOMS:
       return { ...state,
         classrooms: {

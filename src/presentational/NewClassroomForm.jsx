@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 
 import NewClassroomFormElement from './NewClassroomFormElement';
 
-
 const initialState = {
   name: '',
   subject: '',
@@ -18,7 +17,7 @@ class NewClassroomForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.resetForm = this.resetForm.bind(this);
-    this.state = { initialState, ...props.fields };
+    this.state = Object.assign({}, initialState, props.fields );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -37,7 +36,6 @@ class NewClassroomForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-
     // Avoid polluting the state by creating a new classroom object to submit
     const newClassroom = {};
     for (const key in this.state) {
@@ -45,15 +43,12 @@ class NewClassroomForm extends Component {
         newClassroom[key] = this.state[key].trim();
       }
     }
-
     this.props.submitForm(newClassroom);
-
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-
         <NewClassroomFormElement
           label="Name"
           placeholder="Insert Name"

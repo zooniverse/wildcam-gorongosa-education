@@ -12,6 +12,7 @@ class EditClassroom extends Component {
   constructor() {
     super();
     this.getFormFields = this.getFormFields.bind(this);
+    this.submitForm = this.submitForm.bind(this);
   }
 
   getFormFields() {
@@ -26,14 +27,19 @@ class EditClassroom extends Component {
       : {};
   }
 
+  submitForm(data) {
+    return this.props.editClassroom(data, this.props.classroom.id);
+  }
+
   render() {
+    const { classroom } = this.props;
     const fields = this.getFormFields();
     return (
       <div className="col-md-4">
         <div className='page-header'>
           <h1>Edit Classroom</h1>
         </div>
-        <NewClassroomForm submitForm={this.props.editClassroom} fields={fields} />
+        <NewClassroomForm submitForm={this.submitForm} fields={fields} />
       </div>
     );
   }
