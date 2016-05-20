@@ -59,6 +59,8 @@ export function editClassroom(fields, classroomId) {
     .then(response => {
       dispatch({
         type: types.EDIT_CLASSROOM_SUCCESS,
+        fields: fields,
+        classroomId: classroomId,
       });
       browserHistory.push(`/teachers/classrooms/${classroomId}`);
     } )
