@@ -40,12 +40,14 @@ Classroom.defaultProps = {
   }
 };
 
-const mapStateToProps = state => ({
-  classrooms: state.teacher.classrooms
-});
-
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ deleteClassroom }, dispatch),
 });
+
+function mapStateToProps(state) {
+  return { ...state,
+    classrooms: state.teacher.classrooms
+  };
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Classroom);

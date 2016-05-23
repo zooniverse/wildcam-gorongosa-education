@@ -7,7 +7,7 @@ import config from '../constants/config';
 export function checkLoginUser() {  //First thing on app load - check if the user is logged in.
   return (dispatch) => {
     Panoptes.auth.checkCurrent()
-      .then((user) => {
+      .then(user => {
         dispatch(setLoginUser(user));
       });
   }
