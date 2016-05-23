@@ -7,12 +7,13 @@ import Spinner from '../presentational/Spinner.jsx';
 export default class StudentClassroom extends Component {
 
   render() {
-    const members = this.props.classrooms.members;
-    const classroom = this.props.classrooms.data.find(classroom =>
-      classroom.id === this.props.params.classroomId);
-    
+    const {classrooms, params, user} = this.props
+    const members = classrooms.members;
+    const classroom = classrooms.data.find(classroom =>
+      classroom.id === params.classroomId);
+
     if (classroom && members) {
-      return (<StudentClassroomPresentational data={classroom} members={members} user={this.props.user} />);
+      return (<StudentClassroomPresentational data={classroom} members={members} user={user} />);
     } else {
       return (<Spinner />);
     }
@@ -36,10 +37,10 @@ StudentClassroom.defaultProps = {
 };
 
 function mapStateToProps(state) {
-  return Object.assign({}, {
+  return { ...state,
     classrooms: state.student.classrooms,
     user: state.login.user
-  });
+  };
 }
 
 export default connect(mapStateToProps)(StudentClassroom);
