@@ -11,6 +11,7 @@ const NewClassroomFormElement = props => {
       <span>{ label }</span>
       <input className="form-control"
         type="text"
+        required
         { ...other }
       />
     </label>
