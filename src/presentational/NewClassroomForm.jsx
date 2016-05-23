@@ -60,21 +60,21 @@ class NewClassroomForm extends Component {
 
         <NewClassroomFormElement
           label="Subject"
-          placeholder="Subject (Optional)"
+          placeholder="Subject"
           value={this.state.subject}
           onChange={this.handleChange}
         />
 
         <NewClassroomFormElement
           label="School"
-          placeholder="School (Optional)"
+          placeholder="School"
           value={this.state.school}
           onChange={this.handleChange}
         />
 
         <NewClassroomFormElement
           label="Description"
-          placeholder="Description (Optional)"
+          placeholder="Description"
           value={this.state.description}
           onChange={this.handleChange}
         />

@@ -23,10 +23,19 @@ export function teacher(state = initialState, action) {
         }
       }
     case types.EDIT_CLASSROOM_SUCCESS:
+      const newData = state.classrooms.data.map(classroom => {
+        if (classroom.id === action.classroomId) {
+          return Object.assign({}, classroom,
+            { attributes: Object.assign({}, classroom.attributes, {}, action.fields) }
+          );
+        }
+        return classroom;
+      });
+  
       return { ...state,
         classrooms: {
           loading: false,
-          data: state.classrooms.data,
+          data: newData,
           error: false,
           members: state.classrooms.members || [],
           uniqueMembers: state.classrooms.uniqueMembers,
