@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 
 import ClassroomPresentational from '../presentational/Classroom.jsx';
 import Spinner from '../presentational/Spinner.jsx';
-import { deleteClassroom } from '../actions/teacher';
 
 import { deleteClassroom, deleteStudent } from '../actions/teacher';
 
