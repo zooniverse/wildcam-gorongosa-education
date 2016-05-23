@@ -15,6 +15,7 @@ export default class Classroom extends Component {
       copied: false
     }
     this.onCopy = this.onCopy.bind(this);
+    this.deleteClassroom = this.deleteClassroom.bind(this);
     this.renderStudentList = this.renderStudentList.bind(this);
   }
 
@@ -70,6 +71,13 @@ export default class Classroom extends Component {
     )
   }
 
+  deleteClassroom() {
+    var result = confirm('Sure you want to delete this classroom?');
+    if (result) {
+      this.props.deleteClassroom();
+    }
+  }
+
   render() {
     const {data, members} = this.props;
     const {attributes} = data;
@@ -80,7 +88,6 @@ export default class Classroom extends Component {
       (prev, cur) => {
         return prev + cur.classifications_count;
       }, 0);
-
     return (
       <section className="content-view">
         <div className='page-header'>
@@ -107,6 +114,9 @@ export default class Classroom extends Component {
               <button className="btn btn-default">Copy Link</button>
             </CopyToClipboard>
             {this.state.copied ? <div className="alert alert-success" role="alert">&nbsp;Copied!</div> : null}
+            <div>
+              <button className="btn btn-danger" onClick={this.deleteClassroom}>Delete classroom</button>
+            </div>
           </TabPanel>
           <TabPanel>
             { this.renderStudentList(students) }
@@ -131,3 +141,9 @@ Classroom.defaultProps = {
   },
   members: []
 };
+
+Classroom.propTypes = {
+  actions: PropTypes.shape({
+    deleteClassroom: PropTypes.func.isRequired,
+  })
+}

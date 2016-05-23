@@ -9,13 +9,15 @@ class Classrooms extends Component {
 
   componentDidMount() {
     const currentUserId = this.props.user.id;
+    const { classrooms, userdetails } = this.props;
+
     if (!this.props.userdetails.loading) {
       this.props.dispatch(fetchUserDetails(currentUserId));
     }
-    if (!this.props.classrooms.members.length && !this.props.classrooms.data.length && !this.props.classrooms.loading) {
+
+    if (!classrooms.members.length && !classrooms.data.length && !classrooms.loading) {
       this.props.dispatch(fetchClassrooms());
     }
-
   }
 
   getChildContext() {
@@ -25,11 +27,15 @@ class Classrooms extends Component {
   }
 
   render() {
+    const { classrooms, userdetails, children } = this.props;
     return (
       <div className="admin-component">
         <div className="row">
-          <ClassroomsSidebar classroomsData={this.props.classrooms} userdetails={this.props.userdetails} />
-          {this.props.children}
+          <ClassroomsSidebar
+            classroomsData={classrooms}
+            userdetails={userdetails}
+          />
+          {children}
         </div>
       </div>
     );
@@ -63,11 +69,10 @@ Classrooms.childContextTypes = {
   classrooms: PropTypes.object.isRequired
 };
 
-function mapStateToProps(state) {
-  return {
-    classrooms: state.teacher.classrooms,
-    user: state.login.user,
-    userdetails: state.users
-  };
-}
+const mapStateToProps = state => ({
+  classrooms: state.teacher.classrooms,
+  user: state.login.user,
+  userdetails: state.users
+});
+
 export default connect(mapStateToProps)(Classrooms);
