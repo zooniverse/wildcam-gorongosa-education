@@ -160,4 +160,3 @@ Classroom.propTypes = {
     deleteStudent: PropTypes.func.isRequired,
   })
 };
-
