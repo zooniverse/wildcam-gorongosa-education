@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 import config from '../constants/config';
-import CopyToClipboard from 'react-copy-to-clipboard';
+import EditClassroomLink from './EditClassroomLink';
 
 export default class Classroom extends Component {
   constructor(props) {
@@ -75,6 +76,7 @@ export default class Classroom extends Component {
     }
   }
 
+
   deleteStudent(id) {
     const studentToDelete = this.props.studentsIds.find(studentId => studentId === id);
     var result = confirm('Sure you want to remove this student?');
@@ -93,7 +95,6 @@ export default class Classroom extends Component {
       (prev, cur) => {
         return prev + cur.attributes.classifications_count;
       }, 0);
-
     return (
       <section className="content-view">
         <div className='page-header'>
@@ -106,6 +107,9 @@ export default class Classroom extends Component {
             <Tab>Assignments</Tab>
           </TabList>
           <TabPanel>
+            <div>
+              <EditClassroomLink classroom={data} />
+            </div>
             <h3>Classifications: {classroomClassificationsCount}</h3>
             <h3>Subject: {attributes.subject}</h3>
             <h3>School: {attributes.school}</h3>

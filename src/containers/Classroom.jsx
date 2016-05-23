@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { default as ClassroomPresentational } from '../presentational/Classroom.jsx';
+import ClassroomPresentational from '../presentational/Classroom.jsx';
 import Spinner from '../presentational/Spinner.jsx';
 
 import { deleteClassroom, deleteStudent } from '../actions/teacher';
@@ -17,7 +17,7 @@ export default class Classroom extends Component {
     const boundDeleteClassroom = actions.deleteClassroom.bind(this, classroomId);
     const students = classroom ? classroom.relationships.students.data : undefined;
     const studentIds = students ? students.map(student => student.id) : undefined;
-    const boundDeleteStudent = actions.deleteStudent.bind(this)
+    const boundDeleteStudent = actions.deleteStudent.bind(this);
 
     return (classroom && members)
       ? <ClassroomPresentational

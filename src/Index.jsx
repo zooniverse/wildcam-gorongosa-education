@@ -12,11 +12,13 @@ import Classrooms from './containers/Classrooms.jsx';
 import StudentClassrooms from './containers/StudentClassrooms.jsx';
 import Classroom from './containers/Classroom.jsx';
 import StudentClassroom from './containers/StudentClassroom.jsx';
-import JoinClassroom from './containers/JoinClassroom.jsx'
+import JoinClassroom from './containers/JoinClassroom.jsx';
+import EditClassroom from './containers/EditClassroom.jsx';
 
 import Home from './presentational/Home.jsx';
 import ClassroomsOverview from './presentational/ClassroomsOverview.jsx';
 import NewClassroomForm from './presentational/NewClassroomForm.jsx';
+import NewClassroom from './containers/NewClassroom.jsx';
 import StudentOverview from './presentational/StudentOverview.jsx';
 
 import TeacherForm from './presentational/TeacherForm.jsx';
@@ -32,7 +34,7 @@ import Styles from './styles/main.styl';
 import configureStore from './store';
 const store = configureStore();
 
-import { oauth } from 'panoptes-client';
+import oauth from 'panoptes-client/lib/oauth';
 import config from './constants/config';
 
 window.React = React;
@@ -50,7 +52,8 @@ oauth.init(config.panoptesAppId)
               <Route path="classrooms" component={Classrooms}>
                 <IndexRoute component={ClassroomsOverview} />
                 <Route path="register" component={TeacherForm} />
-                <Route path="new" component={NewClassroomForm} />
+                <Route path="new" component={NewClassroom} />
+                <Route path=":classroomId/edit" component={EditClassroom} />
                 <Route path=":classroomId" component={Classroom} />
               </Route>
               <Route path="data" component={MapExplorer} />

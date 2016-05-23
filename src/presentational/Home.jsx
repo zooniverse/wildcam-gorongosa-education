@@ -1,7 +1,5 @@
 import { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import Panoptes from 'panoptes-client';
-
 import Layout from './Layout.jsx'
 
 const Home = (props) => {

@@ -2,8 +2,9 @@ import { PropTypes } from 'react';
 import Spinner from 'Spinner.jsx'
 
 
-const ClassroomsOverview = (props, context) => (
-  <section className="content-view">
+const ClassroomsOverview = (props, context) => {
+  const { classrooms } = context;
+  return ( <section className="content-view">
     <div className="page-header">
       <h1>Overview</h1>
     </div>
@@ -16,8 +17,8 @@ const ClassroomsOverview = (props, context) => (
                 <i className="fa fa-institution fa-4x"></i>
               </div>
               <div className="col-xs-9 text-right">
-                {(context.classrooms.loading === false) ?
-                <h1>{context.classrooms.data.length}</h1>
+                {(classrooms.loading === false) ?
+                <h1>{classrooms.data.length}</h1>
                 : <Spinner/>}
               </div>
             </div>
@@ -35,8 +36,8 @@ const ClassroomsOverview = (props, context) => (
                 <i className="fa fa-graduation-cap fa-4x"></i>
               </div>
               <div className="col-xs-9 text-right">
-                {(context.classrooms.loading === false) ?
-                <h1>{context.classrooms.uniqueMembers.length}</h1>
+                {(classrooms.loading === false) ?
+                <h1>{classrooms.uniqueMembers.length}</h1>
                 : <Spinner/>}
               </div>
             </div>
@@ -48,7 +49,7 @@ const ClassroomsOverview = (props, context) => (
       </div>
     </div>
   </section>
-);
+)};
 
 ClassroomsOverview.contextTypes = {
   classrooms: PropTypes.object.isRequired

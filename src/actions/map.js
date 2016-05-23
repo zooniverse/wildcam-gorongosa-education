@@ -1,5 +1,4 @@
 import * as types from '../constants/actionTypes';
-import Panoptes from 'panoptes-client';
 import config from '../constants/config';
 
 //Action creators
