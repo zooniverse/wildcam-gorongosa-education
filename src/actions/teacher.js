@@ -140,4 +140,3 @@ export function deleteStudent(classroomId, studentId) {
     browserHistory.push('/teachers/classrooms/' + classroomId);
   }
 }
-

@@ -76,7 +76,6 @@ export default class Classroom extends Component {
     }
   }
 
-
   deleteStudent(id) {
     const studentToDelete = this.props.studentsIds.find(studentId => studentId === id);
     var result = confirm('Sure you want to remove this student?');
