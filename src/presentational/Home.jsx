@@ -1,6 +1,5 @@
 import { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-
 import Layout from './Layout.jsx'
 
 const Home = (props) => {
