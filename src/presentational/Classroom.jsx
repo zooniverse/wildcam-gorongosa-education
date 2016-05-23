@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import CopyToClipboard from 'react-copy-to-clipboard';
 
 import config from '../constants/config';
-import EditClassroomLink from './EditClassroomLink';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 export default class Classroom extends Component {
   constructor(props) {
@@ -93,9 +92,6 @@ export default class Classroom extends Component {
             <Tab>Assignments</Tab>
           </TabList>
           <TabPanel>
-            <div>
-              <EditClassroomLink classroom={data} />
-            </div>
             <h3>Classifications: {classroomClassificationsCount}</h3>
             <h3>Subject: {attributes.subject}</h3>
             <h3>School: {attributes.school}</h3>

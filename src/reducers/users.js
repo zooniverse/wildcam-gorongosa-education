@@ -11,24 +11,24 @@ const initialState = {
 export function users(state = initialState, action) {
   switch (action.type) {
     case types.REQUEST_USER:
-      return { ...state,
+      return Object.assign({}, state, {
         loading: true,
-      }
+      });
       case types.RECEIVE_USER:
-      return { ...state,
+      return Object.assign({}, state, {
         data: action.data,
         loading: false,
-      }
+      });
     case types.UPSERT_TEACHER_METADATA:
-      return { ...state,
+      return Object.assign({}, state, {
         data: action.data,
         loading: true,
-      }
+      });
     case types.UPSERT_TEACHER_METADATA_SUCCESS:
-      return { ...state,
+      return Object.assign({}, state, {
         data: action.data,
         loading: false,
-      }
+      });
     default:
       return state;
   }

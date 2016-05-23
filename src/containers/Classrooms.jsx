@@ -1,7 +1,7 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchClassrooms } from '../actions/teacher';
+import { createClassroom, fetchClassrooms } from '../actions/teacher';
 import { fetchUserDetails } from '../actions/users';
 import ClassroomsSidebar from '../presentational/ClassroomsSidebar.jsx';
 

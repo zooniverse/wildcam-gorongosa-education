@@ -12,47 +12,8 @@ const initialState = {
 
 export function teacher(state = initialState, action) {
   switch (action.type) {
-    case types.EDIT_CLASSROOM:
-      return { ...state,
-        classrooms: {
-          loading: true,
-          data: state.classrooms.data,
-          error: state.classrooms.error,
-          members: state.classrooms.members,
-          uniqueMembers: state.classrooms.uniqueMembers,
-        }
-      }
-    case types.EDIT_CLASSROOM_SUCCESS:
-      const newData = state.classrooms.data.map(classroom => {
-        if (classroom.id === action.classroomId) {
-          return Object.assign({}, classroom,
-            { attributes: Object.assign({}, classroom.attributes, {}, action.fields) }
-          );
-        }
-        return classroom;
-      });
-  
-      return { ...state,
-        classrooms: {
-          loading: false,
-          data: newData,
-          error: false,
-          members: state.classrooms.members || [],
-          uniqueMembers: state.classrooms.uniqueMembers,
-        }
-      }
-    case types.EDIT_CLASSROOM_ERROR:
-      return { ...state,
-        classrooms: {
-          loading: false,
-          data: action.data,
-          error: action.error || false,
-          members: state.classrooms.members,
-          uniqueMembers: state.classrooms.uniqueMembers,
-        }
-      }
     case types.REQUEST_CLASSROOMS:
-      return { ...state,
+      return Object.assign({}, state, {
         classrooms: {
           loading: true,
           data: [],
@@ -60,7 +21,7 @@ export function teacher(state = initialState, action) {
           members: [],
           uniqueMembers: [],
         }
-      }
+      });
     case types.RECEIVE_CLASSROOMS:
       let uniqueMembers = [];
       action.members && action.members.map((item) => {
@@ -68,7 +29,7 @@ export function teacher(state = initialState, action) {
           uniqueMembers.push(item.attributes.zooniverse_login);
         }
       });
-      return { ...state,
+      return Object.assign({}, state, {
         classrooms: {
           loading: false,
           data: action.data || [],
@@ -76,9 +37,9 @@ export function teacher(state = initialState, action) {
           members: action.members || [],
           uniqueMembers: uniqueMembers || [],
         }
-      }
+      });
     case types.CREATE_CLASSROOM:
-      return { ...state,
+      return Object.assign({}, state, {
         classrooms: {
           loading: true,
           data: state.classrooms.data,
@@ -86,10 +47,10 @@ export function teacher(state = initialState, action) {
           members: state.classrooms.members,
           uniqueMembers: state.classrooms.uniqueMembers,
         }
-      }
+      });
     case types.CREATE_CLASSROOM_SUCCESS:
       const newlist = state.classrooms.data.concat(action.data);
-      return { ...state,
+      return Object.assign({}, state, {
         classrooms: {
           loading: false,
           data: newlist,
@@ -97,9 +58,9 @@ export function teacher(state = initialState, action) {
           members: action.members || [],
           uniqueMembers: state.classrooms.uniqueMembers,
         }
-      }
+      });
     case types.CREATE_CLASSROOM_ERROR:
-      return { ...state,
+      return Object.assign({}, state, {
         classrooms: {
           loading: false,
           data: action.data,
@@ -107,7 +68,7 @@ export function teacher(state = initialState, action) {
           members: state.classrooms.members,
           uniqueMembers: state.classrooms.uniqueMembers,
         }
-      }
+      });
     default:
       return state;
   }

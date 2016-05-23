@@ -34,9 +34,9 @@ Classroom.defaultProps = {
 };
 
 function mapStateToProps(state) {
-  return { ...state,
+  return Object.assign({}, {
     classrooms: state.teacher.classrooms
-  };
+  });
 }
 
 export default connect(mapStateToProps)(Classroom);
