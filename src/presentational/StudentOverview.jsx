@@ -4,10 +4,11 @@ import Spinner from 'Spinner.jsx'
 const StudentOverview = (props, context) => {
 
   let myClassifications = false;
-  const {classrooms, user} = context;
+  const { classrooms, user } = context;
   if (classrooms && classrooms.members && classrooms.loading === false && user) {
-    myClassifications = classrooms.members.reduce((prev, cur, index, arr) => {
-      return prev + ((user.id === cur.attributes.zooniverse_id) ? cur.attributes.classifications_count : 0);
+    myClassifications = classrooms.members.reduce((prev, cur) => {
+      const { zooniverse_id, classifications_count } = cur.attributes;
+      return prev + ((user.id === zooniverse_id) ? classifications_count : 0);
     }, 0);
   }
 
@@ -64,7 +65,8 @@ const StudentOverview = (props, context) => {
         </div>
       </div>
     </section>
-)};
+  )
+};
 
 StudentOverview.contextTypes = {
   classrooms: PropTypes.object.isRequired,

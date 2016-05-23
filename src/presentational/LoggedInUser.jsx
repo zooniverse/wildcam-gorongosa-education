@@ -1,16 +1,11 @@
-import { Component, PropTypes } from 'react';
+import { PropTypes } from 'react';
 
-
-export default class LoggedInUser extends Component {
-
-  render() {
-    const classNames = 'btn btn-default navbar-btn navbar-right';
-    const logout = this.props.logout;
-    return (
-      <button className={classNames} onClick={logout}>Logout {this.props.user.login}</button>
-    );
-  }
-
+const LoggedInUser = (props) => {
+  const classNames = 'btn btn-default navbar-btn navbar-right';
+  const logout = props.logout;
+  return (
+    <button className={classNames} onClick={logout}>Logout {props.user.login}</button>
+  );
 }
 
 LoggedInUser.propTypes = {
@@ -18,3 +13,4 @@ LoggedInUser.propTypes = {
   user: PropTypes.object.isRequired,
 }
 
+export { LoggedInUser as default }

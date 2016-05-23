@@ -11,9 +11,8 @@ class JoinClassroom extends Component {
   }
 
   join() {
-    console.log('Joining ...')
-    this.props.dispatch(joinClassroom(this.props.location.query.id, this.props.location.query.token));
-
+    const { id, token } = this.props.location.query;
+    this.props.dispatch(joinClassroom(id, token));
   }
 
   render() {
@@ -21,10 +20,8 @@ class JoinClassroom extends Component {
       <div>
         <JoinButton join={this.join}/>
       </div>
-
     );
   }
-
 }
 
 export default connect()(JoinClassroom);
