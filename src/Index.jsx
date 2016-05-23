@@ -34,7 +34,7 @@ import Styles from './styles/main.styl';
 import configureStore from './store';
 const store = configureStore();
 
-import { oauth } from 'panoptes-client';
+import oauth from 'panoptes-client/lib/oauth';
 import config from './constants/config';
 
 window.React = React;
