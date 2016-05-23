@@ -107,7 +107,7 @@ export function deleteClassroom(classroomId) {
       method: 'DELETE',
       mode: 'cors',
       headers: new Headers({
-          'Authorization': Panoptes.apiClient.headers.Authorization,
+          'Authorization': apiClient.headers.Authorization,
           'Content-Type': 'application/json'
         })
     })
