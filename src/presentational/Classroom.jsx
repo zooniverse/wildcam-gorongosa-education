@@ -111,7 +111,7 @@ export default class Classroom extends Component {
             </CopyToClipboard>
             {this.state.copied ? <div className="alert alert-success" role="alert">&nbsp;Copied!</div> : null}
             <div>
-              <button onClick={this.deleteClassroom}>Delete classroom</button>
+              <button className="btn btn-danger" onClick={this.deleteClassroom}>Delete classroom</button>
             </div>
           </TabPanel>
           <TabPanel>

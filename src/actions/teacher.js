@@ -66,6 +66,7 @@ export function fetchClassrooms() {
         type: types.RECEIVE_CLASSROOMS,
         data: json.data,
         error: false,
+        loading: false,
         members: json.included,
       }))
       .catch(response => dispatch({
@@ -81,8 +82,30 @@ export function deleteClassroom(classroomId) {
   return dispatch => {
     dispatch({
       type: types.CLASSROOM_DELETE,
-      classroomId,
     });
-    browserHistory.push('/teachers/classrooms');
+    return fetch(config.eduAPI.root + config.eduAPI.teachers + classroomId, {
+      method: 'DELETE',
+      mode: 'cors',
+      headers: new Headers({
+          'Authorization': Panoptes.apiClient.headers.Authorization,
+          'Content-Type': 'application/json'
+        })
+    })
+    .then(response => {
+      if (response.ok) {
+        dispatch({
+          type: types.CLASSROOM_DELETE_SUCCESS,
+          classroomId,
+          loading: false,
+          error: false,
+        });
+        browserHistory.push('/teachers/classrooms');
+      }
+    })
+    .catch(response => dispatch({
+      type: types.CLASSROOM_DELETE_ERROR,
+      error: console.log('DELETE-ERROR: ', response),
+      })
+    );
   }
 }

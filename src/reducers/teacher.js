@@ -69,13 +69,40 @@ export function teacher(state = initialState, action) {
           uniqueMembers: state.classrooms.uniqueMembers,
         }
       });
-
     case types.CLASSROOM_DELETE:
+      return Object.assign({}, state, {
+        classrooms: {
+          loading: true,
+          data: state.classrooms.data,
+          error: state.classrooms.error,
+          members: state.classrooms.members,
+          uniqueMembers: state.classrooms.uniqueMembers,
+        }
+      });
+    case types.CLASSROOM_DELETE_SUCCESS:
       let newState = Object.assign({}, state);
       const classroomsWithoutDeleted = state.classrooms.data.filter(classroom => classroom.id !== action.classroomId);
       newState.classrooms.data = classroomsWithoutDeleted;
-      return newState;
+      return {
+        classrooms: {
+          loading: false,
+          data: newState.classrooms.data,
+          error: false,
+          members: newState.classrooms.members,
+          uniqueMembers: newState.classrooms.uniqueMembers,
+        }
+      };
 
+    case types.CLASSROOM_DELETE_ERROR:
+      return Object.assign({}, state, {
+        classrooms: {
+          loading: false,
+          data: action.data,
+          error: action.error || false,
+          members: state.classrooms.members,
+          uniqueMembers: state.classrooms.uniqueMembers,
+        }
+      });
     default:
       return state;
   }
