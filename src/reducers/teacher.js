@@ -130,10 +130,10 @@ export function teacher(state = initialState, action) {
         }
       }
     case types.CLASSROOM_DELETE_SUCCESS:
-      let newState = Object.assign({}, state);
+
       const classroomsWithoutDeleted = state.classrooms.data.filter(classroom => classroom.id !== action.classroomId);
       newState.classrooms.data = classroomsWithoutDeleted;
-      return {
+      return { ...state,
         classrooms: {
           loading: false,
           data: newState.classrooms.data,

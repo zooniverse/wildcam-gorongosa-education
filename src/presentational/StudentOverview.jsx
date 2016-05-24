@@ -19,10 +19,8 @@ const StudentOverview = (props, context) => {
           <h1>Student Overview</h1>
         </div>
       </div>
-      <div className="panel panel-info">
-        <div className="panel-body">
-          Start classifying at <a href="https://wildcamgorongosa.org" target="_blank">wildcamgorongosa.org</a>
-        </div>
+      <div className="well well-sm">
+        Start classifying at <a href="https://wildcamgorongosa.org" target="_blank">wildcamgorongosa.org</a>
       </div>
       <div className="row">
         <div className="col-lg-3 col-md-6">

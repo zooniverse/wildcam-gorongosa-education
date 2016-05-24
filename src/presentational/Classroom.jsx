@@ -106,8 +106,9 @@ export default class Classroom extends Component {
             <Tab>Assignments</Tab>
           </TabList>
           <TabPanel>
-            <div>
+            <div className="well well-sm">
               <EditClassroomLink classroom={data} />
+              <button className="btn btn-danger" onClick={this.deleteClassroom}>Delete classroom</button>
             </div>
             <h3>Classifications: {classroomClassificationsCount}</h3>
             <h3>Subject: {attributes.subject}</h3>
@@ -126,9 +127,6 @@ export default class Classroom extends Component {
             {this.state.copied
             ? <div className="alert alert-success fadeout" role="alert">Copied!</div>
             : null}
-            <div>
-              <button className="btn btn-danger" onClick={this.deleteClassroom}>Delete classroom</button>
-            </div>
           </TabPanel>
           <TabPanel>
             { this.renderStudentList(students) }
