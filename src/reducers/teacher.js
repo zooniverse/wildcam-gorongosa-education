@@ -110,6 +110,16 @@ export function teacher(state = initialState, action) {
         }
       };
     case types.DELETE_STUDENT:
+      return { ...state,
+        classrooms: {
+          loading: true,
+          data: state.classrooms.data,
+          error: state.classrooms.error,
+          members: state.classrooms.members,
+          uniqueMembers: state.classrooms.uniqueMembers,
+        }
+      }
+    case types.DELETE_STUDENT_SUCCESS:
       const classroom = state.classrooms.data.find(classroom => classroom.id === action.classroomId);
       const students = classroom ? classroom.relationships.students.data : undefined;
       const studentsWithoutDeleted = students.filter(student => student.id !== action.studentId);
@@ -118,7 +128,25 @@ export function teacher(state = initialState, action) {
           classroom.relationships.students.data = studentsWithoutDeleted
         }
       });
-      return newState;
+      return { ...state,
+        classrooms: {
+          loading: false,
+          data: newState.classrooms.data,
+          error: false,
+          members: newState.classrooms.members,
+          uniqueMembers: newState.classrooms.uniqueMembers,
+        }
+      }
+    case types.DELETE_STUDENT_ERROR:
+      return { ...state,
+        classrooms: {
+          loading: false,
+          data: action.data,
+          error: action.error || false,
+          members: state.classrooms.members,
+          uniqueMembers: state.classrooms.uniqueMembers,
+        }
+      }
     case types.CLASSROOM_DELETE:
       return { ...state,
         classrooms: {
