@@ -15,7 +15,7 @@ export default class Dropdown extends Component {
   }
 
   render() {
-    const options = this.props.options.map((option) =>
+    const options = this.props.options.map(option =>
         <option
           key={option.value}
           value={option.label}>

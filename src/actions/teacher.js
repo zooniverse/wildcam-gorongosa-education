@@ -8,12 +8,13 @@ import * as types from '../constants/actionTypes';
 
 // Action creators
 
+const { root, teachers } = config.eduAPI;
+
 export function createClassroom(classroom) {
   return dispatch => {
     const createAction = { ...classroom, type: types.CREATE_CLASSROOM };
     dispatch(createAction);
-
-    return fetch(config.eduAPI.root + config.eduAPI.teachers, {
+    return fetch(root + teachers, {
       method: 'POST',
       mode: 'cors',
       headers: new Headers({
@@ -33,7 +34,7 @@ export function createClassroom(classroom) {
         data: json.data,
         members: json.included,
       });
-      browserHistory.push(`/teachers/classrooms/${json.data.id}`);
+      browserHistory.push( '/teachers/classrooms/' + json.data.id);
     })
     .catch(response => console.log('RESPONSE-error: ', response));
   };
@@ -43,7 +44,7 @@ export function editClassroom(fields, classroomId) {
   return dispatch => {
     const createAction = { ...fields, type: types.EDIT_CLASSROOM };
     dispatch(createAction);
-    return fetch(config.eduAPI.root + config.eduAPI.teachers + classroomId, {
+    return fetch(root + teachers + classroomId, {
       method: 'PUT',
       mode: 'cors',
       headers: new Headers({
@@ -62,7 +63,7 @@ export function editClassroom(fields, classroomId) {
         fields: fields,
         classroomId: classroomId,
       });
-      browserHistory.push(`/teachers/classrooms/${classroomId}`);
+      browserHistory.push('/teachers/classrooms/' + classroomId);
     } )
     .catch(response => console.log('RESPONSE-error: ', response));
   };
@@ -73,7 +74,7 @@ export function fetchClassrooms() {
     dispatch({
       type: types.REQUEST_CLASSROOMS,
     });
-    return fetch(config.eduAPI.root + config.eduAPI.teachers, {
+    return fetch(root + teachers, {
       method: 'GET',
       mode: 'cors',
       headers: new Headers({
@@ -103,7 +104,7 @@ export function deleteClassroom(classroomId) {
     dispatch({
       type: types.CLASSROOM_DELETE,
     });
-    return fetch(config.eduAPI.root + config.eduAPI.teachers + classroomId, {
+    return fetch(root + teachers + classroomId, {
       method: 'DELETE',
       mode: 'cors',
       headers: new Headers({
@@ -119,7 +120,7 @@ export function deleteClassroom(classroomId) {
           loading: false,
           error: false,
         });
-        browserHistory.push('/teachers/classrooms');
+        browserHistory.push('/teachers/classrooms/');
       }
     })
     .catch(response => dispatch({
@@ -127,5 +128,39 @@ export function deleteClassroom(classroomId) {
       error: console.log('DELETE-ERROR: ', response),
       })
     );
+  }
+}
+
+export function deleteStudent(classroomId, studentId) {
+  return dispatch => {
+    dispatch({
+      type: types.DELETE_STUDENT,
+    });
+    return fetch(root + teachers + classroomId + '/student_users/' + studentId, {
+      method: 'DELETE',
+      mode: 'cors',
+      headers: new Headers({
+          'Authorization': apiClient.headers.Authorization,
+          'Content-Type': 'application/json'
+        })
+    })
+    .then(response => {
+      if (response.ok) {
+        dispatch({
+          type: types.DELETE_STUDENT_SUCCESS,
+          classroomId,
+          studentId,
+          loading: false,
+          error: false,
+        });
+        browserHistory.push('/teachers/classrooms/' + classroomId);
+      }
+    })
+    .catch(response => dispatch({
+      type: types.DELETE_STUDENT_ERROR,
+      error: console.log('DELETE-ERROR: ', response),
+      })
+    );
+
   }
 }

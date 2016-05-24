@@ -11,7 +11,7 @@ export default class RadioButtonGroup extends Component {
   }
 
   render() {
-    const options = this.props.options.map((option) =>
+    const options = this.props.options.map(option =>
       <li>
         <label>
         <input
