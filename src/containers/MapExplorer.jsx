@@ -38,6 +38,7 @@ class MapExplorer extends Component {
     this.expandSelectors = this.expandSelectors.bind(this);
     this.collapseSelectors = this.collapseSelectors.bind(this);
     this.resizeMapExplorer = this.resizeMapExplorer.bind(this);
+    this.recentreMapExplorer = this.recentreMapExplorer.bind(this);
     window.onresize = this.resizeMapExplorer;
     this.closeAllDialogs = this.closeAllDialogs.bind(this);
 
@@ -59,15 +60,17 @@ class MapExplorer extends Component {
   render() {
     return (  //Reminder: the parent .content-section is a <main>, so don't set .map-explorer as <main> as well.
       <div ref="mapExplorer" className="map-explorer">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
+        <section ref="mapVisuals" className="map-visuals">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
         <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css" />
-        <section ref="mapVisuals" id="mapVisuals" className="map-visuals"></section>
+          <Script src={'https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js'}>{
+            ({done}) => !done ? <div className="message">Map Explorer is loading...</div> : this.initMapExplorer()
+          }</Script>
+          <div id="mapVisuals"></div>
+        </section>
         <section ref="mapControls" className="map-controls">
           <button className="btn" onClick={this.toggleSelectors}>TOGGLE</button>
           <div>
-            <Script src={'https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js'}>{
-              ({done}) => !done ? <div className="message">Map Explorer is loading...</div> : this.initMapExplorer()
-            }</Script>
             <div className="selectors-list">
             {this.props.selectors.map((selector) => {
               return (
@@ -98,7 +101,7 @@ class MapExplorer extends Component {
     if (this.state.map) {
       //This prevents CartoDB from re-creating a map one when navigating from
       //the Map Explorer page to the (same) Map Explorer page.
-      return <div className="message">Welcome to the Map Explorer</div>;;
+      return null;
     }
 
     //Create the map (Leaflet + CartoDB ver)
@@ -158,8 +161,8 @@ class MapExplorer extends Component {
     selectorToggle.onAdd = (map) => {
       const container = L.DomUtil.create('div', 'info');
       const button = document.createElement('button');
-      button.innerHTML = 'TOGGLE SELECTORS &raquo;';
-      button.onclick = this.toggleSelectors;
+      button.onclick = this.recentreMapExplorer;
+      button.className = 'btn fa fa-crosshairs';
       container.appendChild(button);
       return container;
     }
@@ -169,8 +172,8 @@ class MapExplorer extends Component {
     //Cleanup then go
     //--------------------------------
     this.resizeMapExplorer();
-    return <div className="message">Welcome to the Map Explorer!</div>;
-    //Note: use `return null` if we don't want a message to pop up.
+    return null;
+    //Note: use `return <div className="message">Welcome to the Map Explorer!</div>` if we don't want a message to pop up.
     //--------------------------------
   }
 
@@ -276,6 +279,12 @@ class MapExplorer extends Component {
     this.refs.mapExplorer.style.height = availableHeight+'px';  
     this.state.map && this.state.map.invalidateSize() &&
       this.state.map.panTo([config.mapCentre.latitude, config.mapCentre.longitude]);
+  }
+  
+  recentreMapExplorer() {
+    if (!this.state.map) return;
+    this.state.map.setZoom(config.mapCentre.zoom);
+    this.state.map.panTo([config.mapCentre.latitude, config.mapCentre.longitude]);
   }
 
   //----------------------------------------------------------------
