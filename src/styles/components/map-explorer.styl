@@ -57,11 +57,17 @@ slideMarginRight = -80%
     overflow: hidden
     display: flex
     flex-direction: row-reverse
-
-    > button
+    
+    .toggle-selectors
       flex: 0 0 10%
-      overflow: hidden
       border: 5px solid yellow
+      overflow: hidden
+      
+      span
+        display: flex
+        justify-content: center
+        transform: rotate(-90deg)
+      
     > div
       border: 5px solid blue
       flex: 1 1 auto

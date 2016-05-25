@@ -48,7 +48,9 @@ class MapExplorer extends Component {
       <div ref="mapExplorer" className="map-explorer">
         <MapVisuals ref="mapVisuals"></MapVisuals>
         <section ref="mapControls" className="map-controls">
-          <button className="btn" onClick={this.toggleSelectors}>TOGGLE</button>
+          <button className="btn toggle-selectors" onClick={this.toggleSelectors}>
+            <span>Showing all species</span>
+          </button>
           <div>
             <div className="selectors-list">
             {this.props.selectors.map((selector) => {
