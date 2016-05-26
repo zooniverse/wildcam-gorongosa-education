@@ -5,7 +5,6 @@ const config = require('../constants/mapExplorer.config.json');
 import SelectorData from './MapExplorer-SelectorData.jsx';
 import DialogScreen from '../presentational/DialogScreen.jsx';
 import DialogScreen_Download from '../presentational/DialogScreen-Download.jsx';
-import DialogScreen_Species from '../presentational/DialogScreen-Species.jsx';
 import fetch from 'isomorphic-fetch';
 
 class SelectorPanel extends Component {
@@ -15,7 +14,6 @@ class SelectorPanel extends Component {
     //Event binding
     this.updateMe = this.updateMe.bind(this);
     this.deleteMe = this.deleteMe.bind(this);
-    this.updateSpeciesSelection = this.updateSpeciesSelection.bind(this);
     this.prepareCsv = this.prepareCsv.bind(this);
     this.changeToGuided = this.changeToGuided.bind(this);
     this.changeToAdvanced = this.changeToAdvanced.bind(this);
@@ -72,16 +70,14 @@ class SelectorPanel extends Component {
       <article className="selector-panel">
         <section className={(this.props.selectorData.mode !== SelectorData.GUIDED_MODE) ? 'input-subpanel not-selected' : 'input-subpanel' } ref="subPanel_guided">
           <button className="btn hidden" onClick={this.changeToGuided}>Standard Mode</button>
-          <div className="input-row hidden">
+          <div className="input-row">
             <label>SPECIES:</label>
             {
               (speciesText.length > 0)
               ? <span>Viewing {speciesText}</span>
               : <span>Viewing all species</span>
             }
-            <button onClick={(e) => { this.setState({ speciesDialog: { status: DialogScreen.DIALOG_ACTIVE } }) }}>...</button>
           </div>
-          <DialogScreen_Species ref="dialog_species" status={this.state.speciesDialog.status} data={this.props.selectorData.species} updateMeHandler={this.updateSpeciesSelection} closeMeHandler={this.closeAllDialogs} />
           <div className="input-row" ref="inputRow_species">
             <label>Species</label>
             <ul>
@@ -133,7 +129,7 @@ class SelectorPanel extends Component {
           </div>
         </section>
         <section className="action-subpanel">
-          <button className="btn" onClick={this.updateMe}>(Apply)</button>
+          <button className="hidden" onClick={this.updateMe}>(Apply)</button>
           <button className="hidden" onClick={this.deleteMe}>(Delete)</button>
           <button className="btn" onClick={this.prepareCsv}>(Download)</button>
         </section>
@@ -269,12 +265,6 @@ class SelectorPanel extends Component {
 
   //----------------------------------------------------------------
 
-  updateSpeciesSelection(e) {
-
-  }
-
-  //----------------------------------------------------------------
-
   //Download the current results into a CSV.
   prepareCsv(e) {
     //First things first: make sure the user sees what she/he is going to download.
@@ -340,4 +330,7 @@ class SelectorPanel extends Component {
 SelectorPanel.propTypes = {
   dispatch: PropTypes.func.isRequired
 };
-export default connect()(SelectorPanel);
+
+//Don't subscribe to the Redux Store, but gain access to dispatch() and give
+//this component's parent access to this component via getWrappedInstance()
+export default connect(null, null, null, { withRef: true })(SelectorPanel);

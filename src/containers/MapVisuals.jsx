@@ -134,7 +134,7 @@ class MapVisuals extends Component {
     //--------------------------------
   }
 
-  updateDataVisualisation(props = this.props) {
+  updateDataVisualisation(props = this.props) {    
     //Req check
     if (!(this.state.map && this.state.cartodbLayer)) {
       console.log('MapVisuals.updateDataVisualisation(): failed');

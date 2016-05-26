@@ -32,6 +32,7 @@ class MapExplorer extends Component {
 
     //Event binding
     this.addSelector = this.addSelector.bind(this);
+    this.updateAllSelectors = this.updateAllSelectors.bind(this);
     this.toggleSelectors = this.toggleSelectors.bind(this);
     this.expandSelectors = this.expandSelectors.bind(this);
     this.collapseSelectors = this.collapseSelectors.bind(this);
@@ -49,18 +50,20 @@ class MapExplorer extends Component {
         <MapVisuals ref="mapVisuals"></MapVisuals>
         <section ref="mapControls" className="map-controls">
           <button className="btn toggle-selectors" onClick={this.toggleSelectors}>
-            <span>Showing all species</span>
+            <span>View Map Options</span>
           </button>
           <div>
             <div className="selectors-list">
             {this.props.selectors.map((selector) => {
+              selector.tmp = selector.id + selector.id;
               return (
-                <SelectorPanel key={selector.id} selectorData={selector} />
+                <SelectorPanel ref={'selectorPanel_' + selector.id} key={selector.id} selectorData={selector} />
               );
             })}
             </div>
             <div className="controlPanel">
-              <button className="btn" onClick={this.addSelector}>Add Selector</button>
+              <button className="hidden" onClick={this.addSelector}>Add Selector</button>
+              <button className="btn" onClick={this.updateAllSelectors}>Apply Changes to Map View</button>
             </div>
           </div>
         </section>
@@ -84,6 +87,14 @@ class MapExplorer extends Component {
     this.props.dispatch(addMapSelector());
   }
   
+  updateAllSelectors() {    
+    this.props.selectors.map((selector) => {
+      const selectorPanel = this.refs['selectorPanel_' + selector.id].getWrappedInstance();
+      selectorPanel && selectorPanel.updateMe();
+    });
+    this.toggleSelectors();
+  }
+  
   toggleSelectors() {
     const regexExpand = /\b\s*expand\s*\b/g;
     const regexCollapse = /\b\s*collapse\s*\b/g;
@@ -91,7 +102,6 @@ class MapExplorer extends Component {
     if (regexExpand.test(this.refs.mapExplorer.className)) {
       this.collapseSelectors();
     } else {
-      
       this.expandSelectors();
     }
   }
