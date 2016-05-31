@@ -4,6 +4,7 @@ import DialogScreen from './DialogScreen.jsx';
 export default class DialogScreen_ViewCamera extends DialogScreen {
   constructor(props) {
     super(props);
+    this.closeMe = this.closeMe.bind(this);  //Babel doesn't transpile super() properly in IE10, so we need to explicitly declare this.
   }
 
   render() {

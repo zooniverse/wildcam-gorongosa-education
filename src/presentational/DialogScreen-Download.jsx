@@ -5,6 +5,7 @@ import {saveAs} from 'browser-filesaver';
 export default class DialogScreen_DownloadCSV extends DialogScreen {
   constructor(props) {
     super(props);
+    this.closeMe = this.closeMe.bind(this);  //Babel doesn't transpile super() properly in IE10, so we need to explicitly declare this.
     this.downloadCsv = this.downloadCsv.bind(this);
     this.blobbifyCsvData = this.blobbifyCsvData.bind(this);
     this.generateFilename = this.generateFilename.bind(this);
