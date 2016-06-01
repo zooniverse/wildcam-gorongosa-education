@@ -7,6 +7,7 @@ import * as types from '../constants/actionTypes';
 
 
 // Action creators
+const { root, teachers } = config.eduAPI;
 
 export function createAssignment() {
   return dispatch => {
@@ -22,9 +23,7 @@ export function createAssignment() {
   }
 }
 
-
 export function createClassroom(classroom) {
-  const { root, teachers } = config.eduAPI;
   return dispatch => {
     const createAction = { ...classroom, type: types.CREATE_CLASSROOM };
     dispatch(createAction);
