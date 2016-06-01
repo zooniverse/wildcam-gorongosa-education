@@ -12,7 +12,8 @@ export default class DialogScreen extends React.Component {
   render() {
     return (
       <section role="dialog" className={(this.props.status === DialogScreen.DIALOG_IDLE) ? 'dialog-screen' : 'dialog-screen enabled' } onClick={this.closeMe}>
-        <div className="dialog-box" onClick={this.noAction}>          
+        <div className="dialog-box" onClick={this.noAction}>
+          <button className="btn close-button fa fa-times" onClick={this.closeMe}></button>
           {(this.props.message && this.props.message.length > 0)
           ? <div className="info">{this.props.message}</div>
           : null}
