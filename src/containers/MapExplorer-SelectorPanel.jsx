@@ -5,7 +5,6 @@ const config = require('../constants/mapExplorer.config.json');
 import SelectorData from './MapExplorer-SelectorData.jsx';
 import DialogScreen from '../presentational/DialogScreen.jsx';
 import DialogScreen_Download from '../presentational/DialogScreen-Download.jsx';
-import DialogScreen_Species from '../presentational/DialogScreen-Species.jsx';
 import fetch from 'isomorphic-fetch';
 
 class SelectorPanel extends Component {
@@ -15,12 +14,11 @@ class SelectorPanel extends Component {
     //Event binding
     this.updateMe = this.updateMe.bind(this);
     this.deleteMe = this.deleteMe.bind(this);
-    this.updateSpeciesSelection = this.updateSpeciesSelection.bind(this);
     this.prepareCsv = this.prepareCsv.bind(this);
     this.changeToGuided = this.changeToGuided.bind(this);
     this.changeToAdvanced = this.changeToAdvanced.bind(this);
     this.closeAllDialogs = this.closeAllDialogs.bind(this);
-    
+
     //Initialise state
     this.state = {
       downloadDialog: {
@@ -36,13 +34,13 @@ class SelectorPanel extends Component {
 
   render() {
     const thisId = this.props.selectorData.id;
-    
+
     let speciesText = [];
     config.species.map((item) => {
       (this.props.selectorData.species.indexOf(item.id) >= 0) ? speciesText.push(item.displayName) : null;
     });
     speciesText = speciesText.join(', ');
-    
+
     //Input Choice: Species
     let species = [];
     config.species.map((item) => {
@@ -50,7 +48,7 @@ class SelectorPanel extends Component {
         <li key={'species_'+item.id}><input type="checkbox" id={'inputRow_species_item_' + item.id + '_' + thisId} ref={'inputRow_species_item_' + item.id} value={item.id} /><label htmlFor={'inputRow_species_item_' + item.id + '_' + thisId}>{item.displayName}</label></li>
       );
     });
-    
+
     //Input Choice: Habitats
     let habitats = [];
     config.habitats.map((item) => {
@@ -58,7 +56,7 @@ class SelectorPanel extends Component {
         <li key={'habitat_'+item.id}><input type="checkbox" id={'inputRow_habitats_item_' + item.id + '_' + thisId} ref={'inputRow_habitats_item_' + item.id} value={item.id} /><label htmlFor={'inputRow_habitats_item_' + item.id + '_' + thisId}>{item.displayName}</label></li>
       );
     });
-    
+
     //Input Choice: Seasons
     let seasons = [];
     config.seasons.map((item) => {
@@ -66,22 +64,20 @@ class SelectorPanel extends Component {
         <li key={'seasons_'+item.id}><input type="checkbox" id={'inputRow_seasons_item_' + item.id + '_' + thisId} ref={'inputRow_seasons_item_' + item.id} value={item.id} /><label htmlFor={'inputRow_seasons_item_' + item.id + '_' + thisId}>{item.displayName}</label></li>
       );
     });
-    
+
     //Render!
     return (
       <article className="selector-panel">
         <section className={(this.props.selectorData.mode !== SelectorData.GUIDED_MODE) ? 'input-subpanel not-selected' : 'input-subpanel' } ref="subPanel_guided">
           <button className="btn hidden" onClick={this.changeToGuided}>Standard Mode</button>
-          <div className="input-row hidden">
+          <div className="input-row">
             <label>SPECIES:</label>
             {
               (speciesText.length > 0)
               ? <span>Viewing {speciesText}</span>
               : <span>Viewing all species</span>
             }
-            <button onClick={(e) => { this.setState({ speciesDialog: { status: DialogScreen.DIALOG_ACTIVE } }) }}>...</button>
           </div>
-          <DialogScreen_Species ref="dialog_species" status={this.state.speciesDialog.status} data={this.props.selectorData.species} updateMeHandler={this.updateSpeciesSelection} closeMeHandler={this.closeAllDialogs} />
           <div className="input-row" ref="inputRow_species">
             <label>Species</label>
             <ul>
@@ -108,11 +104,11 @@ class SelectorPanel extends Component {
               <input ref="inputRow_dates_item_end" placeholder="2020-12-31" />
             </div>
           </div>
-          <div className="input-row" className="hidden">
+          <div className="input-row hidden">
             <label>Username:</label>
             <input type="text" ref="username" />
           </div>
-          <div className="input-row" className="hidden">
+          <div className="input-row hidden">
             <label>Marker Color:</label>
             <input type="text" ref="markerColor" />
             <label>Marker Size:</label>
@@ -133,7 +129,7 @@ class SelectorPanel extends Component {
           </div>
         </section>
         <section className="action-subpanel">
-          <button className="btn" onClick={this.updateMe}>(Apply)</button>
+          <button className="hidden" onClick={this.updateMe}>(Apply)</button>
           <button className="hidden" onClick={this.deleteMe}>(Delete)</button>
           <button className="btn" onClick={this.prepareCsv}>(Download)</button>
         </section>
@@ -141,12 +137,12 @@ class SelectorPanel extends Component {
       </article>
     );
   }
-  
+
   componentDidMount() {
     //Set <input> values based on the selector data.
     //WARNING: Do not set values DURING render(), because these will cause the
     //<input> elements to become strictly 'controlled' React elements.
-    
+
     //Update the UI to reflect the current selector values
     config.species.map((item) => {
       this.refs['inputRow_species_item_' + item.id].checked = (this.props.selectorData.species.indexOf(item.id) >= 0);
@@ -159,36 +155,36 @@ class SelectorPanel extends Component {
     });
     this.refs['inputRow_dates_item_start'].value = this.props.selectorData.dateStart;
     this.refs['inputRow_dates_item_end'].value = this.props.selectorData.dateEnd;
-    
+
     //Some extra options
     this.refs.username.value = this.props.selectorData.user;
-    
+
     //Same for the styling
     this.refs.markerColor.value = this.props.selectorData.markerColor;
     this.refs.markerOpacity.value = this.props.selectorData.markerOpacity;
     this.refs.markerSize.value = this.props.selectorData.markerSize;
-    
+
     //Same for the Advanced panel.
     this.refs.sql.value = this.props.selectorData.sql;
     this.refs.css.value = this.props.selectorData.css;
   }
-  
+
   //----------------------------------------------------------------
-  
+
   changeToGuided(e) {
     let data = this.props.selectorData.copy();
     data.mode = SelectorData.GUIDED_MODE;
     this.props.dispatch(editMapSelector(data));
   }
-  
+
   changeToAdvanced(e) {
     let data = this.props.selectorData.copy();
     data.mode = SelectorData.ADVANCED_MODE;
     this.props.dispatch(editMapSelector(data));
   }
-  
+
   //----------------------------------------------------------------
-  
+
   closeAllDialogs(e) {
     this.setState(
       {
@@ -203,9 +199,9 @@ class SelectorPanel extends Component {
       }
     );
   }
-  
+
   //----------------------------------------------------------------
-  
+
   //Tells the parent that this Selector has updated its values.
   updateMe(e) {
     //Create a copy of the current Selector Data, which we will then modify and
@@ -220,7 +216,7 @@ class SelectorPanel extends Component {
         data.species.push(item.id);
       }
     });
-    
+
     //Filter control: habitats
     data.habitats = [];
     config.habitats.map((item) => {
@@ -229,7 +225,7 @@ class SelectorPanel extends Component {
         data.habitats.push(item.id);
       }
     });
-    
+
     //Filter control: seasons
     data.seasons = [];
     config.seasons.map((item) => {
@@ -238,11 +234,11 @@ class SelectorPanel extends Component {
         data.seasons.push(item.id);
       }
     });
-    
+
     //Filter control: dates
     data.dateStart = this.refs['inputRow_dates_item_start'].value.trim();
     data.dateEnd = this.refs['inputRow_dates_item_end'].value.trim();
-    
+
     //Filter control: users & grouping
     data.user = this.refs.username.value.trim();
 
@@ -258,35 +254,29 @@ class SelectorPanel extends Component {
     }
     data.sql = this.refs.sql.value;
     data.css = this.refs.css.value;
-    
+
     //Commit the changes.
     this.props.dispatch(editMapSelector(data));
   }
-  
+
   deleteMe(e) {
     this.props.dispatch(removeMapSelector(this.props.selectorData));
   }
-  
+
   //----------------------------------------------------------------
-  
-  updateSpeciesSelection(e) {
-    
-  }
-  
-  //----------------------------------------------------------------
-  
+
   //Download the current results into a CSV.
   prepareCsv(e) {
     //First things first: make sure the user sees what she/he is going to download.
     this.updateMe(null);
-    
+
     this.setState({
       downloadDialog: {
         status: DialogScreen.DIALOG_ACTOVE,
         message: 'Preparing data file...',
         data: null
     }});
-    
+
     const sqlQuery = this.props.selectorData.calculateSql(config.cartodb.sqlQueryDownload);
     console.log('Prepare CSV: ', sqlQuery);
     fetch(config.cartodb.sqlApi.replace('{SQLQUERY}', encodeURI(sqlQuery)))
@@ -299,13 +289,13 @@ class SelectorPanel extends Component {
       .then((json) => {
         let data = [];
         let row = [];
-      
+
         for (let key in json.fields) {
           row.push('"'+key.replace(/"/g, '\\"')+'"');
         }
         row = row.join(',');
         data.push(row);
-      
+
         json.rows.map((rowItem) => {
           let row = [];
           for (let key in json.fields) {
@@ -340,4 +330,7 @@ class SelectorPanel extends Component {
 SelectorPanel.propTypes = {
   dispatch: PropTypes.func.isRequired
 };
-export default connect()(SelectorPanel);
+
+//Don't subscribe to the Redux Store, but gain access to dispatch() and give
+//this component's parent access to this component via getWrappedInstance()
+export default connect(null, null, null, { withRef: true })(SelectorPanel);

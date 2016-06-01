@@ -6,7 +6,7 @@ export default class App extends Component {
   }
 
   render() {
-    console.log(process.env.NODE_ENV)
+    console.log('Environment: ' + process.env.NODE_ENV)
     return this.props.children;
   }
 }

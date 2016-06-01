@@ -1,6 +1,6 @@
 import { browserHistory } from 'react-router';
 import fetch from 'isomorphic-fetch';
-import Panoptes from 'panoptes-client';
+import apiClient from 'panoptes-client/lib/api-client';
 
 import config from '../constants/config';
 import * as types from '../constants/actionTypes';
@@ -17,7 +17,7 @@ export function joinClassroom(id, token) {
       method: 'POST',
       mode: 'cors',
       headers: new Headers({
-          'Authorization': Panoptes.apiClient.headers.Authorization,
+          'Authorization': apiClient.headers.Authorization,
           'Content-Type': 'application/json'
       }),
       body: JSON.stringify({'join_token': token})
@@ -43,7 +43,7 @@ export function fetchStudentClassrooms() {
       method: 'GET',
       mode: 'cors',
       headers: new Headers({
-          'Authorization': Panoptes.apiClient.headers.Authorization,
+          'Authorization': apiClient.headers.Authorization,
           'Content-Type': 'application/json'
         })
       })
