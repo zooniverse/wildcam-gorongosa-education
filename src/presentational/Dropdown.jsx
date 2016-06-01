@@ -41,10 +41,10 @@ Dropdown.defaultProps = {
   question: null,
   name: null,
   onChange: null,
-  options: null,
+  options: [],
   value: null,
 }
 
 Dropdown.propTypes = {
-  options: PropTypes.object.isRequired
+  options: PropTypes.array.isRequired
 }
