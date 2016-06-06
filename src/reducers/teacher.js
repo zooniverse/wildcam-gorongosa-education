@@ -66,7 +66,7 @@ export function teacher(state = initialState, action) {
       let uniqueMembers = [];
       action.members && action.members.map(item => {
         if (uniqueMembers.indexOf(item.attributes.zooniverse_login) < 0) {
-          uniqueMembers.push(item.attributes.zooniverse_login);
+          uniqueMembers.push(item);
         }
       });
       return { ...state,

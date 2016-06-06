@@ -14,8 +14,14 @@ class NewClassroomForm extends Component {
     this.state = {
       name: this.props.name || '',
     }
+    this.addStudentsToAssignment = this.addStudentsToAssignment.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.renderStudentList = this.renderStudentList.bind(this);
+  }
+
+  addStudentsToAssignment() {
+
   }
 
   handleChange(e) {
@@ -36,8 +42,41 @@ class NewClassroomForm extends Component {
     })
   }
 
+  renderStudentList(students) {
+    return (
+      <div>
+        {(students.length > 0) ?
+        <table className="table table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {students.map((student, i) =>
+            <tr key={i}>
+              <td>{student.attributes.zooniverse_display_name}</td>
+              <td><label><input className="btn btn-danger" onChange={this.handleChange} type="checkbox" />Add</label></td>
+            </tr>
+            )}
+          </tbody>
+        </table>
+        : 'No students here' }
+      </div>
+    )
+  }
+
   render() {
-    const classrooms = this.props.classrooms.data ? this.props.classrooms.data : null;
+    const { classrooms, params } = this.props;
+    const data = classrooms.data ? classrooms.data : [];
+    const currentClassroom = data.find(classroom => classroom.id === params.classroomId)
+    const currentStudentsIds = currentClassroom.relationships && currentClassroom.relationships.students.data.length > 0
+      ? currentClassroom.relationships.students.data.map(student => student.id)
+      : [];
+    const currentStudents = classrooms.uniqueMembers.filter(
+      student => currentStudentsIds.includes(student.id)
+    )
     return (
       <div className="col-md-4">
         <div className='page-header'>
@@ -59,9 +98,12 @@ class NewClassroomForm extends Component {
               autofocus="true"
               question='Classroom'
               name='classroom'
-              options={classrooms}
+              options={data}
               value='Make a selection'
               onChange={this.handleChange}/>
+          </div>
+          <div className="form-group">
+            { this.renderStudentList(currentStudents) }
           </div>
           <div className="form-group">
            <button type="submit" className="btn btn-primary pull-right">Submit</button>
