@@ -55,7 +55,7 @@ oauth.init(config.panoptesAppId)
                 <Route path="register" component={TeacherForm} />
                 <Route path="new" component={NewClassroom} />
                 <Route path=":classroomId/edit" component={EditClassroom} />
-                <Route path="assignment" component={NewAssignmentForm} />
+                <Route path=":classroomId/assignment" component={NewAssignmentForm} />
                 <Route path=":classroomId" component={Classroom} />
               </Route>
               <Route path="data" component={MapExplorer} />
