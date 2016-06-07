@@ -3,10 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import Dropdown from 'Dropdown.jsx';
-import CheckboxGroup from 'CheckboxGroup.jsx';
 
 import { createAssignment } from '../actions/teacher';
-
 
 class NewClassroomForm extends Component {
   constructor(props) {
@@ -33,7 +31,6 @@ class NewClassroomForm extends Component {
   handleSubmit(e) {
     e.preventDefault();
     let name = e.target[0].value.trim();
-
     if (name.length > 0) {
       this.props.dispatch(createAssignment()
     )}
@@ -57,7 +54,7 @@ class NewClassroomForm extends Component {
             {students.map((student, i) =>
             <tr key={i}>
               <td>{student.attributes.zooniverse_display_name}</td>
-              <td><label><input className="btn btn-danger" onChange={this.handleChange} type="checkbox" />Add</label></td>
+              <td><label><input onChange={this.handleChange} type="checkbox" />Add</label></td>
             </tr>
             )}
           </tbody>
@@ -95,11 +92,10 @@ class NewClassroomForm extends Component {
           </div>
           <div className="form-group">
             <Dropdown
-              autofocus="true"
               question='Classroom'
               name='classroom'
               options={data}
-              value='Make a selection'
+              value={currentClassroom.attributes.name}
               onChange={this.handleChange}/>
           </div>
           <div className="form-group">

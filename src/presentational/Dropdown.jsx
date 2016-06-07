@@ -9,6 +9,10 @@ export default class Dropdown extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentDidMount() {
+    this.setState({selected: this.props.value});
+  }
+
   handleChange(e) {
     this.props.onChange(e);
     this.setState({selected: e.target.value});

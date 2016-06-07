@@ -6,7 +6,7 @@ import NewClassroomFormElement from './NewClassroomFormElement';
 const initialState = {
   name: '',
   subject: '',
-  school  : '',
+  school: '',
   description: '',
 };
 
