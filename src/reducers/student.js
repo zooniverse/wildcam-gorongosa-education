@@ -30,6 +30,16 @@ export function student(state = initialState, action) {
           members: state.classrooms.members.concat(action.members),
         }
       }
+    case types.JOIN_CLASSROOM_ERROR:
+      alert('ERROR: Could not join Classroom. Classroom may no longer exist, or the join URL may be incorrect.');
+      return { ...state,
+        classrooms: {
+          loading: false,
+          data: state.classrooms.data,
+          error: false,
+          members: state.classrooms.members,
+        }
+      }
     case types.REQUEST_STUDENT_CLASSROOMS:
       return { ...state,
         classrooms: {
