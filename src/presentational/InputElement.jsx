@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-const NewClassroomFormElement = props => {
+const InputElement = props => {
   const { label, ...other } = props;
   other.name = other.name || label.toLowerCase();
   const id = `editform-${ other.name }`;
@@ -18,9 +18,9 @@ const NewClassroomFormElement = props => {
   );
 }
 
-NewClassroomFormElement.PropTypes = {
+InputElement.PropTypes = {
   label: PropTypes.string.isRequired,
   name: PropTypes.string,
 };
 
-export default NewClassroomFormElement;
+export default InputElement;

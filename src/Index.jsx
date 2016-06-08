@@ -17,12 +17,12 @@ import EditClassroom from './containers/EditClassroom.jsx';
 
 import Home from './presentational/Home.jsx';
 import ClassroomsOverview from './presentational/ClassroomsOverview.jsx';
-import NewClassroomForm from './presentational/NewClassroomForm.jsx';
+import ClassroomForm from './presentational/ClassroomForm.jsx';
 import NewClassroom from './containers/NewClassroom.jsx';
 import StudentOverview from './presentational/StudentOverview.jsx';
 
 import TeacherForm from './presentational/TeacherForm.jsx';
-import NewAssignmentForm from './presentational/NewAssignmentForm.jsx';
+import AssignmentForm from './presentational/AssignmentForm.jsx';
 import Resources from './presentational/Resources.jsx';
 import TutorialForTeachers from './presentational/Tutorial-Teachers.jsx';
 import TutorialForStudents from './presentational/Tutorial-Students.jsx';
@@ -55,7 +55,7 @@ oauth.init(config.panoptesAppId)
                 <Route path="register" component={TeacherForm} />
                 <Route path="new" component={NewClassroom} />
                 <Route path=":classroomId/edit" component={EditClassroom} />
-                <Route path=":classroomId/assignment" component={NewAssignmentForm} />
+                <Route path=":classroomId/assignment" component={AssignmentForm} />
                 <Route path=":classroomId" component={Classroom} />
               </Route>
               <Route path="data" component={MapExplorer} />

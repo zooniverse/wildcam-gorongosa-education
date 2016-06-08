@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 
 import { createClassroom } from '../actions/teacher';
-import NewClassroomForm from '../presentational/NewClassroomForm';
+import ClassroomForm from '../presentational/ClassroomForm';
 
 
 class NewClassroom extends Component {
@@ -15,7 +15,7 @@ class NewClassroom extends Component {
         <div className='page-header'>
           <h1>New Classroom</h1>
         </div>
-        <NewClassroomForm submitForm={this.props.createClassroom} />
+        <ClassroomForm submitForm={this.props.createClassroom} />
       </div>
     );
   }
