@@ -1,13 +1,13 @@
 import * as types from '../constants/actionTypes';
-import SelectorData from '../containers/MapExplorer-SelectorData.jsx';
+import MapSelector from '../containers/MapSelector.jsx';
 
-const initialState = { selectors: [new SelectorData()] };
+const initialState = { selectors: [new MapSelector()] };
 
 export function map(state = initialState, action) {
   switch (action.type) {
     case types.ADD_MAP_SELECTOR:
       let newSelectors = state.selectors.slice();
-      newSelectors.push(new SelectorData());
+      newSelectors.push(new MapSelector());
       return Object.assign({}, state, {
         selectors: newSelectors,
       });

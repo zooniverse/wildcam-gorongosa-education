@@ -1,6 +1,6 @@
 const config = require('../constants/mapExplorer.config.json');
 
-export default class SelectorData {
+export default class MapSelector {
   constructor() {
     this.id = //Random ID.
       '0123456789abcdef'[Math.floor(Math.random() * 16)] +
@@ -11,7 +11,7 @@ export default class SelectorData {
       '0123456789abcdef'[Math.floor(Math.random() * 16)] +
       '0123456789abcdef'[Math.floor(Math.random() * 16)] +
       '0123456789abcdef'[Math.floor(Math.random() * 16)];
-    this.mode = SelectorData.GUIDED_MODE;
+    this.mode = MapSelector.GUIDED_MODE;
     
     //Default filter selectors
     this.species = [];  //For a pre-set selection, use ['baboon', 'lion'] or etc.
@@ -129,7 +129,7 @@ export default class SelectorData {
   }
   
   copy() {
-    let newCopy = new SelectorData();
+    let newCopy = new MapSelector();
     for (let i in this) {
       if (this.hasOwnProperty(i) && i !== 'copy') {
         newCopy[i] = this[i];
@@ -138,5 +138,5 @@ export default class SelectorData {
     return newCopy;
   }
 }
-SelectorData.GUIDED_MODE = 1;
-SelectorData.ADVANCED_MODE = 2;
+MapSelector.GUIDED_MODE = 1;
+MapSelector.ADVANCED_MODE = 2;

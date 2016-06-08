@@ -2,12 +2,12 @@ import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { removeMapSelector, editMapSelector } from '../actions/map';
 const config = require('../constants/mapExplorer.config.json');
-import SelectorData from './MapExplorer-SelectorData.jsx';
+import MapSelector from './MapSelector.jsx';
 import DialogScreen from '../presentational/DialogScreen.jsx';
 import DialogScreen_Download from '../presentational/DialogScreen-Download.jsx';
 import fetch from 'isomorphic-fetch';
 
-class SelectorPanel extends Component {
+class MapControls extends Component {
   constructor(props) {
     super(props);
 
@@ -68,7 +68,7 @@ class SelectorPanel extends Component {
     //Render!
     return (
       <article className="selector-panel">
-        <section className={(this.props.selectorData.mode !== SelectorData.GUIDED_MODE) ? 'input-subpanel not-selected' : 'input-subpanel' } ref="subPanel_guided">
+        <section className={(this.props.selectorData.mode !== MapSelector.GUIDED_MODE) ? 'input-subpanel not-selected' : 'input-subpanel' } ref="subPanel_guided">
           <button className="btn hidden" onClick={this.changeToGuided}>Standard Mode</button>
           <div className="input-row">
             <label>SPECIES:</label>
@@ -117,7 +117,7 @@ class SelectorPanel extends Component {
             <input type="text" ref="markerOpacity" />
           </div>
         </section>
-        <section className={(this.props.selectorData.mode !== SelectorData.ADVANCED_MODE) ? 'input-subpanel not-selected' : 'input-subpanel' } ref="subPanel_advanced" >
+        <section className={(this.props.selectorData.mode !== MapSelector.ADVANCED_MODE) ? 'input-subpanel not-selected' : 'input-subpanel' } ref="subPanel_advanced" >
           <button className="btn hidden" onClick={this.changeToAdvanced}>Advanced Mode</button>
           <div className="input-row">
             <label>SQL Query</label>
@@ -173,13 +173,13 @@ class SelectorPanel extends Component {
 
   changeToGuided(e) {
     let data = this.props.selectorData.copy();
-    data.mode = SelectorData.GUIDED_MODE;
+    data.mode = MapSelector.GUIDED_MODE;
     this.props.dispatch(editMapSelector(data));
   }
 
   changeToAdvanced(e) {
     let data = this.props.selectorData.copy();
-    data.mode = SelectorData.ADVANCED_MODE;
+    data.mode = MapSelector.ADVANCED_MODE;
     this.props.dispatch(editMapSelector(data));
   }
 
@@ -248,7 +248,7 @@ class SelectorPanel extends Component {
     data.markerSize = this.refs.markerSize.value;
 
     //Filter control: mode
-    if (data.mode === SelectorData.GUIDED_MODE) {
+    if (data.mode === MapSelector.GUIDED_MODE) {
       this.refs.sql.value = data.calculateSql(config.cartodb.sqlQueryCountItems);
       this.refs.css.value = data.calculateCss();
     }
@@ -327,10 +327,10 @@ class SelectorPanel extends Component {
   }
 }
 
-SelectorPanel.propTypes = {
+MapControls.propTypes = {
   dispatch: PropTypes.func.isRequired
 };
 
 //Don't subscribe to the Redux Store, but gain access to dispatch() and give
 //this component's parent access to this component via getWrappedInstance()
-export default connect(null, null, null, { withRef: true })(SelectorPanel);
+export default connect(null, null, null, { withRef: true })(MapControls);
