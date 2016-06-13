@@ -63,6 +63,10 @@ module.exports = {
         loader: 'babel',
       },
       {
+        test: /\.ico$/,
+        loader: 'file?name=[name].[ext]',
+      },
+      {
         test: /\.(jpg|png|gif|otf|eot|svg|ttf|woff\d?)$/,
         loader: 'file-loader',
       },

@@ -70,6 +70,10 @@ module.exports = {
         loader: 'style-loader!css-loader!stylus-loader',
       },
       {
+        test: /\.ico$/,
+        loader: 'file?name=[name].[ext]',
+      },
+      {
         test: /\.(jpg|png|gif|otf|eot|svg|ttf|woff\d?)$/,
         loader: 'file-loader',
       },
