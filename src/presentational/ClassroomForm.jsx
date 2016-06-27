@@ -57,32 +57,27 @@ class ClassroomForm extends Component {
           onChange={this.handleChange}
           required="required"
         />
-
         <InputElement
           label="Subject"
           placeholder="Subject"
           value={this.state.subject}
           onChange={this.handleChange}
         />
-
         <InputElement
           label="School"
           placeholder="School"
           value={this.state.school}
           onChange={this.handleChange}
         />
-
         <InputElement
           label="Description"
           placeholder="Description"
           value={this.state.description}
           onChange={this.handleChange}
         />
-
         <div className="form-group">
           <button type="submit" className="btn btn-primary pull-right">Submit</button>
         </div>
-
       </form>
     );
   }
