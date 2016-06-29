@@ -16,7 +16,11 @@ class NewAssignment extends Component {
         <div className='page-header'>
           <h1>New Assignment</h1>
         </div>
-        <AssignmentForm classrooms={classrooms} params={params} submitForm={createAssignment} />
+        <AssignmentForm
+          classrooms={classrooms}
+          params={params}
+          submitForm={createAssignment}
+        />
       </div>
     );
   }

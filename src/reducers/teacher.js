@@ -78,16 +78,6 @@ export function teacher(state = initialState, action) {
           uniqueMembers: uniqueMembers || [],
         }
       };
-    case types.CREATE_ASSIGNMENT:
-      return { ...state,
-        classrooms: {
-          loading: true,
-          data: state.classrooms.data,
-          error: state.classrooms.error,
-          members: state.classrooms.members,
-          uniqueMembers: state.classrooms.uniqueMembers,
-        }
-      }
     case types.CREATE_CLASSROOM:
       return { ...state,
         classrooms: {

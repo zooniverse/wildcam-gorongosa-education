@@ -4,11 +4,15 @@ import { Link } from 'react-router';
 import InputElement from './InputElement';
 
 const initialState = {
-  name: '',
+  active: false,
+  classifications: '',
   description: '',
-  date: '',
-  students: [] ,
+  duedate: '',
+  name: '',
+  students: [],
+  subjects: [],
 }
+
 
 class AssignmentForm extends Component {
   constructor(props) {
@@ -17,31 +21,23 @@ class AssignmentForm extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.renderStudentList = this.renderStudentList.bind(this);
     this.toggleStudent = this.toggleStudent.bind(this);
-    this.state = Object.assign({}, initialState, props.fields );
+    this.state = Object.assign({}, initialState);
   }
 
 
-  addStudentsToAssignment() {
-
+  toggleStudent(id) {
+    if (this.state.students.includes(id)) {
+      this.state.students = this.state.students.filter(student => student !== id)
+      this.setState({
+        students: this.state.students,
+      })
+    } else {
+      this.state.students.push(id);
+      this.setState({
+        students: this.state.students,
+      })
+    }
   }
-
-
-// Move this Assignment reducer
-//
-//  toggleStudent(id) {
-//    let newState = Object.assign({}, this.state);
-//    console.log(this.state.students[id])
-//    if (this.state.students[id]) {
-//      newState.students.filter(student => student.id !== id)
-//      console.log('remove: ', newState)
-//      return newState;
-//
-//    } else {
-//      newState.students.push(id);
-//      console.log('add: ', newState)
-//      return newState;
-//    }
-//  }
 
   handleChange(e) {
     let nextState = {};
@@ -73,8 +69,12 @@ class AssignmentForm extends Component {
           </thead>
           <tbody>
             {students.map((student) =>
-            <tr key={student.id}>
-              <td onClick={this.toggleStudent.bind(this, student.id)}>
+            <tr
+              className={this.state.students.find(id => id === student.id) ? 'success' : ''}
+              key={student.id}
+              onClick={this.toggleStudent.bind(this, student.id)}
+            >
+              <td>
                 {student.attributes.zooniverse_display_name}
               </td>
             </tr>
@@ -120,6 +120,13 @@ class AssignmentForm extends Component {
           placeholder="E.g. MM-DD-YYYY"
           required="required"
           value={this.state.date}
+        />
+        <InputElement
+          label="Classifications"
+          onChange={this.handleChange}
+          placeholder="Number per student"
+          required="required"
+          value={this.state.classifications}
         />
         <div className="form-group">
           <label>Students</label>

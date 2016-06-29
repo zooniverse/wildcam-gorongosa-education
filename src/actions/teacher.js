@@ -9,20 +9,6 @@ import * as types from '../constants/actionTypes';
 // Action creators
 const { root, teachers } = config.eduAPI;
 
-export function createAssignment() {
-  return dispatch => {
-    dispatch({
-      type: types.CREATE_ASSIGNMENT,
-      name,
-      classroom,
-      subjects,
-      date,
-      classifications,
-    });
-    return true;
-  }
-}
-
 export function createClassroom(classroom) {
   return dispatch => {
     const createAction = { ...classroom, type: types.CREATE_CLASSROOM };
