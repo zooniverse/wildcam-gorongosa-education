@@ -7,6 +7,7 @@ import config from '../constants/config';
 import EditClassroomLink from './EditClassroomLink';
 import AssignmentLink from './AssignmentLink';
 
+
 export default class Classroom extends Component {
   constructor(props) {
     super(props);

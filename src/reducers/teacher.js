@@ -109,7 +109,6 @@ export function teacher(state = initialState, action) {
           uniqueMembers: state.classrooms.uniqueMembers,
         }
       };
-
     case types.DELETE_STUDENT:
       return { ...state,
         classrooms: {

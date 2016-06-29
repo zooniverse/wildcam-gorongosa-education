@@ -17,7 +17,6 @@ import EditClassroom from './containers/EditClassroom.jsx';
 
 import Home from './presentational/Home.jsx';
 import ClassroomsOverview from './presentational/ClassroomsOverview.jsx';
-
 import NewClassroom from './containers/NewClassroom.jsx';
 import StudentOverview from './presentational/StudentOverview.jsx';
 
