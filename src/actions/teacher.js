@@ -10,11 +10,8 @@ import * as types from '../constants/actionTypes';
 const { root, teachers } = config.eduAPI;
 
 export function createClassroom(classroom) {
-  console.log('Classroom ', classroom)
-  console.log('dispatch ', dispatch)
   return dispatch => {
     const createAction = { ...classroom, type: types.CREATE_CLASSROOM };
-    console.log('CREATE ACTION ', createAction);
     dispatch(createAction);
     return fetch(root + teachers, {
       method: 'POST',

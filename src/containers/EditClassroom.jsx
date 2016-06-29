@@ -7,7 +7,6 @@ import { editClassroom } from '../actions/teacher';
 
 import ClassroomForm from '../presentational/ClassroomForm';
 
-
 class EditClassroom extends Component {
 
   constructor() {
