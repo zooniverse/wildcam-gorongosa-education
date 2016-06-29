@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 
-import { createAssignment } from '../actions/teacher';
+import { createAssignment } from '../actions/assignment';
 import AssignmentForm from '../presentational/AssignmentForm';
 
 

@@ -4,8 +4,7 @@ import { Link } from 'react-router';
 import InputElement from './InputElement';
 
 const initialState = {
-  active: false,
-  classifications: '',
+  classifications_target: '',
   description: '',
   duedate: '',
   name: '',
@@ -42,7 +41,6 @@ class AssignmentForm extends Component {
   handleChange(e) {
     let nextState = {};
     nextState[e.target.name] = e.target.value;
-    console.log('nextState: ', nextState);
     this.setState(nextState);
   }
 
@@ -51,10 +49,10 @@ class AssignmentForm extends Component {
     const newAssignment = {};
     for (const key in this.state) {
       if (this.state.hasOwnProperty(key)) {
-        newAssignment[key] = this.state[key].trim();
+        newAssignment[key] = this.state[key];
       }
     }
-    this.props.submitForm(newAssignment);
+    this.props.submitForm(newAssignment, this.props.params.classroomId);
   }
 
   renderStudentList(students) {
@@ -116,17 +114,19 @@ class AssignmentForm extends Component {
         />
         <InputElement
           label="Date"
+          name="duedate"
           onChange={this.handleChange}
           placeholder="E.g. MM-DD-YYYY"
           required="required"
-          value={this.state.date}
+          value={this.state.duedate}
         />
         <InputElement
-          label="Classifications"
+          label="Number of classifications"
+          name="classifications_target"
           onChange={this.handleChange}
-          placeholder="Number per student"
+          placeholder="Note: per student"
           required="required"
-          value={this.state.classifications}
+          value={this.state.classifications_target}
         />
         <div className="form-group">
           <label>Students</label>
