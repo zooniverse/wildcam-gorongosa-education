@@ -11,6 +11,7 @@ const { root, teachers } = config.eduAPI;
 
 export function createClassroom(classroom) {
   console.log('Classroom ', classroom)
+  console.log('dispatch ', dispatch)
   return dispatch => {
     const createAction = { ...classroom, type: types.CREATE_CLASSROOM };
     console.log('CREATE ACTION ', createAction);

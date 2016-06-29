@@ -10,7 +10,7 @@ import AssignmentForm from '../presentational/AssignmentForm';
 class NewAssignment extends Component {
 
   render() {
-    const { classrooms, createAssignments, params } = this.props;
+    const { classrooms, createAssignment, params } = this.props;
     return (
       <div className="col-md-4">
         <div className='page-header'>
