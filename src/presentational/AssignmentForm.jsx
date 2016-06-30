@@ -23,23 +23,21 @@ class AssignmentForm extends Component {
     this.state = Object.assign({}, initialState);
   }
 
-
   toggleStudent(id) {
-    if (this.state.students.includes(id)) {
-      this.state.students = this.state.students.filter(student => student !== id)
+    const { students } = this.state;
+    if (students.includes(id)) {
       this.setState({
-        students: this.state.students,
+        students: students.filter(student => student !== id),
       })
     } else {
-      this.state.students.push(id);
       this.setState({
-        students: this.state.students,
+        students: students.concat(id),
       })
     }
   }
 
   handleChange(e) {
-    let nextState = {};
+    const nextState = {};
     nextState[e.target.name] = e.target.value;
     this.setState(nextState);
   }
@@ -52,7 +50,11 @@ class AssignmentForm extends Component {
         newAssignment[key] = this.state[key];
       }
     }
-    this.props.submitForm(newAssignment, this.props.params.classroomId);
+    if (newAssignment.students.length > 0 && newAssignment.subjects.length) {
+      this.props.submitForm(newAssignment, this.props.params.classroomId)
+    } else {
+      alert('You can\'t create an assignment without students or subjects.')
+    };
   }
 
   renderStudentList(students) {
@@ -63,6 +65,7 @@ class AssignmentForm extends Component {
           <thead>
             <tr>
               <th>Name</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -70,10 +73,12 @@ class AssignmentForm extends Component {
             <tr
               className={this.state.students.find(id => id === student.id) ? 'success' : ''}
               key={student.id}
-              onClick={this.toggleStudent.bind(this, student.id)}
             >
               <td>
                 {student.attributes.zooniverse_display_name}
+              </td>
+              <td>
+                <input type="checkbox" onClick={this.toggleStudent.bind(this, student.id)} />
               </td>
             </tr>
             )}
@@ -129,7 +134,7 @@ class AssignmentForm extends Component {
           value={this.state.classifications_target}
         />
         <div className="form-group">
-          <label>Students</label>
+          <div><strong>Students</strong></div>
           { this.renderStudentList(currentStudents) }
         </div>
         <div className="form-group">

@@ -10,7 +10,6 @@ const initialState = {
 
 
 export function assignment(state = initialState, action) {
-  let newState = Object.assign({}, state);
   switch (action.type) {
     case types.CREATE_ASSIGNMENT:
       return { ...state,

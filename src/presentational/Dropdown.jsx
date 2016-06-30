@@ -21,10 +21,9 @@ export default class Dropdown extends Component {
   render() {
     const options = this.props.options.map(option =>
         <option
-          // the disjunctions allow for the case where options are classrooms (right-hand side)
-          key={option.value || option.id}
-          value={option.label || option.attributes.name}>
-            {option.label || option.attributes.name}
+          key={option.value}
+          value={option.label}>
+            {option.label}
         </option>
     )
     return (

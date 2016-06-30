@@ -6,7 +6,7 @@ import CheckboxGroup from 'CheckboxGroup.jsx';
 import RadioButtonGroup from 'RadioButtonGroup.jsx';
 
 import { fetchUserDetails, upsertTeacherMetadata } from '../actions/users';
-import { age, boolean, courses,   countries, resources, settings } from '../constants/util';
+import { age, boolean, courses, countries, resources, settings } from '../constants/util';
 
 class TeacherForm extends Component {
   constructor(props) {
