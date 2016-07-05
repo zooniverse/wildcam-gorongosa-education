@@ -62,23 +62,17 @@ class AssignmentForm extends Component {
       <div>
         {(students.length > 0) ?
         <table className="table table-hover">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Action</th>
-            </tr>
-          </thead>
           <tbody>
             {students.map((student) =>
             <tr
               className={this.state.students.find(id => id === student.id) ? 'success' : ''}
               key={student.id}
             >
+
               <td>
+                <label><input type="checkbox" value={student.id} onClick={this.toggleStudent.bind(this, student.id)} />
                 {student.attributes.zooniverse_display_name}
-              </td>
-              <td>
-                <input type="checkbox" onClick={this.toggleStudent.bind(this, student.id)} />
+                </label>
               </td>
             </tr>
             )}
@@ -134,7 +128,7 @@ class AssignmentForm extends Component {
           value={this.state.classifications_target}
         />
         <div className="form-group">
-          <div><strong>Students</strong></div>
+          <div><strong>Students by username</strong></div>
           { this.renderStudentList(currentStudents) }
         </div>
         <div className="form-group">
