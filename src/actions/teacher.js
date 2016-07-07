@@ -7,7 +7,6 @@ import * as types from '../constants/actionTypes';
 
 
 // Action creators
-
 const { root, teachers } = config.eduAPI;
 
 export function createClassroom(classroom) {

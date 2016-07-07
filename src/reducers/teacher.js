@@ -66,7 +66,7 @@ export function teacher(state = initialState, action) {
       let uniqueMembers = [];
       action.members && action.members.map(item => {
         if (uniqueMembers.indexOf(item.attributes.zooniverse_login) < 0) {
-          uniqueMembers.push(item.attributes.zooniverse_login);
+          uniqueMembers.push(item);
         }
       });
       return { ...state,
@@ -77,7 +77,7 @@ export function teacher(state = initialState, action) {
           members: action.members || [],
           uniqueMembers: uniqueMembers || [],
         }
-      }
+      };
     case types.CREATE_CLASSROOM:
       return { ...state,
         classrooms: {

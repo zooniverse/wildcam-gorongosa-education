@@ -1,16 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
-import NewClassroomFormElement from './NewClassroomFormElement';
+import InputElement from './InputElement';
 
 const initialState = {
   name: '',
   subject: '',
-  school  : '',
+  school: '',
   description: '',
 };
 
-class NewClassroomForm extends Component {
+class ClassroomForm extends Component {
 
   constructor(props) {
     super(props);
@@ -49,7 +49,7 @@ class NewClassroomForm extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <NewClassroomFormElement
+        <InputElement
           label="Name"
           placeholder="Insert Name"
           autofocus="true"
@@ -57,41 +57,36 @@ class NewClassroomForm extends Component {
           onChange={this.handleChange}
           required="required"
         />
-
-        <NewClassroomFormElement
+        <InputElement
           label="Subject"
           placeholder="Subject"
           value={this.state.subject}
           onChange={this.handleChange}
         />
-
-        <NewClassroomFormElement
+        <InputElement
           label="School"
           placeholder="School"
           value={this.state.school}
           onChange={this.handleChange}
         />
-
-        <NewClassroomFormElement
+        <InputElement
           label="Description"
           placeholder="Description"
           value={this.state.description}
           onChange={this.handleChange}
         />
-
         <div className="form-group">
           <button type="submit" className="btn btn-primary pull-right">Submit</button>
         </div>
-
       </form>
     );
   }
 }
 
-NewClassroomForm.propTypes = {
+ClassroomForm.propTypes = {
   submitForm: PropTypes.func.isRequired,
   name: PropTypes.string,
   subject: PropTypes.string,
 };
 
-export default NewClassroomForm;
+export default ClassroomForm;

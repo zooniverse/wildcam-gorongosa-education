@@ -2,6 +2,7 @@ import { mergeDeep } from '../helpers';
 
 const defaultConfig = {
   eduAPI: {
+    assignments: 'assignments/',
     students: 'students/classrooms/',
     teachers: 'teachers/classrooms/',
     users: 'users/'

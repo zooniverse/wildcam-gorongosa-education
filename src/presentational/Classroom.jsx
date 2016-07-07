@@ -5,6 +5,8 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 
 import config from '../constants/config';
 import EditClassroomLink from './EditClassroomLink';
+import AssignmentLink from './AssignmentLink';
+
 
 export default class Classroom extends Component {
   constructor(props) {
@@ -132,7 +134,7 @@ export default class Classroom extends Component {
             { this.renderStudentList(students) }
           </TabPanel>
           <TabPanel>
-            Assignments
+            <AssignmentLink classroom={data} />
           </TabPanel>
         </Tabs>
       </section>

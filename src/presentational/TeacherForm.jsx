@@ -1,9 +1,9 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import Dropdown from '../presentational/Dropdown.jsx';
-import CheckboxGroup from '../presentational/CheckboxGroup.jsx';
-import RadioButtonGroup from '../presentational/RadioButtonGroup.jsx';
+import Dropdown from 'Dropdown.jsx';
+import CheckboxGroup from 'CheckboxGroup.jsx';
+import RadioButtonGroup from 'RadioButtonGroup.jsx';
 
 import { fetchUserDetails, upsertTeacherMetadata } from '../actions/users';
 import { age, boolean, courses, countries, resources, settings } from '../constants/util';
