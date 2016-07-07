@@ -28,17 +28,14 @@ class AssignmentForm extends Component {
     const selected = e.target.checked;
     const { students } = this.state;
 
-    if (students.includes(student_id)) {
+    if (!selected) {
       this.setState({
         students: students.filter(student => student !== student_id),
       })
-      selected === false;
-
     } else {
       this.setState({
         students: students.concat(student_id),
       })
-      selected === true
     }
   }
 
