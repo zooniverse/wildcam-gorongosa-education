@@ -37,6 +37,8 @@ const store = configureStore();
 import oauth from 'panoptes-client/lib/oauth';
 import config from './constants/config';
 
+import favicon from './images/favicon.ico';
+
 window.React = React;
 if (process.env.NODE_ENV === 'staging') {a11y(React)};
 
