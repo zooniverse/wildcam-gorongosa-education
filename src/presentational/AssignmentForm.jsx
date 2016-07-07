@@ -23,16 +23,20 @@ class AssignmentForm extends Component {
     this.state = Object.assign({}, initialState);
   }
 
-  toggleStudent(id) {
+  toggleStudent(e) {
+    const student_id = e.target.value;
+    const selected = e.target.checked;
     const { students } = this.state;
-    if (students.includes(id)) {
-      this.setState({
-        students: students.filter(student => student !== id),
-      })
-    } else {
-      this.setState({
-        students: students.concat(id),
-      })
+    if (selected) {
+      if (students.includes(student_id)) {
+        this.setState({
+          students: students.filter(student => student !== student_id),
+        })
+      } else {
+        this.setState({
+          students: students.concat(student_id),
+        })
+      }
     }
   }
 
@@ -68,9 +72,8 @@ class AssignmentForm extends Component {
               className={this.state.students.find(id => id === student.id) ? 'success' : ''}
               key={student.id}
             >
-
               <td>
-                <label><input type="checkbox" value={student.id} onClick={this.toggleStudent.bind(this, student.id)} />
+                <label><input type="checkbox" value={student.id} onChange={this.toggleStudent} />
                 {student.attributes.zooniverse_display_name}
                 </label>
               </td>
