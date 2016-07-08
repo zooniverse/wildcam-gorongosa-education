@@ -1,6 +1,7 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { removeMapSelector, editMapSelector } from '../actions/map';
+import { addSubjectsToAssignment } from '../actions/assignment';
 const config = require('../constants/mapExplorer.config.json');
 import SelectorData from './MapExplorer-SelectorData.jsx';
 import DialogScreen from '../presentational/DialogScreen.jsx';
@@ -12,6 +13,7 @@ class SelectorPanel extends Component {
     super(props);
 
     //Event binding
+    this.addSubjects = this.addSubjects.bind(this);
     this.updateMe = this.updateMe.bind(this);
     this.deleteMe = this.deleteMe.bind(this);
     this.prepareCsv = this.prepareCsv.bind(this);
@@ -132,6 +134,7 @@ class SelectorPanel extends Component {
           <button className="hidden" onClick={this.updateMe}>(Apply)</button>
           <button className="hidden" onClick={this.deleteMe}>(Delete)</button>
           <button className="btn" onClick={this.prepareCsv}>(Download)</button>
+          <button className="btn" onClick={this.addSubjects}>(Add subjects to assignments)</button>
         </section>
         <DialogScreen_Download status={this.state.downloadDialog.status} message={this.state.downloadDialog.message} data={this.state.downloadDialog.data} closeMeHandler={this.closeAllDialogs} />
       </article>
@@ -265,6 +268,14 @@ class SelectorPanel extends Component {
 
   //----------------------------------------------------------------
 
+  // Add subjects to assignment
+  addSubjects() {
+    const { dispatch, selectorData } = this.props;
+    const sqlQuery = selectorData.calculateSql(config.cartodb.sqlSubjects);
+    dispatch(addSubjectsToAssignment(sqlQuery));
+
+  }
+
   //Download the current results into a CSV.
   prepareCsv(e) {
     //First things first: make sure the user sees what she/he is going to download.
@@ -272,7 +283,7 @@ class SelectorPanel extends Component {
 
     this.setState({
       downloadDialog: {
-        status: DialogScreen.DIALOG_ACTOVE,
+        status: DialogScreen.DIALOG_ACTIVE,
         message: 'Preparing data file...',
         data: null
     }});
@@ -289,13 +300,11 @@ class SelectorPanel extends Component {
       .then((json) => {
         let data = [];
         let row = [];
-
         for (let key in json.fields) {
           row.push('"'+key.replace(/"/g, '\\"')+'"');
         }
         row = row.join(',');
         data.push(row);
-
         json.rows.map((rowItem) => {
           let row = [];
           for (let key in json.fields) {

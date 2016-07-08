@@ -19,7 +19,7 @@ export function assignment(state = initialState, action) {
           loading: true,
         }
       }
-    case types.CREATE_CLASSROOM_SUCCESS:
+    case types.CREATE_ASSIGNMENT_SUCCESS:
       const newlist = state.assignments.data.concat(action.data);
       return { ...state,
         assignments: {
@@ -28,7 +28,7 @@ export function assignment(state = initialState, action) {
           loading: false,
         }
       }
-    case types.CREATE_CLASSROOM_ERROR:
+    case types.CREATE_ASSIGNMENT_ERROR:
       return { ...state,
         assignments: {
           data: [],
