@@ -98,6 +98,7 @@ class AssignmentForm extends Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <h3>Classroom {currentClassroom ? currentClassroom.attributes.name : 'Loading'}</h3>
+        <Link className="form-group" to="/teachers/data">Select images</Link>
         <InputElement
           autofocus="true"
           label="Name"
@@ -133,6 +134,7 @@ class AssignmentForm extends Component {
           <div><strong>Students by username</strong></div>
           { this.renderStudentList(currentStudents) }
         </div>
+
         <div className="form-group">
          <button type="submit" className="btn btn-primary pull-right">Submit</button>
         </div>
