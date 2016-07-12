@@ -98,6 +98,7 @@ class AssignmentForm extends Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <h3>Classroom {currentClassroom ? currentClassroom.attributes.name : 'Loading'}</h3>
+        <Link className="form-group" to="/teachers/data">Select images</Link>
         <InputElement
           autofocus="true"
           label="Name"
@@ -140,6 +141,5 @@ class AssignmentForm extends Component {
     );
   }
 }
-
 
 export default AssignmentForm;

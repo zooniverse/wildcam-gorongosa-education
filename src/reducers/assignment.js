@@ -5,9 +5,9 @@ const initialState = {
     loading: false,
     data: [],
     error: false,
-  }
+  },
+  selectedSubjects: []
 };
-
 
 export function assignment(state = initialState, action) {
   switch (action.type) {
@@ -19,7 +19,7 @@ export function assignment(state = initialState, action) {
           loading: true,
         }
       }
-    case types.CREATE_CLASSROOM_SUCCESS:
+    case types.CREATE_ASSIGNMENT_SUCCESS:
       const newlist = state.assignments.data.concat(action.data);
       return { ...state,
         assignments: {
@@ -28,13 +28,17 @@ export function assignment(state = initialState, action) {
           loading: false,
         }
       }
-    case types.CREATE_CLASSROOM_ERROR:
+    case types.CREATE_ASSIGNMENT_ERROR:
       return { ...state,
         assignments: {
           data: [],
           error: action.error,
           loading: false,
         }
+      }
+    case types.SAVE_SUBJECTS_SELECTION:
+      return { ...state,
+        selectedSubjects: action.subjects,
       }
     default:
       return state;

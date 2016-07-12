@@ -1,6 +1,7 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { removeMapSelector, editMapSelector } from '../actions/map';
+import { saveSubjectSelection } from '../actions/assignment';
 const config = require('../constants/mapExplorer.config.json');
 import MapSelector from './MapSelector.jsx';
 import DialogScreen from '../presentational/DialogScreen.jsx';
@@ -15,6 +16,7 @@ class MapControls extends Component {
     this.updateMe = this.updateMe.bind(this);
     this.deleteMe = this.deleteMe.bind(this);
     this.prepareCsv = this.prepareCsv.bind(this);
+    this.prepareSubjectsForAssignments = this.prepareSubjectsForAssignments.bind(this);
     this.changeToGuided = this.changeToGuided.bind(this);
     this.changeToAdvanced = this.changeToAdvanced.bind(this);
     this.closeAllDialogs = this.closeAllDialogs.bind(this);
@@ -26,7 +28,7 @@ class MapControls extends Component {
         message: '',
         data: null
       },
-      speciesDialog: {
+      generalDialog: {
         status: DialogScreen.DIALOG_IDLE
       }
     };
@@ -132,7 +134,12 @@ class MapControls extends Component {
           <button className="hidden" onClick={this.updateMe}>(Apply)</button>
           <button className="hidden" onClick={this.deleteMe}>(Delete)</button>
           <button className="btn" onClick={this.prepareCsv}>(Download)</button>
+          
+          {/*TODO: Make sure this only appears for TEACHERS. */}
+          <button className="btn" onClick={this.prepareSubjectsForAssignments}>(Select For Assignment)</button>
+          
         </section>
+        <DialogScreen status={this.state.generalDialog.status} message={this.state.generalDialog.message} closeMeHandler={this.closeAllDialogs} />
         <DialogScreen_Download status={this.state.downloadDialog.status} message={this.state.downloadDialog.message} data={this.state.downloadDialog.data} closeMeHandler={this.closeAllDialogs} />
       </article>
     );
@@ -193,7 +200,7 @@ class MapControls extends Component {
           message: '',
           data: null
         },
-        speciesDialog: {
+        generalDialog: {
           status: DialogScreen.DIALOG_IDLE
         }
       }
@@ -268,11 +275,11 @@ class MapControls extends Component {
   //Download the current results into a CSV.
   prepareCsv(e) {
     //First things first: make sure the user sees what she/he is going to download.
-    this.updateMe(null);
+    //this.updateMe(null);  //ERROR: TODO: https://github.com/zooniverse/wildcam-gorongosa-education/issues/229
 
     this.setState({
       downloadDialog: {
-        status: DialogScreen.DIALOG_ACTOVE,
+        status: DialogScreen.DIALOG_ACTIVE,
         message: 'Preparing data file...',
         data: null
     }});
@@ -322,6 +329,40 @@ class MapControls extends Component {
             status: DialogScreen.DIALOG_ACTIVE,
             message: 'ERROR',
             data: null
+        }});
+      });
+  }
+  
+  //----------------------------------------------------------------
+
+  prepareSubjectsForAssignments(e) {
+    //First things first: make sure the user sees what she/he is going to download.
+    //this.updateMe(null);  //ERROR: TODO: https://github.com/zooniverse/wildcam-gorongosa-education/issues/229
+
+    this.setState({
+      generalDialog: {
+        status: DialogScreen.DIALOG_ACTIVE,
+        message: 'Preparing data file...'
+    }});
+
+    const sqlQuery = this.props.selectorData.calculateSql(config.cartodb.sqlQuerySubjectIDs);
+    fetch(config.cartodb.sqlApi.replace('{SQLQUERY}', encodeURI(sqlQuery)))
+      .then((response) => {
+        if (response.status !== 200) {
+          throw 'Can\'t reach CartoDB API, HTTP response code ' + response.status;
+        }
+        return response.json();
+      })
+      .then((json) => {
+        if (json) this.props.dispatch(saveSubjectSelection(json.rows));
+        this.closeAllDialogs();
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({
+          generalDialog: {
+            status: DialogScreen.DIALOG_ACTIVE,
+            message: 'ERROR'
         }});
       });
   }
