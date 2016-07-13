@@ -9,15 +9,6 @@ import * as types from '../constants/actionTypes';
 // Action creators
 const { root, assignments } = config.eduAPI;
 
-export function saveSubjectSelection(subjects) {
-  (dispatch) => {
-    dispatch({
-      type: types.SAVE_SUBJECTS_SELECTION,
-      subjects: subjects,
-    });
-  }
-}
-
 export function createAssignment(assignment, classroomId) {
   const classroomData = {
     id: classroomId,

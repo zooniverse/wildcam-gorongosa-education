@@ -1,7 +1,7 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { removeMapSelector, editMapSelector } from '../actions/map';
-import { saveSubjectSelection } from '../actions/assignment';
+import { browserHistory } from 'react-router';
 const config = require('../constants/mapExplorer.config.json');
 import MapSelector from './MapSelector.jsx';
 import DialogScreen from '../presentational/DialogScreen.jsx';
@@ -198,10 +198,11 @@ class MapControls extends Component {
         downloadDialog: {
           status: DialogScreen.DIALOG_IDLE,
           message: '',
-          data: null
+          data: null,
         },
         generalDialog: {
-          status: DialogScreen.DIALOG_IDLE
+          status: DialogScreen.DIALOG_IDLE,
+          message: '',
         }
       }
     );
@@ -342,7 +343,7 @@ class MapControls extends Component {
     this.setState({
       generalDialog: {
         status: DialogScreen.DIALOG_ACTIVE,
-        message: 'Preparing data file...'
+        message: 'Preparing data...'
     }});
 
     const sqlQuery = this.props.selectorData.calculateSql(config.cartodb.sqlQuerySubjectIDs);
@@ -354,8 +355,16 @@ class MapControls extends Component {
         return response.json();
       })
       .then((json) => {
-        if (json) this.props.dispatch(saveSubjectSelection(json.rows));
-        this.closeAllDialogs();
+        if (json && json.rows) {
+          console.log(json.rows.map((i) => { return i.location }).join(','));
+          sessionStorage.setItem('savedSubjectsLocations', json.rows.map((i) => { return i.location }).join(','));
+          sessionStorage.setItem('savedSubjectsIDs', json.rows.map((i) => { return i.subject_id }).join(','));
+          this.setState({
+            generalDialog: {
+              status: DialogScreen.DIALOG_ACTIVE,
+              message: 'Subjects saved! Go to Classrooms to create your Assignment.'
+          }});
+        }
       })
       .catch((err) => {
         console.log(err);

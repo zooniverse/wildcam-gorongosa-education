@@ -5,8 +5,7 @@ const initialState = {
     loading: false,
     data: [],
     error: false,
-  },
-  selectedSubjects: []
+  }
 };
 
 export function assignment(state = initialState, action) {
@@ -35,10 +34,6 @@ export function assignment(state = initialState, action) {
           error: action.error,
           loading: false,
         }
-      }
-    case types.SAVE_SUBJECTS_SELECTION:
-      return { ...state,
-        selectedSubjects: action.subjects,
       }
     default:
       return state;

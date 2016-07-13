@@ -84,6 +84,40 @@ class AssignmentForm extends Component {
       </div>
     )
   }
+  
+  renderSelectedSubjects() {
+    const MAXIMUM_SUBJECTS = 10;
+    let subjectsHtml = [];
+    
+    let savedSubjectsLocations = sessionStorage.getItem('savedSubjectsLocations');
+    savedSubjectsLocations = (savedSubjectsLocations === null || savedSubjectsLocations === '') ?
+      [] : savedSubjectsLocations.split(',');
+    
+    let savedSubjectsIDs = sessionStorage.getItem('savedSubjectsIDs');
+    savedSubjectsIDs = (savedSubjectsIDs === null || savedSubjectsIDs === '') ?
+      [] : savedSubjectsIDs.split(',');
+    
+    console.log('-'.repeat(40));
+    console.log(savedSubjectsIDs);
+    
+    for (let i = 0; i < MAXIMUM_SUBJECTS && i < savedSubjectsIDs.length; i++) {
+      subjectsHtml.push(
+        <li><img src={savedSubjectsLocations[i]} /></li>
+      );
+    }
+    return (
+      <div>
+        <div>
+          {savedSubjectsIDs.length} Subject(s) selected. 
+          {(subjectsHtml.length > 0) ? <span>Previewing {subjectsHtml.length} image(s)</span> : null}
+        </div>
+        <ul className="subjects-preview">
+          {subjectsHtml}
+        </ul>
+        <Link className="form-group" to="/teachers/data">Select Subjects</Link>
+      </div>
+    );
+  }
 
   render() {
     const { classrooms, params } = this.props;
@@ -94,11 +128,10 @@ class AssignmentForm extends Component {
       : [];
     const currentStudents = classrooms.uniqueMembers.filter(
       student => currentStudentsIds.includes(student.id)
-    )
+    );
     return (
       <form onSubmit={this.handleSubmit}>
         <h3>Classroom {currentClassroom ? currentClassroom.attributes.name : 'Loading'}</h3>
-        <Link className="form-group" to="/teachers/data">Select images</Link>
         <InputElement
           autofocus="true"
           label="Name"
@@ -135,7 +168,10 @@ class AssignmentForm extends Component {
           { this.renderStudentList(currentStudents) }
         </div>
         <div className="form-group">
-         <button type="submit" className="btn btn-primary pull-right">Submit</button>
+          {this.renderSelectedSubjects()}
+        </div>
+        <div className="form-group">
+          <button type="submit" className="btn btn-primary pull-right">Submit</button>
         </div>
       </form>
     );
