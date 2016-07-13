@@ -53,6 +53,12 @@ class AssignmentForm extends Component {
         newAssignment[key] = this.state[key];
       }
     }
+    
+    let savedSubjectsIDs = sessionStorage.getItem('savedSubjectsIDs');
+    savedSubjectsIDs = (savedSubjectsIDs === null || savedSubjectsIDs === '') ?
+      [] : savedSubjectsIDs.split(',');
+    newAssignment.subjects = savedSubjectsIDs;
+    
     if (newAssignment.students.length > 0 && newAssignment.subjects.length) {
       this.props.submitForm(newAssignment, this.props.params.classroomId)
     } else {
@@ -97,12 +103,9 @@ class AssignmentForm extends Component {
     savedSubjectsIDs = (savedSubjectsIDs === null || savedSubjectsIDs === '') ?
       [] : savedSubjectsIDs.split(',');
     
-    console.log('-'.repeat(40));
-    console.log(savedSubjectsIDs);
-    
     for (let i = 0; i < MAXIMUM_SUBJECTS && i < savedSubjectsIDs.length; i++) {
       subjectsHtml.push(
-        <li><img src={savedSubjectsLocations[i]} /></li>
+        <li key={'subjects_' + i}><img src={savedSubjectsLocations[i]} /></li>
       );
     }
     return (

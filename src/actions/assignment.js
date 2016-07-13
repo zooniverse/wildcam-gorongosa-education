@@ -24,9 +24,29 @@ export function createAssignment(assignment, classroomId) {
     type: 'student_user',
   }));
   const subjectData = assignment.subjects.map(subject_id => ({
-    id: subject,
+    id: subject_id,
     type: 'subjects',
   }));
+  
+  console.log(JSON.stringify({
+        data: {
+          attributes: {
+            name: assignment.name,
+            metadata,
+          },
+          relationships: {
+            classroom: {
+              data: classroomData
+            },
+            student_users: {
+              data: studentData,
+            },
+            subjects: {
+              data: subjectData,
+            }
+          }
+        }
+      }));
 
   return dispatch => {
     const createAction = { ...assignment, type: types.CREATE_ASSIGNMENT };
