@@ -59,6 +59,22 @@ class AssignmentForm extends Component {
       [] : savedSubjectsIDs.split(',');
     newAssignment.subjects = savedSubjectsIDs;
     
+    //TESTING: localhost uses 'Bacon' Zooniverse project for Subject IDs.
+    //WildCam Gorongosa has no Staging data that we can use to create Subjects.
+    //Therefore, we need to hardcode some Subject IDs.
+    //--------
+    /*if (window.location.hostname === 'localhost') {
+      newAssignment.subjects = [
+          '4077',
+          '4079',
+          '4078',
+          '4076',
+          '4080',
+          '4075'
+        ];
+    }*/
+    //--------
+    
     if (newAssignment.students.length > 0 && newAssignment.subjects.length) {
       this.props.submitForm(newAssignment, this.props.params.classroomId)
     } else {
