@@ -75,11 +75,14 @@ class AssignmentForm extends Component {
     }*/
     //--------
     
+    //NOTE: According to Marten, it's perfectly OK to create a subject with no students or subjects.
+    //--------
     if (newAssignment.students.length > 0 && newAssignment.subjects.length) {
       this.props.submitForm(newAssignment, this.props.params.classroomId)
     } else {
       alert('You can\'t create an assignment without students or subjects.')
     };
+    //--------
   }
 
   renderStudentList(students) {

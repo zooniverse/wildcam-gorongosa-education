@@ -89,3 +89,37 @@ export function createAssignment(assignment, classroomId) {
     .catch(response => console.log('RESPONSE-error: ', response));
   };
 }
+
+export function fetchAssignments() {
+  console.log('-'.repeat(40), '\nfetchAssignments()\n');
+  return dispatch => {
+    dispatch({
+      type: types.REQUEST_ASSIGNMENTS,
+    });
+    return fetch(root + assignments, {
+      method: 'GET',
+      mode: 'cors',
+      headers: new Headers({
+          'Authorization': apiClient.headers.Authorization,
+          'Content-Type': 'application/json'
+        })
+      })
+      .then(response => response.json())
+      .then(json => {
+        console.log('!'.repeat(80), '\n', json.data);
+        dispatch({
+          type: types.RECEIVE_ASSIGNMENTS,
+          data: json.data,
+          error: false,
+          loading: false,
+        });
+      })
+      .catch(response => dispatch({
+        type: types.RECEIVE_ASSIGNMENTS_ERROR,
+        data: [],
+        error: true,
+        loading: false,
+      })
+    );
+  }
+}
