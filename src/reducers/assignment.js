@@ -48,7 +48,7 @@ export function assignment(state = initialState, action) {
       console.log('-'.repeat(40), '\nRECEIVE_ASSIGNMENTS\n');
       return { ...state,
         assignments: {
-          data: [],
+          data: action.data,
           error: false,
           loading: false,
         }

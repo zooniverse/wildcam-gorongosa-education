@@ -10,7 +10,7 @@ import { deleteClassroom, deleteStudent } from '../actions/teacher';
 export default class Classroom extends Component {
 
   render() {
-    const { classrooms, params, actions } = this.props;
+    const { classrooms, assignments, params, actions } = this.props;
     const members = classrooms.members;
     const classroom = classrooms.data.find(classroom => classroom.id === params.classroomId);
     const classroomId = (classroom && classroom.id) ? classroom.id : undefined;
@@ -18,11 +18,15 @@ export default class Classroom extends Component {
     const students = classroom ? classroom.relationships.students.data : undefined;
     const studentIds = students ? students.map(student => student.id) : undefined;
     const boundDeleteStudent = actions.deleteStudent.bind(this);
+    const classroomAssignments = assignments;
+    console.log('='.repeat(160));
+    console.log(classroomAssignments);
 
     return (classroom && members)
       ? <ClassroomPresentational
           data={classroom}
           members={members}
+          assignments={classroomAssignments}
           deleteClassroom={boundDeleteClassroom}
           deleteStudent={boundDeleteStudent}
           studentsIds={studentIds}
@@ -34,6 +38,7 @@ export default class Classroom extends Component {
 
 Classroom.propTypes = {
   classrooms: PropTypes.object.isRequired,
+  assignments: PropTypes.object.isRequired,
 };
 
 Classroom.defaultProps = {
@@ -43,11 +48,17 @@ Classroom.defaultProps = {
     error: false,
     members: [],
     uniqueMembers: [],
+  },
+  assignments: {
+    data: [],
+    loading: false,
+    error: false,
   }
 };
 
 const mapStateToProps = state => ({
-  classrooms: state.teacher.classrooms
+  classrooms: state.teacher.classrooms,
+  assignments: state.assignment.assignments,
 });
 
 const mapDispatchToProps = dispatch => ({
