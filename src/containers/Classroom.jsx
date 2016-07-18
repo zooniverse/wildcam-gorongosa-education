@@ -19,8 +19,6 @@ export default class Classroom extends Component {
     const studentIds = students ? students.map(student => student.id) : undefined;
     const boundDeleteStudent = actions.deleteStudent.bind(this);
     const classroomAssignments = assignments;
-    console.log('='.repeat(160));
-    console.log(classroomAssignments);
 
     return (classroom && members)
       ? <ClassroomPresentational

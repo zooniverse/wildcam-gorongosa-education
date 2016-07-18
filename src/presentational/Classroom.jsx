@@ -75,16 +75,25 @@ export default class Classroom extends Component {
   renderAssignmentsList() {
     let list = this.props.assignments.data || [];
     list = list.map((assignment) => {
-      console.log('+++', assignment);
       return (
-        <tr>
+        <tr key={'assignment_'+assignment.id}>
           <td>{assignment.attributes.name}</td>
           <td><button>EDIT</button></td>
         </tr>
       );
     });
     
-    return <table><tbody>{list}</tbody></table>;
+    return (
+      <table className="table table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>{list}</tbody>
+      </table>
+    );
   }
 
   deleteClassroom() {
