@@ -36,7 +36,6 @@ export function assignment(state = initialState, action) {
         }
       };
     case types.REQUEST_ASSIGNMENTS:
-      console.log('-'.repeat(40), '\nREQUEST_ASSIGNMENTS\n');
       return { ...state,
         assignments: {
           data: [],
@@ -45,7 +44,6 @@ export function assignment(state = initialState, action) {
         }
       };
     case types.RECEIVE_ASSIGNMENTS:
-      console.log('-'.repeat(40), '\nRECEIVE_ASSIGNMENTS\n');
       return { ...state,
         assignments: {
           data: action.data,
@@ -54,7 +52,6 @@ export function assignment(state = initialState, action) {
         }
       };
     case types.RECEIVE_ASSIGNMENTS_ERROR:
-      console.log('-'.repeat(40), '\nRECEIVE_ASSIGNMENTS_ERROR\n');
       return { ...state,
         assignments: {
           data: [],

@@ -47,7 +47,10 @@ class MapControls extends Component {
     let species = [];
     config.species.map((item) => {
       species.push(
-        <li key={'species_'+item.id}><input type="checkbox" id={'inputRow_species_item_' + item.id + '_' + thisId} ref={'inputRow_species_item_' + item.id} value={item.id} /><label htmlFor={'inputRow_species_item_' + item.id + '_' + thisId}>{item.displayName}</label></li>
+        <li key={`species_${item.id}`}>
+          <input type="checkbox" id={`inputRow_species_item_${item.id}_${thisId}`} ref={`inputRow_species_item_${item.id}`} value={item.id} />
+          <label htmlFor={`inputRow_species_item_${item.id}_${thisId}`}>{item.displayName}</label>
+        </li>
       );
     });
 
@@ -55,7 +58,10 @@ class MapControls extends Component {
     let habitats = [];
     config.habitats.map((item) => {
       habitats.push(
-        <li key={'habitat_'+item.id}><input type="checkbox" id={'inputRow_habitats_item_' + item.id + '_' + thisId} ref={'inputRow_habitats_item_' + item.id} value={item.id} /><label htmlFor={'inputRow_habitats_item_' + item.id + '_' + thisId}>{item.displayName}</label></li>
+        <li key={`habitat_${item.id}`}>
+          <input type="checkbox" id={`inputRow_habitats_item_${item.id}_${thisId}`} ref={`inputRow_habitats_item_${item.id}`} value={item.id} />
+          <label htmlFor={`inputRow_habitats_item_${item.id}_${thisId}`}>{item.displayName}</label>
+        </li>
       );
     });
 
@@ -63,14 +69,25 @@ class MapControls extends Component {
     let seasons = [];
     config.seasons.map((item) => {
       seasons.push(
-        <li key={'seasons_'+item.id}><input type="checkbox" id={'inputRow_seasons_item_' + item.id + '_' + thisId} ref={'inputRow_seasons_item_' + item.id} value={item.id} /><label htmlFor={'inputRow_seasons_item_' + item.id + '_' + thisId}>{item.displayName}</label></li>
+        <li key={`seasons_${item.id}`}>
+          <input type="checkbox" id={`inputRow_seasons_item_${item.id}_${thisId}`} ref={`inputRow_seasons_item_${item.id}`} value={item.id} />
+          <label htmlFor={`inputRow_seasons_item_${item.id}_${thisId}`}>{item.displayName}</label>
+        </li>
       );
     });
+    
+    //Subpanel Switching
+    const subPanelGuidedClass = (this.props.selectorData.mode !== MapSelector.GUIDED_MODE)
+      ? 'input-subpanel not-selected'
+      : 'input-subpanel';
+    const subPanelAdvancedClass = (this.props.selectorData.mode !== MapSelector.ADVANCED_MODE)
+      ? 'input-subpanel not-selected'
+      : 'input-subpanel';
 
     //Render!
     return (
       <article className="selector-panel">
-        <section className={(this.props.selectorData.mode !== MapSelector.GUIDED_MODE) ? 'input-subpanel not-selected' : 'input-subpanel' } ref="subPanel_guided">
+        <section className={subPanelGuidedClass} ref="subPanel_guided">
           <button className="btn hidden" onClick={this.changeToGuided}>Standard Mode</button>
           <div className="input-row">
             <label>SPECIES:</label>
@@ -119,7 +136,7 @@ class MapControls extends Component {
             <input type="text" ref="markerOpacity" />
           </div>
         </section>
-        <section className={(this.props.selectorData.mode !== MapSelector.ADVANCED_MODE) ? 'input-subpanel not-selected' : 'input-subpanel' } ref="subPanel_advanced" >
+        <section className={subPanelAdvancedClass} ref="subPanel_advanced" >
           <button className="btn hidden" onClick={this.changeToAdvanced}>Advanced Mode</button>
           <div className="input-row">
             <label>SQL Query</label>
@@ -152,13 +169,13 @@ class MapControls extends Component {
 
     //Update the UI to reflect the current selector values
     config.species.map((item) => {
-      this.refs['inputRow_species_item_' + item.id].checked = (this.props.selectorData.species.indexOf(item.id) >= 0);
+      this.refs[`inputRow_species_item_${item.id}`].checked = (this.props.selectorData.species.indexOf(item.id) >= 0);
     });
     config.habitats.map((item) => {
-      this.refs['inputRow_habitats_item_' + item.id].checked = (this.props.selectorData.habitats.indexOf(item.id) >= 0);
+      this.refs[`inputRow_habitats_item_${item.id}`].checked = (this.props.selectorData.habitats.indexOf(item.id) >= 0);
     });
     config.seasons.map((item) => {
-      this.refs['inputRow_seasons_item_' + item.id].checked = (this.props.selectorData.seasons.indexOf(item.id) >= 0);
+      this.refs[`inputRow_seasons_item_${item.id}`].checked = (this.props.selectorData.seasons.indexOf(item.id) >= 0);
     });
     this.refs['inputRow_dates_item_start'].value = this.props.selectorData.dateStart;
     this.refs['inputRow_dates_item_end'].value = this.props.selectorData.dateEnd;
@@ -179,13 +196,13 @@ class MapControls extends Component {
   //----------------------------------------------------------------
 
   changeToGuided(e) {
-    let data = this.props.selectorData.copy();
+    const data = this.props.selectorData.copy();
     data.mode = MapSelector.GUIDED_MODE;
     this.props.dispatch(editMapSelector(data));
   }
 
   changeToAdvanced(e) {
-    let data = this.props.selectorData.copy();
+    const data = this.props.selectorData.copy();
     data.mode = MapSelector.ADVANCED_MODE;
     this.props.dispatch(editMapSelector(data));
   }
@@ -219,7 +236,7 @@ class MapControls extends Component {
     //Filter control: species
     data.species = [];
     config.species.map((item) => {
-      const ele = this.refs['inputRow_species_item_' + item.id];
+      const ele = this.refs[`inputRow_species_item_${item.id}`];
       if (ele && ele.checked && ele.value) {
         data.species.push(item.id);
       }
@@ -228,7 +245,7 @@ class MapControls extends Component {
     //Filter control: habitats
     data.habitats = [];
     config.habitats.map((item) => {
-      const ele = this.refs['inputRow_habitats_item_' + item.id];
+      const ele = this.refs[`inputRow_habitats_item_${item.id}`];
       if (ele && ele.checked && ele.value) {
         data.habitats.push(item.id);
       }
@@ -237,7 +254,7 @@ class MapControls extends Component {
     //Filter control: seasons
     data.seasons = [];
     config.seasons.map((item) => {
-      const ele = this.refs['inputRow_seasons_item_' + item.id];
+      const ele = this.refs[`inputRow_seasons_item_${item.id}`];
       if (ele && ele.checked && ele.value) {
         data.seasons.push(item.id);
       }
@@ -356,9 +373,8 @@ class MapControls extends Component {
       })
       .then((json) => {
         if (json && json.rows) {
-          console.log(json.rows.map((i) => { return i.location }).join(','));
-          sessionStorage.setItem('savedSubjectsLocations', json.rows.map((i) => { return i.location }).join(','));
-          sessionStorage.setItem('savedSubjectsIDs', json.rows.map((i) => { return i.subject_id }).join(','));
+          sessionStorage.setItem('savedSubjectsLocations', json.rows.map(i => i.location).join(','));
+          sessionStorage.setItem('savedSubjectsIDs', json.rows.map(i => i.subject_id).join(','));
           this.setState({
             generalDialog: {
               status: DialogScreen.DIALOG_ACTIVE,

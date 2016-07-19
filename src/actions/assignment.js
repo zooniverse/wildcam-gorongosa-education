@@ -28,26 +28,6 @@ export function createAssignment(assignment, classroomId) {
     type: 'subjects',
   }));
   
-  console.log(JSON.stringify({
-        data: {
-          attributes: {
-            name: assignment.name,
-            metadata,
-          },
-          relationships: {
-            classroom: {
-              data: classroomData
-            },
-            student_users: {
-              data: studentData,
-            },
-            subjects: {
-              data: subjectData,
-            }
-          }
-        }
-      }));
-
   return dispatch => {
     const createAction = { ...assignment, type: types.CREATE_ASSIGNMENT };
     dispatch(createAction);
@@ -91,7 +71,6 @@ export function createAssignment(assignment, classroomId) {
 }
 
 export function fetchAssignments() {
-  console.log('-'.repeat(40), '\nfetchAssignments()\n');
   return dispatch => {
     dispatch({
       type: types.REQUEST_ASSIGNMENTS,
@@ -106,7 +85,6 @@ export function fetchAssignments() {
       })
       .then(response => response.json())
       .then(json => {
-        console.log('!'.repeat(80), '\n', json.data);
         dispatch({
           type: types.RECEIVE_ASSIGNMENTS,
           data: json.data,

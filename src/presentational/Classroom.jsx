@@ -73,16 +73,6 @@ export default class Classroom extends Component {
   }
   
   renderAssignmentsList() {
-    let list = this.props.assignments.data || [];
-    list = list.map((assignment) => {
-      return (
-        <tr key={'assignment_'+assignment.id}>
-          <td>{assignment.attributes.name}</td>
-          <td><button>EDIT</button></td>
-        </tr>
-      );
-    });
-    
     return (
       <table className="table table-hover">
         <thead>
@@ -91,7 +81,14 @@ export default class Classroom extends Component {
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>{list}</tbody>
+        <tbody>
+          {this.props.assignments.data.map(assignment =>
+            <tr key={`assignment_${assignment.id}`}>
+              <td>{assignment.attributes.name}</td>
+              <td><button>VIEW</button></td>
+            </tr>
+          )}
+        </tbody>
       </table>
     );
   }

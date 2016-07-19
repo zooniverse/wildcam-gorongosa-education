@@ -56,7 +56,7 @@ class MapExplorer extends Component {
             {this.props.selectors.map((selector) => {
               selector.tmp = selector.id + selector.id;
               return (
-                <MapControls ref={'mapControls_' + selector.id} key={selector.id} selectorData={selector} />
+                <MapControls ref={`mapControls_${selector.id}`} key={selector.id} selectorData={selector} />
               );
             })}
             </div>
@@ -88,7 +88,7 @@ class MapExplorer extends Component {
   
   updateAllSelectors() {    
     this.props.selectors.map((selector) => {
-      const selectorPanel = this.refs['mapControls_' + selector.id].getWrappedInstance();
+      const selectorPanel = this.refs[`mapControls_${selector.id}`].getWrappedInstance();
       selectorPanel && selectorPanel.updateMe();
     });
     this.toggleSelectors();
