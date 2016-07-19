@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
-export default class StudentClassroomSidebar extends Component {
+class StudentClassroomSidebar extends Component {
 
   constructor() {
     super();
@@ -44,7 +44,6 @@ export default class StudentClassroomSidebar extends Component {
     );
   }
 
-
   render() {
     const data = this.props.classroomsData;
     const list = data.data; // RENAME!!
@@ -67,3 +66,5 @@ export default class StudentClassroomSidebar extends Component {
 StudentClassroomSidebar.propTypes = {
   classroomsData: PropTypes.object.isRequired,
 };
+
+export default StudentClassroomSidebar;

@@ -1,5 +1,5 @@
 import { PropTypes } from 'react';
-import Spinner from 'Spinner.jsx'
+import Spinner from '../../../presentational/Spinner.jsx'
 
 const StudentOverview = (props, context) => {
 
@@ -71,4 +71,4 @@ StudentOverview.contextTypes = {
   user: PropTypes.object.isRequired
 }
 
-export {StudentOverview as default}
+export default StudentOverview;

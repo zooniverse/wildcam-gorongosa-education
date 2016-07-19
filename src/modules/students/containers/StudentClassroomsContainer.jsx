@@ -1,11 +1,11 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchStudentClassrooms } from '../actions/student';
-import StudentClassroomsSidebar from '../presentational/StudentClassroomsSidebar.jsx';
+import { fetchStudentClassrooms } from '../actions';
+import StudentClassroomsSidebar from '../components/StudentClassroomsSidebar.jsx';
 
 
-class StudentClassrooms extends Component {
+class StudentClassroomsContainer extends Component {
 
   componentDidMount() {
     const {classrooms, dispatch} = this.props;
@@ -36,13 +36,13 @@ class StudentClassrooms extends Component {
 
 }
 
-StudentClassrooms.propTypes = {
+StudentClassroomsContainer.propTypes = {
   classrooms: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 };
 
-StudentClassrooms.defaultProps = {
+StudentClassroomsContainer.defaultProps = {
   classrooms: {
     data: [],
     error: false,
@@ -51,7 +51,7 @@ StudentClassrooms.defaultProps = {
   },
   user: null
 };
-StudentClassrooms.childContextTypes = {
+StudentClassroomsContainer.childContextTypes = {
   classrooms: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired
 };
@@ -62,4 +62,4 @@ function mapStateToProps(state) {
     user: state.login.user
   };
 }
-export default connect(mapStateToProps)(StudentClassrooms);
+export default connect(mapStateToProps)(StudentClassroomsContainer);
