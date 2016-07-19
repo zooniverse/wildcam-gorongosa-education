@@ -1,8 +1,8 @@
 import { Component } from 'react';
 
-import Layout from '../presentational/Layout.jsx';
+import Layout from '../../../presentational/Layout.jsx';
 
-export default class Students extends Component {
+class StudentsContainer extends Component {
 
   render() {
     let loginSecured = this.props.navItems.reduce((prev, item) => {  //Is this particular sub-page login secured?
@@ -18,7 +18,7 @@ export default class Students extends Component {
 
 }
 
-Students.defaultProps = {
+StudentsContainer.defaultProps = {
   navItems: [
     {
       label: 'Classrooms',
@@ -43,3 +43,5 @@ Students.defaultProps = {
     }
   ]
 }
+
+export default StudentsContainer;

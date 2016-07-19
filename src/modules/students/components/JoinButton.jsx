@@ -12,4 +12,4 @@ JoinButton.propTypes = {
   join: PropTypes.func.isRequired
 };
 
-export {JoinButton as default}
+export default JoinButton;

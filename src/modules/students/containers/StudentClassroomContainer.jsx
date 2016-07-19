@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { default as StudentClassroomPresentational } from '../presentational/StudentClassroom.jsx';
-import Spinner from '../presentational/Spinner.jsx';
+import StudentClassroom from '../components/StudentClassroom.jsx';
+import Spinner from '../../common/components/Spinner.jsx';
 
-export default class StudentClassroom extends Component {
+class StudentClassroomContainer extends Component {
 
   render() {
     const {classrooms, params, user} = this.props
@@ -13,7 +13,7 @@ export default class StudentClassroom extends Component {
       classroom.id === params.classroomId);
 
     if (classroom && members) {
-      return (<StudentClassroomPresentational data={classroom} members={members} user={user} />);
+      return (<StudentClassroom data={classroom} members={members} user={user} />);
     } else {
       return (<Spinner />);
     }
@@ -21,12 +21,12 @@ export default class StudentClassroom extends Component {
 
 }
 
-StudentClassroom.propTypes = {
+StudentClassroomContainer.propTypes = {
   classrooms: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired
 };
 
-StudentClassroom.defaultProps = {
+StudentClassroomContainer.defaultProps = {
   classrooms: {
     data: [],
     loading: false,
@@ -37,11 +37,10 @@ StudentClassroom.defaultProps = {
 };
 
 function mapStateToProps(state) {
-  return { ...state,
+  return {
     classrooms: state.student.classrooms,
     user: state.login.user
   };
 }
 
-export default connect(mapStateToProps)(StudentClassroom);
-
+export default connect(mapStateToProps)(StudentClassroomContainer);
