@@ -42,4 +42,4 @@ const TutorialForStudents = (props) => (
   </div>
 );
 
-export {TutorialForStudents as default}
+export default TutorialForStudents;

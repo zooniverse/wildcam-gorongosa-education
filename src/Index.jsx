@@ -7,27 +7,23 @@ import a11y from 'react-a11y';
 import App from './containers/App.jsx';
 import MapExplorer from './containers/MapExplorer.jsx';
 import Teachers from './containers/Teachers.jsx';
-import Students from './containers/Students.jsx';
 import Classrooms from './containers/Classrooms.jsx';
-import StudentClassrooms from './containers/StudentClassrooms.jsx';
 import Classroom from './containers/Classroom.jsx';
-import StudentClassroom from './containers/StudentClassroom.jsx';
-import JoinClassroom from './containers/JoinClassroom.jsx';
 import EditClassroom from './containers/EditClassroom.jsx';
 
 import Home from './presentational/Home.jsx';
 import ClassroomsOverview from './presentational/ClassroomsOverview.jsx';
 import NewClassroom from './containers/NewClassroom.jsx';
-import StudentOverview from './presentational/StudentOverview.jsx';
 
 import TeacherForm from './presentational/TeacherForm.jsx';
 import NewAssignment from './containers/NewAssignment.jsx';
 import Resources from './presentational/Resources.jsx';
 import TutorialForTeachers from './presentational/Tutorial-Teachers.jsx';
-import TutorialForStudents from './presentational/Tutorial-Students.jsx';
 
 import LoginPromptPage from './presentational/LoginPromptPage.jsx';
 import ErrorPage from './presentational/ErrorPage.jsx';
+
+import studentRoutes from './modules/students';
 
 import Styles from './styles/main.styl';
 
@@ -63,16 +59,7 @@ oauth.init(config.panoptesAppId)
               <Route path="tutorial" component={TutorialForTeachers} />
               <Route path="resources" component={Resources} />
             </Route>
-            <Route path="students" component={Students}>
-              <IndexRedirect to="data" />
-              <Route path="classrooms" component={StudentClassrooms}>
-                <IndexRoute component={StudentOverview} />
-                <Route path="join" component={JoinClassroom} />
-                <Route path=":classroomId" component={StudentClassroom} />
-              </Route>
-              <Route path="data" component={MapExplorer} />
-              <Route path="tutorial" component={TutorialForStudents} />
-            </Route>
+            { studentRoutes(store) }
             <Route path="login" component={LoginPromptPage} />
           </Route>
           <Route path="*" component={ErrorPage} />

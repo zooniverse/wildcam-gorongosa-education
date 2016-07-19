@@ -1,12 +1,13 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchStudentClassrooms, joinClassroom } from '../actions/student';
-import JoinButton from '../presentational/JoinButton.jsx';
+import { fetchStudentClassrooms, joinClassroom } from '../actions';
+import JoinButton from '../components/JoinButton.jsx';
 
-class JoinClassroom extends Component {
-  constructor(props) {
-    super(props);
+
+class JoinClassroomContainer extends Component {
+  constructor() {
+    super();
     this.join = this.join.bind(this);
   }
 
@@ -24,4 +25,4 @@ class JoinClassroom extends Component {
   }
 }
 
-export default connect()(JoinClassroom);
+export default connect()(JoinClassroomContainer);

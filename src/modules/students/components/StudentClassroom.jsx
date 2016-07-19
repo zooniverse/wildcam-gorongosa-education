@@ -3,9 +3,9 @@ import { Link } from 'react-router';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 
-export default class StudentClassroom extends Component {
-  constructor(props) {
-    super(props);
+class StudentClassroom extends Component {
+  constructor() {
+    super();
     this.renderStudentList = this.renderStudentList.bind(this);
   }
 
@@ -35,13 +35,13 @@ export default class StudentClassroom extends Component {
   }
 
   render() {
-    const { attributes} = this.props.data;
+    const { attributes } = this.props.data;
     const allMembers = this.props.members;
     const classroomMembers = this.props.data.relationships.students.data;
     return (
       <section className="content-view">
         <div className='page-header'>
-        <h1>Classroom {attributes.name} </h1>
+        <h1>Classroom { attributes.name }</h1>
         </div>
         <Tabs className="admin-tabs">
           <TabList>
@@ -74,3 +74,5 @@ StudentClassroom.defaultProps = {
   },
   members: []
 };
+
+export default StudentClassroom;
