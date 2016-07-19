@@ -1,6 +1,6 @@
 import { Component } from 'react';
 
-import Layout from '../../../presentational/Layout.jsx';
+import Layout from '../../common/components/Layout.jsx';
 
 class StudentsContainer extends Component {
 

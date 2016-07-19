@@ -1,5 +1,6 @@
 import { PropTypes } from 'react';
 
+
 const LoggedInUser = (props) => {
   const classNames = 'btn btn-default navbar-btn navbar-right';
   const logout = props.logout;

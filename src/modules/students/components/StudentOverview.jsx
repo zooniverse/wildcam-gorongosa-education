@@ -1,5 +1,5 @@
 import { PropTypes } from 'react';
-import Spinner from '../../../presentational/Spinner.jsx'
+import Spinner from '../../common/components/Spinner.jsx'
 
 const StudentOverview = (props, context) => {
 

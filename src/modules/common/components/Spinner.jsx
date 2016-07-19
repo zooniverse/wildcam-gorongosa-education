@@ -4,4 +4,4 @@ const Spinner = (props) => (
   <i className="fa fa-cog fa-spin fa-3x"></i>
 );
 
-export { Spinner as default }
+export default Spinner;

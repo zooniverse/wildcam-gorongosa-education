@@ -3,24 +3,24 @@ import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, IndexRedirect, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import a11y from 'react-a11y';
+import oauth from 'panoptes-client/lib/oauth';
 
-import App from './containers/App.jsx';
-import Home from './presentational/Home.jsx';
-import LoginPromptPage from './presentational/LoginPromptPage.jsx';
-import ErrorPage from './presentational/ErrorPage.jsx';
+import App from './modules/common/containers/App.jsx';
+
+import Home from './modules/common/components/Home.jsx';
+import LoginPromptPage from './modules/common/components/LoginPromptPage.jsx';
+import ErrorPage from './modules/common/components/ErrorPage.jsx';
 
 import studentRoutes from './modules/students';
 import teacherRoutes from './modules/teachers';
 
 import Styles from './styles/main.styl';
+import config from './constants/config';
+import favicon from './images/favicon.ico';
 
 import configureStore from './store';
 const store = configureStore();
 
-import oauth from 'panoptes-client/lib/oauth';
-import config from './constants/config';
-
-import favicon from './images/favicon.ico';
 
 window.React = React;
 if (process.env.NODE_ENV === 'staging') {a11y(React)};

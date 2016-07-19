@@ -2,9 +2,10 @@ import { Component, PropTypes } from 'react';
 import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 
-import HeaderAuth from '../containers/HeaderAuth.jsx';
-import config from '../constants/config';
-import Spinner from 'Spinner.jsx';
+import HeaderAuth from '../containers/HeaderAuth';
+import config from '../../../constants/config';
+import Spinner from './Spinner';
+
 
 class Layout extends Component {
 
@@ -92,16 +93,19 @@ Layout.propTypes = {
   loginUser: PropTypes.object,
   loginInitialised: PropTypes.bool
 }
+
 Layout.defaultProps = {
   navItems: [],
   loginSecured: false,
   loginUser: null,
   loginInitialised: false
 };
+
 function mapStateToProps(state, ownProps) {  //Listens for changes in the Redux Store
   return {
     loginUser: state.login.user,
     loginInitialised: state.login.initialised
   };
 }
+
 export default connect(mapStateToProps)(Layout);  //Connects the Component to the Redux Store

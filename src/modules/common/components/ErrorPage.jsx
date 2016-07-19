@@ -1,4 +1,5 @@
-import Layout from './Layout.jsx';
+import Layout from './Layout';
+
 
 const ErrorPage = (props) => (
   <Layout>
@@ -11,4 +12,4 @@ const ErrorPage = (props) => (
   </Layout>
 )
 
-export {ErrorPage as default}
+export default ErrorPage;

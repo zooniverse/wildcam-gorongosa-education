@@ -1,7 +1,9 @@
 import { Component} from 'react';
 import { connect } from 'react-redux';
-import Layout from './Layout.jsx'
+
+import Layout from './Layout'
 import { loginToPanoptes } from '../actions/login';
+
 
 class LoginPromptPage extends Component {
   constructor() {
@@ -29,4 +31,4 @@ class LoginPromptPage extends Component {
   }
 }
 
-export default connect()(LoginPromptPage);  //Connects the Component to the Redux Store
+export default connect()(LoginPromptPage);

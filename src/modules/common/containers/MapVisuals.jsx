@@ -1,9 +1,11 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Script } from 'react-loadscript';
-import DialogScreen from '../presentational/DialogScreen.jsx';
-import DialogScreen_ViewCamera from '../presentational/DialogScreen-ViewCamera.jsx'
-const config = require('../constants/mapExplorer.config.json');
+
+import DialogScreen from '../components/DialogScreen';
+import DialogScreen_ViewCamera from '../components/DialogScreen-ViewCamera';
+const config = require('../../../constants/mapExplorer.config.json');
+
 
 //WARNING: DON'T import Leaflet. Leaflet 0.7.7 is packaged with cartodb.js 3.15.
 //import L from 'leaflet';
@@ -26,7 +28,7 @@ class MapVisuals extends Component {
       }
     };
   }
-  
+
   componentWillReceiveProps(nextProps) {
     this.updateDataVisualisation(nextProps);
   }
@@ -101,7 +103,7 @@ class MapVisuals extends Component {
       .on('error', (err) => {
         console.error('ERROR (initMapExplorer(), cartodb.createLayer()):' + err);
       });
-    
+
     //Bonus: Add legends to map
     const legend = L.control({position: 'bottomright'});
     legend.onAdd = (map) => {
@@ -112,7 +114,7 @@ class MapVisuals extends Component {
       return div;
     };
     legend.addTo(this.state.map);
-    
+
     //Bonus: 'Recentre Map' button
     const recentreButton = L.control({position: 'topleft'});
     recentreButton.onAdd = (map) => {
@@ -133,7 +135,7 @@ class MapVisuals extends Component {
     //--------------------------------
   }
 
-  updateDataVisualisation(props = this.props) {    
+  updateDataVisualisation(props = this.props) {
     //Req check
     if (!(this.state.map && this.state.cartodbLayer)) {
       console.log('MapVisuals.updateDataVisualisation(): failed');
@@ -160,14 +162,14 @@ class MapVisuals extends Component {
           console.log('Map.featureClick on ', selector, 'with data ', data);
           let sqlQuery = selector.calculateSql(config.cartodb.sqlQueryViewCamera, data.id);
           console.log(sqlQuery);
-          
+
           this.setState({
             viewCamera: {
               status: DialogScreen.DIALOG_ACTIVE,
               message: 'Loading images from camera...',
               data: null
           }});
-          
+
           fetch(config.cartodb.sqlApi.replace('{SQLQUERY}', encodeURI(sqlQuery)))
             .then((response) => {
               if (response.status !== 200) {
@@ -187,13 +189,13 @@ class MapVisuals extends Component {
                   index = (index + 1) % json.rows.length;
                 }
               }
-              
+
               let message = 'Showing selected photos from camera ' + data.id;
               if (randomlySelectedImages.length === 0) {
                 message = 'There are no photos from camera ' + data.id;
                 randomlySelectedImages = null;
               }
-            
+
               this.setState({
                 viewCamera: {
                   status: DialogScreen.DIALOG_ACTIVE,
@@ -233,7 +235,7 @@ class MapVisuals extends Component {
   }
 
   //----------------------------------------------------------------
-  
+
   closeAllDialogs() {
     this.setState({
       viewCamera: {

@@ -2,8 +2,9 @@ import React from 'react';
 
 const DIALOG_IDLE = 'idle';
 const DIALOG_ACTIVE = 'active';
-  
-export default class DialogScreen extends React.Component {
+
+
+class DialogScreen extends React.Component {
   constructor(props) {
     super(props);
     this.closeMe = this.closeMe.bind(this);
@@ -21,11 +22,11 @@ export default class DialogScreen extends React.Component {
       </section>
     );
   }
-  
+
   closeMe(e) {
     this.props.closeMeHandler && this.props.closeMeHandler();
   }
-  
+
   //'Eats up' events to prevent them from bubbling to a parent element.
   noAction(e) {
     if (e) {
@@ -36,7 +37,9 @@ export default class DialogScreen extends React.Component {
     }
     return false;
   }
-  
+
   static get DIALOG_IDLE() { return DIALOG_IDLE; }
   static get DIALOG_ACTIVE() { return DIALOG_ACTIVE; }
 }
+
+export default DialogScreen;

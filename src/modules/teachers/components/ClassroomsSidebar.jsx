@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
-import Spinner from '../../../presentational/Spinner';
+import Spinner from '../../common/components/Spinner';
 
 class ClassroomSidebar extends Component {
 

@@ -1,6 +1,6 @@
 import { Component } from 'react';
 
-import Layout from '../../../presentational/Layout'
+import Layout from '../../common/components/Layout';
 
 
 class TeachersContainer extends Component {

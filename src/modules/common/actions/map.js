@@ -1,5 +1,5 @@
-import * as types from '../constants/actionTypes';
-import config from '../constants/config';
+import * as types from '../../../constants/actionTypes';
+import config from '../../../constants/config';
 
 //Action creators
 

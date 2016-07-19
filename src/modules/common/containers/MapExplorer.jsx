@@ -19,11 +19,13 @@ import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { addMapSelector } from '../actions/map';
 import { Script } from 'react-loadscript';
-import MapVisuals from './MapVisuals.jsx';
-import MapControls from './MapControls.jsx';
-import DialogScreen from '../presentational/DialogScreen.jsx';
-import DialogScreen_ViewCamera from '../presentational/DialogScreen-ViewCamera.jsx'
-const config = require('../constants/mapExplorer.config.json');
+
+import MapVisuals from './MapVisuals';
+import MapControls from './MapControls';
+import DialogScreen from '../components/DialogScreen';
+import DialogScreen_ViewCamera from '../components/DialogScreen-ViewCamera'
+const config = require('../../../constants/mapExplorer.config.json');
+
 
 class MapExplorer extends Component {
   constructor(props) {
@@ -38,7 +40,7 @@ class MapExplorer extends Component {
     this.resizeMapExplorer = this.resizeMapExplorer.bind(this);
     window.onresize = this.resizeMapExplorer;
   }
-  
+
   componentDidMount() {
     this.resizeMapExplorer();
   }
@@ -77,39 +79,39 @@ class MapExplorer extends Component {
     const headerHeight = document.getElementsByClassName('site-header')[0].offsetHeight;
     const footerHeight = document.getElementsByClassName('site-footer')[0].offsetHeight;
     const availableHeight = windowHeight - headerHeight - footerHeight;
-    this.refs.mapExplorer.style.height = availableHeight+'px';  
+    this.refs.mapExplorer.style.height = availableHeight+'px';
   }
-  
+
   //----------------------------------------------------------------
-  
-  addSelector() {    
+
+  addSelector() {
     this.props.dispatch(addMapSelector());
   }
-  
-  updateAllSelectors() {    
+
+  updateAllSelectors() {
     this.props.selectors.map((selector) => {
       const selectorPanel = this.refs[`mapControls_${selector.id}`].getWrappedInstance();
       selectorPanel && selectorPanel.updateMe();
     });
     this.toggleSelectors();
   }
-  
+
   toggleSelectors() {
     const regexExpand = /\b\s*expand\s*\b/g;
     const regexCollapse = /\b\s*collapse\s*\b/g;
-    
+
     if (regexExpand.test(this.refs.mapExplorer.className)) {
       this.collapseSelectors();
     } else {
       this.expandSelectors();
     }
   }
-  
+
   expandSelectors() {
     const regexCollapse = /\b\s*collapse\s*\b/g;
     this.refs.mapExplorer.className = this.refs.mapExplorer.className.replace(regexCollapse, ' ') + ' expand';
   }
-  
+
   collapseSelectors() {
     const regexExpand = /\b\s*expand\s*\b/g;
     this.refs.mapExplorer.className = this.refs.mapExplorer.className.replace(regexExpand, ' ') + ' collapse';

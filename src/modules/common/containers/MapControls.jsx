@@ -1,12 +1,14 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { removeMapSelector, editMapSelector } from '../actions/map';
 import { browserHistory } from 'react-router';
-const config = require('../constants/mapExplorer.config.json');
-import MapSelector from './MapSelector.jsx';
-import DialogScreen from '../presentational/DialogScreen.jsx';
-import DialogScreen_Download from '../presentational/DialogScreen-Download.jsx';
 import fetch from 'isomorphic-fetch';
+
+import { removeMapSelector, editMapSelector } from '../actions/map';
+import MapSelector from './MapSelector';
+import DialogScreen from '../components/DialogScreen';
+import DialogScreen_Download from '../components/DialogScreen-Download';
+const config = require('../../../constants/mapExplorer.config.json');
+
 
 class MapControls extends Component {
   constructor(props) {
@@ -75,7 +77,7 @@ class MapControls extends Component {
         </li>
       );
     });
-    
+
     //Subpanel Switching
     const subPanelGuidedClass = (this.props.selectorData.mode !== MapSelector.GUIDED_MODE)
       ? 'input-subpanel not-selected'
@@ -151,10 +153,10 @@ class MapControls extends Component {
           <button className="hidden" onClick={this.updateMe}>(Apply)</button>
           <button className="hidden" onClick={this.deleteMe}>(Delete)</button>
           <button className="btn" onClick={this.prepareCsv}>(Download)</button>
-          
+
           {/*TODO: Make sure this only appears for TEACHERS. */}
           <button className="btn" onClick={this.prepareSubjectsForAssignments}>(Select For Assignment)</button>
-          
+
         </section>
         <DialogScreen status={this.state.generalDialog.status} message={this.state.generalDialog.message} closeMeHandler={this.closeAllDialogs} />
         <DialogScreen_Download status={this.state.downloadDialog.status} message={this.state.downloadDialog.message} data={this.state.downloadDialog.data} closeMeHandler={this.closeAllDialogs} />
@@ -350,7 +352,7 @@ class MapControls extends Component {
         }});
       });
   }
-  
+
   //----------------------------------------------------------------
 
   prepareSubjectsForAssignments(e) {

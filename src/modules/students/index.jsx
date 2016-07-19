@@ -2,7 +2,7 @@ import React from 'react';
 import { Router, Route, IndexRoute, IndexRedirect, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
-import MapExplorer from '../../containers/MapExplorer.jsx';
+import MapExplorer from '../common/containers/MapExplorer.jsx';
 import StudentsContainer from './containers/StudentsContainer.jsx';
 import StudentClassroomsContainer from './containers/StudentClassroomsContainer.jsx';
 import StudentClassroomContainer from './containers/StudentClassroomContainer.jsx';

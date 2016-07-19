@@ -1,5 +1,5 @@
 import * as types from '../constants/actionTypes';
-import MapSelector from '../containers/MapSelector.jsx';
+import MapSelector from '../modules/common/containers/MapSelector.jsx';
 
 const initialState = { selectors: [new MapSelector()] };
 

@@ -1,7 +1,9 @@
 import React from 'react';
-import DialogScreen from './DialogScreen.jsx';
 
-export default class DialogScreen_ViewCamera extends DialogScreen {
+import DialogScreen from './DialogScreen';
+
+
+class DialogScreen_ViewCamera extends DialogScreen {
   constructor(props) {
     super(props);
     this.closeMe = this.closeMe.bind(this);  //Babel doesn't transpile super() properly in IE10, so we need to explicitly declare this.
@@ -12,11 +14,11 @@ export default class DialogScreen_ViewCamera extends DialogScreen {
       <section role="dialog" className={(this.props.status === DialogScreen.DIALOG_IDLE) ? 'dialog-screen' : 'dialog-screen view-camera enabled' } onClick={this.closeMe}>
         <div className="dialog-box" onClick={this.noAction}>
           <button className="btn close-button fa fa-times" onClick={this.closeMe}></button>
-          
+
           {(this.props.message && this.props.message.length > 0)
           ? <div className="info">{this.props.message}</div>
           : null}
-          
+
           {(this.props.data)
           ? <ul>
               {this.props.data.map((item, index) => {
@@ -24,9 +26,11 @@ export default class DialogScreen_ViewCamera extends DialogScreen {
               })}
             </ul>
           : null}
-          
+
         </div>
       </section>
     );
   }
 }
+
+export default DialogScreen_ViewCamera;

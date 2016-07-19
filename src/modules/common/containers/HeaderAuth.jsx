@@ -3,10 +3,10 @@
 
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { checkLoginUser, setLoginUser, loginToPanoptes, logoutFromPanoptes } from '../actions/login';
 
-import LoginButton from '../presentational/LoginButton.jsx';
-import LoggedInUser from '../presentational/LoggedInUser.jsx';
+import { checkLoginUser, setLoginUser, loginToPanoptes, logoutFromPanoptes } from '../actions/login';
+import LoginButton from '../components/LoginButton.jsx';
+import LoggedInUser from '../components/LoggedInUser.jsx';
 
 class HeaderAuth extends Component {
 
@@ -41,14 +41,16 @@ HeaderAuth.propTypes = {
   user: PropTypes.object,
   initialised: PropTypes.bool
 };
+
 HeaderAuth.defaultProps = {
   user: null,
   initialised: false
 };
-function mapStateToProps(state, ownProps) {  //Listens for changes in the Redux Store
+
+function mapStateToProps(state, ownProps) {
   return {
     user: state.login.user,
     initialised: state.login.initialised
   };
 }
-export default connect(mapStateToProps)(HeaderAuth);  //Connects the Component to the Redux Store
+export default connect(mapStateToProps)(HeaderAuth);

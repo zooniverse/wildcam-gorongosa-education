@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import Classroom from '../components/Classroom';
-import Spinner from '../../../presentational/Spinner';
+import Spinner from '../../common/components/Spinner';
 import { deleteClassroom, deleteStudent } from '../actions/teacher';
 
 
