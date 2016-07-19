@@ -3,12 +3,12 @@ import { Link } from 'react-router';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import config from '../constants/config';
+import config from '../../../constants/config';
 import EditClassroomLink from './EditClassroomLink';
 import AssignmentLink from './AssignmentLink';
 
 
-export default class Classroom extends Component {
+class Classroom extends Component {
   constructor(props) {
     super(props);
     let classrooms = props.data;
@@ -38,7 +38,7 @@ export default class Classroom extends Component {
     return students;
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     let classrooms = nextProps.data;
     this.state = {
       url: config.routes.root + config.routes.students + 'join?id=' + classrooms.id + '&token=' + classrooms.attributes.join_token
@@ -58,12 +58,18 @@ export default class Classroom extends Component {
             </tr>
           </thead>
           <tbody>
-            {students.map((student, i) =>
-            <tr key={i}>
-              <td>{student.attributes.zooniverse_display_name}</td>
-              <td>{student.attributes.classifications_count}</td>
-              <td><button className="btn btn-danger" onClick={() => {this.deleteStudent(student.id)}} type="button">Remove</button></td>
-            </tr>
+            {students.map(student =>
+              <tr key={student.id}>
+                <td>{student.attributes.zooniverse_display_name}</td>
+                <td>{student.attributes.classifications_count}</td>
+                <td>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => {this.deleteStudent(student.id)}}
+                    type="button">
+                    Remove
+                  </button></td>
+              </tr>
             )}
           </tbody>
         </table>
@@ -184,3 +190,5 @@ Classroom.propTypes = {
     deleteStudent: PropTypes.func.isRequired,
   })
 };
+
+export default Classroom;

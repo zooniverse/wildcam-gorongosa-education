@@ -1,12 +1,13 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import Dropdown from 'Dropdown.jsx';
-import CheckboxGroup from 'CheckboxGroup.jsx';
-import RadioButtonGroup from 'RadioButtonGroup.jsx';
 
+import Dropdown from './Dropdown.jsx';
+import CheckboxGroup from './CheckboxGroup.jsx';
+import RadioButtonGroup from './RadioButtonGroup.jsx';
 import { fetchUserDetails, upsertTeacherMetadata } from '../actions/users';
-import { age, boolean, courses, countries, resources, settings } from '../constants/util';
+import { age, boolean, courses, countries, resources, settings } from '../../../constants/util';
+
 
 class TeacherForm extends Component {
   constructor(props) {

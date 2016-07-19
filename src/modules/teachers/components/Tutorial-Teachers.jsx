@@ -30,7 +30,7 @@ const TutorialForTeachers = (props) => (
       <li>After you create a new classroom, your classroom overview page will appear. Click the “Copy Link” button to copy the link.</li>
       <li>Paste this link in an email to send to your students or post it on a class forum. Instruct students to register for a Zooniverse account before they click on this link.</li>
     </ul>
-    
+
     <h2>View students in your classroom</h2>
     <ul>
       <li>In the classroom tab, click on the classroom you are interested in. </li>
@@ -59,4 +59,4 @@ const TutorialForTeachers = (props) => (
   </div>
 );
 
-export {TutorialForTeachers as default}
+export default TutorialForTeachers;

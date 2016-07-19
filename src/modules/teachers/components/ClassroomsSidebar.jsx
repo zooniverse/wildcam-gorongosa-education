@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
-import Spinner from 'Spinner.jsx'
+import Spinner from '../../../presentational/Spinner';
 
-export default class ClassroomSidebar extends Component {
+class ClassroomSidebar extends Component {
 
   constructor() {
     super();
@@ -87,3 +87,5 @@ ClassroomSidebar.defaultProps = {
     loading: false,
   }
 };
+
+export default ClassroomSidebar;

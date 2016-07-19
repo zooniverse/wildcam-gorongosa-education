@@ -1,5 +1,6 @@
 import { PropTypes } from 'react';
-import Spinner from 'Spinner.jsx'
+
+import Spinner from '../../../presentational/Spinner.jsx'
 
 
 const ClassroomsOverview = (props, context) => {
@@ -17,9 +18,10 @@ const ClassroomsOverview = (props, context) => {
                 <i className="fa fa-institution fa-4x"></i>
               </div>
               <div className="col-xs-9 text-right">
-                {(classrooms.loading === false) ?
-                <h1>{classrooms.data.length}</h1>
-                : <Spinner/>}
+                { (classrooms.loading === false)
+                  ? <h1>{classrooms.data.length}</h1>
+                  : <Spinner/>
+                }
               </div>
             </div>
           </div>
@@ -36,9 +38,10 @@ const ClassroomsOverview = (props, context) => {
                 <i className="fa fa-graduation-cap fa-4x"></i>
               </div>
               <div className="col-xs-9 text-right">
-                {(classrooms.loading === false) ?
-                <h1>{classrooms.uniqueMembers.length}</h1>
-                : <Spinner/>}
+                { (classrooms.loading === false)
+                  ? <h1>{classrooms.uniqueMembers.length}</h1>
+                  : <Spinner/>
+                }
               </div>
             </div>
           </div>
@@ -55,4 +58,4 @@ ClassroomsOverview.contextTypes = {
   classrooms: PropTypes.object.isRequired
 }
 
-export {ClassroomsOverview as default}
+export default ClassroomsOverview;

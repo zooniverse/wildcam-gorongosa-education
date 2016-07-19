@@ -2,8 +2,8 @@ import { browserHistory } from 'react-router';
 import fetch from 'isomorphic-fetch';
 import apiClient from 'panoptes-client/lib/api-client';
 
-import config from '../constants/config';
-import * as types from '../constants/actionTypes';
+import config from '../../../constants/config';
+import * as types from '../../../constants/actionTypes';
 
 export function fetchUserDetails(userId) {
   return dispatch => {

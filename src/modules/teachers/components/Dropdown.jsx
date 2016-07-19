@@ -1,6 +1,6 @@
 import { Component, PropTypes } from 'react';
 
-export default class Dropdown extends Component {
+class Dropdown extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,3 +51,5 @@ Dropdown.defaultProps = {
 Dropdown.propTypes = {
   options: PropTypes.array.isRequired
 }
+
+export default Dropdown;
