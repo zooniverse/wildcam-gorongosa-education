@@ -24,10 +24,10 @@ export function createAssignment(assignment, classroomId) {
     type: 'student_user',
   }));
   const subjectData = assignment.subjects.map(subject_id => ({
-    id: subject,
+    id: subject_id,
     type: 'subjects',
   }));
-
+  
   return dispatch => {
     const createAction = { ...assignment, type: types.CREATE_ASSIGNMENT };
     dispatch(createAction);
@@ -68,4 +68,36 @@ export function createAssignment(assignment, classroomId) {
     })
     .catch(response => console.log('RESPONSE-error: ', response));
   };
+}
+
+export function fetchAssignments() {
+  return dispatch => {
+    dispatch({
+      type: types.REQUEST_ASSIGNMENTS,
+    });
+    return fetch(root + assignments, {
+      method: 'GET',
+      mode: 'cors',
+      headers: new Headers({
+          'Authorization': apiClient.headers.Authorization,
+          'Content-Type': 'application/json'
+        })
+      })
+      .then(response => response.json())
+      .then(json => {
+        dispatch({
+          type: types.RECEIVE_ASSIGNMENTS,
+          data: json.data,
+          error: false,
+          loading: false,
+        });
+      })
+      .catch(response => dispatch({
+        type: types.RECEIVE_ASSIGNMENTS_ERROR,
+        data: [],
+        error: true,
+        loading: false,
+      })
+    );
+  }
 }

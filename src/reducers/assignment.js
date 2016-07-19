@@ -8,7 +8,6 @@ const initialState = {
   }
 };
 
-
 export function assignment(state = initialState, action) {
   switch (action.type) {
     case types.CREATE_ASSIGNMENT:
@@ -18,8 +17,8 @@ export function assignment(state = initialState, action) {
           error: false,
           loading: true,
         }
-      }
-    case types.CREATE_CLASSROOM_SUCCESS:
+      };
+    case types.CREATE_ASSIGNMENT_SUCCESS:
       const newlist = state.assignments.data.concat(action.data);
       return { ...state,
         assignments: {
@@ -27,15 +26,39 @@ export function assignment(state = initialState, action) {
           error: false,
           loading: false,
         }
-      }
-    case types.CREATE_CLASSROOM_ERROR:
+      };
+    case types.CREATE_ASSIGNMENT_ERROR:
       return { ...state,
         assignments: {
           data: [],
           error: action.error,
           loading: false,
         }
-      }
+      };
+    case types.REQUEST_ASSIGNMENTS:
+      return { ...state,
+        assignments: {
+          data: [],
+          error: false,
+          loading: true,
+        }
+      };
+    case types.RECEIVE_ASSIGNMENTS:
+      return { ...state,
+        assignments: {
+          data: action.data,
+          error: false,
+          loading: false,
+        }
+      };
+    case types.RECEIVE_ASSIGNMENTS_ERROR:
+      return { ...state,
+        assignments: {
+          data: [],
+          error: action.error,
+          loading: false,
+        }
+      };
     default:
       return state;
   }

@@ -1,7 +1,6 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Script } from 'react-loadscript';
-import SelectorData from './MapExplorer-SelectorData.jsx';
 import DialogScreen from '../presentational/DialogScreen.jsx';
 import DialogScreen_ViewCamera from '../presentational/DialogScreen-ViewCamera.jsx'
 const config = require('../constants/mapExplorer.config.json');

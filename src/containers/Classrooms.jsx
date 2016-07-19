@@ -2,6 +2,7 @@ import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { fetchClassrooms } from '../actions/teacher';
+import { fetchAssignments } from '../actions/assignment';
 import { fetchUserDetails } from '../actions/users';
 import ClassroomsSidebar from '../presentational/ClassroomsSidebar.jsx';
 
@@ -9,7 +10,7 @@ class Classrooms extends Component {
 
   componentDidMount() {
     const currentUserId = this.props.user.id;
-    const { classrooms, userdetails } = this.props;
+    const { classrooms, assignments, userdetails } = this.props;
 
     if (!this.props.userdetails.loading) {
       this.props.dispatch(fetchUserDetails(currentUserId));
@@ -18,11 +19,16 @@ class Classrooms extends Component {
     if (!classrooms.members.length && !classrooms.data.length && !classrooms.loading) {
       this.props.dispatch(fetchClassrooms());
     }
+    
+    if (!assignments.data.length && !assignments.loading) {
+      this.props.dispatch(fetchAssignments());
+    }
   }
 
   getChildContext() {
     return {
-      classrooms: this.props.classrooms
+      classrooms: this.props.classrooms,
+      assignments: this.props.assignments,
     }
   }
 
@@ -44,8 +50,9 @@ class Classrooms extends Component {
 
 Classrooms.propTypes = {
   classrooms: PropTypes.object.isRequired,
+  assignments: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
-  userdetails: PropTypes.object.isRequired
+  userdetails: PropTypes.object.isRequired,
 };
 
 Classrooms.defaultProps = {
@@ -55,6 +62,11 @@ Classrooms.defaultProps = {
     loading: false,
     members: [],
   },
+  assignments: {
+    data: [],
+    error: false,
+    loading: false,
+  },
   userdetails: {
     data: {
       attributes: {
@@ -62,17 +74,19 @@ Classrooms.defaultProps = {
       }
     },
     loading: false
-  }
+  },
 };
 
 Classrooms.childContextTypes = {
-  classrooms: PropTypes.object.isRequired
+  classrooms: PropTypes.object.isRequired,
+  assignments: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   classrooms: state.teacher.classrooms,
+  assignments: state.assignment.assignments,
   user: state.login.user,
-  userdetails: state.users
+  userdetails: state.users,
 });
 
 export default connect(mapStateToProps)(Classrooms);

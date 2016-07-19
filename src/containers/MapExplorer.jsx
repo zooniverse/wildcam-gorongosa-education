@@ -20,8 +20,7 @@ import { connect } from 'react-redux';
 import { addMapSelector } from '../actions/map';
 import { Script } from 'react-loadscript';
 import MapVisuals from './MapVisuals.jsx';
-import SelectorData from './MapExplorer-SelectorData.jsx';
-import SelectorPanel from './MapExplorer-SelectorPanel.jsx';
+import MapControls from './MapControls.jsx';
 import DialogScreen from '../presentational/DialogScreen.jsx';
 import DialogScreen_ViewCamera from '../presentational/DialogScreen-ViewCamera.jsx'
 const config = require('../constants/mapExplorer.config.json');
@@ -57,7 +56,7 @@ class MapExplorer extends Component {
             {this.props.selectors.map((selector) => {
               selector.tmp = selector.id + selector.id;
               return (
-                <SelectorPanel ref={'selectorPanel_' + selector.id} key={selector.id} selectorData={selector} />
+                <MapControls ref={`mapControls_${selector.id}`} key={selector.id} selectorData={selector} />
               );
             })}
             </div>
@@ -89,7 +88,7 @@ class MapExplorer extends Component {
   
   updateAllSelectors() {    
     this.props.selectors.map((selector) => {
-      const selectorPanel = this.refs['selectorPanel_' + selector.id].getWrappedInstance();
+      const selectorPanel = this.refs[`mapControls_${selector.id}`].getWrappedInstance();
       selectorPanel && selectorPanel.updateMe();
     });
     this.toggleSelectors();

@@ -53,11 +53,36 @@ class AssignmentForm extends Component {
         newAssignment[key] = this.state[key];
       }
     }
+    
+    let savedSubjectsIDs = sessionStorage.getItem('savedSubjectsIDs');
+    savedSubjectsIDs = (savedSubjectsIDs === null || savedSubjectsIDs === '') ?
+      [] : savedSubjectsIDs.split(',');
+    newAssignment.subjects = savedSubjectsIDs;
+    
+    //TESTING: localhost uses 'Bacon' Zooniverse project for Subject IDs.
+    //WildCam Gorongosa has no Staging data that we can use to create Subjects.
+    //Therefore, we need to hardcode some Subject IDs.
+    //--------
+    /*if (window.location.hostname === 'localhost') {
+      newAssignment.subjects = [
+          '4077',
+          '4079',
+          '4078',
+          '4076',
+          '4080',
+          '4075'
+        ];
+    }*/
+    //--------
+    
+    //NOTE: According to Marten, it's perfectly OK to create a subject with no students or subjects.
+    //--------
     if (newAssignment.students.length > 0 && newAssignment.subjects.length) {
       this.props.submitForm(newAssignment, this.props.params.classroomId)
     } else {
       alert('You can\'t create an assignment without students or subjects.')
     };
+    //--------
   }
 
   renderStudentList(students) {
@@ -84,6 +109,37 @@ class AssignmentForm extends Component {
       </div>
     )
   }
+  
+  renderSelectedSubjects() {
+    const MAXIMUM_SUBJECTS = 10;
+    let subjectsHtml = [];
+    
+    let savedSubjectsLocations = sessionStorage.getItem('savedSubjectsLocations');
+    savedSubjectsLocations = (savedSubjectsLocations === null || savedSubjectsLocations === '') ?
+      [] : savedSubjectsLocations.split(',');
+    
+    let savedSubjectsIDs = sessionStorage.getItem('savedSubjectsIDs');
+    savedSubjectsIDs = (savedSubjectsIDs === null || savedSubjectsIDs === '') ?
+      [] : savedSubjectsIDs.split(',');
+    
+    for (let i = 0; i < MAXIMUM_SUBJECTS && i < savedSubjectsIDs.length; i++) {
+      subjectsHtml.push(
+        <li key={'subjects_' + i}><img src={savedSubjectsLocations[i]} /></li>
+      );
+    }
+    return (
+      <div>
+        <div>
+          {savedSubjectsIDs.length} Subject(s) selected. 
+          {(subjectsHtml.length > 0) ? <span>Previewing {subjectsHtml.length} image(s)</span> : null}
+        </div>
+        <ul className="subjects-preview">
+          {subjectsHtml}
+        </ul>
+        <Link className="form-group" to="/teachers/data">Select Subjects</Link>
+      </div>
+    );
+  }
 
   render() {
     const { classrooms, params } = this.props;
@@ -94,7 +150,7 @@ class AssignmentForm extends Component {
       : [];
     const currentStudents = classrooms.uniqueMembers.filter(
       student => currentStudentsIds.includes(student.id)
-    )
+    );
     return (
       <form onSubmit={this.handleSubmit}>
         <h3>Classroom {currentClassroom ? currentClassroom.attributes.name : 'Loading'}</h3>
@@ -134,12 +190,14 @@ class AssignmentForm extends Component {
           { this.renderStudentList(currentStudents) }
         </div>
         <div className="form-group">
-         <button type="submit" className="btn btn-primary pull-right">Submit</button>
+          {this.renderSelectedSubjects()}
+        </div>
+        <div className="form-group">
+          <button type="submit" className="btn btn-primary pull-right">Submit</button>
         </div>
       </form>
     );
   }
 }
-
 
 export default AssignmentForm;

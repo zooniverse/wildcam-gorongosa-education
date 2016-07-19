@@ -20,6 +20,7 @@ export default class Classroom extends Component {
     this.deleteClassroom = this.deleteClassroom.bind(this);
     this.deleteStudent = this.deleteStudent.bind(this);
     this.renderStudentList = this.renderStudentList.bind(this);
+    this.renderAssignmentsList = this.renderAssignmentsList.bind(this);
   }
 
   onCopy() {
@@ -69,6 +70,27 @@ export default class Classroom extends Component {
         : 'No students here' }
       </div>
     )
+  }
+  
+  renderAssignmentsList() {
+    return (
+      <table className="table table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {this.props.assignments.data.map(assignment =>
+            <tr key={`assignment_${assignment.id}`}>
+              <td>{assignment.attributes.name}</td>
+              <td><button>VIEW</button></td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    );
   }
 
   deleteClassroom() {
@@ -134,6 +156,7 @@ export default class Classroom extends Component {
             { this.renderStudentList(students) }
           </TabPanel>
           <TabPanel>
+            { this.renderAssignmentsList() }
             <AssignmentLink classroom={data} />
           </TabPanel>
         </Tabs>
@@ -151,7 +174,8 @@ Classroom.defaultProps = {
       description: '',
     }
   },
-  members: []
+  members: [],
+  assignments: []
 };
 
 Classroom.propTypes = {

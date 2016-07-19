@@ -1,6 +1,6 @@
 const config = require('../constants/mapExplorer.config.json');
 
-export default class SelectorData {
+export default class MapSelector {
   constructor() {
     this.id = //Random ID.
       '0123456789abcdef'[Math.floor(Math.random() * 16)] +
@@ -11,7 +11,7 @@ export default class SelectorData {
       '0123456789abcdef'[Math.floor(Math.random() * 16)] +
       '0123456789abcdef'[Math.floor(Math.random() * 16)] +
       '0123456789abcdef'[Math.floor(Math.random() * 16)];
-    this.mode = SelectorData.GUIDED_MODE;
+    this.mode = MapSelector.GUIDED_MODE;
     
     //Default filter selectors
     this.species = [];  //For a pre-set selection, use ['baboon', 'lion'] or etc.
@@ -48,31 +48,32 @@ export default class SelectorData {
     let sqlWhere_species = [];
     config.species.map((item) => {
       if (this.species.indexOf(item.id) >= 0) {
-        sqlWhere_species.push('species ILIKE \'%' + item.dbName.replace(/'/, '\'\'') + '%\'');
+        sqlWhere_species.push(`species ILIKE \'%${item.dbName.replace(/'/, '\'\'')}%\'`);
       }
     });
     sqlWhere_species = (sqlWhere_species.length === 0)
-      ? '' : '(' + sqlWhere_species.join(' OR ') + ')';
+      ? '' : `( ${sqlWhere_species.join(' OR ')} )`;
+    
     
     //Where constructor: habitats
     let sqlWhere_habitats = [];
     config.habitats.map((item) => {
       if (this.habitats.indexOf(item.id) >= 0) {
-        sqlWhere_habitats.push('veg_type ILIKE \'%' + item.dbName.replace(/'/, '\'\'') + '%\'');
+        sqlWhere_habitats.push(`veg_type ILIKE \'%${item.dbName.replace(/'/, '\'\'')}%\'`);
       }
     });
     sqlWhere_habitats = (sqlWhere_habitats.length === 0)
-      ? '' : '(' + sqlWhere_habitats.join(' OR ') + ')';
+      ? '' : `(${sqlWhere_habitats.join(' OR ')})`;
     
     //Where constructor: seasons
     let sqlWhere_seasons = [];
     config.seasons.map((item) => {
       if (this.seasons.indexOf(item.id) >= 0) {
-        sqlWhere_seasons.push('season ILIKE \'%' + item.dbName.replace(/'/, '\'\'') + '%\'');
+        sqlWhere_seasons.push(`season ILIKE \'%${item.dbName.replace(/'/, '\'\'')}%\'`);
       }
     });
     sqlWhere_seasons = (sqlWhere_seasons.length === 0)
-      ? '' : '(' + sqlWhere_seasons.join(' OR ') + ')';
+      ? '' : `(${sqlWhere_seasons.join(' OR ')})`;
     
     //Where constructor: date range
     let sqlWhere_dates = '';
@@ -104,7 +105,7 @@ export default class SelectorData {
       }
     });
     if (sqlWhere !== '') {
-      sqlWhere = ' WHERE ' + sqlWhere;
+      sqlWhere = ` WHERE ${sqlWhere}`;
     }
     
     return sqlWhere;
@@ -116,7 +117,7 @@ export default class SelectorData {
     //For presentation, TODO: give options to change styles
     //----------------
     for (let i = 0; i < 20; i++) {
-      children += '[count>'+(i*50)+'] {marker-width:'+(parseFloat(this.markerSize)*(1 + i / 10))+';} ';
+      children += `[count>${i*50}] {marker-width:${(parseFloat(this.markerSize)*(1 + i / 10))};} `;
     }
     //----------------
     
@@ -129,7 +130,7 @@ export default class SelectorData {
   }
   
   copy() {
-    let newCopy = new SelectorData();
+    let newCopy = new MapSelector();
     for (let i in this) {
       if (this.hasOwnProperty(i) && i !== 'copy') {
         newCopy[i] = this[i];
@@ -138,5 +139,8 @@ export default class SelectorData {
     return newCopy;
   }
 }
-SelectorData.GUIDED_MODE = 1;
-SelectorData.ADVANCED_MODE = 2;
+
+//The Map controls can be set to either Guided Mode (the default with UI widgets
+//like checkboxes, etc) or Advanced Mode (which exposes full SQL capabilities).
+MapSelector.GUIDED_MODE = 1;
+MapSelector.ADVANCED_MODE = 2;
