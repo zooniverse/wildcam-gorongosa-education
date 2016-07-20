@@ -10,9 +10,11 @@ import { deleteClassroom, deleteStudent } from '../actions/teacher';
 class ClassroomContainer extends Component {
 
   render() {
-    const { classrooms, params, actions } = this.props;
+    const { classrooms, assignments, params, actions } = this.props;
     const members = classrooms.members;
     const classroom = classrooms.data.find(classroom => classroom.id === params.classroomId);
+    //TODO: Select only assignments related to this Classroom
+    const classroomAssignments = assignments.data;
     const classroomId = (classroom && classroom.id) ? classroom.id : undefined;
     const boundDeleteClassroom = actions.deleteClassroom.bind(this, classroomId);
     const students = classroom ? classroom.relationships.students.data : undefined;
@@ -27,6 +29,7 @@ class ClassroomContainer extends Component {
           deleteStudent={boundDeleteStudent}
           studentsIds={studentIds}
           classroomId={classroomId}
+          assignments={classroomAssignments}
         />
       : <Spinner />;
   }
@@ -34,6 +37,7 @@ class ClassroomContainer extends Component {
 
 ClassroomContainer.propTypes = {
   classrooms: PropTypes.object.isRequired,
+  assignments: PropTypes.object.isRequired,
 };
 
 ClassroomContainer.defaultProps = {
@@ -43,11 +47,17 @@ ClassroomContainer.defaultProps = {
     error: false,
     members: [],
     uniqueMembers: [],
-  }
+  },
+  assignments: {
+    data: [],
+    loading: false,
+    error: false,
+  },
 };
 
 const mapStateToProps = state => ({
-  classrooms: state.teacher.classrooms
+  classrooms: state.teacher.classrooms,
+  assignments: state.assignment.assignments,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -88,7 +88,7 @@ class Classroom extends Component {
           </tr>
         </thead>
         <tbody>
-          {this.props.assignments.data.map(assignment =>
+          {this.props.assignments.map(assignment =>
             <tr key={`assignment_${assignment.id}`}>
               <td>{assignment.attributes.name}</td>
               <td><button>VIEW</button></td>

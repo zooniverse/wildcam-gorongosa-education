@@ -13,7 +13,7 @@ class StudentClassroomContainer extends Component {
       classroom.id === params.classroomId);
 
     if (classroom && members) {
-      return (<StudentClassroomPresentational data={classroom} members={members} user={user} />);
+      return (<StudentClassroom data={classroom} members={members} user={user} />);
     } else {
       return (<Spinner />);
     }

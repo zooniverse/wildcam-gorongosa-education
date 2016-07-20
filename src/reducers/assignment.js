@@ -44,6 +44,9 @@ export function assignment(state = initialState, action) {
         }
       };
     case types.RECEIVE_ASSIGNMENTS:
+      console.log('*'.repeat(40));
+      console.log(action.data);
+
       return { ...state,
         assignments: {
           data: action.data,
