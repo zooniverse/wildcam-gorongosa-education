@@ -1,5 +1,5 @@
 import { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 
 import InputElement from './InputElement';
 
@@ -19,8 +19,18 @@ class AssignmentForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.renderStudentList = this.renderStudentList.bind(this);
+    this.selectNewSubjects = this.selectNewSubjects.bind(this);
     this.toggleStudent = this.toggleStudent.bind(this);
-    this.state = Object.assign({}, initialState);
+    
+    const savedNewAssignments = (sessionStorage.getItem('savedNewAssignment'))
+      ? JSON.parse(sessionStorage.getItem('savedNewAssignment'))
+      : {};
+    
+    this.state = Object.assign( {}, initialState, savedNewAssignments);
+    
+    console.log('HELLO'.repeat(80));
+    console.log(savedNewAssignments);
+    
   }
 
   toggleStudent(e) {
@@ -63,7 +73,7 @@ class AssignmentForm extends Component {
     //WildCam Gorongosa has no Staging data that we can use to create Subjects.
     //Therefore, we need to hardcode some Subject IDs.
     //--------
-    /*if (window.location.hostname === 'localhost') {
+    if (window.location.hostname === 'localhost') {
       newAssignment.subjects = [
           '4077',
           '4079',
@@ -72,7 +82,7 @@ class AssignmentForm extends Component {
           '4080',
           '4075'
         ];
-    }*/
+    }
     //--------
     
     //NOTE: According to Marten, it's perfectly OK to create a subject with no students or subjects.
@@ -91,18 +101,25 @@ class AssignmentForm extends Component {
         {(students.length > 0) ?
         <table className="table table-hover">
           <tbody>
-            {students.map((student) =>
-            <tr
-              className={this.state.students.find(id => id === student.id) ? 'success' : ''}
-              key={student.id}
-            >
-              <td>
-                <label><input type="checkbox" value={student.id} onChange={this.toggleStudent} />
-                {student.attributes.zooniverse_display_name}
-                </label>
-              </td>
-            </tr>
-            )}
+            {students.map((student) => {
+              const selected = this.state.students.find(id => id === student.id);
+              return (
+                <tr
+                  className={selected ? 'success' : ''}
+                  key={student.id}
+                >
+                  <td>
+                    <label>
+                      {(selected)
+                        ? <input type="checkbox" value={student.id} onChange={this.toggleStudent} checked />
+                        : <input type="checkbox" value={student.id} onChange={this.toggleStudent} />
+                      }
+                      {student.attributes.zooniverse_display_name}
+                    </label>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         : 'No students here' }
@@ -136,9 +153,13 @@ class AssignmentForm extends Component {
         <ul className="subjects-preview">
           {subjectsHtml}
         </ul>
-        <Link className="form-group" to="/teachers/data">Select Subjects</Link>
       </div>
     );
+  }
+  
+  selectNewSubjects() {
+    sessionStorage.setItem('savedNewAssignment', JSON.stringify(this.state));
+    browserHistory.push('/teachers/data');
   }
 
   render() {
@@ -191,6 +212,9 @@ class AssignmentForm extends Component {
         </div>
         <div className="form-group">
           {this.renderSelectedSubjects()}
+        </div>
+        <div className="form-group">
+          <a className="btn" onClick={this.selectNewSubjects}>Select new images</a>
         </div>
         <div className="form-group">
           <button type="submit" className="btn btn-primary pull-right">Submit</button>
