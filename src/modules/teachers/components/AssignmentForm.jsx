@@ -80,7 +80,7 @@ class AssignmentForm extends Component {
           '4078',
           '4076',
           '4080',
-          '4075'
+          '4075',
         ];
     }
     //--------
@@ -104,10 +104,7 @@ class AssignmentForm extends Component {
             {students.map((student) => {
               const selected = this.state.students.find(id => id === student.id);
               return (
-                <tr
-                  className={selected ? 'success' : ''}
-                  key={student.id}
-                >
+                <tr className={selected ? 'success' : ''} key={student.id}>
                   <td>
                     <label>
                       {(selected)
@@ -159,6 +156,7 @@ class AssignmentForm extends Component {
   
   selectNewSubjects() {
     sessionStorage.setItem('savedNewAssignment', JSON.stringify(this.state));
+    sessionStorage.setItem('savedClassroomId', this.props.params.classroomId);
     browserHistory.push('/teachers/data');
   }
 

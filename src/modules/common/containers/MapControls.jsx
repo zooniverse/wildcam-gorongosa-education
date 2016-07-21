@@ -377,11 +377,20 @@ class MapControls extends Component {
         if (json && json.rows) {
           sessionStorage.setItem('savedSubjectsLocations', json.rows.map(i => i.location).join(','));
           sessionStorage.setItem('savedSubjectsIDs', json.rows.map(i => i.subject_id).join(','));
-          this.setState({
-            generalDialog: {
-              status: DialogScreen.DIALOG_ACTIVE,
-              message: 'Subjects saved! Go to Classrooms to create your Assignment.'
-          }});
+          
+          const classroomId = sessionStorage.getItem('savedClassroomId');
+          
+          if (classroomId) {
+            browserHistory.push('/teachers/classrooms/${classroomId}/assignment');
+          } else {
+            this.setState({
+              generalDialog: {
+                status: DialogScreen.DIALOG_ACTIVE,
+                message: 'Subjects saved! Go to Classrooms to create your Assignment.'
+            }});  
+          }
+          
+          
         }
       })
       .catch((err) => {
