@@ -19,8 +19,6 @@ export function assignment(state = initialState, action) {
         }
       };
     case types.CREATE_ASSIGNMENT_SUCCESS:
-      console.log('*'.repeat(40));
-      console.log(state);
       const newlist = state.assignments.data.concat(action.data);
       return { ...state,
         assignments: {

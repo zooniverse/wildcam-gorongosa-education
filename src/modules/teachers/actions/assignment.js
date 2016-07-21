@@ -60,10 +60,6 @@ export function createAssignment(assignment, classroomId) {
     })
     .then(response => response.json())
     .then(json => {
-      console.log('!'.repeat(40));
-      console.log(json);
-      console.log('!'.repeat(80));
-      console.log(json.data);
       dispatch({
         type: types.CREATE_ASSIGNMENT_SUCCESS,
         data: json.data,
