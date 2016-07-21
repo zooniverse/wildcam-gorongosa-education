@@ -21,8 +21,8 @@ class StudentsContainer extends Component {
 StudentsContainer.defaultProps = {
   navItems: [
     {
-      label: 'Classrooms',
-      to: '/students/classrooms',
+      label: 'Assignments',
+      to: '/students/assignments',
       loginSecured: true,
     },
     {

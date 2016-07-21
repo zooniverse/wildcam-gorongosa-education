@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 
 import MapExplorer from '../common/containers/MapExplorer.jsx';
 import StudentsContainer from './containers/StudentsContainer.jsx';
+import StudentAssignmentsContainer from './containers/StudentAssignmentsContainer.jsx';
 import StudentClassroomsContainer from './containers/StudentClassroomsContainer.jsx';
 import StudentClassroomContainer from './containers/StudentClassroomContainer.jsx';
 import JoinClassroomContainer from './containers/JoinClassroomContainer.jsx';
@@ -16,6 +17,7 @@ const studentRoutes = store => (
     <Router>
       <Route path="students" component={StudentsContainer}>
         <IndexRedirect to="data" />
+        <Route path="assignments" component={StudentAssignmentsContainer} />
         <Route path="classrooms" component={StudentClassroomsContainer}>
           <IndexRoute component={StudentOverview} />
           <Route path="join" component={JoinClassroomContainer} />

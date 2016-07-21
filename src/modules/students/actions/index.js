@@ -7,7 +7,6 @@ import * as types from '../../../constants/actionTypes';
 
 
 // Action creators
-
 export function joinClassroom(id, token) {
   return dispatch => {
     dispatch({
@@ -17,8 +16,8 @@ export function joinClassroom(id, token) {
       method: 'POST',
       mode: 'cors',
       headers: new Headers({
-          'Authorization': apiClient.headers.Authorization,
-          'Content-Type': 'application/json'
+        'Authorization': apiClient.headers.Authorization,
+        'Content-Type': 'application/json',
       }),
       body: JSON.stringify({'join_token': token})
     })
@@ -63,3 +62,27 @@ export function fetchStudentClassrooms() {
   }
 }
 
+export function fetchStudentAssignments() {
+  return dispatch => {
+    dispatch({
+      type: types.REQUEST_ASSIGNMENTS,
+    });
+    return fetch(config.eduAPI.root + config.eduAPI.assignments, {
+      method: 'GET',
+      mode: 'cors',
+      headers: new Headers({
+          'Authorization': apiClient.headers.Authorization,
+          'Content-Type': 'application/json'
+        })
+      })
+      .then(response => response.json())
+      .then(json => dispatch({
+        type: types.RECEIVE_ASSIGNMENTS,
+        data: json.data,
+      }))
+      .catch(response => dispatch({
+        type: types.RECEIVE_ASSIGNMENTS_ERROR,
+        data: [],
+      }));
+  }
+}

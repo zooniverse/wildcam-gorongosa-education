@@ -7,16 +7,14 @@ import Spinner from '../../common/components/Spinner.jsx';
 class StudentClassroomContainer extends Component {
 
   render() {
-    const {classrooms, params, user} = this.props
+    const { classrooms, params, user } = this.props
     const members = classrooms.members;
     const classroom = classrooms.data.find(classroom =>
       classroom.id === params.classroomId);
 
-    if (classroom && members) {
-      return (<StudentClassroom data={classroom} members={members} user={user} />);
-    } else {
-      return (<Spinner />);
-    }
+    return (classroom && members)
+      ? <StudentClassroom data={classroom} members={members} user={user} />
+      : <Spinner />;
   }
 
 }
@@ -36,11 +34,9 @@ StudentClassroomContainer.defaultProps = {
   user: {}
 };
 
-function mapStateToProps(state) {
-  return {
-    classrooms: state.student.classrooms,
-    user: state.login.user
-  };
-}
+const mapStateToProps = state => ({
+  classrooms: state.student.classrooms,
+  user: state.login.user
+});
 
 export default connect(mapStateToProps)(StudentClassroomContainer);
