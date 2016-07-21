@@ -26,11 +26,7 @@ class AssignmentForm extends Component {
       ? JSON.parse(sessionStorage.getItem('savedNewAssignment'))
       : {};
     
-    this.state = Object.assign( {}, initialState, savedNewAssignments);
-    
-    console.log('HELLO'.repeat(80));
-    console.log(savedNewAssignments);
-    
+    this.state = Object.assign( {}, initialState, savedNewAssignments);    
   }
 
   toggleStudent(e) {
@@ -88,6 +84,8 @@ class AssignmentForm extends Component {
     //NOTE: According to Marten, it's perfectly OK to create a subject with no students or subjects.
     //--------
     if (newAssignment.students.length > 0 && newAssignment.subjects.length) {
+      sessionStorage.setItem('savedNewAssignment', null);
+      sessionStorage.setItem('savedClassroomId', null);
       this.props.submitForm(newAssignment, this.props.params.classroomId)
     } else {
       alert('You can\'t create an assignment without students or subjects.')

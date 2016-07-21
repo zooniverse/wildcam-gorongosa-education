@@ -13,12 +13,14 @@ export function assignment(state = initialState, action) {
     case types.CREATE_ASSIGNMENT:
       return { ...state,
         assignments: {
-          data: state.assignments,
+          data: state.assignments.data,
           error: false,
           loading: true,
         }
       };
     case types.CREATE_ASSIGNMENT_SUCCESS:
+      console.log('*'.repeat(40));
+      console.log(state);
       const newlist = state.assignments.data.concat(action.data);
       return { ...state,
         assignments: {
