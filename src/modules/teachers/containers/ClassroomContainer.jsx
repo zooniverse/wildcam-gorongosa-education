@@ -13,8 +13,8 @@ class ClassroomContainer extends Component {
     const { classrooms, assignments, params, actions } = this.props;
     const members = classrooms.members;
     const classroom = classrooms.data.find(classroom => classroom.id === params.classroomId);
-    //TODO: Select only assignments related to this Classroom
-    const classroomAssignments = assignments.data;
+    const classroomAssignments = assignments.data.filter(assignment =>
+      assignment.attributes.classroom_id === parseInt(params.classroomId));
     const classroomId = (classroom && classroom.id) ? classroom.id : undefined;
     const boundDeleteClassroom = actions.deleteClassroom.bind(this, classroomId);
     const students = classroom ? classroom.relationships.students.data : undefined;
