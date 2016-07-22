@@ -17,6 +17,7 @@ class MapControls extends Component {
     //Event binding
     this.updateMe = this.updateMe.bind(this);
     this.deleteMe = this.deleteMe.bind(this);
+    this.getUpdatedData = this.getUpdatedData.bind(this);
     this.prepareCsv = this.prepareCsv.bind(this);
     this.prepareSubjectsForAssignments = this.prepareSubjectsForAssignments.bind(this);
     this.changeToGuided = this.changeToGuided.bind(this);
@@ -231,6 +232,17 @@ class MapControls extends Component {
 
   //Tells the parent that this Selector has updated its values.
   updateMe(e) {
+    const data = this.getUpdatedData();
+
+    //Commit the changes.
+    this.props.dispatch(editMapSelector(data));
+  }
+  
+  deleteMe(e) {
+    this.props.dispatch(removeMapSelector(this.props.selectorData));
+  }
+  
+  getUpdatedData() {
     //Create a copy of the current Selector Data, which we will then modify and
     //pass to the parent.
     let data = this.props.selectorData.copy();
@@ -281,22 +293,14 @@ class MapControls extends Component {
     }
     data.sql = this.refs.sql.value;
     data.css = this.refs.css.value;
-
-    //Commit the changes.
-    this.props.dispatch(editMapSelector(data));
-  }
-
-  deleteMe(e) {
-    this.props.dispatch(removeMapSelector(this.props.selectorData));
+    
+    return data;
   }
 
   //----------------------------------------------------------------
 
   //Download the current results into a CSV.
   prepareCsv(e) {
-    //First things first: make sure the user sees what she/he is going to download.
-    //this.updateMe(null);  //ERROR: TODO: https://github.com/zooniverse/wildcam-gorongosa-education/issues/229
-
     this.setState({
       downloadDialog: {
         status: DialogScreen.DIALOG_ACTIVE,
@@ -304,7 +308,8 @@ class MapControls extends Component {
         data: null
     }});
 
-    const sqlQuery = this.props.selectorData.calculateSql(config.cartodb.sqlQueryDownload);
+    const data = this.getUpdatedData();
+    const sqlQuery = data.calculateSql(config.cartodb.sqlQueryDownload);
     console.log('Prepare CSV: ', sqlQuery);
     fetch(config.cartodb.sqlApi.replace('{SQLQUERY}', encodeURI(sqlQuery)))
       .then((response) => {
@@ -341,6 +346,8 @@ class MapControls extends Component {
             message: 'Data file ready!',
             data: data
         }});
+      
+        this.updateMe(null);
       })
       .catch((err) => {
         console.log(err);
@@ -356,16 +363,14 @@ class MapControls extends Component {
   //----------------------------------------------------------------
 
   prepareSubjectsForAssignments(e) {
-    //First things first: make sure the user sees what she/he is going to download.
-    //this.updateMe(null);  //ERROR: TODO: https://github.com/zooniverse/wildcam-gorongosa-education/issues/229
-
     this.setState({
       generalDialog: {
         status: DialogScreen.DIALOG_ACTIVE,
         message: 'Preparing data...'
     }});
 
-    const sqlQuery = this.props.selectorData.calculateSql(config.cartodb.sqlQuerySubjectIDs);
+    const data = this.getUpdatedData();
+    const sqlQuery = data.calculateSql(config.cartodb.sqlQuerySubjectIDs);
     fetch(config.cartodb.sqlApi.replace('{SQLQUERY}', encodeURI(sqlQuery)))
       .then((response) => {
         if (response.status !== 200) {
@@ -386,7 +391,8 @@ class MapControls extends Component {
               generalDialog: {
                 status: DialogScreen.DIALOG_ACTIVE,
                 message: 'Subjects saved! Go to Classrooms to create your Assignment.'
-            }});  
+            }});            
+            this.updateMe(null);
           }
         }
       })
