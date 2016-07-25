@@ -8,7 +8,7 @@ const defaultConfig = {
     users: 'users/'
   },
   routes: {
-    students: 'students/classrooms/',
+    students: 'students/',
     loginPrompt: '/login'
   },
 

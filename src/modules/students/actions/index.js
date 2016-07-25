@@ -27,7 +27,7 @@ export function joinClassroom(id, token) {
       data: json.data,
       members: json.included
     }))
-    .then(() => browserHistory.push('/students/classrooms/'))
+    .then(() => browserHistory.push('/students/'))
     .catch(response => console.log('RESPONSE-error: ', response))
   };
 
