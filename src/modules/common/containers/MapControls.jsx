@@ -78,6 +78,17 @@ class MapControls extends Component {
         </li>
       );
     });
+    
+    //Input Choice: Times of Day
+    let timesOfDay = [];
+    config.timesOfDay.map((item) => {
+      timesOfDay.push(
+        <li key={`timesOfDay_${item.id}`}>
+          <input type="checkbox" id={`inputRow_timesOfDay_item_${item.id}_${thisId}`} ref={`inputRow_timesOfDay_item_${item.id}`} value={item.id} />
+          <label htmlFor={`inputRow_timesOfDay_item_${item.id}_${thisId}`}>{item.displayName}</label>
+        </li>
+      );
+    });
 
     //Subpanel Switching
     const subPanelGuidedClass = (this.props.selectorData.mode !== MapSelector.GUIDED_MODE)
@@ -93,7 +104,7 @@ class MapControls extends Component {
         <section className={subPanelGuidedClass} ref="subPanel_guided">
           <button className="btn hidden" onClick={this.changeToGuided}>Standard Mode</button>
           <div className="input-row">
-            <label>SPECIES:</label>
+            <label>Species</label>
             {
               (speciesText.length > 0)
               ? <span>Viewing {speciesText}</span>
@@ -101,7 +112,6 @@ class MapControls extends Component {
             }
           </div>
           <div className="input-row" ref="inputRow_species">
-            <label>Species</label>
             <ul>
               {species}
             </ul>
@@ -124,6 +134,28 @@ class MapControls extends Component {
               <input ref="inputRow_dates_item_start" placeholder="2000-12-31" />
               <span>to</span>
               <input ref="inputRow_dates_item_end" placeholder="2020-12-31" />
+            </div>
+          </div>
+          <div className="input-row" ref="inputRow_timesOfDay">
+            <label>Times of Day</label>
+            <ul>
+              {timesOfDay}
+            </ul>
+          </div>
+          <div className="input-row">
+            <label>Distance to Humans (m)</label>
+            <div className="range-input">
+              <input ref="inputRow_distanceToHumans_item_start" placeholder={config.distanceToHumans.min} />
+              <span>to</span>
+              <input ref="inputRow_distanceToHumans_item_end" placeholder={config.distanceToHumans.max} />
+            </div>
+          </div>
+          <div className="input-row">
+            <label>Distance to Water (m)</label>
+            <div className="range-input">
+              <input ref="inputRow_distanceToWater_item_start" placeholder={config.distanceToWater.min} />
+              <span>to</span>
+              <input ref="inputRow_distanceToWater_item_end" placeholder={config.distanceToWater.max} />
             </div>
           </div>
           <div className="input-row hidden">
@@ -182,6 +214,13 @@ class MapControls extends Component {
     });
     this.refs['inputRow_dates_item_start'].value = this.props.selectorData.dateStart;
     this.refs['inputRow_dates_item_end'].value = this.props.selectorData.dateEnd;
+    config.timesOfDay.map((item) => {
+      this.refs[`inputRow_timesOfDay_item_${item.id}`].checked = (this.props.selectorData.timesOfDay.indexOf(item.id) >= 0);
+    });    
+    this.refs['inputRow_distanceToHumans_item_start'].value = this.props.selectorData.distanceToHumansMin;
+    this.refs['inputRow_distanceToHumans_item_end'].value = this.props.selectorData.distanceToHumansMax;
+    this.refs['inputRow_distanceToWater_item_start'].value = this.props.selectorData.distanceToWaterMin;
+    this.refs['inputRow_distanceToWater_item_end'].value = this.props.selectorData.distanceToWaterMax;
 
     //Some extra options
     this.refs.username.value = this.props.selectorData.user;
@@ -277,6 +316,23 @@ class MapControls extends Component {
     //Filter control: dates
     data.dateStart = this.refs['inputRow_dates_item_start'].value.trim();
     data.dateEnd = this.refs['inputRow_dates_item_end'].value.trim();
+    
+    //Filter control: times of day
+    data.timesOfDay = [];
+    config.timesOfDay.map((item) => {
+      const ele = this.refs[`inputRow_timesOfDay_item_${item.id}`];
+      if (ele && ele.checked && ele.value) {
+        data.timesOfDay.push(item.id);
+      }
+    });
+    
+    //Filter control: distance to humans
+    data.distanceToHumansMin = this.refs['inputRow_distanceToHumans_item_start'].value.trim();
+    data.distanceToHumansMax = this.refs['inputRow_distanceToHumans_item_end'].value.trim();
+    
+    //Filter control: distance to water
+    data.distanceToWaterMin = this.refs['inputRow_distanceToWater_item_start'].value.trim();
+    data.distanceToWaterMax = this.refs['inputRow_distanceToWater_item_end'].value.trim();
 
     //Filter control: users & grouping
     data.user = this.refs.username.value.trim();

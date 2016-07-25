@@ -1,3 +1,10 @@
+//SHAUN'S TEMPORARY NOTES
+//If you see this in the PR, yell at me
+//dist_humans_m - 8949
+//dist_water_m - 3786
+//time_period - 'Day 0623-1709', 'Night 1736-0556', 'Dusk 1710-1735', 'Dawn 0557-0622' ;
+//timeutc
+
 const config = require('../../../constants/mapExplorer.config.json');
 
 class MapSelector {
@@ -19,6 +26,11 @@ class MapSelector {
     this.seasons = [];  //For a pre-set selection, use ['janmar', 'aprjun'] or etc.
     this.dateStart = '';
     this.dateEnd = '';
+    this.timesOfDay = [];
+    this.distanceToHumansMin = '';  //config.distanceToHumans.min;
+    this.distanceToHumansMax = '';  //config.distanceToHumans.max;
+    this.distanceToWaterMin = '';  //config.distanceToWater.min;
+    this.distanceToWaterMax = '';  //config.distanceToWater.max;
     this.user = '';
 
     //Default marker styles.
@@ -54,7 +66,6 @@ class MapSelector {
     sqlWhere_species = (sqlWhere_species.length === 0)
       ? '' : `( ${sqlWhere_species.join(' OR ')} )`;
 
-
     //Where constructor: habitats
     let sqlWhere_habitats = [];
     config.habitats.map((item) => {
@@ -77,7 +88,7 @@ class MapSelector {
 
     //Where constructor: date range
     let sqlWhere_dates = '';
-    let validDate = /^\s*\d\d\d\d[\-\/\.]?\d?\d[\-\/\.]?\d?\d\s*$/g;
+    const validDate = /^\s*\d\d\d\d[\-\/\.]?\d?\d[\-\/\.]?\d?\d\s*$/g;
     if (this.dateStart.match(validDate) && this.dateEnd.match(validDate)) {
       sqlWhere_dates = '(to_timestamp(dateutc, \'MM/DD/YYYY\') BETWEEN \''+this.dateStart.trim()+'\' AND \''+this.dateEnd.trim()+'\')';
     } else if (this.dateStart.match(validDate)) {
@@ -85,7 +96,38 @@ class MapSelector {
     } else if (this.dateEnd.match(validDate)) {
       sqlWhere_dates = '(to_timestamp(dateutc, \'MM/DD/YYYY\') <= \''+this.dateEnd.trim()+'\')';
     }
-
+    
+    //Where constructor: time(s) of day
+    let sqlWhere_timesOfDay = [];
+    config.timesOfDay.map((item) => {
+      if (this.timesOfDay.indexOf(item.id) >= 0) {
+        sqlWhere_timesOfDay.push(`time_period ILIKE \'%${item.dbName.replace(/'/, '\'\'')}%\'`);
+      }
+    });
+    sqlWhere_timesOfDay = (sqlWhere_timesOfDay.length === 0)
+      ? '' : `(${sqlWhere_timesOfDay.join(' OR ')})`;
+    
+    //Where constructor: distance to humans
+    let sqlWhere_distanceToHumans = '';
+    const validDistance = /^\d+\.?\d*$/g;
+    if (this.distanceToHumansMin.match(validDistance) && this.distanceToHumansMax.match(validDistance)) {
+      sqlWhere_distanceToHumans = '(dist_humans_m BETWEEN \''+this.distanceToHumansMin.trim()+'\' AND \''+this.distanceToHumansMax.trim()+'\')';
+    } else if (this.distanceToHumansMin.match(validDistance)) {
+      sqlWhere_distanceToHumans = '(dist_humans_m >= \''+this.distanceToHumansMin.trim()+'\')';
+    } else if (this.distanceToHumansMax.match(validDistance)) {
+      sqlWhere_distanceToHumans = '(dist_humans_m <= \''+this.distanceToHumansMax.trim()+'\')';
+    }
+    
+    //Where constructor: distance to water
+    let sqlWhere_distanceToWater = '';
+    if (this.distanceToWaterMin.match(validDistance) && this.distanceToWaterMax.match(validDistance)) {
+      sqlWhere_distanceToWater = '(dist_water_m BETWEEN \''+this.distanceToWaterMin.trim()+'\' AND \''+this.distanceToWaterMax.trim()+'\')';
+    } else if (this.distanceToWaterMin.match(validDistance)) {
+      sqlWhere_distanceToWater = '(dist_water_m >= \''+this.distanceToWaterMin.trim()+'\')';
+    } else if (this.distanceToWaterMax.match(validDistance)) {
+      sqlWhere_distanceToWater = '(dist_water_m <= \''+this.distanceToWaterMax.trim()+'\')';
+    }
+    
     //Where constructor: user/groups/etc
     let sqlWhere_user = (this.user.trim() === '')
       ? '': '(user_hash ILIKE \''+this.user.replace(/'/, '\'\'').trim()+'\')';
@@ -98,7 +140,7 @@ class MapSelector {
 
     //Join the Where constructor
     let sqlWhere = '';
-    [sqlWhere_species, sqlWhere_habitats, sqlWhere_seasons, sqlWhere_dates, sqlWhere_user, sqlWhere_camera].map((wherePart) => {
+    [sqlWhere_species, sqlWhere_habitats, sqlWhere_seasons, sqlWhere_dates, sqlWhere_timesOfDay, sqlWhere_distanceToHumans, sqlWhere_distanceToWater, sqlWhere_user, sqlWhere_camera].map((wherePart) => {
       if (wherePart !== '') {
         sqlWhere += (sqlWhere !== '') ? ' AND ' : '';
         sqlWhere += wherePart;
