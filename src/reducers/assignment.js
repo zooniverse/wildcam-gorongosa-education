@@ -13,7 +13,7 @@ export function assignment(state = initialState, action) {
     case types.CREATE_ASSIGNMENT:
       return { ...state,
         assignments: {
-          data: state.assignments,
+          data: state.assignments.data,
           error: false,
           loading: true,
         }
