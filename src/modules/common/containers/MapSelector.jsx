@@ -1,10 +1,3 @@
-//SHAUN'S TEMPORARY NOTES
-//If you see this in the PR, yell at me
-//dist_humans_m - 8949
-//dist_water_m - 3786
-//time_period - 'Day 0623-1709', 'Night 1736-0556', 'Dusk 1710-1735', 'Dawn 0557-0622' ;
-//timeutc
-
 const config = require('../../../constants/mapExplorer.config.json');
 
 class MapSelector {
