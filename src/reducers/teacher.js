@@ -158,7 +158,6 @@ export function teacher(state = initialState, action) {
         }
       }
     case types.CLASSROOM_DELETE_SUCCESS:
-
       const classroomsWithoutDeleted = state.classrooms.data.filter(classroom => classroom.id !== action.classroomId);
       newState.classrooms.data = classroomsWithoutDeleted;
       return { ...state,
@@ -175,7 +174,7 @@ export function teacher(state = initialState, action) {
         classrooms: {
           loading: false,
           data: action.data,
-          error: action.error || false,
+          error: action.error,
           members: state.classrooms.members,
           uniqueMembers: state.classrooms.uniqueMembers,
         }

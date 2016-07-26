@@ -19,6 +19,7 @@ class Classroom extends Component {
     this.onCopy = this.onCopy.bind(this);
     this.deleteClassroom = this.deleteClassroom.bind(this);
     this.deleteStudent = this.deleteStudent.bind(this);
+    this.deleteAssignment = this.deleteAssignment.bind(this);
     this.renderStudentList = this.renderStudentList.bind(this);
     this.renderAssignmentsList = this.renderAssignmentsList.bind(this);
   }
@@ -77,7 +78,7 @@ class Classroom extends Component {
       </div>
     )
   }
-  
+
   renderAssignmentsList() {
     return (
       <table className="table table-hover">
@@ -91,7 +92,19 @@ class Classroom extends Component {
           {this.props.assignments.map(assignment =>
             <tr key={`assignment_${assignment.id}`}>
               <td>{assignment.attributes.name}</td>
-              <td><button>VIEW</button></td>
+              <td>
+                <button
+                  className="btn btn-default"
+                  type="button">
+                  View
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => {this.deleteAssignment(assignment.id, assignment.attributes.classroom_id)}}
+                  type="button">
+                  Remove
+                </button>
+              </td>
             </tr>
           )}
         </tbody>
@@ -111,6 +124,13 @@ class Classroom extends Component {
     var result = confirm('Sure you want to remove this student?');
     if (result) {
       this.props.deleteStudent(this.props.classroomId, studentToDelete);
+    }
+  }
+
+  deleteAssignment(assignmentId, classroomId) {
+    var result = confirm('Sure you want to remove this assignment?');
+    if (result) {
+      this.props.deleteAssignment(assignmentId, classroomId);
     }
   }
 

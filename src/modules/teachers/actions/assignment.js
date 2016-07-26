@@ -27,7 +27,7 @@ export function createAssignment(assignment, classroomId) {
     id: subject_id,
     type: 'subjects',
   }));
-  
+
   return dispatch => {
     const createAction = { ...assignment, type: types.CREATE_ASSIGNMENT };
     dispatch(createAction);
@@ -64,11 +64,43 @@ export function createAssignment(assignment, classroomId) {
         type: types.CREATE_ASSIGNMENT_SUCCESS,
         data: json.data,
       });
-      browserHistory.push( `/teachers/classrooms/${json.data.attributes.classroom_id}`);
+      browserHistory.push(`/teachers/classrooms/${json.data.attributes.classroom_id}`);
       alert('Assignment created!');  //TODO: we need better messaging
     })
     .catch(response => console.log('RESPONSE-error: ', response));
   };
+}
+
+export function deleteAssignment(assignmentId, classroomId) {
+  return dispatch => {
+    dispatch({
+      type: types.ASSIGNMENT_DELETE,
+    });
+    return fetch(root + assignments + assignmentId, {
+      method: 'DELETE',
+      mode: 'cors',
+      headers: new Headers({
+          'Authorization': apiClient.headers.Authorization,
+          'Content-Type': 'application/json'
+        })
+    })
+    .then(response => {
+      if (response.ok) {
+        dispatch({
+          type: types.ASSIGNMENT_DELETE_SUCCESS,
+          assignmentId,
+          loading: false,
+          error: false,
+        });
+        browserHistory.push('/teachers/classrooms/' + classroomId);
+      }
+    })
+    .catch(response => dispatch({
+      type: types.ASSIGNMENT_DELETE_ERROR,
+      error: console.log('ASSIGNMENT_DELETE-ERROR: ', response),
+      })
+    );
+  }
 }
 
 export function fetchAssignments() {
