@@ -32,7 +32,6 @@ export function teacher(state = initialState, action) {
         }
         return classroom;
       });
-
       return { ...state,
         classrooms: {
           loading: false,

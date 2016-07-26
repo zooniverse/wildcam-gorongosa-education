@@ -21,6 +21,7 @@ export function assignment(state = initialState, action) {
       };
     case types.CREATE_ASSIGNMENT_SUCCESS:
       const newlist = state.assignments.data.concat(action.data);
+      console.log('reducer newlist - concat', newlist)
       return { ...state,
         assignments: {
           data: newlist,
