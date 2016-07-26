@@ -11,13 +11,23 @@
     "sqlQueryDownload": "SELECT cameras.*, items.* FROM {CAMERAS} AS cameras LEFT JOIN (SELECT a.camera, a.location, a.dateutc, a.month, a.year, a.season, a.time_period, b.* FROM {SUBJECTS} as a INNER JOIN (SELECT * FROM {AGGREGATIONS} WHERE num_classifications >= 5) as b ON a.subject_id = b.subject_id) AS items ON cameras.id = items.camera {WHERE} LIMIT 10000",
     "sqlQuerySubjectIDs": "SELECT items.subject_id, items.location FROM {CAMERAS} AS cameras LEFT JOIN (SELECT a.camera, a.location, a.dateutc, a.month, a.year, a.season, a.time_period, b.* FROM {SUBJECTS} as a INNER JOIN (SELECT * FROM {AGGREGATIONS} WHERE num_classifications >= 5) as b ON a.subject_id = b.subject_id) AS items ON cameras.id = items.camera {WHERE} LIMIT 100",
     "cssStandard": "#{LAYER} { marker-fill: {MARKERCOLOR}; marker-fill-opacity: {MARKEROPACITY}; marker-width: {MARKERSIZE}; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; {CHILDREN} }",
-    "csvTranslator": {
+    "csvEasyModeTranslator": {
       "subject_id": "image_id",
+      "camera": "camera",
+      "longitude": "longitude",
+      "latitude": "latitude",
       "dateutc": "date",
+      "month": "month",
+      "year": "year",
+      "season": "season",
+      "time_period": "time_period",
+      "veg_type": "veg_type",
       "human_type": "human_structure",
       "dist_humans_m": "distance_human_m",
+      "water_type": "water_type",
       "dist_water_m": "distance_water_m",
-      "ost_likely_number_of_animals": "species_count",
+      "species": "species",
+      "most_likely_number_of_animals": "species_count",
       "percentage_behaviour_resting": "percentage_resting",
       "percentage_behaviour_standing": "percentage_standing",
       "percentage_behaviour_moving": "percentage_moving",
@@ -25,9 +35,7 @@
       "percentage_behaviour_interacting": "percentage_interacting",
       "most_likely_are_there_any_young_present": "young_present",
       "percentage_do_you_see_any_hornsyes": "horns",
-      "location": "image_url",
-      "cartodb_id": "database_id",
-      "id": "camera_id"
+      "location": "image_url"
     }
   },
   "mapCentre": {
