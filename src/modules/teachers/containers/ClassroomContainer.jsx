@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import Classroom from '../components/Classroom';
 import Spinner from '../../common/components/Spinner';
 import { deleteClassroom, deleteStudent } from '../actions/teacher';
-
+import { deleteAssignment } from '../actions/assignment';
 
 class ClassroomContainer extends Component {
 
@@ -20,11 +20,13 @@ class ClassroomContainer extends Component {
     const students = classroom ? classroom.relationships.students.data : undefined;
     const studentIds = students ? students.map(student => student.id) : undefined;
     const boundDeleteStudent = actions.deleteStudent.bind(this);
+    const boundDeleteAssignment = actions.deleteAssignment.bind(this);
 
     return (classroom && members)
       ? <Classroom
           data={classroom}
           members={members}
+          deleteAssignment={boundDeleteAssignment}
           deleteClassroom={boundDeleteClassroom}
           deleteStudent={boundDeleteStudent}
           studentsIds={studentIds}
@@ -62,6 +64,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: {
+    deleteAssignment: bindActionCreators(deleteAssignment, dispatch),
     deleteClassroom: bindActionCreators(deleteClassroom, dispatch),
     deleteStudent: bindActionCreators(deleteStudent, dispatch),
   }
