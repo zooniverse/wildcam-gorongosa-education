@@ -378,12 +378,17 @@ class MapControls extends Component {
         let data = [];
         let row = [];
 
+        //Prepare the column headers
+        //NOTE: we can package these translations into the SQL query but it'll get super long & messy
         for (let key in json.fields) {
-          row.push('"'+key.replace(/"/g, '\\"')+'"');
+          const columnName =  config.cartodb.csvTranslator[key] || key;
+          console.log(key, '...', columnName);
+          row.push('"'+columnName.replace(/"/g, '\\"')+'"');
         }
         row = row.join(',');
         data.push(row);
-
+      
+        //Prepare each row of data
         json.rows.map((rowItem) => {
           let row = [];
           for (let key in json.fields) {
