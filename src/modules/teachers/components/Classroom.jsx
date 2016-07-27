@@ -6,6 +6,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import config from '../../../constants/config';
 import EditClassroomLink from './EditClassroomLink';
 import AssignmentLink from './AssignmentLink';
+import EditAssignmentLink from './EditAssignmentLink';
 
 
 class Classroom extends Component {
@@ -69,7 +70,8 @@ class Classroom extends Component {
                     onClick={() => {this.deleteStudent(student.id)}}
                     type="button">
                     Remove
-                  </button></td>
+                  </button>
+                </td>
               </tr>
             )}
           </tbody>
@@ -93,11 +95,7 @@ class Classroom extends Component {
             <tr key={`assignment_${assignment.id}`}>
               <td>{assignment.attributes.name}</td>
               <td>
-                <button
-                  className="btn btn-default"
-                  type="button">
-                  View
-                </button>
+                <EditAssignmentLink assignment={assignment}/>
                 <button
                   className="btn btn-danger"
                   onClick={() => {this.deleteAssignment(assignment.id, assignment.attributes.classroom_id)}}

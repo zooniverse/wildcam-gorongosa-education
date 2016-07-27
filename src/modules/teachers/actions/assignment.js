@@ -32,7 +32,6 @@ export function createAssignment(assignment, classroomId) {
     dispatch({
       type: types.CREATE_ASSIGNMENT,
     });
-    console.log('METADATA: ', metadata)
     return fetch(root + assignments, {
       method: 'POST',
       mode: 'cors',
@@ -129,7 +128,7 @@ export function editAssignment(fields, classroomId, assignmentId) {
         assignmentId,
         classroomId,
       });
-      browserHistory.push('/teachers/classrooms/' + classroomId + '/assignments/' + assignmentId);
+      browserHistory.push('/teachers/classrooms/' + classroomId + '/assignments/' + assignmentId + '/edit');
     })
     .catch(response => dispatch({
       type: types.EDIT_ASSIGNMENT_ERROR,
