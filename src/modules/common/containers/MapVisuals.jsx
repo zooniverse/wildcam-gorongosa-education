@@ -5,6 +5,7 @@ import { Script } from 'react-loadscript';
 import DialogScreen from '../components/DialogScreen';
 import DialogScreen_ViewCamera from '../components/DialogScreen-ViewCamera';
 const config = require('../../../constants/mapExplorer.config.json');
+const gorongosaGeomap = require('../../../map-data/gorongosa-geomap.json');
 
 
 //WARNING: DON'T import Leaflet. Leaflet 0.7.7 is packaged with cartodb.js 3.15.
@@ -82,14 +83,23 @@ class MapVisuals extends Component {
       zoom: config.mapCentre.zoom,
       layers: baseLayers[0]  //Set the default base layer
     });
-
-    //Create the CartoDB layer
+    
+    //Create the CartoDB Geomap layer
+    const geoJsonOptions = {
+      style: {
+        'color': '#c93',
+        'opacity': 0.5,
+        'clickable': false,
+        'weight': 5,
+      }};
+    L.geoJson(gorongosaGeomap, geoJsonOptions).addTo(this.state.map);
+    
+    //Create the CartoDB Data layer
     cartodb.createLayer(this.state.map, config.cartodb.vizUrl)
       .addTo(this.state.map)
       .on('done', (layer) => {
         this.state.cartodbLayer = layer;
         this.state.cartodbLayer.setInteraction(true);
-        //this.state.cartodbLayer.on('featureClick', this.onMapClick);  //Other events: featureOver
         layer.on('error', (err) => {
           console.error('ERROR (initMapExplorer(), cartodb.createLayer().on(\'done\')): ' + err);
         });

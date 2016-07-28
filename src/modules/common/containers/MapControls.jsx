@@ -185,10 +185,9 @@ class MapControls extends Component {
           <button className="hidden" onClick={this.updateMe}>(Apply)</button>
           <button className="hidden" onClick={this.deleteMe}>(Delete)</button>
           <button className="btn" onClick={this.prepareCsv}>(Download)</button>
-
-          {/*TODO: Make sure this only appears for TEACHERS. */}
-          <button className="btn" onClick={this.prepareSubjectsForAssignments}>(Select For Assignment)</button>
-
+          {(this.props.teacherMode)
+            ? <button className="btn" onClick={this.prepareSubjectsForAssignments}>(Select For Assignment)</button>
+            : null}
         </section>
         <DialogScreen status={this.state.generalDialog.status} message={this.state.generalDialog.message} closeMeHandler={this.closeAllDialogs} />
         <DialogScreen_Download status={this.state.downloadDialog.status} message={this.state.downloadDialog.message} data={this.state.downloadDialog.data} closeMeHandler={this.closeAllDialogs} />
