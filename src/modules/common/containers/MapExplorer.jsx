@@ -47,7 +47,6 @@ class MapExplorer extends Component {
 
   render() {
     const teacherMode = this.props.location.pathname.includes('teachers');
-    console.log('!'.repeat(80), '\n', teacherMode);
     return (  //Reminder: the parent .content-section is a <main>, so don't set .map-explorer as <main> as well.
       <div ref="mapExplorer" className="map-explorer">
         <MapVisuals ref="mapVisuals"></MapVisuals>

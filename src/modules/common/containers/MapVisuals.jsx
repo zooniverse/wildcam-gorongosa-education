@@ -85,14 +85,14 @@ class MapVisuals extends Component {
     });
     
     //Create the CartoDB Geomap layer
-    const geoJsonOptions = {
+    const geomapOptions = {
       style: {
         'color': '#c93',
         'opacity': 0.5,
         'clickable': false,
         'weight': 5,
       }};
-    L.geoJson(gorongosaGeomap, geoJsonOptions).addTo(this.state.map);
+    const geomapLayer = L.geoJson(gorongosaGeomap, geomapOptions).addTo(this.state.map);
     
     //Create the CartoDB Data layer
     cartodb.createLayer(this.state.map, config.cartodb.vizUrl)
@@ -105,7 +105,10 @@ class MapVisuals extends Component {
         });
 
         //Add the controls for the layers
-        L.control.layers(baseLayersForControls, { 'Data': layer }).addTo(this.state.map);
+        L.control.layers(baseLayersForControls, { 'Data': layer, 'Gorongosa National Park': geomapLayer }).addTo(this.state.map);
+      
+        console.log('[');
+        console.log(layer);
 
         //updateDataVisualisation performs some cleanup
         this.updateDataVisualisation(this.props);
