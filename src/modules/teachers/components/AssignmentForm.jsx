@@ -25,7 +25,6 @@ class AssignmentForm extends Component {
     const savedNewAssignments = (sessionStorage.getItem('savedNewAssignment'))
       ? JSON.parse(sessionStorage.getItem('savedNewAssignment'))
       : null;
-    console.log('props.fields: ', props.fields )
     this.state = savedNewAssignments
       ? Object.assign( {}, initialState, savedNewAssignments)
       : Object.assign({}, initialState, props.fields);
