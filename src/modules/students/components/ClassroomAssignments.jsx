@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 
 const ClassroomAssignments = props => {
-  console.log('props', props);
   const { data } = props;
   return (
     <div className="student-assignmentlist">

@@ -21,12 +21,17 @@ class AssignmentForm extends Component {
     this.renderStudentList = this.renderStudentList.bind(this);
     this.selectNewSubjects = this.selectNewSubjects.bind(this);
     this.toggleStudent = this.toggleStudent.bind(this);
-    
+
     const savedNewAssignments = (sessionStorage.getItem('savedNewAssignment'))
       ? JSON.parse(sessionStorage.getItem('savedNewAssignment'))
-      : {};
-    
-    this.state = Object.assign( {}, initialState, savedNewAssignments);    
+      : null;
+    this.state = savedNewAssignments
+      ? Object.assign( {}, initialState, savedNewAssignments)
+      : Object.assign({}, initialState, props.fields);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState(nextProps.fields);
   }
 
   toggleStudent(e) {
@@ -59,12 +64,12 @@ class AssignmentForm extends Component {
         newAssignment[key] = this.state[key];
       }
     }
-    
+
     let savedSubjectsIDs = sessionStorage.getItem('savedSubjectsIDs');
     savedSubjectsIDs = (savedSubjectsIDs === null || savedSubjectsIDs === '') ?
       [] : savedSubjectsIDs.split(',');
     newAssignment.subjects = savedSubjectsIDs;
-    
+
     //TESTING: localhost uses 'Bacon' Zooniverse project for Subject IDs.
     //WildCam Gorongosa has no Staging data that we can use to create Subjects.
     //Therefore, we need to hardcode some Subject IDs.
@@ -80,12 +85,12 @@ class AssignmentForm extends Component {
         ];
     }
     //--------
-    
+
     //NOTE: According to Marten, it's perfectly OK to create an assignment with no students or subjects.
     //--------
     if (newAssignment.students.length > 0 && newAssignment.subjects.length) {
       sessionStorage.removeItem('savedNewAssignment');
-      sessionStorage.removeItem('savedClassroomId');      
+      sessionStorage.removeItem('savedClassroomId');
       sessionStorage.removeItem('savedSubjectsLocations');
       sessionStorage.removeItem('savedSubjectsIDs');
       this.props.submitForm(newAssignment, this.props.params.classroomId)
@@ -102,7 +107,7 @@ class AssignmentForm extends Component {
         <table className="table table-hover">
           <tbody>
             {students.map((student) => {
-              const selected = this.state.students.find(id => id === student.id);
+              const selected = this.state.students.find(id => id === student.id) ? true : false;
               return (
                 <tr className={selected ? 'success' : ''} key={student.id}>
                   <td>
@@ -123,19 +128,20 @@ class AssignmentForm extends Component {
       </div>
     )
   }
-  
+
   renderSelectedSubjects() {
     const MAXIMUM_SUBJECTS = 10;
     let subjectsHtml = [];
-    
-    let savedSubjectsLocations = sessionStorage.getItem('savedSubjectsLocations');
+
+    let savedSubjectsLocations = [];
+    savedSubjectsLocations = sessionStorage.getItem('savedSubjectsLocations');
     savedSubjectsLocations = (savedSubjectsLocations === null || savedSubjectsLocations === '') ?
-      [] : savedSubjectsLocations.split(',');
-    
+    [] : savedSubjectsLocations.split(',');
+
     let savedSubjectsIDs = sessionStorage.getItem('savedSubjectsIDs');
     savedSubjectsIDs = (savedSubjectsIDs === null || savedSubjectsIDs === '') ?
       [] : savedSubjectsIDs.split(',');
-    
+
     for (let i = 0; i < MAXIMUM_SUBJECTS && i < savedSubjectsIDs.length; i++) {
       subjectsHtml.push(
         <li key={'subjects_' + i}><img src={savedSubjectsLocations[i]} /></li>
@@ -144,8 +150,11 @@ class AssignmentForm extends Component {
     return (
       <div>
         <div>
-          {savedSubjectsIDs.length} Subject(s) selected. 
-          {(subjectsHtml.length > 0) ? <span>Previewing {subjectsHtml.length} image(s)</span> : null}
+          {savedSubjectsIDs.length} Subject(s) selected.
+          {(subjectsHtml.length > 0)
+            ? <span>Previewing {subjectsHtml.length} image(s)</span>
+            : null
+          }
         </div>
         <ul className="subjects-preview">
           {subjectsHtml}
@@ -153,7 +162,7 @@ class AssignmentForm extends Component {
       </div>
     );
   }
-  
+
   selectNewSubjects() {
     sessionStorage.setItem('savedNewAssignment', JSON.stringify(this.state));
     sessionStorage.setItem('savedClassroomId', this.props.params.classroomId);
@@ -162,14 +171,16 @@ class AssignmentForm extends Component {
 
   render() {
     const { classrooms, params } = this.props;
-    const data = classrooms.data ? classrooms.data : [];
+    const data = classrooms && classrooms.data ? classrooms.data : [];
     const currentClassroom = data ? data.find(classroom => classroom.id === params.classroomId) : [];
     const currentStudentsIds = currentClassroom && currentClassroom.relationships.students.data.length > 0
       ? currentClassroom.relationships.students.data.map(student => student.id)
       : [];
-    const currentStudents = classrooms.uniqueMembers.filter(
-      student => currentStudentsIds.includes(student.id)
-    );
+    const currentStudents = classrooms
+      ? classrooms.uniqueMembers.filter(
+          student => currentStudentsIds.includes(student.id)
+        )
+      : {};
     return (
       <form onSubmit={this.handleSubmit}>
         <h3>Classroom {currentClassroom ? currentClassroom.attributes.name : 'Loading'}</h3>

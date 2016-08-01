@@ -8,6 +8,7 @@ import ClassroomContainer from './containers/ClassroomContainer.jsx';
 import ClassroomsContainer from './containers/ClassroomsContainer.jsx';
 import EditClassroomContainer from './containers/EditClassroomContainer.jsx';
 import NewAssignmentContainer from './containers/NewAssignmentContainer.jsx';
+import EditAssignmentContainer from './containers/EditAssignmentContainer.jsx';
 import NewClassroomContainer from './containers/NewClassroomContainer.jsx';
 import TeachersContainer from './containers/TeachersContainer.jsx';
 
@@ -28,6 +29,7 @@ const teacherRoutes = store => (
           <Route path="new" component={ NewClassroomContainer } />
           <Route path=":classroomId/edit" component={ EditClassroomContainer } />
           <Route path=":classroomId/assignment" component={ NewAssignmentContainer } />
+          <Route path=":classroomId/assignments/:assignmentId/edit" component={ EditAssignmentContainer } />
           <Route path=":classroomId" component={ ClassroomContainer } />
         </Route>
         <Route path="data" component={ MapExplorerContainer } />

@@ -29,8 +29,9 @@ export function createAssignment(assignment, classroomId) {
   }));
 
   return dispatch => {
-    const createAction = { ...assignment, type: types.CREATE_ASSIGNMENT };
-    dispatch(createAction);
+    dispatch({
+      type: types.CREATE_ASSIGNMENT,
+    });
     return fetch(root + assignments, {
       method: 'POST',
       mode: 'cors',
@@ -103,6 +104,48 @@ export function deleteAssignment(assignmentId, classroomId) {
   }
 }
 
+export function editAssignment(fields, assignment) {
+  return dispatch => {
+    dispatch({
+      ...fields,
+      type: types.EDIT_ASSIGNMENT
+    });
+    return fetch(root + assignments + assignment.id, {
+      method: 'PUT',
+      mode: 'cors',
+      headers: new Headers({
+        'Authorization': apiClient.headers.Authorization,
+        'Content-Type': 'application/json'
+      }),
+      body: JSON.stringify({
+        data: {
+          attributes: {
+            name: fields.name,
+            metadata: {
+              description: fields.description,
+              classifications_target: fields.classifications_target,
+              duedate: fields.duedate,
+            }
+          }
+        }
+      })
+    })
+    .then(response => {
+      dispatch({
+        type: types.EDIT_ASSIGNMENT_SUCCESS,
+        fields: fields,
+        assignment,
+      });
+      browserHistory.push('/teachers/classrooms/' + assignment.attributes.classroom_id);
+    })
+    .catch(response => dispatch({
+      type: types.EDIT_ASSIGNMENT_ERROR,
+      error: console.log('EDIT_ASSIGNMENT_ERROR: ', response),
+      })
+    );
+  };
+}
+
 export function fetchAssignments() {
   return dispatch => {
     dispatch({
@@ -134,3 +177,4 @@ export function fetchAssignments() {
     );
   }
 }
+
