@@ -466,6 +466,7 @@ class MapControls extends Component {
         if (json && json.rows) {
           sessionStorage.setItem('savedSubjectsLocations', json.rows.map(i => i.location).join(','));
           sessionStorage.setItem('savedSubjectsIDs', json.rows.map(i => i.subject_id).join(','));
+          sessionStorage.setItem('savedSubjectsDescription', JSON.stringify(data.toJson()));
           
           const classroomId = sessionStorage.getItem('savedClassroomId');          
           if (classroomId) {
