@@ -11,6 +11,45 @@ const initialState = {
 export function assignment(state = initialState, action) {
   let newState = Object.assign({}, state);
   switch (action.type) {
+    case types.EDIT_ASSIGNMENT:
+      return { ...state,
+        assignments: {
+          loading: true,
+          data: state.assignments.data,
+          error: state.assignments.error,
+        }
+      }
+    case types.EDIT_ASSIGNMENT_SUCCESS:
+      const newData = state.assignments.data.map(assignment => {
+        if (assignment.id === action.assignment.id) {
+          return Object.assign({}, assignment, {
+            attributes: Object.assign({}, assignment.attributes, {
+              name: action.fields.name,
+              metadata: {
+                description: action.fields.description,
+                classifications_target: action.fields.classifications_target,
+                duedate: action.fields.duedate,
+              }
+            }, action.fields)
+          });
+        }
+        return assignment;
+      });
+      return { ...state,
+        assignments: {
+          loading: false,
+          data: newData,
+          error: false,
+        }
+      }
+    case types.EDIT_ASSIGNMENT_ERROR:
+      return { ...state,
+        assignments: {
+          loading: false,
+          data: action.data,
+          error: action.error || false,
+        }
+      }
     case types.CREATE_ASSIGNMENT:
       return { ...state,
         assignments: {

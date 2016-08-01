@@ -104,11 +104,13 @@ export function deleteAssignment(assignmentId, classroomId) {
   }
 }
 
-export function editAssignment(fields, classroomId, assignmentId) {
+export function editAssignment(fields, assignment) {
   return dispatch => {
-    const createAction = { ...fields, type: types.EDIT_ASSIGNMENT };
-    dispatch(createAction);
-    return fetch(root + assignments + assignmentId, {
+    dispatch({
+      ...fields,
+      type: types.EDIT_ASSIGNMENT
+    });
+    return fetch(root + assignments + assignment.id, {
       method: 'PUT',
       mode: 'cors',
       headers: new Headers({
@@ -117,7 +119,14 @@ export function editAssignment(fields, classroomId, assignmentId) {
       }),
       body: JSON.stringify({
         data: {
-          attributes: fields
+          attributes: {
+            name: fields.name,
+            metadata: {
+              description: fields.description,
+              classifications_target: fields.classifications_target,
+              duedate: fields.duedate,
+            }
+          }
         }
       })
     })
@@ -125,10 +134,9 @@ export function editAssignment(fields, classroomId, assignmentId) {
       dispatch({
         type: types.EDIT_ASSIGNMENT_SUCCESS,
         fields: fields,
-        assignmentId,
-        classroomId,
+        assignment,
       });
-      browserHistory.push('/teachers/classrooms/' + classroomId + '/assignments/' + assignmentId + '/edit');
+      browserHistory.push('/teachers/classrooms/' + assignment.attributes.classroom_id);
     })
     .catch(response => dispatch({
       type: types.EDIT_ASSIGNMENT_ERROR,
@@ -169,3 +177,4 @@ export function fetchAssignments() {
     );
   }
 }
+

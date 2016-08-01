@@ -20,17 +20,16 @@ class EditAssignmentContainer extends Component {
     return (assignment && assignment.attributes)
       ? {
           name: assignment.attributes.name,
-//          These are waiting on education-api fixes
-//          description: assignment.attributes.metadata.description,
-//          classifications_target: assignment.attributes.metadata.classifications_target,
-//          duedate: assignment.attributes.metadata.duedate,
+          description: assignment.attributes.metadata.description,
+          classifications_target: assignment.attributes.metadata.classifications_target,
+          duedate: assignment.attributes.metadata.duedate,
           students: assignment.relationships.student_users.data.map(student => student.id),
         }
       : {};
   }
 
   submitForm(data) {
-    return this.props.editAssignment(data, this.props.assignment.id);
+    return this.props.editAssignment(data, this.props.assignment);
   }
 
   render() {

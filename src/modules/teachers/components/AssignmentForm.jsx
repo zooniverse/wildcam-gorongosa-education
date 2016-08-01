@@ -133,9 +133,10 @@ class AssignmentForm extends Component {
     const MAXIMUM_SUBJECTS = 10;
     let subjectsHtml = [];
 
-    let savedSubjectsLocations = sessionStorage.getItem('savedSubjectsLocations');
+    let savedSubjectsLocations = [];
+    savedSubjectsLocations = sessionStorage.getItem('savedSubjectsLocations');
     savedSubjectsLocations = (savedSubjectsLocations === null || savedSubjectsLocations === '') ?
-      [] : savedSubjectsLocations.split(',');
+    [] : savedSubjectsLocations.split(',');
 
     let savedSubjectsIDs = sessionStorage.getItem('savedSubjectsIDs');
     savedSubjectsIDs = (savedSubjectsIDs === null || savedSubjectsIDs === '') ?
@@ -150,7 +151,10 @@ class AssignmentForm extends Component {
       <div>
         <div>
           {savedSubjectsIDs.length} Subject(s) selected.
-          {(subjectsHtml.length > 0) ? <span>Previewing {subjectsHtml.length} image(s)</span> : null}
+          {(subjectsHtml.length > 0)
+            ? <span>Previewing {subjectsHtml.length} image(s)</span>
+            : null
+          }
         </div>
         <ul className="subjects-preview">
           {subjectsHtml}
