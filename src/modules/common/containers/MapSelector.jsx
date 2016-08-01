@@ -173,6 +173,18 @@ class MapSelector {
     }
     return newCopy;
   }
+  
+  toJson() {
+    let json = {};
+    const selectorKeys = ['species', 'habitats', 'seasons',
+                          'dateStart', 'dateEnd', 'timesOfDay',
+                          'distanceToHumansMin', 'distanceToHumansMax',
+                          'distanceToWaterMin', 'distanceToWaterMax'];
+    for (let key of selectorKeys) {
+      if (this[key] && this[key].length > 0) { json[key] = this[key]; }
+    }
+    return json;
+  }
 }
 
 //The Map controls can be set to either Guided Mode (the default with UI widgets
