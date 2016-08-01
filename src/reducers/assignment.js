@@ -29,7 +29,8 @@ export function assignment(state = initialState, action) {
                 description: action.fields.description,
                 classifications_target: action.fields.classifications_target,
                 duedate: action.fields.duedate,
-              }
+              },
+              subjects: assignment.attributes.subjects
             }, action.fields)
           });
         }
@@ -59,7 +60,12 @@ export function assignment(state = initialState, action) {
         }
       };
     case types.CREATE_ASSIGNMENT_SUCCESS:
-      const newlist = state.assignments.data.concat(action.data);
+      const newAssignment = Object.assign({}, action.data, {
+        attributes: Object.assign({}, action.data.attributes, {
+          subjects: action.subjectData,
+        })
+      });
+      const newlist = state.assignments.data.concat(newAssignment);
       return { ...state,
         assignments: {
           data: newlist,

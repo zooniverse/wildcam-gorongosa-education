@@ -24,6 +24,7 @@ class EditAssignmentContainer extends Component {
           classifications_target: assignment.attributes.metadata.classifications_target,
           duedate: assignment.attributes.metadata.duedate,
           students: assignment.relationships.student_users.data.map(student => student.id),
+          subjects: assignment.attributes.subjects,
         }
       : {};
   }

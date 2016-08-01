@@ -150,7 +150,8 @@ class AssignmentForm extends Component {
     return (
       <div>
         <div>
-          {savedSubjectsIDs.length} Subject(s) selected.
+          {(this.props.fields && this.props.fields.subjects) ? console.log('subjects: ', this.props.fields.subjects) : console.log('UNDEFINED')}
+          {this.props.fields && this.props.fields.subjects ? this.props.fields.subjects.length : savedSubjectsIDs.length} Subject(s) selected.
           {(subjectsHtml.length > 0)
             ? <span>Previewing {subjectsHtml.length} image(s)</span>
             : null

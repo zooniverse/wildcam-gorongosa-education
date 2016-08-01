@@ -64,6 +64,7 @@ export function createAssignment(assignment, classroomId) {
       dispatch({
         type: types.CREATE_ASSIGNMENT_SUCCESS,
         data: json.data,
+        subjectData,
       });
       browserHistory.push(`/teachers/classrooms/${json.data.attributes.classroom_id}`);
       alert('Assignment created!');  //TODO: we need better messaging
