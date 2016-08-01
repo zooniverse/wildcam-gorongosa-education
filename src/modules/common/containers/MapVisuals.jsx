@@ -5,8 +5,8 @@ import { Script } from 'react-loadscript';
 import DialogScreen from '../components/DialogScreen';
 import DialogScreen_ViewCamera from '../components/DialogScreen-ViewCamera';
 const config = require('../../../constants/mapExplorer.config.json');
-const gorongosaGeomap = require('../../../map-data/gorongosa-geomap.json');
-
+const gorongosaGeodata = require('../../../map-data/gorongosa-geodata.json');
+const vegetationGeodata = require('../../../map-data/vegetation-geodata.json');
 
 //WARNING: DON'T import Leaflet. Leaflet 0.7.7 is packaged with cartodb.js 3.15.
 //import L from 'leaflet';
@@ -85,14 +85,10 @@ class MapVisuals extends Component {
     });
     
     //Create the CartoDB Geomap layer
-    const geomapOptions = {
-      style: {
-        'color': '#c93',
-        'opacity': 0.5,
-        'clickable': false,
-        'weight': 5,
-      }};
-    const geomapLayer = L.geoJson(gorongosaGeomap, geomapOptions).addTo(this.state.map);
+    const geomapLayers = {
+      'Gorongosa National Park': L.geoJson(gorongosaGeodata.geojson, gorongosaGeodata.options).addTo(this.state.map),
+      'Vegetation': L.geoJson(vegetationGeodata.geojson, vegetationGeodata.options).addTo(this.state.map),
+    };
     
     //Create the CartoDB Data layer
     cartodb.createLayer(this.state.map, config.cartodb.vizUrl)
@@ -105,10 +101,10 @@ class MapVisuals extends Component {
         });
 
         //Add the controls for the layers
-        L.control.layers(baseLayersForControls, { 'Data': layer, 'Gorongosa National Park': geomapLayer }).addTo(this.state.map);
-      
-        console.log('[');
-        console.log(layer);
+        L.control.layers(baseLayersForControls, {
+          ...geomapLayers,
+          'Data': layer,
+        }).addTo(this.state.map);
 
         //updateDataVisualisation performs some cleanup
         this.updateDataVisualisation(this.props);
