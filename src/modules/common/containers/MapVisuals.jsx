@@ -5,7 +5,8 @@ import { Script } from 'react-loadscript';
 import DialogScreen from '../components/DialogScreen';
 import DialogScreen_ViewCamera from '../components/DialogScreen-ViewCamera';
 const config = require('../../../constants/mapExplorer.config.json');
-
+const gorongosaGeodata = require('../../../map-data/gorongosa-geodata.json');
+const vegetationGeodata = require('../../../map-data/vegetation-geodata.json');
 
 //WARNING: DON'T import Leaflet. Leaflet 0.7.7 is packaged with cartodb.js 3.15.
 //import L from 'leaflet';
@@ -82,20 +83,28 @@ class MapVisuals extends Component {
       zoom: config.mapCentre.zoom,
       layers: baseLayers[0]  //Set the default base layer
     });
-
-    //Create the CartoDB layer
+    
+    //Create the CartoDB Geomap layer
+    const geomapLayers = {
+      'Gorongosa National Park': L.geoJson(gorongosaGeodata.geojson, gorongosaGeodata.options).addTo(this.state.map),
+      'Vegetation': L.geoJson(vegetationGeodata.geojson, vegetationGeodata.options).addTo(this.state.map),
+    };
+    
+    //Create the CartoDB Data layer
     cartodb.createLayer(this.state.map, config.cartodb.vizUrl)
       .addTo(this.state.map)
       .on('done', (layer) => {
         this.state.cartodbLayer = layer;
         this.state.cartodbLayer.setInteraction(true);
-        //this.state.cartodbLayer.on('featureClick', this.onMapClick);  //Other events: featureOver
         layer.on('error', (err) => {
           console.error('ERROR (initMapExplorer(), cartodb.createLayer().on(\'done\')): ' + err);
         });
 
         //Add the controls for the layers
-        L.control.layers(baseLayersForControls, { 'Data': layer }).addTo(this.state.map);
+        L.control.layers(baseLayersForControls, {
+          ...geomapLayers,
+          'Data': layer,
+        }).addTo(this.state.map);
 
         //updateDataVisualisation performs some cleanup
         this.updateDataVisualisation(this.props);
