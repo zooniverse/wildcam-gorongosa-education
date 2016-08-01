@@ -9,7 +9,6 @@ import DialogScreen from '../components/DialogScreen';
 import DialogScreen_Download from '../components/DialogScreen-Download';
 const config = require('../../../constants/mapExplorer.config.json');
 
-
 class MapControls extends Component {
   constructor(props) {
     super(props);
@@ -377,24 +376,54 @@ class MapControls extends Component {
       .then((json) => {
         let data = [];
         let row = [];
-
-        for (let key in json.fields) {
-          row.push('"'+key.replace(/"/g, '\\"')+'"');
-        }
-        row = row.join(',');
-        data.push(row);
-
-        json.rows.map((rowItem) => {
-          let row = [];
-          for (let key in json.fields) {
-            (json.fields[key].type === 'string' && rowItem[key])
-              ? row.push('"'+rowItem[key].replace(/"/g, '\\"')+'"')
-              : row.push(rowItem[key]);
+        
+        const EASYMODE = true;  //Instead of giving the full raw data, we can
+                                //give students a smaller, more easy-to-read
+                                //version. //TODO: Enable users to toggle.
+      
+        if (EASYMODE) {
+          //Prepare the column headers
+          //NOTE: we can package these translations into the SQL query but it'll get super long & messy
+          for (let key in config.cartodb.csvEasyModeTranslator) {
+            row.push('"'+config.cartodb.csvEasyModeTranslator[key].replace(/"/g, '\\"')+'"');
           }
           row = row.join(',');
           data.push(row);
-        });
-        data = data.join('\n');
+          
+          //Prepare each row of data
+          json.rows.map((rowItem) => {
+            let row = [];
+            for (let key in config.cartodb.csvEasyModeTranslator) {
+              (json.fields[key].type === 'string' && rowItem[key])
+                ? row.push('"'+rowItem[key].replace(/"/g, '\\"')+'"')
+                : row.push(rowItem[key]);
+            }
+            row = row.join(',');
+            data.push(row);
+          });
+          data = data.join('\n');
+        } else {
+          //Prepare the column headers
+          //NOTE: we can package these translations into the SQL query but it'll get super long & messy
+          for (let key in json.fields) {
+            row.push('"'+key.replace(/"/g, '\\"')+'"');
+          }
+          row = row.join(',');
+          data.push(row);
+
+          //Prepare each row of data
+          json.rows.map((rowItem) => {
+            let row = [];
+            for (let key in json.fields) {
+              (json.fields[key].type === 'string' && rowItem[key])
+                ? row.push('"'+rowItem[key].replace(/"/g, '\\"')+'"')
+                : row.push(rowItem[key]);
+            }
+            row = row.join(',');
+            data.push(row);
+          });
+          data = data.join('\n');
+        }
 
         this.setState({
           downloadDialog: {
