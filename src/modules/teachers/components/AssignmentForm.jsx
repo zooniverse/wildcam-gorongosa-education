@@ -187,24 +187,32 @@ class AssignmentForm extends Component {
         <InputElement
           autofocus="true"
           label="Name"
+          name="name"
           onChange={this.handleChange}
           placeholder="Insert Name"
           required="required"
+          type="text"
           value={this.state.name}
         />
-        <InputElement
-          label="Description"
-          onChange={this.handleChange}
-          placeholder="Insert Description"
-          required="required"
-          value={this.state.description}
-        />
+        <label className="form-group">
+          Description
+          <textarea
+            className="form-control"
+            label="Description"
+            name="description"
+            onChange={this.handleChange}
+            placeholder="Insert Description"
+            required="required"
+            rows="3"
+            value={this.state.description}>
+          </textarea>
+        </label>
         <InputElement
           label="Date"
           name="duedate"
           onChange={this.handleChange}
           placeholder="E.g. MM-DD-YYYY"
-          required="required"
+          type="text"
           value={this.state.duedate}
         />
         <InputElement
@@ -213,6 +221,7 @@ class AssignmentForm extends Component {
           onChange={this.handleChange}
           placeholder="Note: per student"
           required="required"
+          type="number"
           value={this.state.classifications_target}
         />
         <div className="form-group">
