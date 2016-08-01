@@ -10,8 +10,6 @@ const InputElement = props => {
     <label className="form-group">
       <span>{ label }</span>
       <input className="form-control"
-        type="text"
-        required
         { ...other }
       />
     </label>
