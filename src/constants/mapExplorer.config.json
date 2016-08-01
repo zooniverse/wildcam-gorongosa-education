@@ -86,11 +86,6 @@
       "displayName": "Elephants"
     },
     {
-      "id": "fire",
-      "dbName": "Fire",
-      "displayName": "Fire!"
-    },
-    {
       "id": "genet",
       "dbName": "Genet",
       "displayName": "Genets"
@@ -119,11 +114,6 @@
       "id": "hbadger",
       "dbName": "Honey Badger",
       "displayName": "Honey Badgers"
-    },
-    {
-      "id": "human",
-      "dbName": "Human",
-      "displayName": "Humans"
     },
     {
       "id": "hyena",
@@ -169,11 +159,6 @@
       "id": "mongoose",
       "dbName": "Mongoose",
       "displayName": "Mongoose"
-    },
-    {
-      "id": "nothing",
-      "dbName": "Nothing here",
-      "displayName": "(Nothing)"
     },
     {
       "id": "nyala",
@@ -284,6 +269,21 @@
       "id": "zebra",
       "dbName": "Zebra",
       "displayName": "Zebras"
+    },
+    {
+      "id": "human",
+      "dbName": "Human",
+      "displayName": "Humans"
+    },
+    {
+      "id": "fire",
+      "dbName": "Fire",
+      "displayName": "Fire!"
+    },
+    {
+      "id": "nothing",
+      "dbName": "Nothing here",
+      "displayName": "(Nothing)"
     }
   ],
   "habitats": [
@@ -329,5 +329,35 @@
       "dbName": "DryWet Oct-Dec",
       "displayName": "Dry-Wet (Oct-Dec)"
     }
-  ]
+  ],
+  "timesOfDay": [
+    {
+      "id": "dawn",
+      "dbName": "Dawn 0557-0622",
+      "displayName": "Dawn (0557 - 0622)"
+    },
+    {
+      "id": "day",
+      "dbName": "Day 0623-1709",
+      "displayName": "Day (0623 - 1709)"
+    },
+    {
+      "id": "dusk",
+      "dbName": "Dusk 1710-1735",
+      "displayName": "Dusk (1710 - 1735)"
+    },
+    {
+      "id": "night",
+      "dbName": "Night 1736-0556",
+      "displayName": "Night (1736 - 0556)"
+    }
+  ],
+  "distanceToHumans": {
+    "min": 0,
+    "max": 8949
+  },
+  "distanceToWater": {
+    "min": 0,
+    "max": 3786
+  }
 }
