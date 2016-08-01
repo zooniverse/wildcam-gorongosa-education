@@ -16,10 +16,10 @@
   },
   "options": {
     "style": {
-      "color": "#9c6",
-      "opacity": 100,
+      "color": "#0000ff",
+      "opacity": 1,
       "clickable": false,
-      "weight": 0
+      "weight": 1
     }
   }
 }

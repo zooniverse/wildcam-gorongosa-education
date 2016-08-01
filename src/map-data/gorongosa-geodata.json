@@ -9,8 +9,8 @@
   },
   "options": {
     "style": {
-      "color": "#c93",
-      "opacity": 0.5,
+      "color": "#00ff00",
+      "opacity": 1,
       "clickable": false,
       "weight": 5
     }

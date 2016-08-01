@@ -92,8 +92,8 @@ class MapVisuals extends Component {
     
     //Create the CartoDB Data layer
     cartodb.createLayer(this.state.map, config.cartodb.vizUrl)
-      .addTo(this.state.map)
-      .on('done', (layer) => {
+      .done((layer) => {
+        layer.addTo(this.state.map);
         this.state.cartodbLayer = layer;
         this.state.cartodbLayer.setInteraction(true);
         layer.on('error', (err) => {
@@ -102,14 +102,16 @@ class MapVisuals extends Component {
 
         //Add the controls for the layers
         L.control.layers(baseLayersForControls, {
-          ...geomapLayers,
           'Data': layer,
+          ...geomapLayers
+        }, {
+          'collapsed': false,
         }).addTo(this.state.map);
 
         //updateDataVisualisation performs some cleanup
         this.updateDataVisualisation(this.props);
       })
-      .on('error', (err) => {
+      .error((err) => {
         console.error('ERROR (initMapExplorer(), cartodb.createLayer()):' + err);
       });
 
