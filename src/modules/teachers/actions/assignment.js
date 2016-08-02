@@ -18,6 +18,8 @@ export function createAssignment(assignment, classroomId) {
     classifications_target: assignment.classifications_target,
     description: assignment.description,
     duedate: assignment.duedate,
+    filters: assignment.filters,
+    subjects: assignment.subjects,
   };
   const studentData = assignment.students.map(student_id => ({
     id: student_id,
@@ -64,7 +66,6 @@ export function createAssignment(assignment, classroomId) {
       dispatch({
         type: types.CREATE_ASSIGNMENT_SUCCESS,
         data: json.data,
-        subjectData,
       });
       browserHistory.push(`/teachers/classrooms/${json.data.attributes.classroom_id}`);
       alert('Assignment created!');  //TODO: we need better messaging
@@ -126,6 +127,8 @@ export function editAssignment(fields, assignment) {
               description: fields.description,
               classifications_target: fields.classifications_target,
               duedate: fields.duedate,
+              filters: fields.filters,
+              subjects: fields.subjects,
             }
           }
         }
