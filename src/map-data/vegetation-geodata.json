@@ -29,11 +29,11 @@
     "Floodplain Grassland": { "color": "#3c9" },
     "Limestone Gorges": { "color": "#cc0" },
     
-    "Montane Woodland": { "color": "#c00" },
+    "Montane Woodland": { "color": "#c3c" },
     "Montane Forest": { "color": "#606" },
     "Montane Grassland": { "color": "#30c" },
     
     "Lake Urema": { "color": "#0ff" },
-    "Inselberg": { "color": "#c90" }
+    "Inselberg": { "color": "#f30" }
   }
 }
