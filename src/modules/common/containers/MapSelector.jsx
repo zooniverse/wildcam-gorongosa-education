@@ -27,9 +27,9 @@ class MapSelector {
     this.user = '';
 
     //Default marker styles.
-    this.markerColor = '#ff0000';  //'#ff9900';  //For... consistency, this is coLOR instead of coLOUR.
+    this.markerColor = '#ff9900';  //For... consistency, this is coLOR instead of coLOUR.
     this.markerSize = '15';
-    this.markerOpacity = '1.0';  //'0.8';
+    this.markerOpacity = '0.8';
 
     //These two are the most important values; they're derived from the selector
     //settings above.

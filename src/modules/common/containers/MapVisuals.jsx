@@ -87,7 +87,16 @@ class MapVisuals extends Component {
     //Create the CartoDB Geomap layer
     const geomapLayers = {
       'Gorongosa National Park': L.geoJson(gorongosaGeodata.geojson, gorongosaGeodata.options).addTo(this.state.map),
-      'Vegetation': L.geoJson(vegetationGeodata.geojson, vegetationGeodata.options).addTo(this.state.map),
+      'Vegetation': L.geoJson(vegetationGeodata.geojson, {
+        style: function (feature) {
+          const specificStyles = vegetationGeodata.specificStyles;
+          let baseStyle = vegetationGeodata.options.style;
+          const featureName = feature.properties.NAME;
+          return (specificStyles[featureName])
+            ? Object.assign(baseStyle, specificStyles[featureName])
+            : baseStyle;
+        }        
+      }).addTo(this.state.map),
     };
     
     //Create the CartoDB Data layer
