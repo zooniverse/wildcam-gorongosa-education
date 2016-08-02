@@ -29,7 +29,9 @@ export function assignment(state = initialState, action) {
                 description: action.fields.description,
                 classifications_target: action.fields.classifications_target,
                 duedate: action.fields.duedate,
-              }
+                filters: action.fields.filters,
+                subjects: action.subjects,
+              },
             }, action.fields)
           });
         }
