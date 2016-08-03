@@ -11,7 +11,6 @@ const ClassroomAssignments = props => {
           <ul className="list">
             { classroom.assignments.map(assignment =>
               <li key={ assignment.id } className="listitem">
-                { console.log('assignment.classification_count', assignment.classification_count)}
                 <div>{ assignment.name }</div>
                 <div>Progress { assignment.classification_count }/{ assignment.target }</div>
                 <div>

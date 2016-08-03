@@ -21,6 +21,22 @@ class StudentAssignmentsContainer extends Component {
   createClassroomAssignmentData() {
     const assignments = this.props.assignments.data;
     const classrooms = this.props.classrooms.data;
+    const studentData = this.props.assignments.student_data ? this.props.assignments.student_data : [];
+
+    const getClassificationCount = (assignment) => {
+      const studentAssignments = assignment.relationships.student_assignments.data;
+      const studentUsers = assignment.relationships.student_users.data;
+      let classifications = 0;
+      studentAssignments.forEach(studentAssignmentsItem => {
+        const studentDataByAssignment = studentData.find(item => item.id === studentAssignmentsItem.id);
+        studentUsers.forEach(studentUsersItem => {
+          if (studentUsersItem.id === studentDataByAssignment.attributes.student_user_id.toString()) {
+            classifications = studentDataByAssignment.attributes.classifications_count;
+          }
+        })
+      })
+      return classifications;
+    }
 
     return classrooms.reduce((result, classroom) => {
       const assignmentsForClassroom = assignments.filter(assignment =>
@@ -33,7 +49,7 @@ class StudentAssignmentsContainer extends Component {
             id: assignment.id,
             name: assignment.attributes.name,
             target: assignment.attributes.metadata.classifications_target,
-            classification_count: '',
+            classification_count: getClassificationCount(assignment),
           }))
         });
       }
