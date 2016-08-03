@@ -1,9 +1,12 @@
 import { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Script } from 'react-loadscript';
 
 import DialogScreen from '../components/DialogScreen';
 import DialogScreen_ViewCamera from '../components/DialogScreen-ViewCamera';
+import MapLegendCameras from '../components/MapLegendCameras';
+import MapLegendVegetation from '../components/MapLegendVegetation';
 const config = require('../../../constants/mapExplorer.config.json');
 const gorongosaGeodata = require('../../../map-data/gorongosa-geodata.json');
 const vegetationGeodata = require('../../../map-data/vegetation-geodata.json');
@@ -127,10 +130,8 @@ class MapVisuals extends Component {
     //Bonus: Add legends to map
     const legend = L.control({position: 'bottomright'});
     legend.onAdd = (map) => {
-      const div = L.DomUtil.create('div', 'info legend');
-      div.innerHTML =
-        '<div><svg height="10" width="10"><circle cx="5" cy="5" r="5" fill="#666" /></svg> : Camera with no images</div>' +
-        '<div><svg height="10" width="10"><circle cx="5" cy="5" r="5" fill="#f93" /></svg> : Camera with images (click to view)</div>';
+      let div = L.DomUtil.create('div', '');
+      ReactDOM.render(<MapLegendCameras />, div);
       return div;
     };
     legend.addTo(this.state.map);
@@ -138,12 +139,8 @@ class MapVisuals extends Component {
     //Bonus: Add (vegetation) legends to map
     const vegetationLegend = L.control({position: 'bottomright'});
     vegetationLegend.onAdd = (map) => {
-      const div = L.DomUtil.create('div', 'info legend');
-      div.innerHTML = '<div>Vegetation types</div>';
-      for (let key in vegetationGeodata.specificStyles) {
-        const color = vegetationGeodata.specificStyles[key].color;
-        div.innerHTML += '<div><svg height="10" width="10"><circle cx="5" cy="5" r="5" fill="'+color+'" fill-opacity="0.5" /></svg> : '+key+'</div>';
-      }
+      let div = L.DomUtil.create('div', '');
+      ReactDOM.render(<MapLegendVegetation />, div);
       return div;
     };
     vegetationLegend.addTo(this.state.map);
