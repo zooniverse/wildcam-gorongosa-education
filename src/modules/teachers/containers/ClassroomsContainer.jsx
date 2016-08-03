@@ -19,7 +19,7 @@ class ClassroomsContainer extends Component {
     if (!classrooms.members.length && !classrooms.data.length && !classrooms.loading) {
       this.props.dispatch(fetchClassrooms());
     }
-    
+
     if (!assignments.data.length && !assignments.loading) {
       this.props.dispatch(fetchAssignments());
     }
@@ -66,6 +66,7 @@ ClassroomsContainer.defaultProps = {
     data: [],
     error: false,
     loading: false,
+    student_data: []
   },
   userdetails: {
     data: {

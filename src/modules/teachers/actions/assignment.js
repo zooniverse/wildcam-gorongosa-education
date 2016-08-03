@@ -166,13 +166,15 @@ export function fetchAssignments() {
           data: json.data,
           error: false,
           loading: false,
+          student_data: json.included,
         });
       })
       .catch(response => dispatch({
         type: types.RECEIVE_ASSIGNMENTS_ERROR,
         data: [],
-        error: true,
+        error: response,
         loading: false,
+        student_data: []
       })
     );
   }

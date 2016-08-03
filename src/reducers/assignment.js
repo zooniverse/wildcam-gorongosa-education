@@ -89,6 +89,7 @@ export function assignment(state = initialState, action) {
           data: action.data,
           error: false,
           loading: false,
+          student_data: action.student_data,
         }
       };
     case types.RECEIVE_ASSIGNMENTS_ERROR:
@@ -97,6 +98,7 @@ export function assignment(state = initialState, action) {
           data: [],
           error: action.error,
           loading: false,
+          student_data: []
         }
       };
     case types.ASSIGNMENT_DELETE:

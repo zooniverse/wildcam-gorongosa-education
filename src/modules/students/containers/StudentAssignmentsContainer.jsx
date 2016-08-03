@@ -25,7 +25,6 @@ class StudentAssignmentsContainer extends Component {
     return classrooms.reduce((result, classroom) => {
       const assignmentsForClassroom = assignments.filter(assignment =>
         classroom.id === assignment.attributes.classroom_id.toString());
-
       if (assignmentsForClassroom.length) {
         result.push({
           classroom_id: classroom.id,
@@ -33,10 +32,11 @@ class StudentAssignmentsContainer extends Component {
           assignments: assignmentsForClassroom.map(assignment => ({
             id: assignment.id,
             name: assignment.attributes.name,
+            target: assignment.attributes.metadata.classifications_target,
+            classification_count: '',
           }))
         });
       }
-
       return result;
     }, []);
   }
@@ -46,7 +46,7 @@ class StudentAssignmentsContainer extends Component {
     const { assignments, classrooms } = this.props;
     return classrooms.loading || assignments.loading
       ? <div>Loading assignments...</div>
-      : <ClassroomAssignments data={ classroomData } />;
+      : <ClassroomAssignments data={ classroomData } student_data={assignments.student_data}/>;
   }
 
 }
