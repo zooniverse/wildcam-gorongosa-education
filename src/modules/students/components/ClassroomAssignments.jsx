@@ -11,8 +11,22 @@ const ClassroomAssignments = props => {
           <ul className="list">
             { classroom.assignments.map(assignment =>
               <li key={ assignment.id } className="listitem">
-                <div>{ assignment.name }</div>
-                <div>Progress { assignment.classification_count }/{ assignment.target }</div>
+                <div>
+                  <div><strong>Name</strong></div>
+                  <div>{ assignment.name }</div>
+                </div>
+                <div>
+                  <div><strong>Description</strong></div>
+                  <div>{ assignment.description }</div>
+                </div>
+                <div>
+                  <div><strong>Due date</strong></div>
+                  <div>{ assignment.duedate }</div>
+                </div>
+                <div>
+                  <div><strong>Progress</strong></div>
+                  <div>{ assignment.classification_count }/{ assignment.target }</div>
+                </div>
                 <div>
                   <a className="btn btn-default"
                     href={`https://www.wildcamgorongosa.org/#/classify/assignment-${ assignment.id }`}

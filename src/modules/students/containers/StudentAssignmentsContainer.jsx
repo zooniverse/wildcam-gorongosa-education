@@ -47,6 +47,8 @@ class StudentAssignmentsContainer extends Component {
           classroom_name: classroom.attributes.name,
           assignments: assignmentsForClassroom.map(assignment => ({
             id: assignment.id,
+            description: assignment.attributes.metadata.description,
+            duedate: assignment.attributes.metadata.duedate,
             name: assignment.attributes.name,
             target: assignment.attributes.metadata.classifications_target,
             classification_count: getClassificationCount(assignment),
