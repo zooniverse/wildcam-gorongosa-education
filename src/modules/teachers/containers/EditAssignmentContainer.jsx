@@ -60,7 +60,7 @@ EditAssignmentContainer.propTypes = {
 
 const mapStateToProps = state => {
   const {data, student_data} = state.assignment.assignments;
-  if (data.length > 0) {
+  if (data.length > 0 && student_data) {
     const editId = window.location.pathname.split('/')[5];
     return {
       assignment: data.find(assignment => assignment.id === editId),
