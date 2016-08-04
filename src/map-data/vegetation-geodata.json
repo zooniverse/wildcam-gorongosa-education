@@ -16,10 +16,24 @@
   },
   "options": {
     "style": {
-      "color": "#9c6",
-      "opacity": 100,
+      "color": "#0f0",
+      "opacity": 0,
+      "fillOpacity": 0.2,
       "clickable": false,
       "weight": 0
     }
+  },
+  "specificStyles" : {
+    "Miombo Woodland": { "color": "#063" },
+    "Mixed Savanna and Woodland": { "color": "#693" },
+    "Floodplain Grassland": { "color": "#3c9" },
+    "Limestone Gorges": { "color": "#cc0" },
+    
+    "Montane Woodland": { "color": "#c3c" },
+    "Montane Forest": { "color": "#606" },
+    "Montane Grassland": { "color": "#30c" },
+    
+    "Lake Urema": { "color": "#0ff" },
+    "Inselberg": { "color": "#f30" }
   }
 }

@@ -1,9 +1,12 @@
 import { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Script } from 'react-loadscript';
 
 import DialogScreen from '../components/DialogScreen';
 import DialogScreen_ViewCamera from '../components/DialogScreen-ViewCamera';
+import MapLegendCameras from '../components/MapLegendCameras';
+import MapLegendVegetation from '../components/MapLegendVegetation';
 const config = require('../../../constants/mapExplorer.config.json');
 const gorongosaGeodata = require('../../../map-data/gorongosa-geodata.json');
 const vegetationGeodata = require('../../../map-data/vegetation-geodata.json');
@@ -87,13 +90,22 @@ class MapVisuals extends Component {
     //Create the CartoDB Geomap layer
     const geomapLayers = {
       'Gorongosa National Park': L.geoJson(gorongosaGeodata.geojson, gorongosaGeodata.options).addTo(this.state.map),
-      'Vegetation': L.geoJson(vegetationGeodata.geojson, vegetationGeodata.options).addTo(this.state.map),
+      'Vegetation': L.geoJson(vegetationGeodata.geojson, {
+        style: function (feature) {
+          const specificStyles = vegetationGeodata.specificStyles;
+          let baseStyle = vegetationGeodata.options.style;
+          const featureName = feature.properties.NAME;
+          return (specificStyles[featureName])
+            ? Object.assign(baseStyle, specificStyles[featureName])
+            : baseStyle;
+        }        
+      }).addTo(this.state.map),
     };
     
     //Create the CartoDB Data layer
     cartodb.createLayer(this.state.map, config.cartodb.vizUrl)
-      .addTo(this.state.map)
-      .on('done', (layer) => {
+      .done((layer) => {
+        layer.addTo(this.state.map);
         this.state.cartodbLayer = layer;
         this.state.cartodbLayer.setInteraction(true);
         layer.on('error', (err) => {
@@ -102,27 +114,36 @@ class MapVisuals extends Component {
 
         //Add the controls for the layers
         L.control.layers(baseLayersForControls, {
-          ...geomapLayers,
           'Data': layer,
+          ...geomapLayers
+        }, {
+          'collapsed': false,
         }).addTo(this.state.map);
 
         //updateDataVisualisation performs some cleanup
         this.updateDataVisualisation(this.props);
       })
-      .on('error', (err) => {
+      .error((err) => {
         console.error('ERROR (initMapExplorer(), cartodb.createLayer()):' + err);
       });
 
     //Bonus: Add legends to map
     const legend = L.control({position: 'bottomright'});
     legend.onAdd = (map) => {
-      const div = L.DomUtil.create('div', 'info legend');
-      div.innerHTML +=
-        '<div><svg height="10" width="10"><circle cx="5" cy="5" r="5" fill="#666" /></svg> : Camera with no images</div>' +
-        '<div><svg height="10" width="10"><circle cx="5" cy="5" r="5" fill="#f93" /></svg> : Camera with images (click to view)</div>';
+      let div = L.DomUtil.create('div', '');
+      ReactDOM.render(<MapLegendCameras />, div);
       return div;
     };
     legend.addTo(this.state.map);
+    
+    //Bonus: Add (vegetation) legends to map
+    const vegetationLegend = L.control({position: 'bottomright'});
+    vegetationLegend.onAdd = (map) => {
+      let div = L.DomUtil.create('div', '');
+      ReactDOM.render(<MapLegendVegetation />, div);
+      return div;
+    };
+    vegetationLegend.addTo(this.state.map);
 
     //Bonus: 'Recentre Map' button
     const recentreButton = L.control({position: 'topleft'});
