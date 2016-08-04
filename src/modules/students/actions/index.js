@@ -79,10 +79,12 @@ export function fetchStudentAssignments() {
       .then(json => dispatch({
         type: types.RECEIVE_ASSIGNMENTS,
         data: json.data,
+        student_data: json.included,
       }))
       .catch(response => dispatch({
         type: types.RECEIVE_ASSIGNMENTS_ERROR,
         data: [],
+        student_data: [],
       }));
   }
 }
