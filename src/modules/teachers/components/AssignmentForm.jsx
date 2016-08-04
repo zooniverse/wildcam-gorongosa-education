@@ -7,6 +7,7 @@ const initialState = {
   classifications_target: '',
   description: '',
   duedate: '',
+  filters: {},
   name: '',
   students: [],
   subjects: [],
@@ -68,8 +69,11 @@ class AssignmentForm extends Component {
     let savedSubjectsIDs = sessionStorage.getItem('savedSubjectsIDs');
     savedSubjectsIDs = (savedSubjectsIDs === null || savedSubjectsIDs === '') ?
       [] : savedSubjectsIDs.split(',');
-    newAssignment.subjects = savedSubjectsIDs;
 
+    let savedSubjectsDescription = JSON.parse(sessionStorage.getItem('savedSubjectsDescription'));
+
+    newAssignment.subjects = savedSubjectsIDs;
+    newAssignment.filters = savedSubjectsDescription;
     //TESTING: localhost uses 'Bacon' Zooniverse project for Subject IDs.
     //WildCam Gorongosa has no Staging data that we can use to create Subjects.
     //Therefore, we need to hardcode some Subject IDs.
@@ -93,6 +97,7 @@ class AssignmentForm extends Component {
       sessionStorage.removeItem('savedClassroomId');
       sessionStorage.removeItem('savedSubjectsLocations');
       sessionStorage.removeItem('savedSubjectsIDs');
+      sessionStorage.removeItem('savedSubjectsDescription');
       this.props.submitForm(newAssignment, this.props.params.classroomId)
     } else {
       alert('You can\'t create an assignment without students or subjects.')
@@ -142,6 +147,10 @@ class AssignmentForm extends Component {
     savedSubjectsIDs = (savedSubjectsIDs === null || savedSubjectsIDs === '') ?
       [] : savedSubjectsIDs.split(',');
 
+    let savedSubjectsDescription = (sessionStorage.getItem('savedSubjectsDescription'))
+      ? JSON.parse(sessionStorage.getItem('savedSubjectsDescription'))
+      : {};
+
     for (let i = 0; i < MAXIMUM_SUBJECTS && i < savedSubjectsIDs.length; i++) {
       subjectsHtml.push(
         <li key={'subjects_' + i}><img src={savedSubjectsLocations[i]} /></li>
@@ -150,9 +159,34 @@ class AssignmentForm extends Component {
     return (
       <div>
         <div>
-          {savedSubjectsIDs.length} Subject(s) selected.
+          Map filters:
+          {this.props.fields && this.props.fields.filters
+            ? <ul>
+                {Object.keys(this.props.fields.filters)
+                .map((key, index) => {
+                  const filter = {
+                    category: key,
+                    value: this.props.fields.filters[key],
+                  }
+                  return <li key={'filter_' + index}> {filter.category + ': ' + filter.value + ' '}</li>
+                })}
+              </ul>
+            : Object.keys(savedSubjectsDescription)
+                .map((key, index) => {
+                  const filter = {
+                    category: key,
+                    value: savedSubjectsDescription[key],
+                  }
+                  return <li key={'filter_' + index}> {filter.category + ': ' + filter.value + ' '}</li>
+                })
+          }
+        </div>
+        <div>
+          {this.props.fields && this.props.fields.subjects
+            ? this.props.fields.subjects.length
+            : savedSubjectsIDs.length} Subject(s) selected.
           {(subjectsHtml.length > 0)
-            ? <span>Previewing {subjectsHtml.length} image(s)</span>
+            ? <span> Previewing {subjectsHtml.length} image(s)</span>
             : null
           }
         </div>

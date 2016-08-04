@@ -23,7 +23,9 @@ class EditAssignmentContainer extends Component {
           description: assignment.attributes.metadata.description,
           classifications_target: assignment.attributes.metadata.classifications_target,
           duedate: assignment.attributes.metadata.duedate,
+          filters: assignment.attributes.metadata.filters,
           students: assignment.relationships.student_users.data.map(student => student.id),
+          subjects: assignment.attributes.metadata.subjects,
         }
       : {};
   }
