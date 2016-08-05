@@ -129,6 +129,7 @@ export function editAssignment(fields, assignment) {
               duedate: fields.duedate,
               filters: fields.filters,
               subjects: fields.subjects,
+              students: fields.students
             }
           }
         }
