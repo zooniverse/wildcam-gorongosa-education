@@ -107,7 +107,7 @@ class AssignmentForm extends Component {
 
   renderStudentList(students) {
     const getStudentClassifications = (student) => {
-      if (this.props.student_data.length > 0) {
+      if (this.props.student_data && this.props.student_data.length > 0) {
         const currentStudentData = this.props.student_data.find(item => item.attributes.student_user_id.toString() === student.id);
         return currentStudentData.attributes.classifications_count;
       } else {

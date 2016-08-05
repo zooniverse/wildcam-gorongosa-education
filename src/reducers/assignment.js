@@ -17,12 +17,13 @@ export function assignment(state = initialState, action) {
           loading: true,
           data: state.assignments.data,
           error: state.assignments.error,
+          student_data: state.assignments.student_data,
         }
       }
     case types.EDIT_ASSIGNMENT_SUCCESS:
       const newData = state.assignments.data.map(assignment => {
         if (assignment.id === action.assignment.id) {
-          return Object.assign({}, assignment, {
+          return Object.assign({}, action.assignment, {
             attributes: Object.assign({}, assignment.attributes, {
               name: action.fields.name,
               metadata: {
@@ -30,9 +31,10 @@ export function assignment(state = initialState, action) {
                 classifications_target: action.fields.classifications_target,
                 duedate: action.fields.duedate,
                 filters: action.fields.filters,
-                subjects: action.subjects,
+                subjects: action.fields.subjects,
+                students: action.fields.students,
               },
-            }, action.fields)
+            })
           });
         }
         return assignment;
@@ -42,6 +44,7 @@ export function assignment(state = initialState, action) {
           loading: false,
           data: newData,
           error: false,
+          student_data: state.assignments.student_data,
         }
       }
     case types.EDIT_ASSIGNMENT_ERROR:
@@ -58,6 +61,7 @@ export function assignment(state = initialState, action) {
           data: state.assignments.data,
           error: false,
           loading: true,
+          student_data: state.assignments.student_data,
         }
       };
     case types.CREATE_ASSIGNMENT_SUCCESS:
@@ -67,6 +71,7 @@ export function assignment(state = initialState, action) {
           data: newlist,
           error: false,
           loading: false,
+          student_data: state.assignments.student_data,
         }
       };
     case types.CREATE_ASSIGNMENT_ERROR:
@@ -75,6 +80,7 @@ export function assignment(state = initialState, action) {
           data: [],
           error: action.error,
           loading: false,
+          student_data: state.assignments.student_data,
         }
       };
     case types.REQUEST_ASSIGNMENTS:
@@ -83,6 +89,7 @@ export function assignment(state = initialState, action) {
           data: [],
           error: false,
           loading: true,
+          student_data: []
         }
       };
     case types.RECEIVE_ASSIGNMENTS:
@@ -109,6 +116,7 @@ export function assignment(state = initialState, action) {
           data: state.assignments.data,
           error: false,
           loading: true,
+          student_data: state.assignments.student_data,
         }
       };
     case types.ASSIGNMENT_DELETE_SUCCESS:
@@ -119,6 +127,7 @@ export function assignment(state = initialState, action) {
           data: newState.assignments.data,
           error: false,
           loading: false,
+          student_data: newState.assignments.student_data,
         }
       };
     case types.ASSIGNMENT_DELETE_ERROR:
@@ -127,6 +136,7 @@ export function assignment(state = initialState, action) {
           data: [],
           error: action.error,
           loading: false,
+          student_data: [],
         }
       };
     default:
