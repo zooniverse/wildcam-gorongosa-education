@@ -4,7 +4,7 @@
     "sqlApi": "https://shaunanoordin-zooniverse.cartodb.com/api/v2/sql?q={SQLQUERY}",
     "sqlTableCameras": "wildcam_gorongosa_cameras_201601",
     "sqlTableSubjects": "wildcam_gorongosa_subjects_201601_16000",
-    "sqlTableClassifications": "",
+    "sqlTableClassifications": "wildcam_classifications",
     "sqlTableAggregations": "wildcam_gorongosa_aggregations_201603a",
     "sqlQueryCountItems": "SELECT cam.*, COUNT(sbjagg.*) AS count FROM {CAMERAS} AS cam LEFT JOIN (SELECT sbj.camera, sbj.location, sbj.dateutc, sbj.month, sbj.year, sbj.season, sbj.time_period, agg.species, agg.num_classifications, agg.subject_id FROM {SUBJECTS} AS sbj INNER JOIN (SELECT * FROM {AGGREGATIONS} WHERE num_classifications >= 5) AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE} GROUP BY cam.cartodb_id ORDER BY count ASC",
     "sqlQueryCountItemsCountOnly": "SELECT COUNT(*) AS count FROM {CAMERAS} AS cam LEFT JOIN (SELECT sbj.camera, sbj.location, sbj.dateutc, sbj.month, sbj.year, sbj.season, sbj.time_period, agg.species, agg.num_classifications, agg.subject_id FROM {SUBJECTS} AS sbj INNER JOIN (SELECT * FROM {AGGREGATIONS} WHERE num_classifications >= 5) AS agg ON sbj.subject_id = agg.subject_id) AS sbjagg ON cam.id = sbjagg.camera {WHERE}",
