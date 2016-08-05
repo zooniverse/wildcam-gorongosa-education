@@ -258,15 +258,15 @@ class AssignmentForm extends Component {
           </textarea>
         </label>
         <InputElement
-          label="Date"
+          label="Due date"
           name="duedate"
           onChange={this.handleChange}
           placeholder="E.g. MM-DD-YYYY"
-          type="text"
+          type="date"
           value={this.state.duedate}
         />
         <InputElement
-          label="Number of classifications"
+          label="Number of images"
           name="classifications_target"
           onChange={this.handleChange}
           placeholder="Note: per student"
@@ -281,7 +281,8 @@ class AssignmentForm extends Component {
           {this.renderSelectedSubjects()}
         </div>
         <div className="form-group">
-          <a className="btn" onClick={this.selectNewSubjects}>Select new images</a>
+          <p>Use the map to choose a set of images for your students to identify and "Select for assignment". </p>
+          <a className="btn btn-default" onClick={this.selectNewSubjects}>Select images</a>
         </div>
         <div className="form-group">
           <button type="submit" className="btn btn-primary pull-right">Submit</button>
