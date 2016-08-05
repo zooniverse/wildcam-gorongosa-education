@@ -106,10 +106,24 @@ class AssignmentForm extends Component {
   }
 
   renderStudentList(students) {
+    const getStudentClassifications = (student) => {
+      if (this.props.student_data && this.props.student_data.length > 0) {
+        const currentStudentData = this.props.student_data.find(item => item.attributes.student_user_id.toString() === student.id);
+        return currentStudentData.attributes.classifications_count;
+      } else {
+        return 0
+      }
+    }
     return (
       <div>
         {(students.length > 0) ?
         <table className="table table-hover">
+          <thead>
+            <tr>
+              <th>Students</th>
+              <th>Progress</th>
+            </tr>
+          </thead>
           <tbody>
             {students.map((student) => {
               const selected = this.state.students.find(id => id === student.id) ? true : false;
@@ -123,6 +137,9 @@ class AssignmentForm extends Component {
                       }
                       {student.attributes.zooniverse_display_name}
                     </label>
+                  </td>
+                  <td>
+                    {getStudentClassifications(student)}/{this.state.classifications_target}
                   </td>
                 </tr>
               );
@@ -211,9 +228,8 @@ class AssignmentForm extends Component {
       ? currentClassroom.relationships.students.data.map(student => student.id)
       : [];
     const currentStudents = classrooms
-      ? classrooms.uniqueMembers.filter(
-          student => currentStudentsIds.includes(student.id)
-        )
+      ? classrooms.uniqueMembers
+          .filter(student => currentStudentsIds.includes(student.id))
       : {};
     return (
       <form onSubmit={this.handleSubmit}>
@@ -259,7 +275,6 @@ class AssignmentForm extends Component {
           value={this.state.classifications_target}
         />
         <div className="form-group">
-          <div><strong>Students by username</strong></div>
           { this.renderStudentList(currentStudents) }
         </div>
         <div className="form-group">
