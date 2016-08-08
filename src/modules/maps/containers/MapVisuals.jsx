@@ -105,7 +105,8 @@ class MapVisuals extends Component {
         'Data': layer,
         ...geomapLayers
       }, {
-        'collapsed': false,
+        position: 'topleft',
+        collapsed: false,
       }).addTo(this.map);
 
       //updateDataVisualisation performs some cleanup
