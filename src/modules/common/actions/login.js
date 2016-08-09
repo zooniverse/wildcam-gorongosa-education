@@ -1,4 +1,3 @@
-import auth from 'panoptes-client/lib/auth';
 import oauth from 'panoptes-client/lib/oauth';
 
 import * as types from '../../../constants/actionTypes';
@@ -8,7 +7,7 @@ import config from '../../../constants/config';
 // Action creators
 export function checkLoginUser() {  //First thing on app load - check if the user is logged in.
   return (dispatch) => {
-    auth.checkCurrent()
+    oauth.checkCurrent()
       .then(user => {
         dispatch(setLoginUser(user));
       });
