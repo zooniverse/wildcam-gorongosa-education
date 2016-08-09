@@ -1,8 +1,18 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 
-const ClassroomAssignments = props => {
-  const { data } = props;
-  return (
+class ClassroomAssignments extends Component {
+  constructor(props) {
+    super(props);
+    this.fetchClassifications = this.fetchClassifications.bind(this);
+  }
+
+  fetchClassifications(assignment, user) {
+    this.props.fetchClassifications(assignment, user)
+  }
+
+  render() {
+    const { data, user } = this.props;
+    return (
     <div className="student-assignmentlist">
       <h1>Assignments</h1>
       { data.map(classroom =>
@@ -33,6 +43,14 @@ const ClassroomAssignments = props => {
                     Start assignment
                   </a>
                 </td>
+                <td>
+                  <button
+                  className="btn btn-default"
+                  onClick={() => {this.fetchClassifications(assignment, user)}}
+                  type="button">
+                  Download
+                </button>
+                </td>
               </tr>
             ) }
             </tbody>
@@ -41,6 +59,7 @@ const ClassroomAssignments = props => {
       ) }
     </div>
   );
+  }
 };
 
 export default ClassroomAssignments;
