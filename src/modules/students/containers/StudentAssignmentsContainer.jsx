@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import ClassroomAssignments from '../components/ClassroomAssignments';
-import { fetchStudentClassrooms, fetchStudentAssignments } from '../actions';
+import { fetchStudentClassifications, fetchStudentClassrooms, fetchStudentAssignments } from '../actions';
 
 
 class StudentAssignmentsContainer extends Component {
@@ -14,8 +14,8 @@ class StudentAssignmentsContainer extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchStudentClassrooms();
-    this.props.fetchStudentAssignments();
+    this.props.actions.fetchStudentClassrooms();
+    this.props.actions.fetchStudentAssignments();
   }
 
   createClassroomAssignmentData() {
@@ -52,6 +52,7 @@ class StudentAssignmentsContainer extends Component {
             name: assignment.attributes.name,
             target: assignment.attributes.metadata.classifications_target,
             classification_count: getClassificationCount(assignment),
+            workflow_id: assignment.attributes.workflow_id
           }))
         });
       }
@@ -61,23 +62,31 @@ class StudentAssignmentsContainer extends Component {
 
   render() {
     const classroomData = this.createClassroomAssignmentData();
-    const { assignments, classrooms } = this.props;
+    const { actions, assignments, classrooms, user } = this.props;
+    const boundFetchStudentClassifications = actions.fetchStudentClassifications.bind(this);
     return classrooms.loading || assignments.loading
       ? <div>Loading assignments...</div>
-      : <ClassroomAssignments data={ classroomData } student_data={assignments.student_data}/>;
+      : <ClassroomAssignments
+          data={ classroomData }
+          fetchClassifications={ boundFetchStudentClassifications }
+          student_data={ assignments.student_data }
+          user={ user }/>;
   }
 
 }
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({
-    fetchStudentClassrooms,
-    fetchStudentAssignments
-  }, dispatch);
+const mapDispatchToProps = dispatch => ({
+  actions: {
+    fetchStudentClassifications: bindActionCreators(fetchStudentClassifications, dispatch),
+    fetchStudentClassrooms: bindActionCreators(fetchStudentClassrooms, dispatch),
+    fetchStudentAssignments: bindActionCreators(fetchStudentAssignments, dispatch),
+  }
+});
 
 const mapStateToProps = state => ({
   classrooms: state.student.classrooms,
   assignments: state.assignment.assignments,
+  user: state.login.user,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StudentAssignmentsContainer);
