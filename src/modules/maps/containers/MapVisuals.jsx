@@ -1,7 +1,7 @@
 import { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Script } from 'react-loadscript';
+import { initialState } from '../../../reducers/mapexplorer';
 
 const config = require('../../../constants/mapExplorer.config.json');
 const gorongosaGeodata = require('../../../map-data/gorongosa-geodata.json');
@@ -26,6 +26,8 @@ class MapVisuals extends Component {
   }
 
   render() {
+    const test = this.props.mapexplorer.species.join(', ');
+    
     return (
       <section ref="mapVisuals" className="map-visuals">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
@@ -34,7 +36,7 @@ class MapVisuals extends Component {
           ({done}) => !done ? <div className="message">Map Explorer is loading...</div> : this.initMapExplorer()
         }</Script>
         <div id="mapVisuals"></div>
-        <div id="mapVisualsDEBUG"></div>
+        <div id="mapVisualsDEBUG">{test}</div>
       </section>
     );
   }
@@ -106,7 +108,7 @@ class MapVisuals extends Component {
         ...geomapLayers
       }, {
         position: 'topleft',
-        collapsed: false,
+        collapsed: true,
       }).addTo(this.map);
 
       //updateDataVisualisation performs some cleanup
@@ -153,8 +155,12 @@ class MapVisuals extends Component {
 MapVisuals.propTypes = {
   dispatch: PropTypes.func.isRequired
 };
-MapVisuals.defaultProps = {};
+MapVisuals.defaultProps = { 
+  mapexplorer: initialState
+};
 function mapStateToProps(state, ownProps) {  //Listens for changes in the Redux Store
-  return {};
+  return {
+    mapexplorer: state.mapexplorer
+  };
 }
 export default connect(mapStateToProps)(MapVisuals);  //Connects the Component to the Redux Store
