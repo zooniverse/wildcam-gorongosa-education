@@ -176,12 +176,38 @@ class MapVisuals extends Component {
     for (let i = this.state.cartodbLayer.getSubLayerCount() - 1; i >= 0; i--) {
       this.state.cartodbLayer.getSubLayer(i).remove();
     }
-
+    
     //Add a new sublayer for each selector
     props.selectors.map((selector) => {
       let sql = selector.sql.trim();
       let css = selector.css.trim();
       if (sql !== '' && css !== '') {
+        
+        //TEST
+        //--------------------------------
+        let cartoSql = cartodb.SQL({user: 'shaunanoordin-zooniverse', format: 'geojson'});
+        cartoSql.execute(sql)
+        .done((geojson) => {
+          console.log('!'.repeat(80));
+          console.log(geojson);          
+          L.geoJson(geojson, {
+            pointToLayer: function (feature, latlng) {
+              const marker = L.circleMarker(latlng, {
+                color: '#f00',
+                fillColor: '#f00',
+                fillOpacity: 1,
+                radius: '100'
+              });
+              marker.on('click', (e) => {
+                alert('CLICK!');
+              });
+              
+              return marker;
+            }
+          }).addTo(this.state.map);
+        });
+        //--------------------------------
+        
         let newSubLayer = this.state.cartodbLayer.createSubLayer({
           sql: sql,
           cartocss: css,
