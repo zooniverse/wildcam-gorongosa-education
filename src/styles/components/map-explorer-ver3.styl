@@ -21,7 +21,36 @@
   .map-controls
     background: #fff
     position: absolute
+    overflow: scroll
     right: 0
     top: 0
-    width: 50%
-    height: 200px
+    width: 30em
+    max-width: 100%
+    height: 50%
+    
+    .summary
+      border: 1px solid #f93
+      border-radius: 1em
+      margin: 0.5em
+      padding: 0.5em
+      text-align: center
+      
+    .filter-group
+      margin: 0.5em
+      padding: 0.5em
+      border: 1px solid #999
+      
+      label
+        display: block
+        cursor: pointer
+        font-weight: normal
+        
+        input[type=checkbox]
+          visibility: hidden
+        
+        &.selected
+          background: #f93
+          color: #fff
+          
+        &:hover
+          background: #ccc

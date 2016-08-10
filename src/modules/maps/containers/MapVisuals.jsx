@@ -51,6 +51,7 @@ class MapVisuals extends Component {
   initMapExplorer() {
     //Req check
     if (!(window.L && window.cartodb)) {
+      alert('ERROR: Sorry, but we couldn\'t load the map');
       console.error('MapExplorer.initMapExplorer(): failed');
       return;
     }
@@ -151,37 +152,15 @@ class MapVisuals extends Component {
   //----------------------------------------------------------------
   
   updateDataVisualisation(props = this.props) {
-    console.log('-'.repeat(80));
-    console.log(props.mapexplorer.species);
-    
     //Req check
     if (!(this.map && this.cartodbLayer)) {
+      alert('ERROR: Sorry, but we couldn\'t load the map');
       console.error('MapVisuals.updateDataVisualisation(): failed');
       return;
     }
     
-    
-    let sql = MapHelper.calculateSql(props.mapexplorer, mapconfig.cartodb.sqlQueryCountItems);
-    
-    /*let sqlWhere = '';
-    if (props.mapexplorer.species) {
-      sqlWhere = props.mapexplorer.species.map((id) => {
-        let val = mapconfig.species.find(ele => { return ele.id === id });
-        val = (val) ? val.dbName : '';
-        return ' species = \''+val+'\' ';
-      }).join(' OR ');
-    }
-    if (sqlWhere !== '') { sqlWhere = ' WHERE ' + sqlWhere; }
-    
-    let sql = mapconfig.cartodb.sqlQueryCountItems
-      .replace('{CAMERAS}', mapconfig.cartodb.sqlTableCameras)
-      .replace('{SUBJECTS}', mapconfig.cartodb.sqlTableSubjects)
-      .replace('{CLASSIFICATIONS}', mapconfig.cartodb.sqlTableClassifications)
-      .replace('{AGGREGATIONS}', mapconfig.cartodb.sqlTableAggregations)
-      .replace('{WHERE}', sqlWhere);*/
-    
-    console.log('SQL REQUEST: ', sql);
-    
+    let sql = MapHelper.calculateSql(props.mapexplorer, mapconfig.cartodb.sqlQueryCountItems);    
+    console.log('*'.repeat(80), '\nSQL REQUEST: ', sql);
     let cartoSql = cartodb.SQL({user: 'shaunanoordin-zooniverse', format: 'geojson'});
     cartoSql.execute(sql)
     .done((geojson) => {
