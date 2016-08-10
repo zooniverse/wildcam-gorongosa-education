@@ -89,15 +89,24 @@ class AssignmentForm extends Component {
         ];
     }
     //--------
-
+    if (newAssignment.subjects.length >= parseInt(newAssignment.classifications_target)) {
+      newAssignment.subjects.length = parseInt(newAssignment.classifications_target);
+    } else {
+      let result = confirm('The number of subjects selected is smaller than the number of images supplied.\nPlease change the number of images.')
+      if (result || !result) {
+        return document.querySelector('input[name=classifications_target]').focus();
+      }
+    }
     //NOTE: According to Marten, it's perfectly OK to create an assignment with no students or subjects.
     //--------
-    if (newAssignment.students.length > 0 && newAssignment.subjects.length) {
+
+    if (newAssignment.students.length > 0 && newAssignment.subjects.length > 0) {
       sessionStorage.removeItem('savedNewAssignment');
       sessionStorage.removeItem('savedClassroomId');
       sessionStorage.removeItem('savedSubjectsLocations');
       sessionStorage.removeItem('savedSubjectsIDs');
       sessionStorage.removeItem('savedSubjectsDescription');
+
       this.props.submitForm(newAssignment, this.props.params.classroomId)
     } else {
       alert('You can\'t create an assignment without students or subjects.')
