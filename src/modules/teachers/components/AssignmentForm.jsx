@@ -93,7 +93,7 @@ class AssignmentForm extends Component {
 
     const target = parseInt(newAssignment.classifications_target);
     if (newAssignment.subjects.length >= target) {
-      newAssignment.subjects.slice(0, target);
+      newAssignment.subjects = newAssignment.subjects.slice(0, target);
     } else {
       alert('The number of subjects selected is smaller than the number of images supplied.\nPlease change the number of images.');
       return document.querySelector('input[name=classifications_target]').focus();
