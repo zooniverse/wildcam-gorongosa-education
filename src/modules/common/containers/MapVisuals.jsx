@@ -21,6 +21,7 @@ class MapVisuals extends Component {
     //Event binding
     this.recentreMap = this.recentreMap.bind(this);
     this.closeAllDialogs = this.closeAllDialogs.bind(this);
+    this.showCameraView = this.showCameraView.bind(this);
 
     this.state = {
       map: undefined,
@@ -189,59 +190,7 @@ class MapVisuals extends Component {
         });
         newSubLayer.setInteraction(true);
         newSubLayer.on('featureClick', (e, latlng, pos, data) => {
-          console.log('Map.featureClick on ', selector, 'with data ', data);
-          let sqlQuery = selector.calculateSql(config.cartodb.sqlQueryViewCamera, data.id);
-          console.log(sqlQuery);
-
-          this.setState({
-            viewCamera: {
-              status: DialogScreen.DIALOG_ACTIVE,
-              message: 'Loading images from camera...',
-              data: null
-          }});
-
-          fetch(config.cartodb.sqlApi.replace('{SQLQUERY}', encodeURI(sqlQuery)))
-            .then((response) => {
-              if (response.status !== 200) {
-                throw 'Can\'t reach CartoDB API, HTTP response code ' + response.status;
-              }
-              return response.json();
-            })
-            .then((json) => {
-              const MAX_IMAGES = 6;
-              let randomlySelectedImages = [];
-              if (json.rows.length <= MAX_IMAGES) {
-                randomlySelectedImages = json.rows;
-              } else {  //Select X random images.
-                let index = Math.floor(Math.random() * json.rows.length);
-                while (randomlySelectedImages.length < MAX_IMAGES) {
-                  randomlySelectedImages.push(json.rows[index]);
-                  index = (index + 1) % json.rows.length;
-                }
-              }
-
-              let message = 'Showing selected photos from camera ' + data.id;
-              if (randomlySelectedImages.length === 0) {
-                message = 'There are no photos from camera ' + data.id;
-                randomlySelectedImages = null;
-              }
-
-              this.setState({
-                viewCamera: {
-                  status: DialogScreen.DIALOG_ACTIVE,
-                  message: message,
-                  data: randomlySelectedImages
-              }});
-            })
-            .catch((err) => {
-              console.log(err);
-              this.setState({
-                viewCamera: {
-                  status: DialogScreen.DIALOG_ACTIVE,
-                  message: 'ERROR',
-                  data: null
-              }});
-            });;
+          this.showCameraView(e, latlng, pos, data, selector);
         });
         selector.mapReference = newSubLayer;
       }
@@ -273,6 +222,65 @@ class MapVisuals extends Component {
         message: null,
         data: null
     }});
+  }
+  
+  //----------------------------------------------------------------
+  
+  showCameraView(e, latlng, pos, data, selector) {
+    console.log('!'.repeat(80));
+    console.log(selector);
+    let sqlQuery = selector.calculateSql(config.cartodb.sqlQueryViewCamera, data.id);
+    console.log('Camera View: ' + sqlQuery);
+
+    this.setState({
+      viewCamera: {
+        status: DialogScreen.DIALOG_ACTIVE,
+        message: 'Loading images from camera...',
+        data: null
+    }});
+
+    fetch(config.cartodb.sqlApi.replace('{SQLQUERY}', encodeURI(sqlQuery)))
+      .then((response) => {
+        if (response.status !== 200) {
+          throw 'Can\'t reach CartoDB API, HTTP response code ' + response.status;
+        }
+        return response.json();
+      })
+      .then((json) => {
+        const MAX_IMAGES = 6;
+        let randomlySelectedImages = [];
+        if (json.rows.length <= MAX_IMAGES) {
+          randomlySelectedImages = json.rows;
+        } else {  //Select X random images.
+          let index = Math.floor(Math.random() * json.rows.length);
+          while (randomlySelectedImages.length < MAX_IMAGES) {
+            randomlySelectedImages.push(json.rows[index]);
+            index = (index + 1) % json.rows.length;
+          }
+        }
+
+        let message = 'Showing selected photos from camera ' + data.id;
+        if (randomlySelectedImages.length === 0) {
+          message = 'There are no photos from camera ' + data.id;
+          randomlySelectedImages = null;
+        }
+
+        this.setState({
+          viewCamera: {
+            status: DialogScreen.DIALOG_ACTIVE,
+            message: message,
+            data: randomlySelectedImages
+        }});
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({
+          viewCamera: {
+            status: DialogScreen.DIALOG_ACTIVE,
+            message: 'ERROR',
+            data: null
+        }});
+      });
   }
 }
 

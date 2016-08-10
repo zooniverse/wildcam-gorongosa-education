@@ -22,6 +22,7 @@ class MapControls extends Component {
     this.changeToGuided = this.changeToGuided.bind(this);
     this.changeToAdvanced = this.changeToAdvanced.bind(this);
     this.closeAllDialogs = this.closeAllDialogs.bind(this);
+    this.generateSummary = this.generateSummary.bind(this);
 
     //Initialise state
     this.state = {
@@ -38,12 +39,6 @@ class MapControls extends Component {
 
   render() {
     const thisId = this.props.selectorData.id;
-
-    let speciesText = [];
-    config.species.map((item) => {
-      (this.props.selectorData.species.indexOf(item.id) >= 0) ? speciesText.push(item.displayName) : null;
-    });
-    speciesText = speciesText.join(', ');
 
     //Input Choice: Species
     let species = [];
@@ -103,14 +98,11 @@ class MapControls extends Component {
         <section className={subPanelGuidedClass} ref="subPanel_guided">
           <button className="btn hidden" onClick={this.changeToGuided}>Standard Mode</button>
           <div className="input-row">
-            <label>Species</label>
-            {
-              (speciesText.length > 0)
-              ? <span>Viewing {speciesText}</span>
-              : <span>Viewing all species</span>
-            }
+            <div className="summary" ref="summary">Loading...</div>
+            {this.generateSummary()}
           </div>
           <div className="input-row" ref="inputRow_species">
+            <label>Species</label>
             <ul>
               {species}
             </ul>
@@ -349,6 +341,69 @@ class MapControls extends Component {
     data.css = this.refs.css.value;
     
     return data;
+  }
+  
+  generateSummary() {
+    const data = this.props.selectorData;
+    const sqlQuery = data.calculateSql(config.cartodb.sqlQueryCountItemsCountOnly);
+    console.log('Prepare CSV: ', sqlQuery);
+    fetch(config.cartodb.sqlApi.replace('{SQLQUERY}', encodeURI(sqlQuery)))
+    .then((response) => {
+      if (response.status !== 200) {
+        throw 'Can\'t reach CartoDB API, HTTP response code ' + response.status;
+      }
+      return response.json();
+    })
+    .then((json) => {
+      const count = json && json.rows && json.rows[0] && json.rows[0].count;
+
+      let speciesText = [];
+      config.species.map((item) => {
+        (data.species.indexOf(item.id) >= 0) ? speciesText.push(item.displayName) : null;
+      });
+      if (speciesText.length === 0) { speciesText = 'all species '; }
+      else if (speciesText.length > 5) { speciesText = speciesText.length + ' species '; }
+      else { speciesText = speciesText.join(', '); }
+      
+      let habitatsText = [];
+      config.habitats.map((item) => {
+        (data.habitats.indexOf(item.id) >= 0) ? habitatsText.push(item.displayName) : null;
+      });
+      if (habitatsText.length === 0) { habitatsText = 'all habitats '; }
+      else { habitatsText = habitatsText.join(', ') + ' habitat(s) '; }
+      
+      let seasonsText = [];
+      config.seasons.map((item) => {
+        (data.seasons.indexOf(item.id) >= 0) ? seasonsText.push(item.displayName) : null;
+      });
+      if (seasonsText.length === 0) { seasonsText = 'all seasons'; }
+      else { seasonsText = seasonsText.join(', ') + ' season(s)'; }
+      
+      let additionalText = [];
+      if (data.dateStart !== '' || data.dateEnd !== '') {
+        additionalText.push('Dates');
+      }
+      if (data.timesOfDay.length > 0) {
+        additionalText.push('Times of Day');
+      }
+      if (data.distanceToHumansMin !== '' || data.distanceToHumansMax !== '') {
+        additionalText.push('Distance to Humans');
+      }
+      if (data.distanceToWaterMin !== '' || data.distanceToWaterMax !== '') {
+        additionalText.push('Distance to Water');
+      }
+      additionalText = (additionalText.length === 0)
+        ? ''
+        : '<br>Additional filters for ' + additionalText.join(', ') + ' are also active.';
+      
+      this.refs.summary.innerHTML =
+        `Viewing <b>${count}</b> results for ${speciesText} in ${habitatsText} during ${seasonsText}. ${additionalText}`;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+    return null;
   }
 
   //----------------------------------------------------------------
