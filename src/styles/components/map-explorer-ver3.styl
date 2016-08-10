@@ -21,24 +21,63 @@
   .map-controls
     background: #fff
     position: absolute
-    overflow: scroll
     right: 0
     top: 0
     width: 30em
     max-width: 100%
-    height: 50%
+    max-height: 100%
+    display: flex
+    flex-direction: column
+    z-index: 1000
+    box-shadow: 0.5em 0.5em 1em #333
+    border-bottom-left-radius: 1em
     
     .summary
+      flex: 0 0 auto
       border: 1px solid #f93
       border-radius: 1em
       margin: 0.5em
       padding: 0.5em
       text-align: center
+    
+    .actions-panel
+      flex: 0 0 auto
+      margin: 0 0.5em 0.5em 0.5em
+      text-align: center
+      
+    button
+      display: inline-block
+      margin: 0 0.25em
+      
+    .options-panel
+      flex: 1 1 auto
+      overflow-y: scroll
+      margin: 0 0.5em 0.5em 0.5em
+      border: 1px solid #999
+      height: 20em
+      
+      &.expanded
+        display: block
+        
+      &.collapsed
+        display: none
       
     .filter-group
       margin: 0.5em
       padding: 0.5em
       border: 1px solid #999
+      
+      .filter-name
+        font-weight: bold
+        
+      .filter-values
+        margin-top: 0.5em
+        
+        &.expanded
+          display: block
+          
+        &.collapsed
+          display: none
       
       label
         display: block

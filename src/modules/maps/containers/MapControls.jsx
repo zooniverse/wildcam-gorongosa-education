@@ -11,9 +11,14 @@ class MapControls extends Component {
     super(props);
     this.changeFilters = this.changeFilters.bind(this);
     this.updateSummary = this.updateSummary.bind(this);
+    this.downloadCSV = this.downloadCSV.bind(this);
+    this.viewOptions = this.viewOptions.bind(this);
     
     this.state = {
-      summary: ''
+      summary: '',
+      viewOptions: true,
+      viewGroup_species: false,
+      viewGroup_habitats: false,
     };
   }
 
@@ -23,24 +28,53 @@ class MapControls extends Component {
         <div className="summary">
           {this.state.summary}
         </div>
-        <div className="filter-group">
-          {this.renderArrayTypeFilter('species')}
+        <div className="actions-panel">
+          <button className="btn btn-default" onClick={this.downloadCSV}><i className="fa fa-download" /> Download</button>
+          <button className="btn btn-primary" onClick={this.viewOptions}><i className="fa fa-bars" /> View Options</button>
         </div>
-        <div className="filter-group">
-          {this.renderArrayTypeFilter('habitats')}
-        </div>
-        <div className="filter-group">
-          {this.renderArrayTypeFilter('seasons')}
-        </div>
-        <div className="filter-group">
-          {this.renderArrayTypeFilter('timesOfDay')}
+        <div className={(this.state.viewOptions) ? 'options-panel expanded' : 'options-panel collapsed' }>
+          <div className="filter-group">
+            <div className="filter-name">
+              <button className="btn btn-default" onClick={this.viewGroupFilter('species')}><i className="fa fa-bars" /></button>
+              <span>Species</span>
+            </div>
+            <div className={(this.state.viewGroup_species) ? 'filter-values expanded' : 'filter-values collapsed' }>
+              {this.renderArrayTypeFilter('species')}
+            </div>
+          </div>
+          <div className="filter-group">
+            <div className="filter-name">
+              <button className="btn btn-default" onClick={this.viewGroupFilter('habitats')}><i className="fa fa-bars" /></button>
+              <span>Habitats</span>
+            </div>
+            <div className={(this.state.viewGroup_habitats) ? 'filter-values expanded' : 'filter-values collapsed' }>
+              {this.renderArrayTypeFilter('habitats')}
+            </div>
+          </div>
+          <div className="filter-group">
+            <div className="filter-name">
+              <button className="btn btn-default" onClick={this.viewGroupFilter('seasons')}><i className="fa fa-bars" /></button>
+              <span>Seasons</span>
+            </div>
+            <div className={(this.state.viewGroup_seasons) ? 'filter-values expanded' : 'filter-values collapsed' }>
+              {this.renderArrayTypeFilter('seasons')}
+            </div>
+          </div>          
+          <div className="filter-group">
+            <div className="filter-name">
+              <button className="btn btn-default" onClick={this.viewGroupFilter('timesOfDay')}><i className="fa fa-bars" /></button>
+              <span>Times of Day</span>
+            </div>
+            <div className={(this.state.viewGroup_timesOfDay) ? 'filter-values expanded' : 'filter-values collapsed' }>
+              {this.renderArrayTypeFilter('timesOfDay')}
+            </div>
+          </div>
         </div>
       </section>
     );
   }
   
   renderArrayTypeFilter(filterName) {
-    console.log(mapconfig[filterName]);
     return mapconfig[filterName].map((item) => {
       const checked = (this.props.mapexplorer)
         ? this.props.mapexplorer[filterName].includes(item.id)
@@ -89,6 +123,24 @@ class MapControls extends Component {
       this.setState({ summary: 'ERROR: Sorry, but we encountered issues connecting to the map database' });
       console.error(err);
     });
+  }
+  
+  downloadCSV() {
+    console.log('TEST: DOWNLOADING');
+  }
+  
+  viewOptions() {
+    this.setState({
+      viewOptions: !this.state.viewOptions
+    });
+  }
+  
+  viewGroupFilter(group = '') {
+    return () => {
+      let newVal = {};
+      newVal['viewGroup_' + group] = !this.state['viewGroup_' + group];
+      this.setState(newVal);
+    };
   }
 }
 
