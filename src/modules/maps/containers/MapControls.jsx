@@ -1,7 +1,7 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { initialState } from '../../../reducers/mapexplorer';
-import { addMapFilterValue } from '../actions/mapexplorer';
+import { addMapFilterValue, removeMapFilterValue } from '../actions/mapexplorer';
 
 const config = require('../../../constants/mapExplorer.config.json');
 
@@ -13,39 +13,50 @@ class MapControls extends Component {
   }
 
   render() {
-    let speciesFilters = config.species.map((species) => {
-      const checked = (this.props.mapexplorer)
-        ? this.props.mapexplorer.species.includes(species.id)
-        : false;
-      //const checked = false;
-      return (
-        <label key={'species_'+species.id}>
-          <input
-            type="checkbox"
-            name={'species_'+species.id}
-            checked={checked}
-            onChange={this.changeFilters}
-          />
-          {species.displayName}
-        </label>
-      );
-    });
+    
     
     return (
       <section ref="mapControls" className="map-controls">
-        {speciesFilters}
+        <div>
+          {this.renderArrayTypeFilter('species')}
+        </div>
+        <div>
+          {this.renderArrayTypeFilter('habitats')}
+        </div>
       </section>
     );
+  }
+  
+  renderArrayTypeFilter(filterName) {
+    console.log(config[filterName]);
+    return config[filterName].map((item) => {
+      const checked = (this.props.mapexplorer)
+        ? this.props.mapexplorer[filterName].includes(item.id)
+        : false;
+      return (
+        <label key={filterName+'_'+item.id}>
+          <input
+            type="checkbox"
+            name={filterName+'_'+item.id}
+            checked={checked}
+            onChange={this.changeFilters}
+          />
+          {item.displayName}
+        </label>
+      );
+    });
   }
 
   componentDidMount() {}
   componentWillReceiveProps(nextProps) {}
   
   changeFilters(e) {
-    console.log('TEST: CHANGE FILTERS');
-    console.log(e.target.name, e.target.value, e.target.checked);
     const data = e.target.name.split('_');
-    this.props.dispatch(addMapFilterValue(data[0], data[1]));
+    if (e.target.checked) {
+      this.props.dispatch(addMapFilterValue(data[0], data[1]));
+    } else {
+      this.props.dispatch(removeMapFilterValue(data[0], data[1]));
+    }
   }
 }
 

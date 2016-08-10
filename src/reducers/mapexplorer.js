@@ -1,28 +1,44 @@
 import * as types from '../constants/actionTypes';
 export const initialState = {
-  species: []
+  species: [],
+  habitats: [],
+  seasons: [],
+  dateStart: '',
+  dateEnd: '',
+  timesOfDay: [],
+  distanceToHumansMin: '',
+  distanceToHumansMax: '',
+  distanceToWaterMin: '',
+  distanceToWaterMax: '',
+  user: ''
 };
 
 export function mapexplorer(state = initialState, action) {
   switch (action.type) {
-    /*case types.ADD_MAP_SELECTOR:
-      let newSelectors = state.selectors.slice();
-      newSelectors.push(new MapSelector());
-      return Object.assign({}, state, {
-        selectors: newSelectors,
-      });*/
     case 'ADD_MAP_FILTER_VALUE':
-      const newData = {};
+      const addedData = {};
       if (Array.isArray(state[action.key])) {
         let newVal = state[action.key].slice();
         if (!newVal.includes(action.val)) {
           newVal.push(action.val);
         }
-        newData[action.key] = newVal;
+        addedData[action.key] = newVal;
       } else {
-        newData[action.key] = action.val;
+        addedData[action.key] = action.val;
       }
-      return Object.assign({}, state, newData);
+      return Object.assign({}, state, addedData);
+    
+    case 'REMOVE_MAP_FILTER_VALUE':
+      const removedData = {};
+      if (Array.isArray(state[action.key])) {
+        removedData[action.key] = state[action.key].filter(ele => {
+            return ele !== action.val
+          });
+      } else {
+        removedData[action.key] = '';
+      }
+      return Object.assign({}, state, removedData);
+    
     default:
       return state;
       

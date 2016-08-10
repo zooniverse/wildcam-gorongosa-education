@@ -1,11 +1,16 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Script } from 'react-loadscript';
+import ReactDOM from 'react-dom';
 import { initialState } from '../../../reducers/mapexplorer';
+import { MapHelper } from '../../../helpers/mapexplorer.js';
 
 const mapconfig = require('../../../constants/mapExplorer.config.json');
 const gorongosaGeodata = require('../../../map-data/gorongosa-geodata.json');
 const vegetationGeodata = require('../../../map-data/vegetation-geodata.json');
+
+import MapLegendCameras from '../components/MapLegendCameras';
+import MapLegendVegetation from '../components/MapLegendVegetation';
 
 //WARNING: DON'T import Leaflet. Leaflet 0.7.7 is packaged with cartodb.js 3.15.
 //import L from 'leaflet';
@@ -13,6 +18,8 @@ const vegetationGeodata = require('../../../map-data/vegetation-geodata.json');
 class MapVisuals extends Component {
   constructor(props) {
     super(props);
+    this.renderMarker = this.renderMarker.bind(this);
+    this.examineMarker = this.examineMarker.bind(this);
 
     //Event binding
     this.recentreMap = this.recentreMap.bind(this);
@@ -26,8 +33,6 @@ class MapVisuals extends Component {
   }
 
   render() {
-    const test = this.props.mapexplorer.species.join(', ');
-    
     return (
       <section ref="mapVisuals" className="map-visuals">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
@@ -36,11 +41,10 @@ class MapVisuals extends Component {
           ({done}) => !done ? <div className="message">Map Explorer is loading...</div> : this.initMapExplorer()
         }</Script>
         <div id="mapVisuals"></div>
-        <div id="mapVisualsDEBUG">{test}</div>
       </section>
     );
   }
-
+  
   //----------------------------------------------------------------
 
   //Initialises the Map Explorer.
@@ -77,7 +81,7 @@ class MapVisuals extends Component {
       layers: baseLayers[0]  //Set the default base layer
     });
     
-    //Create the CartoDB Geomap layer
+    //Create the Geomap layers (i.e. the geographical data like park boundaries, vegetation types, etc)
     const geomapLayers = {
       'Gorongosa National Park': L.geoJson(gorongosaGeodata.geojson, gorongosaGeodata.options).addTo(this.map),
       'Vegetation': L.geoJson(vegetationGeodata.geojson, {
@@ -94,31 +98,30 @@ class MapVisuals extends Component {
     
     //Create the CartoDB Data Layer
     this.cartodbLayer = L.geoJson(null, {
-      pointToLayer: function (feature, latlng) {
-        const MINRADIUS = 5;
-        const MAXRADIUS = 25;
-        const fillColor = (feature.properties.count > 0)
-          ? '#fc3' : '#333';
-        let radius = feature.properties.count || 0;
-        radius = 5 + radius / 100;
-        radius = Math.min(Math.max(radius, MINRADIUS), MAXRADIUS);
-        
-        const marker = L.circleMarker(latlng, {
-          color: '#fff',
-          fillColor: fillColor,
-          fillOpacity: 0.8,
-          radius: radius,
-        });
-        //TEST
-        //----------------
-        marker.on('click', (e) => {
-          alert('CLICK!');
-        });
-        //----------------
-        return marker;
-      }
+      pointToLayer: this.renderMarker
     }).addTo(this.map);
-    this.updateDataVisualisation(this.props);    
+    this.updateDataVisualisation(this.props);
+    //--------------------------------
+    
+    //Add the extra info layers
+    //--------------------------------
+    //Bonus: Add legends to map
+    const legend = L.control({position: 'bottomright'});
+    legend.onAdd = (map) => {
+      let div = L.DomUtil.create('div', '');
+      ReactDOM.render(<MapLegendCameras />, div);
+      return div;
+    };
+    legend.addTo(this.map);
+    
+    //Bonus: Add (vegetation) legends to map
+    const vegetationLegend = L.control({position: 'bottomright'});
+    vegetationLegend.onAdd = (map) => {
+      let div = L.DomUtil.create('div', '');
+      ReactDOM.render(<MapLegendVegetation />, div);
+      return div;
+    };
+    vegetationLegend.addTo(this.map);
 
     //Bonus: 'Recentre Map' button
     const recentreButton = L.control({position: 'topleft'});
@@ -142,20 +145,12 @@ class MapVisuals extends Component {
     }).addTo(this.map);
     //--------------------------------
 
-    //Cleanup then go
-    //--------------------------------
     return null;
-    //--------------------------------
   }
   
-  recentreMap() {
-    if (!this.map) return;
-    this.map.setZoom(mapconfig.mapCentre.zoom);
-    this.map.panTo([mapconfig.mapCentre.latitude, mapconfig.mapCentre.longitude]);
-  }
+  //----------------------------------------------------------------
   
   updateDataVisualisation(props = this.props) {
-    
     console.log('-'.repeat(80));
     console.log(props.mapexplorer.species);
     
@@ -165,7 +160,10 @@ class MapVisuals extends Component {
       return;
     }
     
-    let sqlWhere = '';
+    
+    let sql = MapHelper.calculateSql(props.mapexplorer, mapconfig.cartodb.sqlQueryCountItems);
+    
+    /*let sqlWhere = '';
     if (props.mapexplorer.species) {
       sqlWhere = props.mapexplorer.species.map((id) => {
         let val = mapconfig.species.find(ele => { return ele.id === id });
@@ -180,7 +178,7 @@ class MapVisuals extends Component {
       .replace('{SUBJECTS}', mapconfig.cartodb.sqlTableSubjects)
       .replace('{CLASSIFICATIONS}', mapconfig.cartodb.sqlTableClassifications)
       .replace('{AGGREGATIONS}', mapconfig.cartodb.sqlTableAggregations)
-      .replace('{WHERE}', sqlWhere);
+      .replace('{WHERE}', sqlWhere);*/
     
     console.log('SQL REQUEST: ', sql);
     
@@ -190,8 +188,37 @@ class MapVisuals extends Component {
       this.cartodbLayer.clearLayers();
       this.cartodbLayer.addData(geojson);
     });
-    
-    
+  }
+  
+  renderMarker(feature, latlng) {
+    const MINRADIUS = 5;
+    const MAXRADIUS = 25;
+    const fillColor = (feature.properties.count > 0)
+      ? '#f93' : '#333';
+    let radius = feature.properties.count || 0;
+    radius = 5 + radius / 100;
+    radius = Math.min(Math.max(radius, MINRADIUS), MAXRADIUS);
+
+    const marker = L.circleMarker(latlng, {
+      color: '#fff',
+      fillColor: fillColor,
+      fillOpacity: 0.8,
+      radius: radius,
+    });
+    marker.on('click', this.examineMarker);
+    return marker;
+  }
+  
+  examineMarker(e) {
+    const cameraId = e.target.feature.properties.id;
+    alert('EXAMINING CAMERA '+cameraId+'!');
+    console.log(e);
+  }
+  
+  recentreMap() {
+    if (!this.map) return;
+    this.map.setZoom(mapconfig.mapCentre.zoom);
+    this.map.panTo([mapconfig.mapCentre.latitude, mapconfig.mapCentre.longitude]);
   }
 }
 
