@@ -107,7 +107,7 @@ class MapVisuals extends Component {
     //Add the extra info layers
     //--------------------------------
     //Bonus: Add legends to map
-    const legend = L.control({position: 'bottomright'});
+    const legend = L.control({position: 'bottomleft'});
     legend.onAdd = (map) => {
       let div = L.DomUtil.create('div', '');
       ReactDOM.render(<MapLegendCameras />, div);
@@ -116,7 +116,7 @@ class MapVisuals extends Component {
     legend.addTo(this.map);
     
     //Bonus: Add (vegetation) legends to map
-    const vegetationLegend = L.control({position: 'bottomright'});
+    const vegetationLegend = L.control({position: 'bottomleft'});
     vegetationLegend.onAdd = (map) => {
       let div = L.DomUtil.create('div', '');
       ReactDOM.render(<MapLegendVegetation />, div);

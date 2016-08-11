@@ -1,3 +1,13 @@
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
 .map-explorer-ver3
   width: 100%
   overflow: hidden
@@ -54,30 +64,65 @@
       overflow-y: scroll
       margin: 0 0.5em 0.5em 0.5em
       border: 1px solid #999
-      height: 20em
+      height: 22em
       
       &.expanded
         display: block
+        animation: fadeIn 1s
         
       &.collapsed
         display: none
+        animation: fadeOut 1s
       
     .filter-group
       margin: 0.5em
-      padding: 0.5em
-      border: 1px solid #999
+      //padding: 0.5em
+      //border: 1px solid #999
       
       .filter-name
-        font-weight: bold
+        display: flex
+        align-items: center
+        
+        button
+          flex: 0 0 auto
+        
+        .mini-summary
+          flex 1 1 auto
+          text-align: right
+          color: #999
+          font-style: italic
+          
+          &.highlighted
+            color: #f93
         
       .filter-values
-        margin-top: 0.5em
+        margin: 0.5em 0 1em 0
+        padding: 0.5em
+        box-shadow: 0 0.2em 0.5em #999
         
         &.expanded
           display: block
+          animation: fadeIn 1s
+          
           
         &.collapsed
           display: none
+          animation: fadeOut 1s
+        
+        &.range-type
+          display: flex
+          justify-content: center
+          
+          span
+            flex: 0 0 auto
+            text-align: center
+            margin: 0 0.5em
+            
+          input
+            display: inline-block
+            flex: 0 0 auto
+            width: 11em
+            text-align: center
       
       label
         display: block
@@ -85,7 +130,8 @@
         font-weight: normal
         
         input[type=checkbox]
-          visibility: hidden
+          visibility: visible
+          margin: 0 0.5em
         
         &.selected
           background: #f93

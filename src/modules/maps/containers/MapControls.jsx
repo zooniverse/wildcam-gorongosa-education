@@ -4,21 +4,21 @@ import { initialState } from '../../../reducers/mapexplorer';
 import { MapHelper } from '../../../helpers/mapexplorer.js';
 import { addMapFilterValue, removeMapFilterValue } from '../actions/mapexplorer';
 
+import MapFiltersArray from '../components/MapFiltersArray';
+import MapFiltersRange from '../components/MapFiltersRange';
+
 const mapconfig = require('../../../constants/mapExplorer.config.json');
 
 class MapControls extends Component {
   constructor(props) {
     super(props);
-    this.changeFilters = this.changeFilters.bind(this);
     this.updateSummary = this.updateSummary.bind(this);
     this.downloadCSV = this.downloadCSV.bind(this);
-    this.viewOptions = this.viewOptions.bind(this);
+    this.viewFilters = this.viewFilters.bind(this);
     
     this.state = {
       summary: '',
-      viewOptions: true,
-      viewGroup_species: false,
-      viewGroup_habitats: false,
+      viewFilters: true,
     };
   }
 
@@ -30,80 +30,23 @@ class MapControls extends Component {
         </div>
         <div className="actions-panel">
           <button className="btn btn-default" onClick={this.downloadCSV}><i className="fa fa-download" /> Download</button>
-          <button className="btn btn-primary" onClick={this.viewOptions}><i className="fa fa-bars" /> View Options</button>
+          <button className="btn btn-primary" onClick={this.viewFilters}><i className="fa fa-bars" /> Result Filters</button>
         </div>
-        <div className={(this.state.viewOptions) ? 'options-panel expanded' : 'options-panel collapsed' }>
-          <div className="filter-group">
-            <div className="filter-name">
-              <button className="btn btn-default" onClick={this.viewGroupFilter('species')}><i className="fa fa-bars" /></button>
-              <span>Species</span>
-            </div>
-            <div className={(this.state.viewGroup_species) ? 'filter-values expanded' : 'filter-values collapsed' }>
-              {this.renderArrayTypeFilter('species')}
-            </div>
-          </div>
-          <div className="filter-group">
-            <div className="filter-name">
-              <button className="btn btn-default" onClick={this.viewGroupFilter('habitats')}><i className="fa fa-bars" /></button>
-              <span>Habitats</span>
-            </div>
-            <div className={(this.state.viewGroup_habitats) ? 'filter-values expanded' : 'filter-values collapsed' }>
-              {this.renderArrayTypeFilter('habitats')}
-            </div>
-          </div>
-          <div className="filter-group">
-            <div className="filter-name">
-              <button className="btn btn-default" onClick={this.viewGroupFilter('seasons')}><i className="fa fa-bars" /></button>
-              <span>Seasons</span>
-            </div>
-            <div className={(this.state.viewGroup_seasons) ? 'filter-values expanded' : 'filter-values collapsed' }>
-              {this.renderArrayTypeFilter('seasons')}
-            </div>
-          </div>          
-          <div className="filter-group">
-            <div className="filter-name">
-              <button className="btn btn-default" onClick={this.viewGroupFilter('timesOfDay')}><i className="fa fa-bars" /></button>
-              <span>Times of Day</span>
-            </div>
-            <div className={(this.state.viewGroup_timesOfDay) ? 'filter-values expanded' : 'filter-values collapsed' }>
-              {this.renderArrayTypeFilter('timesOfDay')}
-            </div>
-          </div>
+        <div className={(this.state.viewFilters) ? 'options-panel expanded' : 'options-panel collapsed' }>
+          <MapFiltersArray displayName="Species" keyName="species" />
+          <MapFiltersArray displayName="Habitats" keyName="habitats" />
+          <MapFiltersArray displayName="Seasons" keyName="seasons" />
+          <MapFiltersArray displayName="Times of Day" keyName="timesOfDay" />
+          <MapFiltersRange displayName="Date" keyMinName="dateStart" keyMaxName="dateEnd" datatype="date" />
+          <MapFiltersRange displayName="Distance to Humans (m)" keyMinName="distanceToHumansMin" keyMaxName="distanceToHumansMax" minVal="0" maxVal="1000" suffix="m" />
+          <MapFiltersRange displayName="Distance to Water (m)" keyMinName="distanceToWaterMin" keyMaxName="distanceToWaterMax" minVal="0" maxVal="1000" suffix="m" />
         </div>
       </section>
     );
   }
   
-  renderArrayTypeFilter(filterName) {
-    return mapconfig[filterName].map((item) => {
-      const checked = (this.props.mapexplorer)
-        ? this.props.mapexplorer[filterName].includes(item.id)
-        : false;
-      return (
-        <label key={filterName+'_'+item.id} className={(checked) ? 'selected' : ''}>
-          <input
-            type="checkbox"
-            name={filterName+'_'+item.id}
-            checked={checked}
-            onChange={this.changeFilters}
-          />
-          {item.displayName}
-        </label>
-      );
-    });
-  }
-
   componentDidMount() { this.updateSummary(); }
   componentWillReceiveProps(nextProps) { this.updateSummary(nextProps); }
-  
-  changeFilters(e) {
-    const data = e.target.name.split('_');
-    if (e.target.checked) {
-      this.props.dispatch(addMapFilterValue(data[0], data[1]));
-    } else {
-      this.props.dispatch(removeMapFilterValue(data[0], data[1]));
-    }
-  }
   
   updateSummary(props = this.props) {
     let sql = MapHelper.calculateSql(props.mapexplorer, mapconfig.cartodb.sqlQueryCountItemsCountOnly);
@@ -129,13 +72,13 @@ class MapControls extends Component {
     console.log('TEST: DOWNLOADING');
   }
   
-  viewOptions() {
+  viewFilters() {
     this.setState({
-      viewOptions: !this.state.viewOptions
+      viewFilters: !this.state.viewFilters
     });
   }
   
-  viewGroupFilter(group = '') {
+  viewFilterGroup(group = '') {
     return () => {
       let newVal = {};
       newVal['viewGroup_' + group] = !this.state['viewGroup_' + group];
