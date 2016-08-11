@@ -10,7 +10,8 @@ export const initialState = {
   distanceToHumansMax: '',
   distanceToWaterMin: '',
   distanceToWaterMax: '',
-  user: ''
+  user: '',
+  camera: '',
 };
 
 export function mapexplorer(state = initialState, action) {

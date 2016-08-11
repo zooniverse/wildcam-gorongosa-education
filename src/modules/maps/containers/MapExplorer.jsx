@@ -13,9 +13,9 @@ Gorongosa's collected data & information about wildlife, etc on a visual map.
 
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-const config = require('../../../constants/mapExplorer.config.json');
 import MapControls from './MapControls';
 import MapVisuals from './MapVisuals';
+import DialogCameraViewer from '../components/DialogCameraViewer';
 
 class MapExplorerVer3 extends Component {
   constructor(props) {
@@ -36,6 +36,7 @@ class MapExplorerVer3 extends Component {
       <div ref="mapExplorer" className="map-explorer-ver3">
         <MapVisuals />
         <MapControls />
+        <DialogCameraViewer />
       </div>
     );
   }
