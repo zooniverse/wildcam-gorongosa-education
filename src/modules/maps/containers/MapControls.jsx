@@ -1,5 +1,6 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import { initialState } from '../../../reducers/mapexplorer';
 import { MapHelper } from '../../../helpers/mapexplorer.js';
 import { enableSelectForAssignmentMode } from '../actions/mapexplorer';
@@ -23,16 +24,14 @@ class MapControls extends Component {
     };
   }
 
-  render() {
-    const teacherMode = true;
-    
+  render() {  
     return (
       <section ref="mapControls" className="map-controls">
         <div className="summary">
           {this.state.summary}
         </div>
         <div className="actions-panel">
-          {(teacherMode) 
+          {(this.props.teacherMode) 
             ? <button className="btn btn-primary" onClick={this.selectForAssignment}>
                 <i className="fa fa-book" /> Select for Assignment
               </button>
@@ -99,9 +98,11 @@ class MapControls extends Component {
 }
 
 MapControls.propTypes = {
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  teacherMode: PropTypes.bool,
 };
 MapControls.defaultProps = { 
+  teacherMode: false,
   mapexplorer: initialState
 };
 function mapStateToProps(state, ownProps) {  //Listens for changes in the Redux Store

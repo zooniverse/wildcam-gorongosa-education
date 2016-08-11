@@ -36,7 +36,7 @@ class MapExplorerVer3 extends Component {
     return (  //Reminder: the parent .content-section is a <main>, so don't set .map-explorer as <main> as well.
       <div ref="mapExplorer" className="map-explorer-ver3">
         <MapVisuals />
-        <MapControls />
+        <MapControls teacherMode={teacherMode} />
         <DialogCameraViewer />
         <DialogSelectForAssignment />
       </div>
