@@ -2,7 +2,7 @@ import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { initialState } from '../../../reducers/mapexplorer';
 import { MapHelper } from '../../../helpers/mapexplorer.js';
-import { removeMapFilterValue } from '../actions/mapexplorer';
+import { disableViewCameraMode } from '../actions/mapexplorer';
 
 const mapconfig = require('../../../constants/mapExplorer.config.json');
 
@@ -24,7 +24,7 @@ class DialogCameraViewer extends Component {
   }
 
   render() {
-    if (this.props.mapexplorer.camera === '') return null;
+    if (!this.props.mapexplorer.viewCameraMode) return null;
     
     return (
       <section role="dialog" className="dialog-ver3 view-camera" onClick={this.closeMe}>
@@ -40,11 +40,6 @@ class DialogCameraViewer extends Component {
     );
   }
   
-  /*componentDidMount() {
-    this.fetchMeta();
-    this.fetchData();
-  }*/
-  
   componentWillReceiveProps(nextProps) {
     if (nextProps.mapexplorer.camera !== '' &&
         nextProps.mapexplorer.camera !== this.props.mapexplorer.camera) {
@@ -54,7 +49,7 @@ class DialogCameraViewer extends Component {
   }
   
   closeMe(e) {
-    this.props.dispatch(removeMapFilterValue('camera'));
+    this.props.dispatch(disableViewCameraMode());
   }
   
   //'Eats up' events to prevent them from bubbling to a parent element.
@@ -103,13 +98,11 @@ class DialogCameraViewer extends Component {
       let message = 'No information for this camera';
       if (json && json.rows && json.rows[0]) {
         const data = json.rows[0];
-        console.log('>'.repeat(80));
-        console.log(data);
         message =
           'Lat: '+data.latitude+', Long: '+data.longitude+', ' +
           data.veg_type+', ' +
           data.dist_humans_m+'m from a '+data.human_type+', ' +
-          data.dist_water_m+'m from a '+data.water_type+'. ';
+          data.dist_water_m+'m from a '+data.water_type;
       }
       this.setState({
         meta: message,

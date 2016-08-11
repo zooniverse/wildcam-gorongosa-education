@@ -12,6 +12,8 @@ export const initialState = {
   distanceToWaterMax: '',
   user: '',
   camera: '',
+  viewCameraMode: false,
+  assignmentSelectionMode: false,
 };
 
 export function mapexplorer(state = initialState, action) {
@@ -40,8 +42,19 @@ export function mapexplorer(state = initialState, action) {
       }
       return Object.assign({}, state, removedData);
     
+    case 'ENABLE_VIEW_CAMERA_MODE':
+      return Object.assign({}, state, {
+        camera: action.camera,
+        viewCameraMode: true,
+      });
+      
+    case 'DISABLE_VIEW_CAMERA_MODE':
+      return Object.assign({}, state, {
+        camera: '',
+        viewCameraMode: false,
+      });
+      
     default:
       return state;
-      
   }
 }

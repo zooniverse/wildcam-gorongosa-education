@@ -20,3 +20,20 @@ export function removeMapFilterValue(key, val) {
     });
   };
 }
+
+export function enableViewCameraMode(camera) {
+  return (dispatch) => {
+    dispatch({
+      type: 'ENABLE_VIEW_CAMERA_MODE',
+      camera
+    });
+  };
+}
+
+export function disableViewCameraMode() {
+  return (dispatch) => {
+    dispatch({
+      type: 'DISABLE_VIEW_CAMERA_MODE'
+    });
+  };
+}

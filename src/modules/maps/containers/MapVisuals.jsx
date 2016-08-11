@@ -4,7 +4,7 @@ import { Script } from 'react-loadscript';
 import ReactDOM from 'react-dom';
 import { initialState } from '../../../reducers/mapexplorer';
 import { MapHelper } from '../../../helpers/mapexplorer.js';
-import { addMapFilterValue } from '../actions/mapexplorer';
+import { enableViewCameraMode } from '../actions/mapexplorer';
 
 const mapconfig = require('../../../constants/mapExplorer.config.json');
 const gorongosaGeodata = require('../../../map-data/gorongosa-geodata.json');
@@ -190,7 +190,7 @@ class MapVisuals extends Component {
   
   examineMarker(e) {
     const cameraId = e.target.feature.properties.id;
-    this.props.dispatch(addMapFilterValue('camera', cameraId));
+    this.props.dispatch(enableViewCameraMode(cameraId));
   }
   
   recentreMap() {
