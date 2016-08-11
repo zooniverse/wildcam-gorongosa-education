@@ -6,6 +6,7 @@ import { addMapFilterValue, removeMapFilterValue } from '../actions/mapexplorer'
 
 import MapFiltersArray from '../components/MapFiltersArray';
 import MapFiltersRange from '../components/MapFiltersRange';
+import MapDownloadButton from '../components/MapDownloadButton';
 
 const mapconfig = require('../../../constants/mapExplorer.config.json');
 
@@ -13,12 +14,11 @@ class MapControls extends Component {
   constructor(props) {
     super(props);
     this.updateSummary = this.updateSummary.bind(this);
-    this.downloadCSV = this.downloadCSV.bind(this);
     this.viewFilters = this.viewFilters.bind(this);
     
     this.state = {
       summary: '',
-      viewFilters: true,
+      viewFilters: false,
     };
   }
 
@@ -29,8 +29,10 @@ class MapControls extends Component {
           {this.state.summary}
         </div>
         <div className="actions-panel">
-          <button className="btn btn-default" onClick={this.downloadCSV}><i className="fa fa-download" /> Download</button>
-          <button className="btn btn-primary" onClick={this.viewFilters}><i className="fa fa-bars" /> Result Filters</button>
+          <MapDownloadButton />
+          <button className="btn btn-primary" onClick={this.viewFilters}>
+            <i className="fa fa-bars" /> {(this.state.viewFilters) ? 'Hide Filters' : 'View Filters' }
+          </button>
         </div>
         <div className={(this.state.viewFilters) ? 'options-panel expanded' : 'options-panel collapsed' }>
           <MapFiltersArray displayName="Species" keyName="species" />
@@ -66,10 +68,6 @@ class MapControls extends Component {
       this.setState({ summary: 'ERROR: Sorry, but we encountered issues connecting to the map database' });
       console.error(err);
     });
-  }
-  
-  downloadCSV() {
-    console.log('TEST: DOWNLOADING');
   }
   
   viewFilters() {

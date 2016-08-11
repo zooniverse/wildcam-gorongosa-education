@@ -160,7 +160,6 @@ class MapVisuals extends Component {
     }
     
     let sql = MapHelper.calculateSql(props.mapexplorer, mapconfig.cartodb.sqlQueryCountItems);    
-    console.log('*'.repeat(80), '\nSQL REQUEST: ', sql);
     let cartoSql = cartodb.SQL({user: 'shaunanoordin-zooniverse', format: 'geojson'});
     cartoSql.execute(sql)
     .done((geojson) => {
