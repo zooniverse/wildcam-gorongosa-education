@@ -13,7 +13,7 @@ export const initialState = {
   user: '',
   camera: '',
   viewCameraMode: false,
-  assignmentSelectionMode: false,
+  selectForAssignmentMode: false,
 };
 
 export function mapexplorer(state = initialState, action) {
@@ -52,6 +52,16 @@ export function mapexplorer(state = initialState, action) {
       return Object.assign({}, state, {
         camera: '',
         viewCameraMode: false,
+      });
+      
+    case 'ENABLE_SELECT_FOR_ASSIGNMENT_MODE':
+      return Object.assign({}, state, {
+        selectForAssignmentMode: true,
+      });
+      
+    case 'DISABLE_SELECT_FOR_ASSIGNMENT_MODE':
+      return Object.assign({}, state, {
+        selectForAssignmentMode: false,
       });
       
     default:

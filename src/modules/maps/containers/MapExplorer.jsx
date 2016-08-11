@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import MapControls from './MapControls';
 import MapVisuals from './MapVisuals';
 import DialogCameraViewer from '../components/DialogCameraViewer';
+import DialogSelectForAssignment from '../components/DialogSelectForAssignment';
 
 class MapExplorerVer3 extends Component {
   constructor(props) {
@@ -37,6 +38,7 @@ class MapExplorerVer3 extends Component {
         <MapVisuals />
         <MapControls />
         <DialogCameraViewer />
+        <DialogSelectForAssignment />
       </div>
     );
   }

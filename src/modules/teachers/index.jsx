@@ -2,8 +2,7 @@ import React from 'react';
 import { Router, Route, IndexRoute, IndexRedirect } from 'react-router';
 import { Provider } from 'react-redux';
 
-import MapExplorerContainer from '../common/containers/MapExplorer.jsx';
-
+import MapExplorerVer3 from '../maps/containers/MapExplorer.jsx';
 import ClassroomContainer from './containers/ClassroomContainer.jsx';
 import ClassroomsContainer from './containers/ClassroomsContainer.jsx';
 import EditClassroomContainer from './containers/EditClassroomContainer.jsx';
@@ -32,7 +31,7 @@ const teacherRoutes = store => (
           <Route path=":classroomId/assignments/:assignmentId/edit" component={ EditAssignmentContainer } />
           <Route path=":classroomId" component={ ClassroomContainer } />
         </Route>
-        <Route path="data" component={ MapExplorerContainer } />
+        <Route path="data" component={MapExplorerVer3} />
         <Route path="tutorial" component={ TutorialForTeachers } />
         <Route path="resources" component={ Resources } />
       </Route>

@@ -37,3 +37,19 @@ export function disableViewCameraMode() {
     });
   };
 }
+
+export function enableSelectForAssignmentMode() {
+  return (dispatch) => {
+    dispatch({
+      type: 'ENABLE_SELECT_FOR_ASSIGNMENT_MODE'
+    });
+  };
+}
+
+export function disableSelectForAssignmentMode() {
+  return (dispatch) => {
+    dispatch({
+      type: 'DISABLE_SELECT_FOR_ASSIGNMENT_MODE'
+    });
+  };
+}

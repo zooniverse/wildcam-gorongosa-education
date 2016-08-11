@@ -2,7 +2,7 @@ import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { initialState } from '../../../reducers/mapexplorer';
 import { MapHelper } from '../../../helpers/mapexplorer.js';
-import { addMapFilterValue, removeMapFilterValue } from '../actions/mapexplorer';
+import { enableSelectForAssignmentMode } from '../actions/mapexplorer';
 
 import MapFiltersArray from '../components/MapFiltersArray';
 import MapFiltersRange from '../components/MapFiltersRange';
@@ -15,6 +15,7 @@ class MapControls extends Component {
     super(props);
     this.updateSummary = this.updateSummary.bind(this);
     this.viewFilters = this.viewFilters.bind(this);
+    this.selectForAssignment = this.selectForAssignment.bind(this);
     
     this.state = {
       summary: '',
@@ -23,12 +24,20 @@ class MapControls extends Component {
   }
 
   render() {
+    const teacherMode = true;
+    
     return (
       <section ref="mapControls" className="map-controls">
         <div className="summary">
           {this.state.summary}
         </div>
         <div className="actions-panel">
+          {(teacherMode) 
+            ? <button className="btn btn-primary" onClick={this.selectForAssignment}>
+                <i className="fa fa-book" /> Select for Assignment
+              </button>
+            : null
+          }
           <MapDownloadButton />
           <button className="btn btn-primary" onClick={this.viewFilters}>
             <i className="fa fa-bars" /> {(this.state.viewFilters) ? 'Hide Filters' : 'View Filters' }
@@ -82,6 +91,10 @@ class MapControls extends Component {
       newVal['viewGroup_' + group] = !this.state['viewGroup_' + group];
       this.setState(newVal);
     };
+  }
+  
+  selectForAssignment() {
+    this.props.dispatch(enableSelectForAssignmentMode());
   }
 }
 
