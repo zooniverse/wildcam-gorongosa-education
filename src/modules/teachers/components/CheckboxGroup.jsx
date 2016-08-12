@@ -19,6 +19,7 @@ class CheckboxGroup extends Component {
     e.target.value = this.getCheckboxValues(e.target.name);
     this.props.onChange(e);
   }
+  
   render() {
     const options = this.props.options.map((option) =>
       <li>
@@ -32,7 +33,8 @@ class CheckboxGroup extends Component {
           {option.label}
         </label>
       </li>
-    )
+    );
+
     return (
       <div>
         <p>{this.props.question}</p>
