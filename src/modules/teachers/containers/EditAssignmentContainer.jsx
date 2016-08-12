@@ -35,7 +35,7 @@ class EditAssignmentContainer extends Component {
   }
 
   render() {
-    const { assignment, classrooms, params, student_data } = this.props;
+    const { assignment, classrooms, loading, params, student_data } = this.props;
     const fields = this.getFormFields();
     return (
       <div className="col-md-4">
@@ -46,6 +46,7 @@ class EditAssignmentContainer extends Component {
           submitForm={this.submitForm}
           fields={fields}
           classrooms={classrooms}
+          loading={loading}
           params={params}
           student_data={student_data}
         />
@@ -55,7 +56,11 @@ class EditAssignmentContainer extends Component {
 }
 
 EditAssignmentContainer.propTypes = {
+  assignment: PropTypes.object.isRequired,
+  classrooms: PropTypes.object.isRequired,
   editAssignment: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  student_data: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = state => {
@@ -65,6 +70,7 @@ const mapStateToProps = state => {
     return {
       assignment: data.find(assignment => assignment.id === editId),
       classrooms: state.teacher.classrooms,
+      loading: state.assignment.assignments.loading,
       student_data: student_data,
     }
   } else {

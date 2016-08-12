@@ -10,7 +10,8 @@ import AssignmentForm from '../components/AssignmentForm';
 class NewAssignmentContainer extends Component {
 
   render() {
-    const { classrooms, createAssignment, params } = this.props;
+    const { assignments, classrooms, createAssignment, params } = this.props;
+    const loading = assignments.loading;
     return (
       <div className="col-md-4">
         <div className='page-header'>
@@ -18,6 +19,7 @@ class NewAssignmentContainer extends Component {
         </div>
         <AssignmentForm
           classrooms={classrooms}
+          loading={loading}
           params={params}
           submitForm={createAssignment}
         />
@@ -27,6 +29,7 @@ class NewAssignmentContainer extends Component {
 }
 
 NewAssignmentContainer.propTypes = {
+  assignments: PropTypes.object.isRequired,
   createAssignment: PropTypes.func.isRequired,
   classrooms: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
@@ -36,6 +39,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators({ createAssignment }, dispatch);
 
 const mapStateToProps = state => ({
+  assignments: state.assignment.assignments,
   classrooms: state.teacher.classrooms
 });
 
