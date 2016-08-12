@@ -8,6 +8,7 @@ const initialState = {
   description: '',
   duedate: '',
   filters: {},
+  loading: false,
   name: '',
   students: [],
   subjects: [],
@@ -32,7 +33,16 @@ class AssignmentForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState(nextProps.fields);
+//  There surely is a better logic for handling this
+
+    if (this.props.loading !== nextProps.loading) {
+      this.setState({
+        loading: nextProps.loading
+      });
+    }
+    if (nextProps.fields) {
+      this.setState(nextProps.fields);
+    }
   }
 
   toggleStudent(e) {
@@ -285,7 +295,7 @@ class AssignmentForm extends Component {
           <a className="btn btn-default" onClick={this.selectNewSubjects}>Select images</a>
         </div>
         <div className="form-group">
-          <button type="submit" className="btn btn-primary pull-right">Submit</button>
+          <button type="submit" disabled={this.state.loading} className="btn btn-primary pull-right">Submit</button>
         </div>
       </form>
     );
