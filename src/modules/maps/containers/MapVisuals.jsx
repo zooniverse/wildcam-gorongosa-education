@@ -7,8 +7,8 @@ import { MapHelper } from '../../../helpers/mapexplorer.js';
 import { enableViewCameraMode } from '../actions/mapexplorer';
 
 const mapconfig = require('../../../constants/mapExplorer.config.json');
-const gorongosaGeodata = require('../../../map-data/gorongosa-geodata.json');
-const vegetationGeodata = require('../../../map-data/vegetation-geodata.json');
+const gorongosaGeodata = require('../data/gorongosa-geodata.json');
+const vegetationGeodata = require('../data/vegetation-geodata.json');
 
 import MapLegendCameras from '../components/MapLegendCameras';
 import MapLegendVegetation from '../components/MapLegendVegetation';
