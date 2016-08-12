@@ -144,7 +144,49 @@ function csvfyJson(json) {
   return data = data.join('\n');
 }
 
-// Note: we don't need to sotre the classifications data in the store,
+// Note: we don't need to store the aggregated data in the store,
+// so this action doesn't modify the state and hence there are no corresponding reducers.
+
+export function fetchAggregatedData(subjectsIds) {
+  const whereCondition = 'WHERE items.subject_id IN (' + subjectsIds + ')';
+  const sqlQuery = mapConfig.cartodb.sqlQueryDownload
+    .replace(/{CAMERAS}/ig, mapConfig.cartodb.sqlTableCameras)
+    .replace(/{SUBJECTS}/ig, mapConfig.cartodb.sqlTableSubjects)
+    .replace(/{AGGREGATIONS}/ig, mapConfig.cartodb.sqlTableAggregations)
+    .replace('{WHERE}', whereCondition);
+  console.log('Prepare CSV: ', sqlQuery);
+  return (dispatch) => {
+    dispatch({
+      type: types.REQUEST_AGGREGATIONS,
+    });
+
+    return fetch(mapConfig.cartodb.sqlApi.replace('{SQLQUERY}', encodeURI(sqlQuery)))
+      .then((response) => {
+        if (response.status !== 200) {
+          throw 'Can\'t reach CartoDB API, HTTP response code ' + response.status;
+        }
+        return response.json();
+      })
+      .then(json => {
+      dispatch({
+          type: types.RECEIVE_AGGREGATIONS,
+          data: json,
+          error: false,
+          loading: false,
+        });
+        downloadCsv(csvfyJson(json));
+      })
+      .catch(error => dispatch({
+        type: types.RECEIVE_AGGREGATIONS_ERROR,
+        data: [],
+        error: error,
+        loading: false,
+      })
+    );
+  }
+}
+
+// Note: we don't need to store the classifications data in the store,
 // so this action doesn't modify the state and hence there are no corresponding reducers.
 
 export function fetchStudentClassifications(assignment, user) {

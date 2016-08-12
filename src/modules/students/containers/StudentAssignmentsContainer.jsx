@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import ClassroomAssignments from '../components/ClassroomAssignments';
-import { fetchStudentClassifications, fetchStudentClassrooms, fetchStudentAssignments } from '../actions';
+import { fetchAggregatedData, fetchStudentClassifications, fetchStudentClassrooms, fetchStudentAssignments } from '../actions';
 
 
 class StudentAssignmentsContainer extends Component {
@@ -51,6 +51,7 @@ class StudentAssignmentsContainer extends Component {
             duedate: assignment.attributes.metadata.duedate,
             name: assignment.attributes.name,
             target: assignment.attributes.metadata.classifications_target,
+            subjects: assignment.attributes.metadata.subjects,
             classification_count: getClassificationCount(assignment),
             workflow_id: assignment.attributes.workflow_id
           }))
@@ -64,10 +65,12 @@ class StudentAssignmentsContainer extends Component {
     const classroomData = this.createClassroomAssignmentData();
     const { actions, assignments, classrooms, user } = this.props;
     const boundFetchStudentClassifications = actions.fetchStudentClassifications.bind(this);
+    const boundFetchAggregatedData = actions.fetchAggregatedData.bind(this);
     return classrooms.loading || assignments.loading
       ? <div>Loading assignments...</div>
       : <ClassroomAssignments
           data={ classroomData }
+          fetchAggregations={ boundFetchAggregatedData }
           fetchClassifications={ boundFetchStudentClassifications }
           student_data={ assignments.student_data }
           user={ user }/>;
@@ -77,6 +80,7 @@ class StudentAssignmentsContainer extends Component {
 
 const mapDispatchToProps = dispatch => ({
   actions: {
+    fetchAggregatedData: bindActionCreators(fetchAggregatedData, dispatch),
     fetchStudentClassifications: bindActionCreators(fetchStudentClassifications, dispatch),
     fetchStudentClassrooms: bindActionCreators(fetchStudentClassrooms, dispatch),
     fetchStudentAssignments: bindActionCreators(fetchStudentAssignments, dispatch),
