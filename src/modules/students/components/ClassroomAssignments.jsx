@@ -4,10 +4,15 @@ class ClassroomAssignments extends Component {
   constructor(props) {
     super(props);
     this.fetchClassifications = this.fetchClassifications.bind(this);
+    this.fetchAggregations = this.fetchAggregations.bind(this);
   }
 
   fetchClassifications(assignment, user) {
-    this.props.fetchClassifications(assignment, user)
+    this.props.fetchClassifications(assignment, user);
+  }
+
+  fetchAggregations(subjectsIds) {
+    this.props.fetchAggregations(subjectsIds);
   }
 
   render() {
@@ -45,11 +50,19 @@ class ClassroomAssignments extends Component {
                 </td>
                 <td>
                   <button
-                  className="btn btn-default"
-                  onClick={() => {this.fetchClassifications(assignment, user)}}
-                  type="button">
-                  Download
-                </button>
+                    className="btn btn-default"
+                    onClick={() => {this.fetchClassifications(assignment, user)}}
+                    type="button">
+                    Download
+                  </button>
+                </td>
+                <td>
+                  <button
+                    className="btn btn-default"
+                    onClick={() => {this.fetchAggregations(assignment.subjects)}}
+                    type="button">
+                    Aggregations
+                  </button>
                 </td>
               </tr>
             ) }
