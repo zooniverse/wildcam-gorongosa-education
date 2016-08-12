@@ -92,7 +92,7 @@ class AssignmentForm extends Component {
 
     //NOTE: According to Marten, it's perfectly OK to create an assignment with no students or subjects.
     //--------
-    if (newAssignment.students.length > 0 && newAssignment.subjects.length) {
+    if (newAssignment.students.length > 0 && newAssignment.subjects.length > 0) {
       sessionStorage.removeItem('savedNewAssignment');
       sessionStorage.removeItem('savedClassroomId');
       sessionStorage.removeItem('savedSubjectsLocations');
@@ -121,7 +121,7 @@ class AssignmentForm extends Component {
           <thead>
             <tr>
               <th>Students</th>
-              <th>Progress</th>
+              <th>Progress (updated daily)</th>
             </tr>
           </thead>
           <tbody>

@@ -24,7 +24,7 @@ class ClassroomAssignments extends Component {
                 <th>Name</th>
                 <th>Description</th>
                 <th>Due date</th>
-                <th>Progress</th>
+                <th>Progress (updated daily)</th>
                 <th>Action</th>
               </tr>
             </thead>
