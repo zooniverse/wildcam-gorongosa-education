@@ -98,16 +98,12 @@ class DialogTutorial extends Component {
     let input = (text || '').split('\n').map((line) => { return line.trim(); });
     return input.map((line, index, array) => {
       let thisLine = line;
-      console.log('x'.repeat(80));
-      console.log(thisLine);
-      console.log(thisLine.indexOf('*'));
       if (thisLine.indexOf('*') > 0) {
         thisLine = thisLine.split('*').map((fragment, index2) => {
           return (index2 % 2 === 1)
             ? <span key={index+'_'+index2} className="bold">{fragment}</span>
             : <span key={index+'_'+index2}>{fragment}</span>
         });
-        console.log(thisLine);
       }
       return <p key={index}>{thisLine}</p>
     });
