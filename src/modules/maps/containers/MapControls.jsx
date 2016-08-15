@@ -8,6 +8,7 @@ import { enableSelectForAssignmentMode } from '../actions/mapexplorer';
 import MapFiltersArray from '../components/MapFiltersArray';
 import MapFiltersRange from '../components/MapFiltersRange';
 import MapDownloadButton from '../components/MapDownloadButton';
+import DialogTutorial from '../../common/components/DialogTutorial.jsx';
 
 const mapconfig = require('../../../constants/mapExplorer.config.json');
 
@@ -41,6 +42,12 @@ class MapControls extends Component {
           <button className="btn btn-primary" onClick={this.viewFilters}>
             <i className="fa fa-bars" /> {(this.state.viewFilters) ? 'Hide Filters' : 'View Filters' }
           </button>
+          {(this.props.studentMode)
+            ? <DialogTutorial
+                name="explorers"
+                data={require('../../common/data/tutorial-explorers.js').default} />
+            : null
+          }
         </div>
         <div className={(this.state.viewFilters) ? 'options-panel expanded' : 'options-panel collapsed' }>
           <MapFiltersArray displayName="Species" keyName="species" />
@@ -100,9 +107,11 @@ class MapControls extends Component {
 MapControls.propTypes = {
   dispatch: PropTypes.func.isRequired,
   teacherMode: PropTypes.bool,
+  studentMode: PropTypes.bool,
 };
 MapControls.defaultProps = { 
   teacherMode: false,
+  studentMode: false,
   mapexplorer: initialState
 };
 function mapStateToProps(state, ownProps) {  //Listens for changes in the Redux Store

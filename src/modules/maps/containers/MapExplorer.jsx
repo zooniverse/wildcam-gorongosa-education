@@ -33,10 +33,11 @@ class MapExplorerVer3 extends Component {
 
   render() {
     const teacherMode = this.props.location.pathname.includes('teachers');
+    const studentMode = this.props.location.pathname.includes('students');
     return (  //Reminder: the parent .content-section is a <main>, so don't set .map-explorer as <main> as well.
       <div ref="mapExplorer" className="map-explorer-ver3">
         <MapVisuals />
-        <MapControls teacherMode={teacherMode} />
+        <MapControls teacherMode={teacherMode} studentMode={studentMode} />
         <DialogCameraViewer />
         <DialogSelectForAssignment />
       </div>

@@ -9,8 +9,8 @@ const ClassroomsOverview = (props, context) => {
     <div className="page-header">
       <span className="float-right">
         <DialogTutorial
-          name="example"
-          data={require('../../common/data/tutorial-example.js').default} />
+          name="educators"
+          data={require('../../common/data/tutorial-educators.js').default} />
       </span>
       <h1>Overview</h1>
     </div>
