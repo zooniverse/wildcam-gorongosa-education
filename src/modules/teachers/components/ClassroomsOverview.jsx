@@ -1,11 +1,17 @@
 import { PropTypes } from 'react';
 
-import Spinner from '../../common/components/Spinner.jsx'
+import Spinner from '../../common/components/Spinner.jsx';
+import DialogTutorial from '../../common/components/DialogTutorial.jsx';
 
 const ClassroomsOverview = (props, context) => {
   const { classrooms } = context;
   return ( <section className="content-view">
     <div className="page-header">
+      <span className="float-right">
+        <DialogTutorial
+          name="example"
+          data={require('../../common/data/tutorial-example.js').default} />
+      </span>
       <h1>Overview</h1>
     </div>
     <div className="row">
