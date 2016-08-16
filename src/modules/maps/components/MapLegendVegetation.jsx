@@ -1,5 +1,5 @@
 import { PropTypes } from 'react';
-const vegetationGeodata = require('../../../map-data/vegetation-geodata.json');
+const vegetationGeodata = require('../data/vegetation-geodata.json');
 
 const MapLegendVegetation = (props) => {
   let keys = [];

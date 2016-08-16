@@ -29,7 +29,7 @@
       border-radius: 0.2em
 
   .map-controls
-    background: #fff
+    background: white
     position: absolute
     right: 0
     top: 0
@@ -39,7 +39,7 @@
     display: flex
     flex-direction: column
     z-index: 1000
-    box-shadow: 0.5em 0.5em 1em #333
+    box-shadow: 0.5em 0.5em 1em dark-grey
     border-bottom-left-radius: 1em
     
     .summary
@@ -63,7 +63,7 @@
       flex: 1 1 auto
       overflow-y: scroll
       margin: 0 0.5em 0.5em 0.5em
-      border: 1px solid #999
+      border: 1px solid light-grey
       height: 25em
       
       &.expanded
@@ -76,8 +76,6 @@
       
     .filter-group
       margin: 0.5em
-      //padding: 0.5em
-      //border: 1px solid #999
       
       .filter-name
         display: flex
@@ -89,7 +87,7 @@
         .mini-summary
           flex 1 1 auto
           text-align: right
-          color: #999
+          color: medium-grey
           font-style: italic
           
           &.highlighted
@@ -98,7 +96,7 @@
       .filter-values
         margin: 0.5em 0 1em 0
         padding: 0.5em
-        box-shadow: 0 0.2em 0.5em #999
+        box-shadow: 0 0.2em 0.5em light-grey
         
         &.expanded
           display: block
@@ -135,7 +133,7 @@
         
         &.selected
           background: #f93
-          color: #fff
+          color: off-white
           
         &:hover
-          background: #ccc
+          background: light-grey

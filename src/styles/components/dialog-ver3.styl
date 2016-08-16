@@ -1,10 +1,15 @@
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 .dialog-ver3
   position: fixed
   left: 0
   top: 0
   z-index: 1000001  //Place waaay above map plugin elements.
-  width: 100%
-  height: 100%
+  width: 100vw
+  height: 100vh
   display: none  //Hide initially, add .enabled to show.
   flex-direction: column
   justify-content: center
@@ -12,16 +17,19 @@
   background: rgba(0, 0, 0, 0.5)
   display: flex
   cursor: pointer  //Click to close
+  animation: fadeIn 1s
 
   .dialog-box
     flex: 0 0 auto
-    background: #fff
+    background: off-white
     padding: 1em
     border-radius: 1em
     cursor: default
-    box-shadow: 0 2px 10px #000
+    box-shadow: 0 2px 10px dark-grey
     width: 90%
     max-width: 1000px
+    max-height: 90vh
+    overflow: auto
     
     .close-button
       font-size: 0.5em
@@ -42,10 +50,10 @@
       
     .meta
       margin: 0.5em 2em 0 2em
-      color: #999
+      color: medium-grey
       
     .data
-      border: 1px solid #ccc
+      border: 1px solid light-grey
       margin-top: 0.5em
       padding: 0.5em 0
       display: flex
@@ -68,10 +76,10 @@
         color: green
     
     .sad-message
-      color: #999
+      color: medium-grey
     
     .small-message
-      color: #999
+      color: medium-grey
       font-size: 0.8em
 
   &.select-for-assignment
@@ -91,9 +99,57 @@
           font-weight: bold
     
     .action-message
-      background: #efd59c
+      background: yellow
       padding: 0.5em
       border-radius: 1em
         
       button
         margin-left: 1em
+
+  &.tutorial-dialog
+    .dialog-box
+      background: off-white
+    
+    .page
+      animation: fadeIn 2s
+      padding: 1em
+    
+      .image
+        display: block
+        max-width: 40%
+        margin: 0 auto 1em auto
+        border-radius: 1em
+        box-shadow: 0 0.2em 0.5em dark-grey
+      
+      .title
+        font-weight: bold
+        font-size: 1.1em
+        margin: 1em auto 0 auto
+        color: green
+        text-shadow: 0 0.2em 0.5em light-grey
+      
+      .text
+        margin: 1em auto
+        padding: 1em
+        background: white
+        color: dark-grey
+        box-shadow: 0 0.2em 0.5em light-grey
+        text-align: left
+        width: 60%
+        min-width: 400px
+        border-radius: 0.5em
+        
+        p
+          span
+            margin-right: 0.1em
+        
+          .bold
+            font-weight: bold
+    
+    .paging
+      text-align: center
+      padding: 0 1em 1em 1em
+      
+      .selected
+        background: green
+        color: white
