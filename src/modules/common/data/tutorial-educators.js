@@ -18,7 +18,7 @@ export default {
     {
       title: 'Explore and download data',
       image: require('../../../images/tutorial/explorer-tutorial-2.gif'),
-      text: 'The Data page allows you and your students to explore and download data from images that the public has identified on WildCam Gorongosa. Click the "View Filters" button and select to items to filter. Click the download button to download a spreadsheet of the data and share it with your students. Click on an orange circle to see a preview of images from that camera that match your filters.',
+      text: 'The Data page allows you and your students to explore and download data from images that the public has identified on WildCam Gorongosa. Click the "View Filters" button and select items to filter. Click the download button to download a spreadsheet of the data and share it with your students. Click on an orange circle to see a preview of images from that camera that match your filters.',
     },
     {
       title: 'Use HHMI BioInteractive resources',

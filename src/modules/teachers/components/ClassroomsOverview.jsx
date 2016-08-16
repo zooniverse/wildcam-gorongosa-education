@@ -7,7 +7,7 @@ const ClassroomsOverview = (props, context) => {
   const { classrooms } = context;
   return ( <section className="content-view">
     <div className="page-header">
-      <span className="float-right">
+      <span className="pull-right">
         <DialogTutorial
           name="educators"
           data={require('../../common/data/tutorial-educators.js').default} />

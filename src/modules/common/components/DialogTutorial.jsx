@@ -11,7 +11,6 @@ class DialogTutorial extends Component {
     this.goToPage = this.goToPage.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.prevPage = this.prevPage.bind(this);
-    this.renderPrettyText = this.renderPrettyText.bind(this);
     
     this.data = this.props.data;
     
@@ -40,7 +39,7 @@ class DialogTutorial extends Component {
                     : null}
                   {(page.html)
                     ? <div className="text" dangerouslySetInnerHTML={{__html: page.html}}></div>
-                    : <div className="text">{this.renderPrettyText(page.text)}</div>}
+                    : <div className="text">{page.text}</div>}
                 </div>
               : null}
             
@@ -90,23 +89,6 @@ class DialogTutorial extends Component {
   prevPage() {
     const target = Math.max(parseInt(this.state.page) - 1, 0);
     this.setState({ page: target });
-  }
-  
-  //This may be overkill - it's a mini Markdown system.
-  //Converts newlines into paragraphs, and recognises *bold* text.
-  renderPrettyText(text) {
-    let input = (text || '').split('\n').map((line) => { return line.trim(); });
-    return input.map((line, index, array) => {
-      let thisLine = line;
-      if (thisLine.indexOf('*') > 0) {
-        thisLine = thisLine.split('*').map((fragment, index2) => {
-          return (index2 % 2 === 1)
-            ? <span key={index+'_'+index2} className="bold">{fragment}</span>
-            : <span key={index+'_'+index2}>{fragment}</span>
-        });
-      }
-      return <p key={index}>{thisLine}</p>
-    });
   }
   
   //'Eats up' events to prevent them from bubbling to a parent element.
