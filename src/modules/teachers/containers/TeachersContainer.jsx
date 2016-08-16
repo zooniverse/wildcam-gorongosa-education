@@ -30,7 +30,7 @@ TeachersContainer.defaultProps = {
       to: '/teachers/resources'
     },
     {
-      label: 'Tutorial',
+      label: 'Help',
       to: '/teachers/tutorial'
     },
     {

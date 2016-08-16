@@ -30,7 +30,7 @@ StudentsContainer.defaultProps = {
       to: '/students/data'
     },
     {
-      label: 'Tutorial',
+      label: 'Help',
       to: '/students/tutorial'
     },
     {
