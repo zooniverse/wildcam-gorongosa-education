@@ -18,7 +18,8 @@ export function setLoginUser(user) {
   return (dispatch) => {
     dispatch({
       type: types.SET_LOGIN_USER,
-      user
+      user,
+      token: oauth._tokenDetails,
     });
   };
 }

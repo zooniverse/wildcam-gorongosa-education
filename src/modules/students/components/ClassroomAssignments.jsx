@@ -16,7 +16,7 @@ class ClassroomAssignments extends Component {
   }
 
   render() {
-    const { data, user } = this.props;
+    const { data, user, token } = this.props;
     return (
     <div className="student-assignmentlist">
       <h1>Assignments</h1>
@@ -42,7 +42,7 @@ class ClassroomAssignments extends Component {
                 <td>{ assignment.classification_count }/{ assignment.target }</td>
                 <td>
                   <a className="btn btn-primary"
-                    href={`https://www.wildcamgorongosa.org/#/classify/assignment-${ assignment.id }`}
+                    href={`https://www.wildcamgorongosa.org/#/classify/assignment-${ assignment.id }/access_token=${ token.access_token }`}
                     target="_blank"
                     role="button">
                     Start assignment
