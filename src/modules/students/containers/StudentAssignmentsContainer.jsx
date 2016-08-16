@@ -63,7 +63,7 @@ class StudentAssignmentsContainer extends Component {
 
   render() {
     const classroomData = this.createClassroomAssignmentData();
-    const { actions, assignments, classrooms, user } = this.props;
+    const { actions, assignments, classrooms, user, token } = this.props;
     const boundFetchStudentClassifications = actions.fetchStudentClassifications.bind(this);
     const boundFetchAggregatedData = actions.fetchAggregatedData.bind(this);
     return classrooms.loading || assignments.loading
@@ -73,6 +73,7 @@ class StudentAssignmentsContainer extends Component {
           fetchAggregations={ boundFetchAggregatedData }
           fetchClassifications={ boundFetchStudentClassifications }
           student_data={ assignments.student_data }
+          token={ token }
           user={ user }/>;
   }
 
@@ -90,6 +91,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   classrooms: state.student.classrooms,
   assignments: state.assignment.assignments,
+  token: state.login.token_details,
   user: state.login.user,
 });
 
