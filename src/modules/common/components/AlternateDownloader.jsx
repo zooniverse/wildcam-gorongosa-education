@@ -43,21 +43,12 @@ class AlternateDownloader extends Component {
   }
 }
 
-export function generateFilename(basename = 'wildcam-', extension = '.csv') {
-  let timeString = new Date();
-  timeString =
-    timeString.getDate() +
-    ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'][timeString.getMonth()] +
-    timeString.getFullYear();
-  return basename + timeString + extension;
-}
-
 AlternateDownloader.propTypes = {
   contentType: PropTypes.string,
   filename: PropTypes.string,
 };
 AlternateDownloader.defaultProps = {
   contentType: 'text/csv',
-  filename: generateFilename(),
+  filename: 'wildcam.csv',
 };
 export default AlternateDownloader;
