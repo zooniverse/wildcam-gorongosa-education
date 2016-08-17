@@ -1,4 +1,4 @@
-import Video from 'Video';
+import Video from 'react-youtube';
 
 const Ecology = (props) => (
   <div className="admin-component ecology">
@@ -15,8 +15,7 @@ const Ecology = (props) => (
       <li>
         <h2>Water</h2>
         <p>Water flows through rivers from Mount Gorongosa into Lake Urema in the center of the valley. During the wet season, Lake Urema expands to over 10 times its size, covering the grassland. During the dry season, the lake contracts, exposing nutritious grass on the floodplain that is grazed by many of the park’s herbivores. As the dry season continues, the grass throughout the park slowly turns brown and dies. This dry grass can fuel large wildfires that burn sections of the park in the late dry season until the rains come again in the wet season. Watch the animation below to learn more about Gorongosa’s water cycle.</p>
-        <Video src="https://www.youtube.com/watch?v=7PD_UIxF07c"/>
-        <p>Water cycle animation</p>
+        <Video videoId="7PD_UIxF07c"/>
       </li>
       <li>
         <h2>Vegetation</h2>
@@ -31,11 +30,11 @@ const Ecology = (props) => (
       <li>
         <h2>Wildlife</h2>
         <p>Herbivores are animals that primarily eat plants. Gorongosa‘s most conspicuous residents are the large herbivores that can be seen feeding on grass and leaves throughout the park. These herbivores can be divided into grazers, browsers, or mixed feeders based on what they eat. The strict grazers eat only grass and spend most of their time in the grassland in the center of the park. Some of the prominent grazers in Gorongosa are waterbuck, buffalo, wildebeest, zebra, and hippos. As Lake Urema floods and the grassland becomes inundated during the wet season, these grazers move to higher ground away from the lake. Browsers, such as kudu, bushbuck, and nyala, spend nearly all of their time in the savanna and woodland areas. Mixed feeders, such as elephants, spend time in both grassland and woodland.</p>
-        <p>Rob S@W video: https://www.youtube.com/watch?v=8eH6X2rAQEs</p>
+        <Video videoId="8eH6X2rAQEs"/>
         <p>Lions are the largest predator in Gorongosa. They are highly territorial and form prides that typically consist of one male and several females and their young. Lions can be found in any part of Gorongosa except the mountain, but are most common in the grassland and savanna/woodland habitats of the valley. The other large predators that once existed in the park, including leopards, hyenas, and wild dogs, have not been seen in decades. Smaller predators, such as civets and serval, are common and eat small mammals, reptiles, and birds.</p>
-        <p>Paola S@W video: https://www.youtube.com/watch?v=VPP_COhvzn0</p>
+        <Video videoId="VPP_COhvzn0"/>
         <p>Smaller wildlife in Gorongosa include warthogs, three primate species (the most common of which are baboons), birds, reptiles, amphibians, and insects. The birdlife of Gorongosa is extremely diverse and includes large raptors such as vultures and eagles as well as small songbirds. Crocodiles are the largest reptile in Gorongosa and are extremely abundant in lakes and rivers. Insects are also a very important part of Gorongosa’s ecosystem and are being studied by Gorongosa’s scientists.</p>
-        <p>Ant S@W video: https://www.youtube.com/watch?v=gSqkzqedW4g</p>
+        <Video videoId="gSqkzqedW4g"/>
         <p>You can learn more about the more common animals of Gorongosa in the <a href="https://www.wildcamgorongosa.org/#/field-guide" target="_blank">field guide</a>.</p>
       </li>
       <li>
