@@ -13,6 +13,7 @@ import TeachersContainer from './containers/TeachersContainer.jsx';
 
 import ClassroomsOverview from './components/ClassroomsOverview.jsx';
 import Resources from './components/Resources.jsx';
+import Ecology from '../common/components/Ecology.jsx';
 import TeacherForm from './components/TeacherForm.jsx';
 import TutorialForTeachers from './components/Tutorial-Teachers.jsx';
 
@@ -34,6 +35,7 @@ const teacherRoutes = store => (
         <Route path="data" component={MapExplorerVer3} />
         <Route path="tutorial" component={ TutorialForTeachers } />
         <Route path="resources" component={ Resources } />
+        <Route path="ecology" component={ Ecology } />
       </Route>
     </Router>
   </Provider>
