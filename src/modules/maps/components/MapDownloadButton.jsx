@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 import { initialState } from '../../../reducers/mapexplorer';
 import { MapHelper } from '../../../helpers/mapexplorer.js';
 import { saveAs } from 'browser-filesaver';
+import gzip from 'gzip-js';
 
+import AlternateDownloader from '../../common/components/AlternateDownloader';
+
+
+import config from '../../../constants/config';
 const mapconfig = require('../../../constants/mapExplorer.config.json');
 
 class MapDownloadButton extends Component {
@@ -15,6 +20,8 @@ class MapDownloadButton extends Component {
     this.blobbifyCsvData = this.blobbifyCsvData.bind(this);
     this.generateFilename = this.generateFilename.bind(this);
     
+    this.altDownloader = null;
+    
     this.state = {
       loading: false
     }
@@ -22,7 +29,10 @@ class MapDownloadButton extends Component {
 
   render() {
     return (
-      <button className="btn btn-default" onClick={this.downloadCSV}><i className="fa fa-download" /> {(!this.state.loading) ? 'Download' : 'Loading...'}</button>
+      <span>
+        <button className="btn btn-default" onClick={this.downloadCSV}><i className="fa fa-download" /> {(!this.state.loading) ? 'Download' : 'Loading...'}</button>
+        <AlternateDownloader filename={this.generateFilename()} ref={ele => this.altDownloader = ele} />
+      </span>
     );
   }
   
@@ -50,9 +60,15 @@ class MapDownloadButton extends Component {
         data = this.prepareCSV(json);
       }
       
-      let dataBlob = this.blobbifyCsvData(data);
-      let filename = this.generateFilename();
-      saveAs(dataBlob, filename);
+      const enableSafariWorkaround =
+        !(/Chrome/i.test(navigator.userAgent)) &&
+        /Safari/i.test(navigator.userAgent);
+      
+      if (enableSafariWorkaround) {
+        this.altDownloader.download(data);
+      } else {
+        saveAs(this.blobbifyCsvData(data), this.generateFilename());
+      }
       
       this.setState({ loading: false });
     });
@@ -111,21 +127,21 @@ class MapDownloadButton extends Component {
     return data.join('\n');
   }
   
+  generateFilename(basename = 'wildcam-', extension = '.csv') {
+    let timeString = new Date();
+    timeString =
+      timeString.getDate() +
+      ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'][timeString.getMonth()] +
+      timeString.getFullYear();
+    return basename + timeString + extension;
+  }
+  
   blobbifyCsvData(data) {
     if (data) {
       let dataBlob = new Blob([data], {type: 'text/csv'});
       return dataBlob;
     }
     return null;
-  }
-  
-  generateFilename(extension = '.csv') {
-    let timeString = new Date();
-    timeString =
-      timeString.getDate() +
-      ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'][timeString.getMonth()] +
-      timeString.getFullYear();
-    return 'wildcam-' + timeString + extension;
   }
 }
 
