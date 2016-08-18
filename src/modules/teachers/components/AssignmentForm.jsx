@@ -34,7 +34,6 @@ class AssignmentForm extends Component {
 
   componentWillReceiveProps(nextProps) {
 //  There surely is a better logic for handling this
-
     if (this.props.loading !== nextProps.loading) {
       this.setState({
         loading: nextProps.loading
@@ -99,6 +98,12 @@ class AssignmentForm extends Component {
         ];
     }
     //--------
+
+    const target = parseInt(newAssignment.classifications_target);
+    if (target > newAssignment.subjects.length) {
+      alert('The number of subjects selected can\'t be smaller than the number of images.');
+      return document.querySelector('input[name=classifications_target]').focus();
+    }
 
     //NOTE: According to Marten, it's perfectly OK to create an assignment with no students or subjects.
     //--------
