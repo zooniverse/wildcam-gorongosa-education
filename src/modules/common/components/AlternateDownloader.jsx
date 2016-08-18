@@ -31,8 +31,7 @@ class AlternateDownloader extends Component {
   
   download(data) {
     console.log('Downloading CSV, Safari workaround active');
-    //let zippedData = gzip.zip(data, { name: this.generateFilename('.csv') });
-    this.formData.value = data;  //this.binToStr(zippedData);
+    this.formData.value = data;
     this.form.submit();
   }
   

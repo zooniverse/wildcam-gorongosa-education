@@ -3,10 +3,8 @@ import { connect } from 'react-redux';
 import { initialState } from '../../../reducers/mapexplorer';
 import { MapHelper } from '../../../helpers/mapexplorer.js';
 import { saveAs } from 'browser-filesaver';
-import gzip from 'gzip-js';
 
 import AlternateDownloader from '../../common/components/AlternateDownloader';
-
 
 import config from '../../../constants/config';
 const mapconfig = require('../../../constants/mapExplorer.config.json');
@@ -27,7 +25,7 @@ class MapDownloadButton extends Component {
     }
   }
 
-  render() {
+  render() {    
     return (
       <span>
         <button className="btn btn-default" onClick={this.downloadCSV}><i className="fa fa-download" /> {(!this.state.loading) ? 'Download' : 'Loading...'}</button>
