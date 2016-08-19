@@ -25,8 +25,6 @@ class ClassroomAssignments extends Component {
   
   downloadAssignmentSubjects(subjects, assignment_id) {
     return () => {
-      console.log(subjects);
-      console.log();
       const where = 'WHERE items.subject_id IN ('+(subjects.join(','))+')';
       const sql =
         mapconfig.cartodb.sqlQueryDownload
@@ -34,7 +32,6 @@ class ClassroomAssignments extends Component {
         .replace(/{SUBJECTS}/ig, mapconfig.cartodb.sqlTableSubjects)
         .replace(/{AGGREGATIONS}/ig, mapconfig.cartodb.sqlTableAggregations)
         .replace('{WHERE}', where);
-      console.log(sql);
       this.aggregationButtons[assignment_id].downloadCSV(sql, true);
     }
   }
