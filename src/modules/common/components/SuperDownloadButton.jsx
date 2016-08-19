@@ -1,24 +1,29 @@
-import { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { initialState } from '../../../reducers/mapexplorer';
-import { MapHelper } from '../../../helpers/mapexplorer.js';
-import { saveAs } from 'browser-filesaver';
+/*
+SuperDownloadButton
+--------------------
 
-import AlternateDownloader from '../../common/components/AlternateDownloader';
+Creates a download button that opens the 'Save As' dialog box for downloading
+data. Across all browsers. Yes, including Safari 9, which has such poor HTML5
+support that it doesn't support 'download' in <a href="file.csv" download>.
+
+This component creates a hidden <form> that submits the data you want Safari to
+download to EduAPI's download service, which echoes the content back as a HTTP
+response with 'content-disposition' headers to force a download dialog.
+ */
+import { Component, PropTypes } from 'react';
+import { DownloadHelper } from '../../../helpers/download.js';
+import { saveAs } from 'browser-filesaver';
 
 import config from '../../../constants/config';
 const mapconfig = require('../../../constants/mapExplorer.config.json');
 
-class MapDownloadButton extends Component {
+class SuperDownloadButton extends Component {
   constructor(props) {
     super(props);
-    this.downloadCSV = this.downloadCSV.bind(this);
+    /*this.downloadCSV = this.downloadCSV.bind(this);
     this.prepareCSV = this.prepareCSV.bind(this);
     this.prepareCSV_EASYMODE = this.prepareCSV_EASYMODE.bind(this);
-    this.blobbifyCsvData = this.blobbifyCsvData.bind(this);
-    this.generateFilename = this.generateFilename.bind(this);
-    
-    this.altDownloader = null;
+    this.blobbifyCsvData = this.blobbifyCsvData.bind(this);*/
     
     this.state = {
       loading: false
@@ -28,13 +33,18 @@ class MapDownloadButton extends Component {
   render() {    
     return (
       <span>
-        <button className="btn btn-default" onClick={this.downloadCSV}><i className="fa fa-download" /> {(!this.state.loading) ? 'Download' : 'Loading...'}</button>
-        <AlternateDownloader filename={this.generateFilename()} ref={ele => this.altDownloader = ele} />
+        <button className="btn btn-default" onClick={this.props.onClick}><i className="fa fa-download" /> {(!this.state.loading) ? 'Download' : 'Loading...'}</button>
+        <form className="hidden" action={config.eduAPI.root + 'downloads/'} method="POST" ref={ele => this.altForm = ele}>
+          <textarea name="data" ref={ele => this.altFormData = ele} />
+          <input name="content_type" value="text/csv" />
+          <input name="filename" value={DownloadHelper.generateFilename()} />
+        </form>
       </span>
     );
   }
   
   downloadCSV() {
+    /*
     if (this.state.loading) { return; }
     
     this.setState({ loading: true });
@@ -63,16 +73,19 @@ class MapDownloadButton extends Component {
         /Safari/i.test(navigator.userAgent);
       
       if (enableSafariWorkaround) {
-        this.altDownloader.download(data);
+        this.altFormData.value = data;
+        this.altForm.submit();
       } else {
         saveAs(this.blobbifyCsvData(data), this.generateFilename());
       }
       
       this.setState({ loading: false });
     });
+    */
   }
   
   prepareCSV(json) {
+    /*
     let data = [];
     let row = [];
     
@@ -97,9 +110,11 @@ class MapDownloadButton extends Component {
     });
     
     return data.join('\n');
+    */
   }
   
   prepareCSV_EASYMODE(json) {
+    /*
     let data = [];
     let row = [];
     
@@ -123,35 +138,14 @@ class MapDownloadButton extends Component {
       data.push(row);
     });
     return data.join('\n');
-  }
-  
-  generateFilename(basename = 'wildcam-', extension = '.csv') {
-    let timeString = new Date();
-    timeString =
-      timeString.getDate() +
-      ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'][timeString.getMonth()] +
-      timeString.getFullYear();
-    return basename + timeString + extension;
-  }
-  
-  blobbifyCsvData(data) {
-    if (data) {
-      let dataBlob = new Blob([data], {type: 'text/csv'});
-      return dataBlob;
-    }
-    return null;
+    */
   }
 }
 
-MapDownloadButton.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+SuperDownloadButton.propTypes = {
+  onClick: PropTypes.func,
 };
-MapDownloadButton.defaultProps = { 
-  mapexplorer: initialState,
+SuperDownloadButton.defaultProps = { 
+  onClick: null,
 };
-function mapStateToProps(state, ownProps) {  //Listens for changes in the Redux Store
-  return {
-    mapexplorer: state.mapexplorer,
-  };
-}
-export default connect(mapStateToProps)(MapDownloadButton);  //Connects the Component to the Redux Store
+export default SuperDownloadButton;

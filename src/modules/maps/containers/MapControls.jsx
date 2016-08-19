@@ -7,7 +7,7 @@ import { enableSelectForAssignmentMode } from '../actions/mapexplorer';
 
 import MapFiltersArray from '../components/MapFiltersArray';
 import MapFiltersRange from '../components/MapFiltersRange';
-import MapDownloadButton from '../components/MapDownloadButton';
+import SuperDownloadButton from '../../common/components/SuperDownloadButton';
 import DialogTutorial from '../../common/components/DialogTutorial.jsx';
 
 const mapconfig = require('../../../constants/mapExplorer.config.json');
@@ -38,7 +38,7 @@ class MapControls extends Component {
               </button>
             : null
           }
-          <MapDownloadButton />
+          <SuperDownloadButton />
           <button className="btn btn-primary" onClick={this.viewFilters}>
             <i className="fa fa-bars" /> {(this.state.viewFilters) ? 'Hide Filters' : 'View Filters' }
           </button>
