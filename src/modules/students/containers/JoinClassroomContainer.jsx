@@ -18,22 +18,24 @@ class JoinClassroomContainer extends Component {
     this.verifyLogin(this.props);
   }
 
+   componentWillReceiveProps(nextProps) {
+    this.verifyLogin(nextProps);
+  }
+
   join() {
     const { id, token } = this.props.location.query;
     this.props.dispatch(joinClassroom(id, token));
   }
 
   verifyLogin(props) {
-    if (!props.loginInitialised || !props.loginUser) {
+    if (props.loginInitialised && !props.loginUser) {
       browserHistory.push(config.routes.loginPrompt);
     }
   }
 
   render() {
     return (
-      <div>
-        <JoinButton join={this.join}/>
-      </div>
+      <JoinButton join={this.join}/>
     );
   }
 }
