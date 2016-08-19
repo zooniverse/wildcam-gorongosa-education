@@ -18,6 +18,9 @@ class MapControls extends Component {
     this.updateSummary = this.updateSummary.bind(this);
     this.viewFilters = this.viewFilters.bind(this);
     this.selectForAssignment = this.selectForAssignment.bind(this);
+    this.downloadClick = this.downloadClick.bind(this);
+    
+    this.superDownloadButton = null;
     
     this.state = {
       summary: '',
@@ -38,7 +41,11 @@ class MapControls extends Component {
               </button>
             : null
           }
-          <SuperDownloadButton />
+          <SuperDownloadButton
+            ref={ele => this.superDownloadButton = ele}
+            onClick={this.downloadClick}
+            icon="fa fa-download spacing-right"
+            />
           <button className="btn btn-primary" onClick={this.viewFilters}>
             <i className="fa fa-bars" /> {(this.state.viewFilters) ? 'Hide Filters' : 'View Filters' }
           </button>
@@ -101,6 +108,11 @@ class MapControls extends Component {
   
   selectForAssignment() {
     this.props.dispatch(enableSelectForAssignmentMode());
+  }
+  
+  downloadClick() {
+    const sql = MapHelper.calculateSql(this.props.mapexplorer, mapconfig.cartodb.sqlQueryDownload);
+    this.superDownloadButton.downloadCSV(sql);
   }
 }
 

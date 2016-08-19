@@ -20,10 +20,9 @@ const mapconfig = require('../../../constants/mapExplorer.config.json');
 class SuperDownloadButton extends Component {
   constructor(props) {
     super(props);
-    /*this.downloadCSV = this.downloadCSV.bind(this);
+    this.downloadCSV = this.downloadCSV.bind(this);
     this.prepareCSV = this.prepareCSV.bind(this);
     this.prepareCSV_EASYMODE = this.prepareCSV_EASYMODE.bind(this);
-    this.blobbifyCsvData = this.blobbifyCsvData.bind(this);*/
     
     this.state = {
       loading: false
@@ -33,7 +32,10 @@ class SuperDownloadButton extends Component {
   render() {    
     return (
       <span>
-        <button className="btn btn-default" onClick={this.props.onClick}><i className="fa fa-download" /> {(!this.state.loading) ? 'Download' : 'Loading...'}</button>
+        <button className={this.props.className} onClick={this.props.onClick}>
+          {(this.props.icon) ? <i className={(this.props.icon)} /> : null}
+          {(!this.state.loading) ? this.props.text : this.props.loadingText}
+        </button>
         <form className="hidden" action={config.eduAPI.root + 'downloads/'} method="POST" ref={ele => this.altForm = ele}>
           <textarea name="data" ref={ele => this.altFormData = ele} />
           <input name="content_type" value="text/csv" />
@@ -43,14 +45,12 @@ class SuperDownloadButton extends Component {
     );
   }
   
-  downloadCSV() {
-    /*
+  downloadCSV(sql, easymode = false) {
     if (this.state.loading) { return; }
-    
     this.setState({ loading: true });
     
-    const sql = MapHelper.calculateSql(this.props.mapexplorer, mapconfig.cartodb.sqlQueryDownload);
-    fetch(mapconfig.cartodb.sqlApi.replace('{SQLQUERY}', encodeURI(sql)))
+    const url = mapconfig.cartodb.sqlApi.replace('{SQLQUERY}', encodeURIComponent(sql));    
+    fetch(url)
     .then((response) => {
       if (response.status !== 200) {
         throw 'Can\'t reach CartoDB API, HTTP response code ' + response.status;
@@ -58,11 +58,11 @@ class SuperDownloadButton extends Component {
       return response.json();
     })
     .then((json) => {
-      const EASYMODE = true;  //Instead of giving the full raw data, we can
-                              //give students a smaller, more easy-to-read
-                              //version. //TODO: Enable users to toggle.
+      //Easymode provides students a more easy-to-read version of the CSV
+      //instead of the full raw data.
+      
       let data = '';
-      if (EASYMODE) {
+      if (easymode) {
         data = this.prepareCSV_EASYMODE(json);
       } else {
         data = this.prepareCSV(json);
@@ -73,19 +73,18 @@ class SuperDownloadButton extends Component {
         /Safari/i.test(navigator.userAgent);
       
       if (enableSafariWorkaround) {
+        console.log('Downloading: Safari Workaround');
         this.altFormData.value = data;
         this.altForm.submit();
       } else {
-        saveAs(this.blobbifyCsvData(data), this.generateFilename());
+        saveAs(DownloadHelper.blobbifyCsvData(data), DownloadHelper.generateFilename());
       }
       
       this.setState({ loading: false });
     });
-    */
   }
   
   prepareCSV(json) {
-    /*
     let data = [];
     let row = [];
     
@@ -110,11 +109,9 @@ class SuperDownloadButton extends Component {
     });
     
     return data.join('\n');
-    */
   }
   
   prepareCSV_EASYMODE(json) {
-    /*
     let data = [];
     let row = [];
     
@@ -138,14 +135,21 @@ class SuperDownloadButton extends Component {
       data.push(row);
     });
     return data.join('\n');
-    */
   }
 }
 
 SuperDownloadButton.propTypes = {
   onClick: PropTypes.func,
+  className: PropTypes.string,
+  text: PropTypes.string,
+  loadingText: PropTypes.string,
+  icon: PropTypes.string,
 };
 SuperDownloadButton.defaultProps = { 
   onClick: null,
+  className: 'btn btn-default',
+  text: 'Download',
+  loadingText: 'Loading...',
+  icon: null,
 };
 export default SuperDownloadButton;
