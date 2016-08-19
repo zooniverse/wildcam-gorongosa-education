@@ -4,7 +4,13 @@ const JoinButton = (props) => {
   const classNames = 'btn btn-primary';
   const join = props.join;
   return (
-    <button className={classNames} onClick={join}>Join Classroom!</button>
+    <div className="info-page">
+      <section className="info-panel">
+        <div className="action-subpanel">
+          <button className={classNames} onClick={join}>Join Classroom!</button>
+        </div>
+      </section>
+    </div>
   )
 };
 
