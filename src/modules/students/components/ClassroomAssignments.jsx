@@ -19,7 +19,7 @@ class ClassroomAssignments extends Component {
         .replace(/{CLASSIFICATIONS}/ig, mapconfig.cartodb.sqlTableClassifications)
         .replace(/{WHERE_USER}/ig, DownloadHelper.sqlStrSafe(username))
         .replace(/{WHERE_WORKFLOW}/ig, parseInt(assignment_id));
-      this.classificationButtons[assignment_id].downloadCSV(sql);
+      this.classificationButtons[assignment_id].downloadCSV(sql, true);
     }
   }
   
@@ -35,7 +35,7 @@ class ClassroomAssignments extends Component {
         .replace(/{AGGREGATIONS}/ig, mapconfig.cartodb.sqlTableAggregations)
         .replace('{WHERE}', where);
       console.log(sql);
-      this.aggregationButtons[assignment_id].downloadCSV(sql);
+      this.aggregationButtons[assignment_id].downloadCSV(sql, true);
     }
   }
 

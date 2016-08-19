@@ -111,7 +111,7 @@ class MapControls extends Component {
   
   downloadClick() {
     const sql = MapHelper.calculateSql(this.props.mapexplorer, mapconfig.cartodb.sqlQueryDownload);
-    this.superDownloadButton.downloadCSV(sql);
+    this.superDownloadButton.downloadCSV(sql, true);
   }
 }
 
