@@ -44,8 +44,7 @@ class MapControls extends Component {
           <SuperDownloadButton
             ref={ele => this.superDownloadButton = ele}
             onClick={this.downloadClick}
-            icon="fa fa-download spacing-right"
-            />
+          />
           <button className="btn btn-primary" onClick={this.viewFilters}>
             <i className="fa fa-bars" /> {(this.state.viewFilters) ? 'Hide Filters' : 'View Filters' }
           </button>

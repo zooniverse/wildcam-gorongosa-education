@@ -1,6 +1,6 @@
 /*
 SuperDownloadButton
---------------------
+-------------------
 
 Creates a download button that opens the 'Save As' dialog box for downloading
 data. Across all browsers. Yes, including Safari 9, which has such poor HTML5
@@ -38,8 +38,8 @@ class SuperDownloadButton extends Component {
         </button>
         <form className="hidden" action={config.eduAPI.root + 'downloads/'} method="POST" ref={ele => this.altForm = ele}>
           <textarea name="data" ref={ele => this.altFormData = ele} />
-          <input name="content_type" value="text/csv" />
-          <input name="filename" value={DownloadHelper.generateFilename()} />
+          <input name="content_type" value={this.props.contentType} />
+          <input name="filename" value={this.props.filename} />
         </form>
       </span>
     );
@@ -77,7 +77,7 @@ class SuperDownloadButton extends Component {
         this.altFormData.value = data;
         this.altForm.submit();
       } else {
-        saveAs(DownloadHelper.blobbifyCsvData(data), DownloadHelper.generateFilename());
+        saveAs(DownloadHelper.blobbifyCsvData(data), this.props.filename);
       }
       
       this.setState({ loading: false });
@@ -144,12 +144,16 @@ SuperDownloadButton.propTypes = {
   text: PropTypes.string,
   loadingText: PropTypes.string,
   icon: PropTypes.string,
+  filename: PropTypes.string,
+  content_type: PropTypes.string,
 };
 SuperDownloadButton.defaultProps = { 
   onClick: null,
   className: 'btn btn-default',
   text: 'Download',
   loadingText: 'Loading...',
-  icon: null,
+  icon: 'fa fa-download spacing-right',
+  filename: DownloadHelper.generateFilename(),
+  contentType: 'text/csv',
 };
 export default SuperDownloadButton;

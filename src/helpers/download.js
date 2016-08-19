@@ -15,4 +15,8 @@ export const DownloadHelper = {
     }
     return null;
   },
+  
+  sqlStrSafe: (str) => {
+    return str.replace(/'/g, '\'\'');
+  }
 };
