@@ -36,10 +36,10 @@ class SuperDownloadButton extends Component {
           {(this.props.icon) ? <i className={(this.props.icon)} /> : null}
           {(!this.state.loading) ? this.props.text : this.props.loadingText}
         </button>
-        <form className="hidden" action={config.eduAPI.root + 'downloads/'} method="POST" ref={ele => this.altForm = ele}>
-          <textarea name="data" ref={ele => this.altFormData = ele} />
-          <input name="content_type" value={this.props.contentType} />
-          <input name="filename" value={this.props.filename} />
+        <form className="hidden" action={config.eduAPI.root + 'downloads/'} method="POST" ref={ele => this.altForm = ele} aria-hidden={true} >
+          <textarea name="data" ref={ele => this.altFormData = ele} readOnly aria-label="alt-data" />
+          <input name="content_type" value={this.props.contentType} readOnly aria-label="alt-contenttype" />
+          <input name="filename" value={this.props.filename} readOnly aria-label="alt-filename" />
         </form>
       </span>
     );
