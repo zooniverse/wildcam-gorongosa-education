@@ -18,6 +18,7 @@ const initialState = {
 class AssignmentForm extends Component {
   constructor(props) {
     super(props);
+    this.editMode = this.editMode.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.renderStudentList = this.renderStudentList.bind(this);
@@ -41,6 +42,14 @@ class AssignmentForm extends Component {
     }
     if (nextProps.fields) {
       this.setState(nextProps.fields);
+    }
+  }
+
+  editMode() {
+    if (!this.props.params.assignmentId || this.props.params.assignmentId === '') {
+      return false
+    } else {
+      return true
     }
   }
 
@@ -147,8 +156,8 @@ class AssignmentForm extends Component {
                   <td>
                     <label>
                       {(selected)
-                        ? <input type="checkbox" value={student.id} onChange={this.toggleStudent} checked />
-                        : <input type="checkbox" value={student.id} onChange={this.toggleStudent} />
+                        ? <input type="checkbox" disabled={this.editMode()} value={student.id} onChange={this.toggleStudent} checked />
+                        : <input type="checkbox" disabled={this.editMode()} value={student.id} onChange={this.toggleStudent} />
                       }
                       {student.attributes.zooniverse_display_name}
                     </label>
@@ -297,7 +306,7 @@ class AssignmentForm extends Component {
         </div>
         <div className="form-group">
           <p>Use the map to choose a set of images for your students to identify and "Select for assignment". </p>
-          <a className="btn btn-default" onClick={this.selectNewSubjects}>Select images</a>
+          <button className="btn btn-default" disabled={this.editMode()} onClick={this.selectNewSubjects}>Select images</button>
         </div>
         <div className="form-group">
           <button type="submit" disabled={this.state.loading} className="btn btn-primary pull-right">Submit</button>

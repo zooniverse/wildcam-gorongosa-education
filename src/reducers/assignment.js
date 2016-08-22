@@ -31,8 +31,8 @@ export function assignment(state = initialState, action) {
                 classifications_target: action.fields.classifications_target,
                 duedate: action.fields.duedate,
                 filters: action.fields.filters,
-                subjects: action.fields.subjects,
-                students: action.fields.students,
+                subjects: assignment.attributes.metadata.subjects,
+                students: assignment.attributes.metadata.students,
               },
             })
           });
