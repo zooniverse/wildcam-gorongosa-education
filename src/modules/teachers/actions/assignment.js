@@ -128,8 +128,6 @@ export function editAssignment(fields, assignment) {
               classifications_target: fields.classifications_target,
               duedate: fields.duedate,
               filters: fields.filters,
-              subjects: fields.subjects,
-              students: fields.students
             }
           }
         }
