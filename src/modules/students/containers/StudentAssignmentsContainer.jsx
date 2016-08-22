@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import ClassroomAssignments from '../components/ClassroomAssignments';
-import { fetchAggregatedData, fetchStudentClassifications, fetchStudentClassrooms, fetchStudentAssignments } from '../actions';
+import { fetchStudentClassifications, fetchStudentClassrooms, fetchStudentAssignments } from '../actions';
 
 
 class StudentAssignmentsContainer extends Component {
@@ -64,25 +64,18 @@ class StudentAssignmentsContainer extends Component {
   render() {
     const classroomData = this.createClassroomAssignmentData();
     const { actions, assignments, classrooms, user, token } = this.props;
-    const boundFetchStudentClassifications = actions.fetchStudentClassifications.bind(this);
-    const boundFetchAggregatedData = actions.fetchAggregatedData.bind(this);
     return classrooms.loading || assignments.loading
       ? <div>Loading assignments...</div>
       : <ClassroomAssignments
           data={ classroomData }
-          fetchAggregations={ boundFetchAggregatedData }
-          fetchClassifications={ boundFetchStudentClassifications }
           student_data={ assignments.student_data }
           token={ token }
           user={ user }/>;
   }
-
 }
 
 const mapDispatchToProps = dispatch => ({
   actions: {
-    fetchAggregatedData: bindActionCreators(fetchAggregatedData, dispatch),
-    fetchStudentClassifications: bindActionCreators(fetchStudentClassifications, dispatch),
     fetchStudentClassrooms: bindActionCreators(fetchStudentClassrooms, dispatch),
     fetchStudentAssignments: bindActionCreators(fetchStudentAssignments, dispatch),
   }

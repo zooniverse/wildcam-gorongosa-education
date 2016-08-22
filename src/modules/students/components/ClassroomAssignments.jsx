@@ -1,18 +1,39 @@
 import React, { Component, PropTypes } from 'react';
+import SuperDownloadButton from '../../common/components/SuperDownloadButton';
+import { DownloadHelper } from '../../../helpers/download.js';
+const mapconfig = require('../../../constants/mapExplorer.config.json');
 
 class ClassroomAssignments extends Component {
   constructor(props) {
     super(props);
-    this.fetchClassifications = this.fetchClassifications.bind(this);
-    this.fetchAggregations = this.fetchAggregations.bind(this);
+    
+    this.classificationButtons = {};
+    this.aggregationButtons = {};
   }
 
-  fetchClassifications(assignment, user) {
-    this.props.fetchClassifications(assignment, user);
+  downloadMyClassifications(username, assignment_id) {
+    return () => {
+      const sql =
+        'SELECT cla.*, sub.location FROM {CLASSIFICATIONS} as cla LEFT JOIN {SUBJECTS} as sub ON cla.subject_id = sub.subject_id WHERE user_name =\'{WHERE_USER}\' AND workflow_id = {WHERE_WORKFLOW}'
+        .replace(/{SUBJECTS}/ig, mapconfig.cartodb.sqlTableSubjects)
+        .replace(/{CLASSIFICATIONS}/ig, mapconfig.cartodb.sqlTableClassifications)
+        .replace(/{WHERE_USER}/ig, DownloadHelper.sqlStrSafe(username))
+        .replace(/{WHERE_WORKFLOW}/ig, parseInt(assignment_id));
+      this.classificationButtons[assignment_id].downloadCSV(sql, true);
+    }
   }
-
-  fetchAggregations(subjectsIds) {
-    this.props.fetchAggregations(subjectsIds);
+  
+  downloadAssignmentSubjects(subjects, assignment_id) {
+    return () => {
+      const where = 'WHERE items.subject_id IN ('+(subjects.join(','))+')';
+      const sql =
+        mapconfig.cartodb.sqlQueryDownload
+        .replace(/{CAMERAS}/ig, mapconfig.cartodb.sqlTableCameras)
+        .replace(/{SUBJECTS}/ig, mapconfig.cartodb.sqlTableSubjects)
+        .replace(/{AGGREGATIONS}/ig, mapconfig.cartodb.sqlTableAggregations)
+        .replace('{WHERE}', where);
+      this.aggregationButtons[assignment_id].downloadCSV(sql, true);
+    }
   }
 
   render() {
@@ -47,22 +68,18 @@ class ClassroomAssignments extends Component {
                     role="button">
                     Start assignment
                   </a>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-default"
-                    onClick={() => {this.fetchClassifications(assignment, user)}}
-                    type="button">
-                    Download
-                  </button>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-default"
-                    onClick={() => {this.fetchAggregations(assignment.subjects)}}
-                    type="button">
-                    Aggregations
-                  </button>
+                  <SuperDownloadButton
+                    ref={ele => this.classificationButtons[assignment.id] = ele}
+                    onClick={this.downloadMyClassifications(user.display_name, assignment.id)}
+                    filename={DownloadHelper.generateFilename('wildcam-my-classifications-')}
+                    text="My Classifications"
+                  />
+                  <SuperDownloadButton
+                    ref={ele => this.aggregationButtons[assignment.id] = ele}
+                    onClick={this.downloadAssignmentSubjects(assignment.subjects, assignment.id)}
+                    filename={DownloadHelper.generateFilename('wildcam-assignment-subjects-')}
+                    text="Aggregated Data"
+                  />
                 </td>
               </tr>
             ) }
