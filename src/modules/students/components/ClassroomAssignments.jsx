@@ -72,13 +72,13 @@ class ClassroomAssignments extends Component {
                     ref={ele => this.classificationButtons[assignment.id] = ele}
                     onClick={this.downloadMyClassifications(user.display_name, assignment.id)}
                     filename={DownloadHelper.generateFilename('wildcam-my-classifications-')}
-                    text="My Classifications"
+                    text="My Data"
                   />
                   <SuperDownloadButton
                     ref={ele => this.aggregationButtons[assignment.id] = ele}
                     onClick={this.downloadAssignmentSubjects(assignment.subjects, assignment.id)}
                     filename={DownloadHelper.generateFilename('wildcam-assignment-subjects-')}
-                    text="Aggregated Data"
+                    text="Public Data"
                   />
                 </td>
               </tr>
