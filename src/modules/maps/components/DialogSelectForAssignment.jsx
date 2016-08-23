@@ -19,7 +19,7 @@ class DialogSelectForAssignment extends Component {
     this.confirmSelection = this.confirmSelection.bind(this);
     this.dataToJSON = this.dataToJSON.bind(this);
     this.goToClassrooms = this.goToClassrooms.bind(this);
-    
+
     this.state = {
       data: [],
       dataLoading: true,
@@ -31,28 +31,28 @@ class DialogSelectForAssignment extends Component {
 
   render() {
     if (!this.props.mapexplorer.selectForAssignmentMode) return null;
-    
+
     return (
       <section role="dialog" className="dialog-ver3 select-for-assignment" onClick={this.closeMe}>
-        <div className="dialog-box" onClick={this.noAction}>          
+        <div className="dialog-box" onClick={this.noAction}>
           <button className="btn close-button fa fa-times" onClick={this.closeMe}></button>
           {(!this.state.dataLoading) ? this.renderData() : <div className="message">Loading...</div> }
         </div>
       </section>
     );
   }
-  
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.mapexplorer.selectForAssignmentMode &&
         nextProps.mapexplorer.selectForAssignmentMode !== this.props.mapexplorer.selectForAssignmentMode) {
       this.fetchData(nextProps);
     }
   }
-  
+
   closeMe(e) {
     this.props.dispatch(disableSelectForAssignmentMode());
   }
-  
+
   //'Eats up' events to prevent them from bubbling to a parent element.
   noAction(e) {
     if (e) {
@@ -63,7 +63,7 @@ class DialogSelectForAssignment extends Component {
     }
     return false;
   }
-  
+
   fetchData(props = this.props) {
     this.setState({ dataLoading: true, data: [], dataCount: 0, confirmed: false });
     const sql = MapHelper.calculateSql(props.mapexplorer, mapconfig.cartodb.sqlQuerySubjectIDs);
@@ -88,7 +88,7 @@ class DialogSelectForAssignment extends Component {
       console.error(err);
     });
   }
-  
+
   renderData() {
     if (!this.state.confirmed) {
       return (
@@ -100,6 +100,11 @@ class DialogSelectForAssignment extends Component {
           </div>
           <div className="message">
             <span>How many would you like to use for the Assignment you're creating?</span>
+          </div>
+          <div>
+            <p>
+              <b>Tip: </b><i>The images you assign to your students will be selected from this set. The smaller the number the more likely is for your students to see the same images.</i>
+            </p>
           </div>
           <div className="message action-message">
             <span>Use</span>
@@ -125,11 +130,11 @@ class DialogSelectForAssignment extends Component {
       );
     }
   }
-  
+
   changeSelectedCount(e) {
     this.setState({ selectedCount: e.target.value });
   }
-  
+
   confirmSelection() {
     const selectedCount = Math.max(0, this.state.selectedCount);
     const data = this.state.data.slice(0, selectedCount);
@@ -137,7 +142,7 @@ class DialogSelectForAssignment extends Component {
     sessionStorage.setItem('savedSubjectsIDs', data.map(i => i.subject_id).join(','));
     sessionStorage.setItem('savedSubjectsDescription', JSON.stringify(this.dataToJSON()));
 
-    const classroomId = sessionStorage.getItem('savedClassroomId');          
+    const classroomId = sessionStorage.getItem('savedClassroomId');
     if (classroomId) {
       this.closeMe();
       browserHistory.push(`/teachers/classrooms/${classroomId}/assignment`);
@@ -145,7 +150,7 @@ class DialogSelectForAssignment extends Component {
       this.setState({ confirmed: true });
     }
   }
-  
+
   dataToJSON() {
     let json = {};
     const selectorKeys = ['species', 'habitats', 'seasons',
@@ -159,7 +164,7 @@ class DialogSelectForAssignment extends Component {
     }
     return json;
   }
-  
+
   goToClassrooms() {
     this.closeMe();
       browserHistory.push('/teachers/classrooms/');
@@ -169,7 +174,7 @@ class DialogSelectForAssignment extends Component {
 DialogSelectForAssignment.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
-DialogSelectForAssignment.defaultProps = { 
+DialogSelectForAssignment.defaultProps = {
   mapexplorer: initialState,
 };
 function mapStateToProps(state, ownProps) {  //Listens for changes in the Redux Store
