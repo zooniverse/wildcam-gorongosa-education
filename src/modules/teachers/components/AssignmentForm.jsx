@@ -145,7 +145,7 @@ class AssignmentForm extends Component {
           <thead>
             <tr>
               <th>Students</th>
-              <th>Progress (updated daily)</th>
+              <th>Progress</th>
             </tr>
           </thead>
           <tbody>

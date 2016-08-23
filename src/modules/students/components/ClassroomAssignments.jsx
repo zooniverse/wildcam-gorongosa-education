@@ -6,7 +6,7 @@ const mapconfig = require('../../../constants/mapExplorer.config.json');
 class ClassroomAssignments extends Component {
   constructor(props) {
     super(props);
-    
+
     this.classificationButtons = {};
     this.aggregationButtons = {};
   }
@@ -22,7 +22,7 @@ class ClassroomAssignments extends Component {
       this.classificationButtons[assignment_id].downloadCSV(sql, true);
     }
   }
-  
+
   downloadAssignmentSubjects(subjects, assignment_id) {
     return () => {
       const where = 'WHERE items.subject_id IN ('+(subjects.join(','))+')';
@@ -50,7 +50,7 @@ class ClassroomAssignments extends Component {
                 <th>Name</th>
                 <th>Description</th>
                 <th>Due date</th>
-                <th>Progress (updated daily)</th>
+                <th>Progress</th>
                 <th>Action</th>
               </tr>
             </thead>
