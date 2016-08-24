@@ -22,7 +22,7 @@ export function student(state = initialState, action) {
         }
       }
     case types.JOIN_CLASSROOM_SUCCESS:
-      alert('You\ve successfully joined the classroom!');
+      alert('You have successfully joined the classroom!');
       return { ...state,
         classrooms: {
           loading: false,
