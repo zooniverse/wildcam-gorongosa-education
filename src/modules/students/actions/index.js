@@ -23,14 +23,25 @@ export function joinClassroom(id, token) {
       }),
       body: JSON.stringify({'join_token': token})
     })
-    .then(response => response.json())
-    .then(json => dispatch({
-      type: types.JOIN_CLASSROOM_SUCCESS,
-      data: json.data,
-      members: json.included
-    }))
+    .then(response => {
+      if (response.status < 200 || response.status > 202) { return null; }
+      return response.json();
+    })
+    .then(json => {
+      if (json && json.data) {
+        dispatch({
+          type: types.JOIN_CLASSROOM_SUCCESS,
+          data: json.data,
+          members: json.included
+        });
+      } else {
+        dispatch({
+          type: types.JOIN_CLASSROOM_ERROR
+        });
+      }
+    })
     .then(() => browserHistory.push('/students/'))
-    .catch(response => console.log('RESPONSE-error: ', response))
+    .catch(response => console.log('RESPONSE-error: ', response));
   };
 
 }

@@ -22,12 +22,23 @@ export function student(state = initialState, action) {
         }
       }
     case types.JOIN_CLASSROOM_SUCCESS:
+      alert('You have successfully joined the classroom!');
       return { ...state,
         classrooms: {
           loading: false,
           data: state.classrooms.data.concat(action.data),
           error: false,
           members: state.classrooms.members.concat(action.members),
+        }
+      }
+    case types.JOIN_CLASSROOM_ERROR:
+      alert('ERROR: Could not join Classroom. You might have already joined the classroom, or the classroom may no longer exist, or the join URL may be incorrect.');
+      return { ...state,
+        classrooms: {
+          loading: false,
+          data: state.classrooms.data,
+          error: false,
+          members: state.classrooms.members,
         }
       }
     case types.REQUEST_STUDENT_CLASSROOMS:
