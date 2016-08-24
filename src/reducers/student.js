@@ -22,6 +22,7 @@ export function student(state = initialState, action) {
         }
       }
     case types.JOIN_CLASSROOM_SUCCESS:
+      alert('You\ve successfully joined the classroom!');
       return { ...state,
         classrooms: {
           loading: false,
@@ -31,7 +32,7 @@ export function student(state = initialState, action) {
         }
       }
     case types.JOIN_CLASSROOM_ERROR:
-      alert('ERROR: Could not join Classroom. Classroom may no longer exist, or the join URL may be incorrect.');
+      alert('ERROR: Could not join Classroom. You might have already joined the classroom, or the classroom may no longer exist, or the join URL may be incorrect.');
       return { ...state,
         classrooms: {
           loading: false,
