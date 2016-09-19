@@ -78,7 +78,9 @@ class Layout extends Component {
         </main>
 
         <footer className='site-footer'>
-          <p className='pull-left'><a href="https://www.zooniverse.org/" target="_blanket">Zooniverse.org</a> The universe is too big to explore without you</p>
+          <p className='pull-left'>
+            Powered by the <a href="https://www.zooniverse.org/" target="_blank">Zooniverse</a>, mapped by <a href="https://carto.com/" target="_blank">Carto</a> and built in partnership with <a href="https://www.hhmi.org/" target="_blank">HHMI</a>.
+          </p>
           <p className='pull-right'>2016</p>
         </footer>
 
