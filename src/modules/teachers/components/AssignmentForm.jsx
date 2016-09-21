@@ -96,7 +96,7 @@ class AssignmentForm extends Component {
     //WildCam Gorongosa has no Staging data that we can use to create Subjects.
     //Therefore, we need to hardcode some Subject IDs.
     //--------
-    if (window.location.hostname === 'localhost') {
+    if (!this.editMode() && window.location.hostname === 'localhost') {
       newAssignment.subjects = [
           '4077',
           '4079',
@@ -107,16 +107,16 @@ class AssignmentForm extends Component {
         ];
     }
     //--------
-
+    
     const target = parseInt(newAssignment.classifications_target);
-    if (target > newAssignment.subjects.length) {
+    if (!this.editMode() && target > newAssignment.subjects.length) {
       alert('The number of subjects selected can\'t be smaller than the number of images.');
       return document.querySelector('input[name=classifications_target]').focus();
     }
 
     //NOTE: According to Marten, it's perfectly OK to create an assignment with no students or subjects.
     //--------
-    if (newAssignment.students.length > 0 && newAssignment.subjects.length > 0) {
+    if (this.editMode() || (newAssignment.students.length > 0 && newAssignment.subjects.length > 0)) {
       sessionStorage.removeItem('savedNewAssignment');
       sessionStorage.removeItem('savedClassroomId');
       sessionStorage.removeItem('savedSubjectsLocations');
@@ -297,6 +297,7 @@ class AssignmentForm extends Component {
           required="required"
           type="number"
           value={this.state.classifications_target}
+          disabled={this.editMode()}
         />
         <div className="form-group">
           { this.renderStudentList(currentStudents) }
