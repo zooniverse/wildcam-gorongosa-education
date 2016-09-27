@@ -1,6 +1,5 @@
 {
   "cartodb": {
-    "vizUrl": "https://shaunanoordin-zooniverse.cartodb.com/api/v2/viz/e04c2e20-a8a9-11e5-8d6b-0e674067d321/viz.json",
     "sqlApi": "https://shaunanoordin-zooniverse.cartodb.com/api/v2/sql?q={SQLQUERY}",
     "sqlTableCameras": "wildcam_gorongosa_cameras_201601",
     "sqlTableSubjects": "wildcam_gorongosa_subjects_201601_16000",
