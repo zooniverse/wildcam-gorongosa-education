@@ -37,6 +37,10 @@
       "most_likely_are_there_any_young_present": "young_present",
       "percentage_do_you_see_any_hornsyes": "horns",
       "location": "image_url"
+    },
+    "csvEasyModeSpecialValues": {
+      "11-50": "25",
+      "51+": "75"
     }
   },
   "mapCentre": {

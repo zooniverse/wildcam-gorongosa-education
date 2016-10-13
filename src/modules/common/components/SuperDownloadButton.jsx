@@ -118,7 +118,8 @@ class SuperDownloadButton extends Component {
     //Prepare the column headers
     //NOTE: we can package these translations into the SQL query but it'll get super long & messy
     for (let key in mapconfig.cartodb.csvEasyModeTranslator) {
-      row.push('"'+mapconfig.cartodb.csvEasyModeTranslator[key].replace(/"/g, '\\"')+'"');
+      let thisVal = '"'+mapconfig.cartodb.csvEasyModeTranslator[key].replace(/"/g, '\\"')+'"'
+      row.push(thisVal);
     }
     row = row.join(',');
     data.push(row);
@@ -127,9 +128,15 @@ class SuperDownloadButton extends Component {
     json.rows.map((rowItem) => {
       let row = [];
       for (let key in mapconfig.cartodb.csvEasyModeTranslator) {
-        (json.fields[key].type === 'string' && rowItem[key])
-          ? row.push('"'+rowItem[key].replace(/"/g, '\\"')+'"')
-          : row.push(rowItem[key]);
+        let thisVal = rowItem[key];
+        
+        if (mapconfig.cartodb.csvEasyModeSpecialValues[thisVal]) {
+          //Teacher & Students using Excel are confused when seeing the range "11-50" and "51+"; these speical values will be translated to "25" and "75"
+          thisVal = mapconfig.cartodb.csvEasyModeSpecialValues[thisVal];
+        }
+        (json.fields[key].type === 'string' && thisVal)
+          ? row.push('"'+thisVal.replace(/"/g, '\\"')+'"')
+          : row.push(thisVal);
       }
       row = row.join(',');
       data.push(row);

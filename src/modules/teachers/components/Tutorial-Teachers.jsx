@@ -54,6 +54,7 @@ const TutorialForTeachers = (props) => (
       <li>The downloaded file is in CSV (comma separated values) format. Files of this format can be opened in Microsoft Excel by double-clicking the file. If the file does not automatically open in Excel, open Excel, click File>Open, and select the CSV file from your computer. </li>
       <li>If you wish to convert the CSV file to an Excel file (.xls), open the CSV file in Excel and click File>Save as. In the format dropdown, select Excel 97-2004 Workbook (.xls).</li>
       <li>You can share data sets that you curate for students, or you can instruct students to explore the map, filter, and download data on their own.</li>
+      <li>Please note that when viewing the species count for large numbers of animals, the number "25" actually corresponds to the range of "11-50" animals, and the number "75" actually corresponds to the range of "50+" animals. While the research data uses numerical range groups to distinguish large amounts of animals, the downloaded CSV takes the mean values to allow you to use species counts in calculations and graphs.</li>
     </ul>
 
   </div>
