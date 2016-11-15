@@ -71,7 +71,11 @@ class AssignmentForm extends Component {
 
   handleChange(e) {
     const nextState = {};
-    nextState[e.target.name] = e.target.value;
+    if (e.target.type && e.target.type === 'number') {
+      nextState[e.target.name] = e.target.value.replace(/-/g, '');
+    } else {
+      nextState[e.target.name] = e.target.value;
+    }
     this.setState(nextState);
   }
 
@@ -107,7 +111,7 @@ class AssignmentForm extends Component {
         ];
     }
     //--------
-    
+
     const target = parseInt(newAssignment.classifications_target);
     if (!this.editMode() && target > newAssignment.subjects.length) {
       alert('The number of subjects selected can\'t be smaller than the number of images.');
