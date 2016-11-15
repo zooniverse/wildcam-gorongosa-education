@@ -74,7 +74,7 @@ class AssignmentForm extends Component {
     if (e.target.type && e.target.type === 'number') {
       nextState[e.target.name] = e.target.value.replace(/-/g, '');
     } else {
-      nextState[e.target.name] = e.target.value
+      nextState[e.target.name] = e.target.value;
     }
     this.setState(nextState);
   }
@@ -300,7 +300,6 @@ class AssignmentForm extends Component {
           placeholder="Note: per student"
           required="required"
           type="number"
-          min="0"
           value={this.state.classifications_target}
           disabled={this.editMode()}
         />
