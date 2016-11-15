@@ -71,7 +71,7 @@ class AssignmentForm extends Component {
 
   handleChange(e) {
     const nextState = {};
-    nextState[e.target.name] = e.target.value;
+    nextState[e.target.name] = e.target.value.replace(/-/g, '');
     this.setState(nextState);
   }
 
@@ -107,7 +107,7 @@ class AssignmentForm extends Component {
         ];
     }
     //--------
-    
+
     const target = parseInt(newAssignment.classifications_target);
     if (!this.editMode() && target > newAssignment.subjects.length) {
       alert('The number of subjects selected can\'t be smaller than the number of images.');
@@ -296,6 +296,7 @@ class AssignmentForm extends Component {
           placeholder="Note: per student"
           required="required"
           type="number"
+          min="0"
           value={this.state.classifications_target}
           disabled={this.editMode()}
         />
