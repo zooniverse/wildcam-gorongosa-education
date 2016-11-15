@@ -71,7 +71,11 @@ class AssignmentForm extends Component {
 
   handleChange(e) {
     const nextState = {};
-    nextState[e.target.name] = e.target.value.replace(/-/g, '');
+    if (e.target.type && e.target.type === 'number') {
+      nextState[e.target.name] = e.target.value.replace(/-/g, '');
+    } else {
+      nextState[e.target.name] = e.target.value
+    }
     this.setState(nextState);
   }
 
