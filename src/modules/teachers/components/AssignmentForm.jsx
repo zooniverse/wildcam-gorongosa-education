@@ -2,6 +2,7 @@ import { Component, PropTypes } from 'react';
 import { Link, browserHistory } from 'react-router';
 
 import InputElement from './InputElement';
+import Spinner from '../../common/components/Spinner';
 
 const initialState = {
   classifications_target: '',
@@ -313,8 +314,11 @@ class AssignmentForm extends Component {
           <p>Use the map to choose a set of images for your students to identify and "Select for assignment". </p>
           <button className="btn btn-default" disabled={this.editMode()} onClick={this.selectNewSubjects}>Select images</button>
         </div>
-        <div className="form-group">
-          <button type="submit" disabled={this.state.loading} className="btn btn-primary pull-right">Submit</button>
+        <div className="form-group" style={{overflow: 'hidden'}}>
+          {(!this.state.loading)
+            ? <button type="submit" className="btn btn-primary pull-right">Submit</button>
+            : <div className="pull-right"><Spinner /></div>
+          }
         </div>
       </form>
     );
