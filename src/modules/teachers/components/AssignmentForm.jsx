@@ -331,13 +331,9 @@ class AssignmentForm extends Component {
           ? <div className="form-group" style={{overflow: 'hidden'}}>
               <div className="pull-right"><Spinner /></div>
             </div>
-          : null
-        }
-        {(!this.state.loading && savedSubjectsIDs.length > 0)
-          ? <div className="form-group" style={{overflow: 'hidden'}}>
+          : <div className="form-group" style={{overflow: 'hidden'}}>
               <button type="submit" className="btn btn-primary pull-right">Submit</button>
             </div>
-          : null
         }
       </form>
     );
