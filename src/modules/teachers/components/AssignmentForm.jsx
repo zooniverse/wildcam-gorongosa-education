@@ -260,6 +260,9 @@ class AssignmentForm extends Component {
       ? classrooms.uniqueMembers
           .filter(student => currentStudentsIds.includes(student.id))
       : {};
+    let savedSubjectsIDs = sessionStorage.getItem('savedSubjectsIDs');
+    savedSubjectsIDs = (savedSubjectsIDs === null || savedSubjectsIDs === '') ?
+      [] : savedSubjectsIDs.split(',');
     return (
       <form onSubmit={this.handleSubmit}>
         <h3>Classroom {currentClassroom ? currentClassroom.attributes.name : 'Loading'}</h3>
@@ -310,16 +313,32 @@ class AssignmentForm extends Component {
         <div className="form-group">
           {this.renderSelectedSubjects()}
         </div>
-        <div className="form-group">
-          <p>Use the map to choose a set of images for your students to identify and "Select for assignment". </p>
-          <button className="btn btn-default" disabled={this.editMode()} onClick={this.selectNewSubjects}>Select images</button>
-        </div>
-        <div className="form-group" style={{overflow: 'hidden'}}>
-          {(!this.state.loading)
-            ? <button type="submit" className="btn btn-primary pull-right">Submit</button>
-            : <div className="pull-right"><Spinner /></div>
-          }
-        </div>
+        {(savedSubjectsIDs.length === 0 && !this.state.loading && !(this.props.fields && this.props.fields.subjects))
+          ? <div className="form-group">
+              <p>You need to select images for this assignment. Click "Select images" below, then use the map to choose a set of images for your students to identify and click "Select for assignment". </p>
+              <button className="btn btn-primary" disabled={this.editMode()} onClick={this.selectNewSubjects}>Select images</button>
+            </div>
+          : null
+        }
+        {(savedSubjectsIDs.length > 0 && !this.state.loading && !(this.props.fields && this.props.fields.subjects))
+          ? <div className="form-group">
+              <p>You've already selected images for this assignment. If you wish to replace them with newer images, click the "Select new images". Otherwise, click "Submit" to create the assignment.</p>
+              <button className="btn btn-default" disabled={this.editMode()} onClick={this.selectNewSubjects}>Select new images</button>
+            </div>
+          : null
+        }
+        {(this.state.loading)
+          ? <div className="form-group" style={{overflow: 'hidden'}}>
+              <div className="pull-right"><Spinner /></div>
+            </div>
+          : null
+        }
+        {(!this.state.loading && savedSubjectsIDs.length > 0)
+          ? <div className="form-group" style={{overflow: 'hidden'}}>
+              <button type="submit" className="btn btn-primary pull-right">Submit</button>
+            </div>
+          : null
+        }
       </form>
     );
   }
