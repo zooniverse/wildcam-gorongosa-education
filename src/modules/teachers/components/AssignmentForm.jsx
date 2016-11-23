@@ -313,16 +313,16 @@ class AssignmentForm extends Component {
         <div className="form-group">
           {this.renderSelectedSubjects()}
         </div>
-        {(savedSubjectsIDs.length === 0 && !this.state.loading && !(this.props.fields && this.props.fields.subjects))
+        {(savedSubjectsIDs.length === 0 && !this.state.loading && !this.editMode())
           ? <div className="form-group">
               <p>You need to select images for this assignment. Click "Select images" below, then use the map to choose a set of images for your students to identify and click "Select for assignment". </p>
               <button className="btn btn-primary" disabled={this.editMode()} onClick={this.selectNewSubjects}>Select images</button>
             </div>
           : null
         }
-        {(savedSubjectsIDs.length > 0 && !this.state.loading && !(this.props.fields && this.props.fields.subjects))
+        {(savedSubjectsIDs.length > 0 && !this.state.loading && !this.editMode())
           ? <div className="form-group">
-              <p>You've already selected images for this assignment. If you wish to replace them with newer images, click the "Select new images". Otherwise, click "Submit" to create the assignment.</p>
+              <p>If you wish to replace your chosen images with newer images, click the "Select new images". Otherwise, click "Submit" to create the assignment.</p>
               <button className="btn btn-default" disabled={this.editMode()} onClick={this.selectNewSubjects}>Select new images</button>
             </div>
           : null
