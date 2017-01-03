@@ -99,11 +99,11 @@ class DialogSelectForAssignment extends Component {
             <span>results.</span>
           </div>
           <div className="message">
-            <span>How many would you like to use for the Assignment you're creating?</span>
+            <span>How many of these images would you like to use for the Assignment you're creating?</span>
           </div>
           <div>
             <p>
-              <b>Tip: </b><i>The images you assign to your students will be selected from this set. The smaller the number the more likely is for your students to see the same images.</i>
+              <b>Tip: </b><i>The images you assigned to your students when you created your assignment will be randomly selected from this set. For example, if you assigned 10 images for each student, 10 random images will be chosen and assigned to each student. If you want all of your students to see the exact same images, enter 10 here and all of your students will see the exact same images. If you want your students to see different images, don't change the number of images here and there will be a higher likelihood of your students seeing different images.</i>
             </p>
           </div>
           <div className="message action-message">

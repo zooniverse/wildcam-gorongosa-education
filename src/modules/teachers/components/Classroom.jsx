@@ -163,7 +163,7 @@ class Classroom extends Component {
             <h3>School: {attributes.school}</h3>
             <h3>Description: {attributes.description}</h3>
             <h3>Join Link</h3>
-            <p>Send the following URL to all the students you want to join this classroom. Note: students need to login to Zooniverse.org to be able to join.</p>
+            <p>Send the following URL to all the students you want to join this classroom. But first, make sure your students have set up a Zooniverse account and are logged in before they click the link to join!</p>
             <div className="input-group">
               <input className="form-control" type="text" value={this.state.url} readOnly/>
               <CopyToClipboard text={this.state.url} onCopy={this.onCopy}>

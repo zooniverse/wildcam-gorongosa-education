@@ -28,6 +28,14 @@ const Resources = (props) => (
         <p>ACTIVITY</p>
         <p>In this activity, students will calculate species richness, evenness, and the Shannon diversity index for various habitat types using data from trail cameras in Gorongosa National Park. <a href="http://www.hhmi.org/biointeractive/measuring-biodiversity-gorongosa" target="_blank">View Activity &raquo;</a></p>
       </li>
+      
+      <li>
+        <img src={require('../../../images/resources/3.5_HumanImpactOnBiodiversity_thumb.jpg')} />
+        <h3>Measuring Biodiversity in Gorongosa</h3>
+        <p>ACTIVITY</p>
+        <p>In this activity, students will use trail camera data to answer a scientific research question about the impacts of humans on species diversity in Gorongosa. <a href="http://www.hhmi.org/biointeractive/human-impacts-biodiversity" target="_blank">View Activity &raquo;</a></p>
+      </li>
+      
     </ul>
 
     <h2>Related Resources</h2>

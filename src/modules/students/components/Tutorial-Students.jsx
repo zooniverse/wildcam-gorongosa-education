@@ -32,10 +32,7 @@ const TutorialForStudents = (props) => (
       <li>If you wish to export a spreadsheet of the entire trail camera data set, do not apply any filters and simply click on the "Download" button.</li>
       <li>Select the destination folder for the file. Click "Save."</li>
       <li>The downloaded file is in CSV (comma separated values) format. Files of this format can be opened in Microsoft Excel by double-clicking the file. If the file does not automatically open in Excel, open Excel, click File>Open, and select the CSV file from your computer. </li>
-      <li>
-        If you wish to convert the CSV file to an Excel file (.xls), open the CSV file in Excel and click File>Save as. In the format dropdown, select Excel 97-2004 Workbook (.xls).    
-        <b>Important:</b> It is highly recommended that you convert your csv file to Excel format before you begin analyzing data. It is possible that you will lose their work if they begin analyzing data while the file is in CSV format.
-      </li>
+      <li>If you wish to convert the CSV file to an Excel file (.xls), open the CSV file in Excel and click File>Save as. In the format dropdown, select Excel 97-2004 Workbook (.xls). <b>Important:</b> It is highly recommended that you convert your csv file to Excel format before you begin analyzing data. It is possible that you will lose their work if they begin analyzing data while the file is in CSV format.</li>
       <li>Please note that when viewing the species count for large numbers of animals, the number "25" actually corresponds to the range of "11-50" animals, and the number "75" actually corresponds to the range of "50+" animals. While the research data uses numerical range groups to distinguish large amounts of animals, the downloaded CSV takes the mean values to allow you to use species counts in calculations and graphs.</li>
     </ul>
     
@@ -56,7 +53,7 @@ const TutorialForStudents = (props) => (
     <h2>Learn about Gorongosa Ecology</h2>
     <ul>
       <li>Click the "Ecology" tab.</li>
-      <li>This page gives a broad overview of the ecology of Gorongosa National Park. The Gorongosa National Park website (www.gorongosa.org) is another place for you to gather more information about the park.</li>
+      <li>This page gives a broad overview of the ecology of Gorongosa National Park. The Gorongosa National Park website <a href="http://www.gorongosa.org">(www.gorongosa.org)</a> is another place for you to gather more information about the park.</li>
     </ul>
 
   </div>

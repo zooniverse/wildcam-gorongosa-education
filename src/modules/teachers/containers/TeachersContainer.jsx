@@ -40,10 +40,6 @@ TeachersContainer.defaultProps = {
     {
       label: 'Ecology',
       to: '/teachers/ecology'
-    },
-    {
-      label: 'Feedback',
-      to: 'https://docs.google.com/a/zooniverse.org/forms/d/1Cx4LDXevyqZZheB_EupVRxd7jCzpoH-m8j494cyNNfc/edit'
     }
   ]
 }
