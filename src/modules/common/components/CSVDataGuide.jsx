@@ -1,5 +1,5 @@
 const CSVDataGuide = (props) => (
-  <div className="admin-component resources">
+  <div className="admin-component data-guide">
     <h1>Description of WildCam Lab Data</h1>
     <p>The spreadsheets that you can download from WildCam Lab include data about every photo in the WildCam Lab database. Each row represents a species in a unique photo. For example, if one photo has only warthogs in the photo, there will only be one row of data for that photo. If another photo has some warthogs and some impalas in the photo, there will be two rows of data for that photo. Each column is a piece of information about that photo. This information is based on the location of the camera, the time and date stamp on the photo, or the animal identifications from up to 25 citizen scientists that have been aggregated based on an algorithm. Below, you will find additional information about each column in the spreadsheet.</p>    
     <p>The files are downloaded in CSV format. If you choose to analyze the data using Excel functionality, it is highly recommended that you save the file in Excel (.xls) format before you analyze the data, otherwise you may lose your work. If you choose to analyze the data using R or another statistical software, CSV format is usually best.</p>
