@@ -9,6 +9,7 @@ import JoinClassroomContainer from './containers/JoinClassroomContainer.jsx';
 
 import TutorialForStudents from './components/Tutorial-Students.jsx';
 import Ecology from '../common/components/Ecology.jsx';
+import CSVDataGuide from '../common/components/CSVDataGuide.jsx';
 
 const studentRoutes = store => (
   <Provider store={store}>
@@ -20,6 +21,7 @@ const studentRoutes = store => (
         <Route path="data" component={MapExplorerVer3} />
         <Route path="tutorial" component={TutorialForStudents} />
         <Route path="ecology" component={ Ecology } />
+        <Route path="data-guide" component={ CSVDataGuide } />        
       </Route>
     </Router>
   </Provider>
