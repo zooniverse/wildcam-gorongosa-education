@@ -69,6 +69,18 @@ class AssignmentForm extends Component {
       })
     }
   }
+  
+  selectAllStudents(students, e) {
+    this.setState({
+      students: students.map((itm) => { return itm.id }),
+    });
+  }
+  
+  unselectAllStudents(e) {
+    this.setState({
+      students: [],
+    });
+  }
 
   handleChange(e) {
     const nextState = {};
@@ -119,9 +131,12 @@ class AssignmentForm extends Component {
       return document.querySelector('input[name=classifications_target]').focus();
     }
 
-    //NOTE: According to Marten, it's perfectly OK to create an assignment with no students or subjects.
+    //NOTE: According to Marten, it's perfectly OK to create an assignment with
+    //no students or subjects, but tests have shown a weird 422 Unprocessable
+    //Entity error when doing so. (Jan 2017)
     //--------
-    if (this.editMode() || (newAssignment.subjects.length > 0)) {
+    if ((this.editMode() && newAssignment.students.length > 0) ||
+        (newAssignment.students.length > 0 && newAssignment.subjects.length > 0)) {
       sessionStorage.removeItem('savedNewAssignment');
       sessionStorage.removeItem('savedClassroomId');
       sessionStorage.removeItem('savedSubjectsLocations');
@@ -129,7 +144,7 @@ class AssignmentForm extends Component {
       sessionStorage.removeItem('savedSubjectsDescription');
       this.props.submitForm(newAssignment, this.props.params.classroomId)
     } else {
-      alert('You can\'t create an assignment without subjects.')
+      alert('You can\'t create an assignment without students or subjects.')
     };
     //--------
   }
@@ -138,7 +153,9 @@ class AssignmentForm extends Component {
     const getStudentClassifications = (student) => {
       if (this.props.student_data && this.props.student_data.length > 0) {
         const currentStudentData = this.props.student_data.find(item => item.attributes.student_user_id.toString() === student.id);
-        return currentStudentData.attributes.classifications_count;
+        return (currentStudentData && currentStudentData.attributes && currentStudentData.attributes.classifications_count)
+          ? currentStudentData.attributes.classifications_count
+          : 0;
       } else {
         return 0
       }
@@ -161,8 +178,8 @@ class AssignmentForm extends Component {
                   <td>
                     <label>
                       {(selected)
-                        ? <input type="checkbox" disabled={this.editMode()} value={student.id} onChange={this.toggleStudent} checked />
-                        : <input type="checkbox" disabled={this.editMode()} value={student.id} onChange={this.toggleStudent} />
+                        ? <input type="checkbox" disabled={false && this.editMode()} value={student.id} onChange={this.toggleStudent} checked />
+                        : <input type="checkbox" disabled={false && this.editMode()} value={student.id} onChange={this.toggleStudent} />
                       }
                       {student.attributes.zooniverse_display_name}
                     </label>
@@ -173,6 +190,16 @@ class AssignmentForm extends Component {
                 </tr>
               );
             })}
+            
+            <tr>
+              <td>
+                {(this.state.students.length !== students.length)
+                  ? <button type="button" className="btn" onClick={this.selectAllStudents.bind(this, students)}>Select all students</button>
+                  : <button type="button" className="btn" onClick={this.unselectAllStudents.bind(this)}>Unselect all students</button>
+                }
+              </td>
+              <td>&nbsp;</td>
+            </tr>
           </tbody>
         </table>
         : 'No students here' }
@@ -316,14 +343,14 @@ class AssignmentForm extends Component {
         {(savedSubjectsIDs.length === 0 && !this.state.loading && !this.editMode())
           ? <div className="form-group">
               <p>You need to select images for this assignment. Click "Select images" below, then use the map to choose a set of images for your students to identify and click "Select for assignment". </p>
-              <button className="btn btn-primary" disabled={this.editMode()} onClick={this.selectNewSubjects}>Select images</button>
+              <button type="button" className="btn btn-primary" disabled={this.editMode()} onClick={this.selectNewSubjects}>Select images</button>
             </div>
           : null
         }
         {(savedSubjectsIDs.length > 0 && !this.state.loading && !this.editMode())
           ? <div className="form-group">
               <p>If you wish to replace your chosen images with newer images, click the "Select new images". Otherwise, click "Submit" to create the assignment.</p>
-              <button className="btn btn-default" disabled={this.editMode()} onClick={this.selectNewSubjects}>Select new images</button>
+              <button type="button" className="btn btn-default" disabled={this.editMode()} onClick={this.selectNewSubjects}>Select new images</button>
             </div>
           : null
         }

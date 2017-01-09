@@ -29,6 +29,29 @@ export function createAssignment(assignment, classroomId) {
     id: subject_id,
     type: 'subjects',
   }));
+  
+  const bodyData = JSON.stringify({
+    data: {
+      attributes: {
+        name: assignment.name,
+        metadata,
+      },
+      relationships: {
+        classroom: {
+          data: classroomData
+        },
+        student_users: {
+          data: studentData,
+        },
+        subjects: {
+          data: subjectData,
+        }
+      }
+    }
+  });
+  
+  console.log('+'.repeat(160));
+  console.log('CREATING:\n', bodyData);
 
   return dispatch => {
     dispatch({
@@ -41,25 +64,7 @@ export function createAssignment(assignment, classroomId) {
         'Authorization': apiClient.headers.Authorization,
         'Content-Type': 'application/json'
       }),
-      body: JSON.stringify({
-        data: {
-          attributes: {
-            name: assignment.name,
-            metadata,
-          },
-          relationships: {
-            classroom: {
-              data: classroomData
-            },
-            student_users: {
-              data: studentData,
-            },
-            subjects: {
-              data: subjectData,
-            }
-          }
-        }
-      })
+      body: bodyData,
     })
     .then(response => response.json())
     .then(json => {
@@ -107,6 +112,34 @@ export function deleteAssignment(assignmentId, classroomId) {
 }
 
 export function editAssignment(fields, assignment) {
+  
+  let studentData = fields.students.map(student_id => ({
+    id: student_id,
+    type: 'student_user',
+  }));
+  
+  const bodyData = JSON.stringify({
+    data: {
+      attributes: {
+        name: fields.name,
+        metadata: {
+          description: fields.description,
+          classifications_target: fields.classifications_target,
+          duedate: fields.duedate,
+          filters: fields.filters,
+        },
+      },
+      relationships: {
+        student_users: {
+          data: studentData,
+        },
+      },
+    }
+  });
+  
+  console.log('~'.repeat(160));
+  console.log('SUBMITTING:\n', bodyData);
+  
   return dispatch => {
     dispatch({
       ...fields,
@@ -119,19 +152,7 @@ export function editAssignment(fields, assignment) {
         'Authorization': apiClient.headers.Authorization,
         'Content-Type': 'application/json'
       }),
-      body: JSON.stringify({
-        data: {
-          attributes: {
-            name: fields.name,
-            metadata: {
-              description: fields.description,
-              classifications_target: fields.classifications_target,
-              duedate: fields.duedate,
-              filters: fields.filters,
-            }
-          }
-        }
-      })
+      body: bodyData
     })
     .then(response => {
       dispatch({
