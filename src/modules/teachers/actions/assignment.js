@@ -49,9 +49,6 @@ export function createAssignment(assignment, classroomId) {
       }
     }
   });
-  
-  console.log('+'.repeat(160));
-  console.log('CREATING:\n', bodyData);
 
   return dispatch => {
     dispatch({
@@ -136,9 +133,6 @@ export function editAssignment(fields, assignment) {
       },
     }
   });
-  
-  console.log('~'.repeat(160));
-  console.log('SUBMITTING:\n', bodyData);
   
   return dispatch => {
     dispatch({
