@@ -32,7 +32,7 @@ const envConfig = {
     routes: {
       root: 'https://lab.wildcamgorongosa.org/'
     },
-    panoptesAppId: '442c8c4910fbb9be14bd9a92ee6e14ad29159d0217d0345fd9b2db3d881c4a7d',
+    panoptesAppId: '5de4d5dc1566a34e6ea1aafe18a6045f16af62bc58475cd23ed6c4b295425ae4',
     panoptesReturnUrl: 'https://lab.wildcamgorongosa.org/'
   }
 };
