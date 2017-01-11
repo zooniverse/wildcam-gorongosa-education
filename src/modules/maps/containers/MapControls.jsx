@@ -1,6 +1,6 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import { initialState } from '../../../reducers/mapexplorer';
 import { MapHelper } from '../../../helpers/mapexplorer.js';
 import { enableSelectForAssignmentMode } from '../actions/mapexplorer';
@@ -58,6 +58,10 @@ class MapControls extends Component {
             ? <DialogTutorial
                 name="explorers"
                 data={require('../../common/data/tutorial-explorers.js').default} />
+            : null
+          }
+          {(this.props.studentMode)
+            ? <Link className='btn' to='/students/data-guide'>CSV Guide</Link>
             : null
           }
         </div>
