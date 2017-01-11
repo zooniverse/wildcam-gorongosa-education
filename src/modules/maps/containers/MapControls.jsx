@@ -28,7 +28,7 @@ class MapControls extends Component {
     };
   }
 
-  render() {  
+  render() { 
     return (
       <section ref="mapControls" className="map-controls">
         <div className="summary">
@@ -36,7 +36,13 @@ class MapControls extends Component {
         </div>
         <div className="actions-panel">
           {(this.props.teacherMode) 
-            ? <button className="btn btn-primary" onClick={this.selectForAssignment}>
+            ? <button
+                className={
+                  (sessionStorage.getItem('savedNewAssignment'))
+                  ? 'btn btn-primary glowing-outline'
+                  : 'btn btn-primary'
+                }
+                onClick={this.selectForAssignment}>
                 <i className="fa fa-book" /> Select for Assignment
               </button>
             : null
