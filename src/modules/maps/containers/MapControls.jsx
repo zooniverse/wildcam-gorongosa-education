@@ -1,6 +1,6 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import { initialState } from '../../../reducers/mapexplorer';
 import { MapHelper } from '../../../helpers/mapexplorer.js';
 import { enableSelectForAssignmentMode } from '../actions/mapexplorer';
@@ -28,7 +28,7 @@ class MapControls extends Component {
     };
   }
 
-  render() {  
+  render() { 
     return (
       <section ref="mapControls" className="map-controls">
         <div className="summary">
@@ -36,7 +36,13 @@ class MapControls extends Component {
         </div>
         <div className="actions-panel">
           {(this.props.teacherMode) 
-            ? <button className="btn btn-primary" onClick={this.selectForAssignment}>
+            ? <button
+                className={
+                  (sessionStorage.getItem('savedNewAssignment'))
+                  ? 'btn btn-primary glowing-outline'
+                  : 'btn btn-primary'
+                }
+                onClick={this.selectForAssignment}>
                 <i className="fa fa-book" /> Select for Assignment
               </button>
             : null
@@ -52,6 +58,10 @@ class MapControls extends Component {
             ? <DialogTutorial
                 name="explorers"
                 data={require('../../common/data/tutorial-explorers.js').default} />
+            : null
+          }
+          {(this.props.studentMode)
+            ? <Link className='btn' to='/students/data-guide'>CSV Guide</Link>
             : null
           }
         </div>
