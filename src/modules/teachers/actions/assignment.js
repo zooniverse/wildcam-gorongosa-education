@@ -120,11 +120,12 @@ export function editAssignment(fields, assignment) {
       attributes: {
         name: fields.name,
         metadata: {
-          description: fields.description,
           classifications_target: fields.classifications_target,
+          description: fields.description,
           duedate: fields.duedate,
-          filters: fields.filters,
-        },
+          filters:  (assignment.attributes && assignment.attributes.metadata) ? (assignment.attributes.metadata.filters)  : null,
+          subjects: (assignment.attributes && assignment.attributes.metadata) ? (assignment.attributes.metadata.subjects) : null,
+        }
       },
       relationships: {
         student_users: {
