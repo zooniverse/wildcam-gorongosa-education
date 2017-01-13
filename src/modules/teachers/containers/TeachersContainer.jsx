@@ -40,6 +40,10 @@ TeachersContainer.defaultProps = {
     {
       label: 'Ecology',
       to: '/teachers/ecology'
+    },
+    {
+      label: 'Discuss',
+      to: 'https://www.zooniverse.org/projects/zooniverse/wildcam-gorongosa/talk/81'
     }
   ]
 }
