@@ -31,7 +31,7 @@ const Resources = (props) => (
       
       <li>
         <img src={require('../../../images/resources/3.5_HumanImpactOnBiodiversity_thumb.jpg')} />
-        <h3>Measuring Biodiversity in Gorongosa</h3>
+        <h3>Human Impacts on Biodiversity</h3>
         <p>ACTIVITY</p>
         <p>In this activity, students will use trail camera data to answer a scientific research question about the impacts of humans on species diversity in Gorongosa. <a href="http://www.hhmi.org/biointeractive/human-impacts-biodiversity" target="_blank">View Activity &raquo;</a></p>
       </li>
