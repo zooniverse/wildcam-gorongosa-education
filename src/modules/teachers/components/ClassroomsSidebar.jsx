@@ -9,6 +9,10 @@ class ClassroomSidebar extends Component {
     super();
     this.renderStatusMessage = this.renderStatusMessage.bind(this);
     this.renderClassroomList = this.renderClassroomList.bind(this);
+    
+    this.state = {
+      showNotice: false
+    };
   }
 
   renderStatusMessage(props) {
@@ -64,6 +68,21 @@ class ClassroomSidebar extends Component {
           : <Spinner/>}
             { this.renderStatusMessage(data) }
             { this.renderClassroomList(list) }
+          </div>
+        
+          <div className="panel panel-notice">
+            <h5>Notice: Missing Classrooms and Duplicate Classrooms</h5>
+            <h6>28 April 2017</h6>
+            {(!this.state.showNotice)
+              ? <button className="fa fa-plus" onClick={()=>{this.setState({showNotice: true})}}></button>
+              : <div>
+                  <p>We've received reports that some Educators had an issue with 'missing classrooms', where Classrooms they created would disappear after they log out and then log in again.</p>
+                  <p>A fix has been applied to our database that should resolve this problem, but the result is that previously 'missing' Classrooms would have been 'brought back' - meaning some Educators might see duplicate Classrooms.</p>
+                  <p>This should only affect 3% of WildCam Lab's users, and if you're affected, please delete any redundant/duplicate Classrooms that may appear.</p>
+                  <p>We apologise for any disruptions to your classrooms, and we hope that the Lab continues to serve your education and research needs. Thank you,</p>
+                  <p>- The WildCam Lab team</p>
+                </div>
+            }
           </div>
 
       </div>
