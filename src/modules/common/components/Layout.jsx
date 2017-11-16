@@ -2,6 +2,7 @@ import { Component, PropTypes } from 'react';
 import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 
+import Notification from './Notification';
 import HeaderAuth from '../containers/HeaderAuth';
 import config from '../../../constants/config';
 import Spinner from './Spinner';
@@ -69,6 +70,7 @@ class Layout extends Component {
             {this.renderNav()}
             <HeaderAuth />
           </div>
+          <Notification />
         </header>
 
         <main className='content-section'>
