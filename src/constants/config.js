@@ -41,7 +41,8 @@ const envConfig = {
   staging: {
     eduAPI: {
       root:'https://education-api-staging.zooniverse.org/',
-      programId: '4'
+      programId: '4',
+      workflowId: '338' // WG doesn't exist on staging, so this is the production default workflow id
     },
     routes: {
       root:'http://localhost:3000/'
@@ -52,7 +53,8 @@ const envConfig = {
   production: {
     eduAPI: {
       root: 'https://education-api.zooniverse.org/',
-      programId: '' // TODO add program id for wildcam gorongosa when it exists in production
+      programId: '', // TODO add program id for wildcam gorongosa when it exists in production
+      workflowId: '338'
     },
     routes: {
       root: 'https://lab.wildcamgorongosa.org/'

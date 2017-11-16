@@ -7,7 +7,7 @@ import * as types from '../../../constants/actionTypes';
 
 
 // Action creators
-const { root, assignments } = config.eduAPI;
+const { root, assignments, workflowId } = config.eduAPI;
 
 export function createAssignment(assignment, classroomId) {
   const classroomData = {
@@ -29,12 +29,13 @@ export function createAssignment(assignment, classroomId) {
     id: subject_id,
     type: 'subjects',
   }));
-  
+
   const bodyData = JSON.stringify({
     data: {
       attributes: {
         name: assignment.name,
         metadata,
+        workflow_id: workflowId
       },
       relationships: {
         classroom: {
@@ -109,12 +110,12 @@ export function deleteAssignment(assignmentId, classroomId) {
 }
 
 export function editAssignment(fields, assignment) {
-  
+
   let studentData = fields.students.map(student_id => ({
     id: student_id,
     type: 'student_user',
   }));
-  
+
   const bodyData = JSON.stringify({
     data: {
       attributes: {
@@ -134,7 +135,7 @@ export function editAssignment(fields, assignment) {
       },
     }
   });
-  
+
   return dispatch => {
     dispatch({
       ...fields,
