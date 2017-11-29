@@ -23,8 +23,6 @@ export function createAssignment(assignment, classroomId) {
 
   // Carto DB doesn't have staging data. We use hard coded subject ids from the staging WG project and ignore the Carto selection.
   if (process.env.NODE_ENV === 'staging') {
-    console.log(process.env.NODE_ENV, 'staging!')
-
     subjectData = sampleSubjects.map((subject_id) => ({
       id: subject_id,
       type: 'subjects',
@@ -38,7 +36,6 @@ export function createAssignment(assignment, classroomId) {
       subjects: sampleSubjects,
     };
   } else {
-    console.log('else')
     subjectData = assignment.subjects.map(subject_id => ({
       id: subject_id,
       type: 'subjects',
@@ -52,7 +49,6 @@ export function createAssignment(assignment, classroomId) {
       subjects: assignment.subjects,
     };
   }
-  console.log('subjectData', subjectData)
 
   const bodyData = JSON.stringify({
     data: {
