@@ -2,7 +2,7 @@ import { browserHistory } from 'react-router';
 import fetch from 'isomorphic-fetch';
 import apiClient from 'panoptes-client/lib/api-client';
 
-import config from '../../../constants/config';
+import config, { env } from '../../../constants/config';
 import * as types from '../../../constants/actionTypes';
 
 
@@ -22,7 +22,7 @@ export function createAssignment(assignment, classroomId) {
   }));
 
   // Carto DB doesn't have staging data. We use hard coded subject ids from the staging WG project and ignore the Carto selection.
-  if (process.env.NODE_ENV === 'staging') {
+  if (env === 'staging' || env === 'development') {
     subjectData = sampleSubjects.map((subject_id) => ({
       id: subject_id,
       type: 'subjects',
