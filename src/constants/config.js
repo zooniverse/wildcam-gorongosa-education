@@ -41,7 +41,11 @@ const envConfig = {
   staging: {
     eduAPI: {
       root:'https://education-api-staging.zooniverse.org/',
-      programId: '4'
+      programId: '4',
+      // We used hard coded sample subject ids because the Carto DB is only for production
+      // These are used in the assignment creation in development so that the POST works
+      sampleSubjects: ['37763', '37755', '37767'],
+      workflowId: '1549' // Linked to staging project 937
     },
     routes: {
       root:'http://localhost:3000/'
@@ -52,7 +56,9 @@ const envConfig = {
   production: {
     eduAPI: {
       root: 'https://education-api.zooniverse.org/',
-      programId: '' // TODO add program id for wildcam gorongosa when it exists in production
+      programId: '', // TODO add program id for wildcam gorongosa when it exists in production
+      sampleSubjects: [],
+      workflowId: '338'
     },
     routes: {
       root: 'https://lab.wildcamgorongosa.org/'

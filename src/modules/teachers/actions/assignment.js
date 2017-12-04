@@ -2,39 +2,60 @@ import { browserHistory } from 'react-router';
 import fetch from 'isomorphic-fetch';
 import apiClient from 'panoptes-client/lib/api-client';
 
-import config from '../../../constants/config';
+import config, { env } from '../../../constants/config';
 import * as types from '../../../constants/actionTypes';
 
 
 // Action creators
-const { root, assignments } = config.eduAPI;
+const { root, assignments, sampleSubjects, workflowId } = config.eduAPI;
 
 export function createAssignment(assignment, classroomId) {
+  let subjectData = [];
+  let metadata;
   const classroomData = {
     id: classroomId,
     type: 'classrooms',
-  };
-  const metadata = {
-    classifications_target: assignment.classifications_target,
-    description: assignment.description,
-    duedate: assignment.duedate,
-    filters: assignment.filters,
-    subjects: assignment.subjects,
   };
   const studentData = assignment.students.map(student_id => ({
     id: student_id,
     type: 'student_user',
   }));
-  const subjectData = assignment.subjects.map(subject_id => ({
-    id: subject_id,
-    type: 'subjects',
-  }));
-  
+
+  // Carto DB doesn't have staging data. We use hard coded subject ids from the staging WG project and ignore the Carto selection.
+  if (env === 'staging' || env === 'development') {
+    subjectData = sampleSubjects.map((subject_id) => ({
+      id: subject_id,
+      type: 'subjects',
+    }));
+
+    metadata = {
+      classifications_target: assignment.classifications_target,
+      description: assignment.description,
+      duedate: assignment.duedate,
+      filters: assignment.filters,
+      subjects: sampleSubjects,
+    };
+  } else {
+    subjectData = assignment.subjects.map(subject_id => ({
+      id: subject_id,
+      type: 'subjects',
+    }));
+
+    metadata = {
+      classifications_target: assignment.classifications_target,
+      description: assignment.description,
+      duedate: assignment.duedate,
+      filters: assignment.filters,
+      subjects: assignment.subjects,
+    };
+  }
+
   const bodyData = JSON.stringify({
     data: {
       attributes: {
         name: assignment.name,
         metadata,
+        workflow_id: workflowId
       },
       relationships: {
         classroom: {
@@ -109,12 +130,12 @@ export function deleteAssignment(assignmentId, classroomId) {
 }
 
 export function editAssignment(fields, assignment) {
-  
+
   let studentData = fields.students.map(student_id => ({
     id: student_id,
     type: 'student_user',
   }));
-  
+
   const bodyData = JSON.stringify({
     data: {
       attributes: {
@@ -134,7 +155,7 @@ export function editAssignment(fields, assignment) {
       },
     }
   });
-  
+
   return dispatch => {
     dispatch({
       ...fields,

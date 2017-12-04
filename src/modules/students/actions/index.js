@@ -51,7 +51,7 @@ export function fetchStudentClassrooms() {
     dispatch({
       type: types.REQUEST_STUDENT_CLASSROOMS,
     });
-    return fetch(config.eduAPI.root + config.eduAPI.students, {
+    return fetch(config.eduAPI.root + config.eduAPI.students + `?program_id=${config.eduAPI.programId}`, {
       method: 'GET',
       mode: 'cors',
       headers: new Headers({

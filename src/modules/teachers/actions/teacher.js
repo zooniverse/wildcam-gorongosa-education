@@ -7,7 +7,7 @@ import * as types from '../../../constants/actionTypes';
 
 
 // Action creators
-const { root, teachers } = config.eduAPI;
+const { root, teachers, programId } = config.eduAPI;
 
 export function createClassroom(classroom) {
   return dispatch => {
@@ -22,7 +22,15 @@ export function createClassroom(classroom) {
       }),
       body: JSON.stringify({
         data: {
-          attributes: classroom
+          attributes: classroom,
+          relationships: {
+            program: {
+              data: {
+                id: programId,
+                type: 'programs'
+              }
+            }
+          }
         }
       })
     })
@@ -73,7 +81,7 @@ export function fetchClassrooms() {
     dispatch({
       type: types.REQUEST_CLASSROOMS,
     });
-    return fetch(root + teachers, {
+    return fetch(root + teachers + `?program_id=${programId}`, {
       method: 'GET',
       mode: 'cors',
       headers: new Headers({
