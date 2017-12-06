@@ -40,7 +40,7 @@ class ClassroomForm extends Component {
     const newClassroom = {};
     for (const key in this.state) {
       if (this.state.hasOwnProperty(key)) {
-        newClassroom[key] = this.state[key].trim();
+        if (this.state[key]) { newClassroom[key] = this.state[key].trim(); }
       }
     }
     this.props.submitForm(newClassroom);

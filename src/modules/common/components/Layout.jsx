@@ -70,7 +70,7 @@ class Layout extends Component {
             {this.renderNav()}
             <HeaderAuth />
           </div>
-          <Notification />
+          {/* <Notification /> //No active notices after 6 Dec 2017 */}
         </header>
 
         <main className='content-section'>
