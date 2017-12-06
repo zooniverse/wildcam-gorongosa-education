@@ -56,7 +56,7 @@ const envConfig = {
   production: {
     eduAPI: {
       root: 'https://education-api.zooniverse.org/',
-      programId: '', // TODO add program id for wildcam gorongosa when it exists in production
+      programId: '3',
       sampleSubjects: [],
       workflowId: '338'
     },
