@@ -67,7 +67,7 @@
     "json-loader": "^0.5.4",
     "mocha": "^2.3.0",
     "nib": "^1.1.0",
-    "panoptes-client": "^2.2.1",
+    "panoptes-client": "~2.11.2",
     "publisssh": "^1.0.1",
     "react-a11y": "^0.3.2",
     "react-addons-test-utils": "^0.14.3",
