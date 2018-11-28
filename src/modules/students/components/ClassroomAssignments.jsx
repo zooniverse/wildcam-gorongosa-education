@@ -41,6 +41,9 @@ class ClassroomAssignments extends Component {
     return (
     <div className="student-assignmentlist">
       <h1>Assignments</h1>
+      <div className="notice">
+        Please make sure that you first Sign In at <a href="https://www.wildcamgorongosa.org/" target="_blank" rel="noreferrer noopener">www.wildcamgorongosa.org</a> with the same account before starting an Assignment.
+      </div>
       { data.map(classroom =>
         <section key={ classroom.classroom_id }>
           <h3>Classroom { classroom.classroom_name }</h3>
@@ -63,7 +66,7 @@ class ClassroomAssignments extends Component {
                 <td>{ assignment.classification_count }/{ assignment.target }</td>
                 <td>
                   <a className="btn btn-primary"
-                    href={`https://www.wildcamgorongosa.org/#/classify/assignment-${ assignment.id }/access_token=${ token.access_token }`}
+                    href={`https://www.wildcamgorongosa.org/#/classify/assignment-${ assignment.id }`}
                     target="_blank"
                     role="button">
                     Start assignment
